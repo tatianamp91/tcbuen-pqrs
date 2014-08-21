@@ -1,0 +1,186 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+	    <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+			<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		 
+		 <h:form id="form">
+			
+			 
+			<p:panel id="msgProjectClientesTitle" header="ParametrosPqrData">
+					<p:messages id="msg" showDetail="true"/>
+				<p:dataTable id ="tabla" value="#{parametrosPqrView.data}" var="parametrosPqr"
+					paginator="true" rows="5"  editable="true" >
+					 
+					 <p:ajax event ="rowEdit" update=":form:msg,:form:tabla" listener="#{parametrosPqrView.rowEventListener}" />
+					
+															<p:column filterBy="#{parametrosPqr.idParam}" sortBy="#{parametrosPqr.idParam}" headerText="idParam">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{parametrosPqr.idParam}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{parametrosPqr.idParam}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+                    										
+											
+						<p:column filterBy="#{parametrosPqr.descripcionParam}" sortBy="#{parametrosPqr.descripcionParam}" 
+							headerText="descripcionParam">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{parametrosPqr.descripcionParam}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{parametrosPqr.descripcionParam}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{parametrosPqr.estadoRegistro}" sortBy="#{parametrosPqr.estadoRegistro}" 
+							headerText="estadoRegistro">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{parametrosPqr.estadoRegistro}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{parametrosPqr.estadoRegistro}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{parametrosPqr.usuarioCreador}" sortBy="#{parametrosPqr.usuarioCreador}" 
+							headerText="usuarioCreador">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{parametrosPqr.usuarioCreador}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{parametrosPqr.usuarioCreador}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{parametrosPqr.usuarioUltimaModificacion}" sortBy="#{parametrosPqr.usuarioUltimaModificacion}" 
+							headerText="usuarioUltimaModificacion">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{parametrosPqr.usuarioUltimaModificacion}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{parametrosPqr.usuarioUltimaModificacion}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{parametrosPqr.valorParam}" sortBy="#{parametrosPqr.valorParam}" 
+							headerText="valorParam">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{parametrosPqr.valorParam}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{parametrosPqr.valorParam}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+										
+										   						 
+						 <p:column filterBy="#{parametrosPqr.fechaCreacion}" sortBy="#{parametrosPqr.fechaCreacion}" 
+							headerText="fechaCreacion">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{parametrosPqr.fechaCreacion}">
+									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
+									</h:outputText>		
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:calendar value="#{parametrosPqr.fechaCreacion}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
+									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{parametrosPqrView.timeZone}" />	
+								    </p:calendar>		
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+					   						 
+						 <p:column filterBy="#{parametrosPqr.fechaUltimaModificacion}" sortBy="#{parametrosPqr.fechaUltimaModificacion}" 
+							headerText="fechaUltimaModificacion">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{parametrosPqr.fechaUltimaModificacion}">
+									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
+									</h:outputText>		
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:calendar value="#{parametrosPqr.fechaUltimaModificacion}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
+									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{parametrosPqrView.timeZone}" />	
+								    </p:calendar>		
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+					   											
+					<p:column headerText="Options" >
+						<p:rowEditor id="row"/>
+						<p:tooltip for="row" value="Edit" showEffect="fade" hideEffect="fade" />
+						<p:tooltip for="btnDelete" value="Delete" showEffect="fade" hideEffect="fade" />
+						<p:commandButton id="btnDelete" actionListener="#{parametrosPqrView.actionDeleteDataTableEditable}" title="Delete" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" icon="ui-icon-trash" update=":form:msg,:form:tabla" >
+							<f:attribute name="selectedParametrosPqr" value="#{parametrosPqr}" />  
+						</p:commandButton>
+						
+					</p:column>	
+				
+				</p:dataTable>	
+					
+				
+			</p:panel>
+				
+	   </h:form>
+		 </f:view>
+			</ui:define>		
+		</ui:composition>	
+	
+	</h:body>	
+	
+</html>	

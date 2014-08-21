@@ -1,0 +1,101 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableMotReclSelect" header="MotReclSelectData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{motReclSelectView.data}" var="motReclSelect"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{motReclSelect.idMotReclSelect}" sortBy="#{motReclSelect.idMotReclSelect}" >
+										 <f:facet name="header">
+										<h:outputText value="idMotReclSelect"/>
+										</f:facet>
+										 <h:outputText value="#{motReclSelect.idMotReclSelect}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{motReclSelect.idMotRecl_MotivoReclamacion}" sortBy="#{motReclSelect.idMotRecl_MotivoReclamacion}" >
+										 <f:facet name="header">
+										<h:outputText value="IdMotRecl_MotivoReclamacion"/>
+										</f:facet>
+										 <h:outputText value="#{motReclSelect.idMotRecl_MotivoReclamacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{motReclSelect.idSolPqr_SolicitudPqr}" sortBy="#{motReclSelect.idSolPqr_SolicitudPqr}" >
+										 <f:facet name="header">
+										<h:outputText value="IdSolPqr_SolicitudPqr"/>
+										</f:facet>
+										 <h:outputText value="#{motReclSelect.idSolPqr_SolicitudPqr}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogMotReclSelect"
+										actionListener="#{motReclSelectView.action_edit}">
+										<f:attribute name="selectedMotReclSelect" value="#{motReclSelect}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{motReclSelectView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedMotReclSelect" value="#{motReclSelect}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{motReclSelectView.action_new()}" update=":dialogMotReclSelect" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogMotReclSelect" appendToBody="true" draggable="true"
+						closable="false" visible="#{motReclSelectView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" showDetail="true"/>
+							<p:panel id="panelMotReclSelect" header="MotReclSelect">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgIdMotReclSelect" value="IdMotReclSelect"/>
+									 <p:inputText id="txtIdMotReclSelect" binding="#{motReclSelectView.txtIdMotReclSelect}">
+									 <p:ajax update=":dialogMotReclSelect" listener="#{motReclSelectView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgIdMotRecl_MotivoReclamacion" value=" IdMotRecl_MotivoReclamacion"/>
+									<p:inputText id="txtIdMotRecl_MotivoReclamacion" disabled="true" binding="#{motReclSelectView.txtIdMotRecl_MotivoReclamacion}"/>
+																		<h:outputText id="msgIdSolPqr_SolicitudPqr" value=" IdSolPqr_SolicitudPqr"/>
+									<p:inputText id="txtIdSolPqr_SolicitudPqr" disabled="true" binding="#{motReclSelectView.txtIdSolPqr_SolicitudPqr}"/>
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{motReclSelectView.btnSave}" value="Save" action="#{motReclSelectView.action_save()}" update=":dialogMotReclSelect :frm:panelDataTableMotReclSelect" />
+									<p:commandButton id="btnClear" value="Clear" action="#{motReclSelectView.action_clear()}" update=":dialogMotReclSelect" />
+									<p:commandButton id="btnExit" value="Exit" action="#{motReclSelectView.action_closeDialog()}" update=":dialogMotReclSelect" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

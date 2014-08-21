@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 20-ago-2014 23:05:44 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.tcbuen.pqrs.modelo.SolicitudPqr" table="SOLICITUD_PQR" schema="PQRS">
+        <id name="idSolPqr" type="java.lang.Long">
+            <column name="ID_SOL_PQR" precision="10" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="tipoSolicitudPqr" class="com.tcbuen.pqrs.modelo.TipoSolicitudPqr" fetch="select">
+            <column name="ID_TP_SOL_PQR" precision="10" scale="0" not-null="true" />
+        </many-to-one>
+        <many-to-one name="infoSolicitante" class="com.tcbuen.pqrs.modelo.InfoSolicitante" fetch="select">
+            <column name="ID_INFO_SOLICITANTE" precision="10" scale="0" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tipoEstadoPqr" class="com.tcbuen.pqrs.modelo.TipoEstadoPqr" fetch="select">
+            <column name="ID_TP_EST_PQR" precision="10" scale="0" not-null="true" />
+        </many-to-one>
+        <property name="numeroRadicacion" type="java.lang.String">
+            <column name="NUMERO_RADICACION" length="100" not-null="true" />
+        </property>
+        <property name="nombreCliente" type="java.lang.String">
+            <column name="NOMBRE_CLIENTE" length="100" />
+        </property>
+        <property name="nombreAgenciaAduana" type="java.lang.String">
+            <column name="NOMBRE_AGENCIA_ADUANA" length="100" />
+        </property>
+        <property name="descripcionCaso" type="java.lang.String">
+            <column name="DESCRIPCION_CASO" length="2000" not-null="true" />
+        </property>
+        <property name="solicitudARealizar" type="java.lang.String">
+            <column name="SOLICITUD_A_REALIZAR" length="2000" />
+        </property>
+        <property name="fechaCreacion" type="java.util.Date">
+            <column name="FECHA_CREACION" length="7" not-null="true" />
+        </property>
+        <property name="usuarioCreador" type="java.lang.String">
+            <column name="USUARIO_CREADOR" length="50" />
+        </property>
+        <property name="fechaUltimaModificacion" type="java.util.Date">
+            <column name="FECHA_ULTIMA_MODIFICACION" length="7" />
+        </property>
+        <property name="usuarioUltimaModificacion" type="java.lang.String">
+            <column name="USUARIO_ULTIMA_MODIFICACION" length="50" />
+        </property>
+        <set name="motSolSelects" table="MOT_SOL_SELECT" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ID_SOL_PQR" precision="10" scale="0" not-null="true" />
+            </key>
+            <one-to-many class="com.tcbuen.pqrs.modelo.MotSolSelect" />
+        </set>
+        <set name="motReclSelects" table="MOT_RECL_SELECT" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ID_SOL_PQR" precision="10" scale="0" not-null="true" />
+            </key>
+            <one-to-many class="com.tcbuen.pqrs.modelo.MotReclSelect" />
+        </set>
+        <set name="solicitudAsignadaAreas" table="SOLICITUD_ASIGNADA_AREA" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ID_SOL_PQR" precision="10" scale="0" />
+            </key>
+            <one-to-many class="com.tcbuen.pqrs.modelo.SolicitudAsignadaArea" />
+        </set>
+        <set name="anexosSolicitantes" table="ANEXOS_SOLICITANTE" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ID_SOL_PQR" precision="10" scale="0" not-null="true" />
+            </key>
+            <one-to-many class="com.tcbuen.pqrs.modelo.AnexosSolicitante" />
+        </set>
+    </class>
+</hibernate-mapping>

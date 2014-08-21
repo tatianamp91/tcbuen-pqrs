@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 20-ago-2014 23:05:44 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.tcbuen.pqrs.modelo.AnexosRespuesta" table="ANEXOS_RESPUESTA" schema="PQRS">
+        <id name="idAnxResp" type="java.lang.Long">
+            <column name="ID_ANX_RESP" precision="10" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="respuestaSol" class="com.tcbuen.pqrs.modelo.RespuestaSol" fetch="select">
+            <column name="ID_RESP_SOL" precision="10" scale="0" not-null="true" />
+        </many-to-one>
+        <many-to-one name="anexosPqr" class="com.tcbuen.pqrs.modelo.AnexosPqr" fetch="select">
+            <column name="ID_ANEXO_PQR" precision="10" scale="0" not-null="true" />
+        </many-to-one>
+        <property name="documentoReal" type="blob">
+            <column name="DOCUMENTO_REAL" />
+        </property>
+        <property name="nombreAnexo" type="java.lang.String">
+            <column name="NOMBRE_ANEXO" length="100" not-null="true" />
+        </property>
+        <property name="nombreBusqueda" type="java.lang.String">
+            <column name="NOMBRE_BUSQUEDA" length="100" not-null="true" />
+        </property>
+        <property name="adjuntoDocumento" type="java.lang.String">
+            <column name="ADJUNTO_DOCUMENTO" length="1" />
+        </property>
+        <property name="estadoRegistro" type="java.lang.String">
+            <column name="ESTADO_REGISTRO" length="1" not-null="true" />
+        </property>
+        <property name="fechaCreacion" type="java.util.Date">
+            <column name="FECHA_CREACION" length="7" />
+        </property>
+        <property name="usuarioCreador" type="java.lang.String">
+            <column name="USUARIO_CREADOR" length="50" />
+        </property>
+    </class>
+</hibernate-mapping>

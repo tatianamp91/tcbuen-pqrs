@@ -1,0 +1,152 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableParametrosPqr" header="ParametrosPqrData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{parametrosPqrView.data}" var="parametrosPqr"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{parametrosPqr.idParam}" sortBy="#{parametrosPqr.idParam}" >
+										 <f:facet name="header">
+										<h:outputText value="idParam"/>
+										</f:facet>
+										 <h:outputText value="#{parametrosPqr.idParam}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{parametrosPqr.descripcionParam}" sortBy="#{parametrosPqr.descripcionParam}" >
+										 <f:facet name="header">
+										<h:outputText value="DescripcionParam"/>
+										</f:facet>
+										 <h:outputText value="#{parametrosPqr.descripcionParam}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{parametrosPqr.estadoRegistro}" sortBy="#{parametrosPqr.estadoRegistro}" >
+										 <f:facet name="header">
+										<h:outputText value="EstadoRegistro"/>
+										</f:facet>
+										 <h:outputText value="#{parametrosPqr.estadoRegistro}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{parametrosPqr.fechaCreacion}" sortBy="#{parametrosPqr.fechaCreacion}" >
+										 <f:facet name="header">
+										<h:outputText value="FechaCreacion"/>
+										</f:facet>
+										 <h:outputText value="#{parametrosPqr.fechaCreacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{parametrosPqr.fechaUltimaModificacion}" sortBy="#{parametrosPqr.fechaUltimaModificacion}" >
+										 <f:facet name="header">
+										<h:outputText value="FechaUltimaModificacion"/>
+										</f:facet>
+										 <h:outputText value="#{parametrosPqr.fechaUltimaModificacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{parametrosPqr.usuarioCreador}" sortBy="#{parametrosPqr.usuarioCreador}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuarioCreador"/>
+										</f:facet>
+										 <h:outputText value="#{parametrosPqr.usuarioCreador}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{parametrosPqr.usuarioUltimaModificacion}" sortBy="#{parametrosPqr.usuarioUltimaModificacion}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuarioUltimaModificacion"/>
+										</f:facet>
+										 <h:outputText value="#{parametrosPqr.usuarioUltimaModificacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{parametrosPqr.valorParam}" sortBy="#{parametrosPqr.valorParam}" >
+										 <f:facet name="header">
+										<h:outputText value="ValorParam"/>
+										</f:facet>
+										 <h:outputText value="#{parametrosPqr.valorParam}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogParametrosPqr"
+										actionListener="#{parametrosPqrView.action_edit}">
+										<f:attribute name="selectedParametrosPqr" value="#{parametrosPqr}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{parametrosPqrView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedParametrosPqr" value="#{parametrosPqr}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{parametrosPqrView.action_new()}" update=":dialogParametrosPqr" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogParametrosPqr" appendToBody="true" draggable="true"
+						closable="false" visible="#{parametrosPqrView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" showDetail="true"/>
+							<p:panel id="panelParametrosPqr" header="ParametrosPqr">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgIdParam" value="IdParam"/>
+									 <p:inputText id="txtIdParam" binding="#{parametrosPqrView.txtIdParam}">
+									 <p:ajax update=":dialogParametrosPqr" listener="#{parametrosPqrView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgDescripcionParam" value=" DescripcionParam"/>
+									<p:inputText id="txtDescripcionParam" disabled="true" binding="#{parametrosPqrView.txtDescripcionParam}"/>
+																		<h:outputText id="msgEstadoRegistro" value=" EstadoRegistro"/>
+									<p:inputText id="txtEstadoRegistro" disabled="true" binding="#{parametrosPqrView.txtEstadoRegistro}"/>
+																		<h:outputText id="msgUsuarioCreador" value=" UsuarioCreador"/>
+									<p:inputText id="txtUsuarioCreador" disabled="true" binding="#{parametrosPqrView.txtUsuarioCreador}"/>
+																		<h:outputText id="msgUsuarioUltimaModificacion" value=" UsuarioUltimaModificacion"/>
+									<p:inputText id="txtUsuarioUltimaModificacion" disabled="true" binding="#{parametrosPqrView.txtUsuarioUltimaModificacion}"/>
+																		<h:outputText id="msgValorParam" value=" ValorParam"/>
+									<p:inputText id="txtValorParam" disabled="true" binding="#{parametrosPqrView.txtValorParam}"/>
+																		
+																													<h:outputText id="msgFechaCreacion" value=" FechaCreacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{parametrosPqrView.txtFechaCreacion}" >
+										<p:ajax event="dateSelect" listener="#{parametrosPqrView.listener_txtFechaCreacion}" />
+										</p:calendar>
+																				<h:outputText id="msgFechaUltimaModificacion" value=" FechaUltimaModificacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{parametrosPqrView.txtFechaUltimaModificacion}" >
+										<p:ajax event="dateSelect" listener="#{parametrosPqrView.listener_txtFechaUltimaModificacion}" />
+										</p:calendar>
+																										    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{parametrosPqrView.btnSave}" value="Save" action="#{parametrosPqrView.action_save()}" update=":dialogParametrosPqr :frm:panelDataTableParametrosPqr" />
+									<p:commandButton id="btnClear" value="Clear" action="#{parametrosPqrView.action_clear()}" update=":dialogParametrosPqr" />
+									<p:commandButton id="btnExit" value="Exit" action="#{parametrosPqrView.action_closeDialog()}" update=":dialogParametrosPqr" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

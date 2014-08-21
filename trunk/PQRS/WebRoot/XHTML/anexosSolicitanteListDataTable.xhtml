@@ -1,0 +1,206 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableAnexosSolicitante" header="AnexosSolicitanteData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{anexosSolicitanteView.data}" var="anexosSolicitante"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{anexosSolicitante.idAnxSolicitante}" sortBy="#{anexosSolicitante.idAnxSolicitante}" >
+										 <f:facet name="header">
+										<h:outputText value="idAnxSolicitante"/>
+										</f:facet>
+										 <h:outputText value="#{anexosSolicitante.idAnxSolicitante}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{anexosSolicitante.adjuntoDocumento}" sortBy="#{anexosSolicitante.adjuntoDocumento}" >
+										 <f:facet name="header">
+										<h:outputText value="AdjuntoDocumento"/>
+										</f:facet>
+										 <h:outputText value="#{anexosSolicitante.adjuntoDocumento}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{anexosSolicitante.apruebaAnexo}" sortBy="#{anexosSolicitante.apruebaAnexo}" >
+										 <f:facet name="header">
+										<h:outputText value="ApruebaAnexo"/>
+										</f:facet>
+										 <h:outputText value="#{anexosSolicitante.apruebaAnexo}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{anexosSolicitante.documentoReal}" sortBy="#{anexosSolicitante.documentoReal}" >
+										 <f:facet name="header">
+										<h:outputText value="DocumentoReal"/>
+										</f:facet>
+										 <h:outputText value="#{anexosSolicitante.documentoReal}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{anexosSolicitante.estadoRegistro}" sortBy="#{anexosSolicitante.estadoRegistro}" >
+										 <f:facet name="header">
+										<h:outputText value="EstadoRegistro"/>
+										</f:facet>
+										 <h:outputText value="#{anexosSolicitante.estadoRegistro}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{anexosSolicitante.fechaCreacion}" sortBy="#{anexosSolicitante.fechaCreacion}" >
+										 <f:facet name="header">
+										<h:outputText value="FechaCreacion"/>
+										</f:facet>
+										 <h:outputText value="#{anexosSolicitante.fechaCreacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{anexosSolicitante.fechaUltimaModificacion}" sortBy="#{anexosSolicitante.fechaUltimaModificacion}" >
+										 <f:facet name="header">
+										<h:outputText value="FechaUltimaModificacion"/>
+										</f:facet>
+										 <h:outputText value="#{anexosSolicitante.fechaUltimaModificacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{anexosSolicitante.nombreAnexo}" sortBy="#{anexosSolicitante.nombreAnexo}" >
+										 <f:facet name="header">
+										<h:outputText value="NombreAnexo"/>
+										</f:facet>
+										 <h:outputText value="#{anexosSolicitante.nombreAnexo}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{anexosSolicitante.nombreBusqueda}" sortBy="#{anexosSolicitante.nombreBusqueda}" >
+										 <f:facet name="header">
+										<h:outputText value="NombreBusqueda"/>
+										</f:facet>
+										 <h:outputText value="#{anexosSolicitante.nombreBusqueda}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{anexosSolicitante.razonRechazo}" sortBy="#{anexosSolicitante.razonRechazo}" >
+										 <f:facet name="header">
+										<h:outputText value="RazonRechazo"/>
+										</f:facet>
+										 <h:outputText value="#{anexosSolicitante.razonRechazo}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{anexosSolicitante.usuarioCreador}" sortBy="#{anexosSolicitante.usuarioCreador}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuarioCreador"/>
+										</f:facet>
+										 <h:outputText value="#{anexosSolicitante.usuarioCreador}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{anexosSolicitante.usuarioUltimaModificacion}" sortBy="#{anexosSolicitante.usuarioUltimaModificacion}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuarioUltimaModificacion"/>
+										</f:facet>
+										 <h:outputText value="#{anexosSolicitante.usuarioUltimaModificacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{anexosSolicitante.idAnexoPqr_AnexosPqr}" sortBy="#{anexosSolicitante.idAnexoPqr_AnexosPqr}" >
+										 <f:facet name="header">
+										<h:outputText value="IdAnexoPqr_AnexosPqr"/>
+										</f:facet>
+										 <h:outputText value="#{anexosSolicitante.idAnexoPqr_AnexosPqr}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{anexosSolicitante.idSolPqr_SolicitudPqr}" sortBy="#{anexosSolicitante.idSolPqr_SolicitudPqr}" >
+										 <f:facet name="header">
+										<h:outputText value="IdSolPqr_SolicitudPqr"/>
+										</f:facet>
+										 <h:outputText value="#{anexosSolicitante.idSolPqr_SolicitudPqr}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogAnexosSolicitante"
+										actionListener="#{anexosSolicitanteView.action_edit}">
+										<f:attribute name="selectedAnexosSolicitante" value="#{anexosSolicitante}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{anexosSolicitanteView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedAnexosSolicitante" value="#{anexosSolicitante}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{anexosSolicitanteView.action_new()}" update=":dialogAnexosSolicitante" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogAnexosSolicitante" appendToBody="true" draggable="true"
+						closable="false" visible="#{anexosSolicitanteView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" showDetail="true"/>
+							<p:panel id="panelAnexosSolicitante" header="AnexosSolicitante">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgIdAnxSolicitante" value="IdAnxSolicitante"/>
+									 <p:inputText id="txtIdAnxSolicitante" binding="#{anexosSolicitanteView.txtIdAnxSolicitante}">
+									 <p:ajax update=":dialogAnexosSolicitante" listener="#{anexosSolicitanteView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgAdjuntoDocumento" value=" AdjuntoDocumento"/>
+									<p:inputText id="txtAdjuntoDocumento" disabled="true" binding="#{anexosSolicitanteView.txtAdjuntoDocumento}"/>
+																		<h:outputText id="msgApruebaAnexo" value=" ApruebaAnexo"/>
+									<p:inputText id="txtApruebaAnexo" disabled="true" binding="#{anexosSolicitanteView.txtApruebaAnexo}"/>
+																		<h:outputText id="msgDocumentoReal" value=" DocumentoReal"/>
+									<p:inputText id="txtDocumentoReal" disabled="true" binding="#{anexosSolicitanteView.txtDocumentoReal}"/>
+																		<h:outputText id="msgEstadoRegistro" value=" EstadoRegistro"/>
+									<p:inputText id="txtEstadoRegistro" disabled="true" binding="#{anexosSolicitanteView.txtEstadoRegistro}"/>
+																		<h:outputText id="msgNombreAnexo" value=" NombreAnexo"/>
+									<p:inputText id="txtNombreAnexo" disabled="true" binding="#{anexosSolicitanteView.txtNombreAnexo}"/>
+																		<h:outputText id="msgNombreBusqueda" value=" NombreBusqueda"/>
+									<p:inputText id="txtNombreBusqueda" disabled="true" binding="#{anexosSolicitanteView.txtNombreBusqueda}"/>
+																		<h:outputText id="msgRazonRechazo" value=" RazonRechazo"/>
+									<p:inputText id="txtRazonRechazo" disabled="true" binding="#{anexosSolicitanteView.txtRazonRechazo}"/>
+																		<h:outputText id="msgUsuarioCreador" value=" UsuarioCreador"/>
+									<p:inputText id="txtUsuarioCreador" disabled="true" binding="#{anexosSolicitanteView.txtUsuarioCreador}"/>
+																		<h:outputText id="msgUsuarioUltimaModificacion" value=" UsuarioUltimaModificacion"/>
+									<p:inputText id="txtUsuarioUltimaModificacion" disabled="true" binding="#{anexosSolicitanteView.txtUsuarioUltimaModificacion}"/>
+																		<h:outputText id="msgIdAnexoPqr_AnexosPqr" value=" IdAnexoPqr_AnexosPqr"/>
+									<p:inputText id="txtIdAnexoPqr_AnexosPqr" disabled="true" binding="#{anexosSolicitanteView.txtIdAnexoPqr_AnexosPqr}"/>
+																		<h:outputText id="msgIdSolPqr_SolicitudPqr" value=" IdSolPqr_SolicitudPqr"/>
+									<p:inputText id="txtIdSolPqr_SolicitudPqr" disabled="true" binding="#{anexosSolicitanteView.txtIdSolPqr_SolicitudPqr}"/>
+																		
+																													<h:outputText id="msgFechaCreacion" value=" FechaCreacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{anexosSolicitanteView.txtFechaCreacion}" >
+										<p:ajax event="dateSelect" listener="#{anexosSolicitanteView.listener_txtFechaCreacion}" />
+										</p:calendar>
+																				<h:outputText id="msgFechaUltimaModificacion" value=" FechaUltimaModificacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{anexosSolicitanteView.txtFechaUltimaModificacion}" >
+										<p:ajax event="dateSelect" listener="#{anexosSolicitanteView.listener_txtFechaUltimaModificacion}" />
+										</p:calendar>
+																										    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{anexosSolicitanteView.btnSave}" value="Save" action="#{anexosSolicitanteView.action_save()}" update=":dialogAnexosSolicitante :frm:panelDataTableAnexosSolicitante" />
+									<p:commandButton id="btnClear" value="Clear" action="#{anexosSolicitanteView.action_clear()}" update=":dialogAnexosSolicitante" />
+									<p:commandButton id="btnExit" value="Exit" action="#{anexosSolicitanteView.action_closeDialog()}" update=":dialogAnexosSolicitante" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

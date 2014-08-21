@@ -1,0 +1,167 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableAnexosRespuesta" header="AnexosRespuestaData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{anexosRespuestaView.data}" var="anexosRespuesta"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{anexosRespuesta.idAnxResp}" sortBy="#{anexosRespuesta.idAnxResp}" >
+										 <f:facet name="header">
+										<h:outputText value="idAnxResp"/>
+										</f:facet>
+										 <h:outputText value="#{anexosRespuesta.idAnxResp}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{anexosRespuesta.adjuntoDocumento}" sortBy="#{anexosRespuesta.adjuntoDocumento}" >
+										 <f:facet name="header">
+										<h:outputText value="AdjuntoDocumento"/>
+										</f:facet>
+										 <h:outputText value="#{anexosRespuesta.adjuntoDocumento}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{anexosRespuesta.documentoReal}" sortBy="#{anexosRespuesta.documentoReal}" >
+										 <f:facet name="header">
+										<h:outputText value="DocumentoReal"/>
+										</f:facet>
+										 <h:outputText value="#{anexosRespuesta.documentoReal}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{anexosRespuesta.estadoRegistro}" sortBy="#{anexosRespuesta.estadoRegistro}" >
+										 <f:facet name="header">
+										<h:outputText value="EstadoRegistro"/>
+										</f:facet>
+										 <h:outputText value="#{anexosRespuesta.estadoRegistro}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{anexosRespuesta.fechaCreacion}" sortBy="#{anexosRespuesta.fechaCreacion}" >
+										 <f:facet name="header">
+										<h:outputText value="FechaCreacion"/>
+										</f:facet>
+										 <h:outputText value="#{anexosRespuesta.fechaCreacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{anexosRespuesta.nombreAnexo}" sortBy="#{anexosRespuesta.nombreAnexo}" >
+										 <f:facet name="header">
+										<h:outputText value="NombreAnexo"/>
+										</f:facet>
+										 <h:outputText value="#{anexosRespuesta.nombreAnexo}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{anexosRespuesta.nombreBusqueda}" sortBy="#{anexosRespuesta.nombreBusqueda}" >
+										 <f:facet name="header">
+										<h:outputText value="NombreBusqueda"/>
+										</f:facet>
+										 <h:outputText value="#{anexosRespuesta.nombreBusqueda}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{anexosRespuesta.usuarioCreador}" sortBy="#{anexosRespuesta.usuarioCreador}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuarioCreador"/>
+										</f:facet>
+										 <h:outputText value="#{anexosRespuesta.usuarioCreador}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{anexosRespuesta.idAnexoPqr_AnexosPqr}" sortBy="#{anexosRespuesta.idAnexoPqr_AnexosPqr}" >
+										 <f:facet name="header">
+										<h:outputText value="IdAnexoPqr_AnexosPqr"/>
+										</f:facet>
+										 <h:outputText value="#{anexosRespuesta.idAnexoPqr_AnexosPqr}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{anexosRespuesta.idRespSol_RespuestaSol}" sortBy="#{anexosRespuesta.idRespSol_RespuestaSol}" >
+										 <f:facet name="header">
+										<h:outputText value="IdRespSol_RespuestaSol"/>
+										</f:facet>
+										 <h:outputText value="#{anexosRespuesta.idRespSol_RespuestaSol}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogAnexosRespuesta"
+										actionListener="#{anexosRespuestaView.action_edit}">
+										<f:attribute name="selectedAnexosRespuesta" value="#{anexosRespuesta}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{anexosRespuestaView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedAnexosRespuesta" value="#{anexosRespuesta}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{anexosRespuestaView.action_new()}" update=":dialogAnexosRespuesta" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogAnexosRespuesta" appendToBody="true" draggable="true"
+						closable="false" visible="#{anexosRespuestaView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" showDetail="true"/>
+							<p:panel id="panelAnexosRespuesta" header="AnexosRespuesta">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgIdAnxResp" value="IdAnxResp"/>
+									 <p:inputText id="txtIdAnxResp" binding="#{anexosRespuestaView.txtIdAnxResp}">
+									 <p:ajax update=":dialogAnexosRespuesta" listener="#{anexosRespuestaView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgAdjuntoDocumento" value=" AdjuntoDocumento"/>
+									<p:inputText id="txtAdjuntoDocumento" disabled="true" binding="#{anexosRespuestaView.txtAdjuntoDocumento}"/>
+																		<h:outputText id="msgDocumentoReal" value=" DocumentoReal"/>
+									<p:inputText id="txtDocumentoReal" disabled="true" binding="#{anexosRespuestaView.txtDocumentoReal}"/>
+																		<h:outputText id="msgEstadoRegistro" value=" EstadoRegistro"/>
+									<p:inputText id="txtEstadoRegistro" disabled="true" binding="#{anexosRespuestaView.txtEstadoRegistro}"/>
+																		<h:outputText id="msgNombreAnexo" value=" NombreAnexo"/>
+									<p:inputText id="txtNombreAnexo" disabled="true" binding="#{anexosRespuestaView.txtNombreAnexo}"/>
+																		<h:outputText id="msgNombreBusqueda" value=" NombreBusqueda"/>
+									<p:inputText id="txtNombreBusqueda" disabled="true" binding="#{anexosRespuestaView.txtNombreBusqueda}"/>
+																		<h:outputText id="msgUsuarioCreador" value=" UsuarioCreador"/>
+									<p:inputText id="txtUsuarioCreador" disabled="true" binding="#{anexosRespuestaView.txtUsuarioCreador}"/>
+																		<h:outputText id="msgIdAnexoPqr_AnexosPqr" value=" IdAnexoPqr_AnexosPqr"/>
+									<p:inputText id="txtIdAnexoPqr_AnexosPqr" disabled="true" binding="#{anexosRespuestaView.txtIdAnexoPqr_AnexosPqr}"/>
+																		<h:outputText id="msgIdRespSol_RespuestaSol" value=" IdRespSol_RespuestaSol"/>
+									<p:inputText id="txtIdRespSol_RespuestaSol" disabled="true" binding="#{anexosRespuestaView.txtIdRespSol_RespuestaSol}"/>
+																		
+																													<h:outputText id="msgFechaCreacion" value=" FechaCreacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{anexosRespuestaView.txtFechaCreacion}" >
+										<p:ajax event="dateSelect" listener="#{anexosRespuestaView.listener_txtFechaCreacion}" />
+										</p:calendar>
+																										    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{anexosRespuestaView.btnSave}" value="Save" action="#{anexosRespuestaView.action_save()}" update=":dialogAnexosRespuesta :frm:panelDataTableAnexosRespuesta" />
+									<p:commandButton id="btnClear" value="Clear" action="#{anexosRespuestaView.action_clear()}" update=":dialogAnexosRespuesta" />
+									<p:commandButton id="btnExit" value="Exit" action="#{anexosRespuestaView.action_closeDialog()}" update=":dialogAnexosRespuesta" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

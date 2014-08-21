@@ -1,0 +1,143 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableTipoSolicitudPqr" header="TipoSolicitudPqrData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{tipoSolicitudPqrView.data}" var="tipoSolicitudPqr"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{tipoSolicitudPqr.idTpSolPqr}" sortBy="#{tipoSolicitudPqr.idTpSolPqr}" >
+										 <f:facet name="header">
+										<h:outputText value="idTpSolPqr"/>
+										</f:facet>
+										 <h:outputText value="#{tipoSolicitudPqr.idTpSolPqr}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{tipoSolicitudPqr.descTpSol}" sortBy="#{tipoSolicitudPqr.descTpSol}" >
+										 <f:facet name="header">
+										<h:outputText value="DescTpSol"/>
+										</f:facet>
+										 <h:outputText value="#{tipoSolicitudPqr.descTpSol}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipoSolicitudPqr.estadoRegistro}" sortBy="#{tipoSolicitudPqr.estadoRegistro}" >
+										 <f:facet name="header">
+										<h:outputText value="EstadoRegistro"/>
+										</f:facet>
+										 <h:outputText value="#{tipoSolicitudPqr.estadoRegistro}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipoSolicitudPqr.fechaCreacion}" sortBy="#{tipoSolicitudPqr.fechaCreacion}" >
+										 <f:facet name="header">
+										<h:outputText value="FechaCreacion"/>
+										</f:facet>
+										 <h:outputText value="#{tipoSolicitudPqr.fechaCreacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipoSolicitudPqr.fechaUltimaModificacion}" sortBy="#{tipoSolicitudPqr.fechaUltimaModificacion}" >
+										 <f:facet name="header">
+										<h:outputText value="FechaUltimaModificacion"/>
+										</f:facet>
+										 <h:outputText value="#{tipoSolicitudPqr.fechaUltimaModificacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipoSolicitudPqr.usuarioCreador}" sortBy="#{tipoSolicitudPqr.usuarioCreador}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuarioCreador"/>
+										</f:facet>
+										 <h:outputText value="#{tipoSolicitudPqr.usuarioCreador}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipoSolicitudPqr.usuarioUltimaModificacion}" sortBy="#{tipoSolicitudPqr.usuarioUltimaModificacion}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuarioUltimaModificacion"/>
+										</f:facet>
+										 <h:outputText value="#{tipoSolicitudPqr.usuarioUltimaModificacion}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogTipoSolicitudPqr"
+										actionListener="#{tipoSolicitudPqrView.action_edit}">
+										<f:attribute name="selectedTipoSolicitudPqr" value="#{tipoSolicitudPqr}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{tipoSolicitudPqrView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedTipoSolicitudPqr" value="#{tipoSolicitudPqr}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{tipoSolicitudPqrView.action_new()}" update=":dialogTipoSolicitudPqr" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogTipoSolicitudPqr" appendToBody="true" draggable="true"
+						closable="false" visible="#{tipoSolicitudPqrView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" showDetail="true"/>
+							<p:panel id="panelTipoSolicitudPqr" header="TipoSolicitudPqr">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgIdTpSolPqr" value="IdTpSolPqr"/>
+									 <p:inputText id="txtIdTpSolPqr" binding="#{tipoSolicitudPqrView.txtIdTpSolPqr}">
+									 <p:ajax update=":dialogTipoSolicitudPqr" listener="#{tipoSolicitudPqrView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgDescTpSol" value=" DescTpSol"/>
+									<p:inputText id="txtDescTpSol" disabled="true" binding="#{tipoSolicitudPqrView.txtDescTpSol}"/>
+																		<h:outputText id="msgEstadoRegistro" value=" EstadoRegistro"/>
+									<p:inputText id="txtEstadoRegistro" disabled="true" binding="#{tipoSolicitudPqrView.txtEstadoRegistro}"/>
+																		<h:outputText id="msgUsuarioCreador" value=" UsuarioCreador"/>
+									<p:inputText id="txtUsuarioCreador" disabled="true" binding="#{tipoSolicitudPqrView.txtUsuarioCreador}"/>
+																		<h:outputText id="msgUsuarioUltimaModificacion" value=" UsuarioUltimaModificacion"/>
+									<p:inputText id="txtUsuarioUltimaModificacion" disabled="true" binding="#{tipoSolicitudPqrView.txtUsuarioUltimaModificacion}"/>
+																		
+																													<h:outputText id="msgFechaCreacion" value=" FechaCreacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{tipoSolicitudPqrView.txtFechaCreacion}" >
+										<p:ajax event="dateSelect" listener="#{tipoSolicitudPqrView.listener_txtFechaCreacion}" />
+										</p:calendar>
+																				<h:outputText id="msgFechaUltimaModificacion" value=" FechaUltimaModificacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{tipoSolicitudPqrView.txtFechaUltimaModificacion}" >
+										<p:ajax event="dateSelect" listener="#{tipoSolicitudPqrView.listener_txtFechaUltimaModificacion}" />
+										</p:calendar>
+																										    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{tipoSolicitudPqrView.btnSave}" value="Save" action="#{tipoSolicitudPqrView.action_save()}" update=":dialogTipoSolicitudPqr :frm:panelDataTableTipoSolicitudPqr" />
+									<p:commandButton id="btnClear" value="Clear" action="#{tipoSolicitudPqrView.action_clear()}" update=":dialogTipoSolicitudPqr" />
+									<p:commandButton id="btnExit" value="Exit" action="#{tipoSolicitudPqrView.action_closeDialog()}" update=":dialogTipoSolicitudPqr" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

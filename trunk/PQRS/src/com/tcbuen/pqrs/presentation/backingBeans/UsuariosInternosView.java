@@ -1,0 +1,665 @@
+package com.tcbuen.pqrs.presentation.backingBeans;
+
+import com.tcbuen.pqrs.exceptions.*;
+import com.tcbuen.pqrs.modelo.*;
+import com.tcbuen.pqrs.modelo.dto.UsuariosInternosDTO;
+import com.tcbuen.pqrs.presentation.businessDelegate.*;
+import com.tcbuen.pqrs.utilities.*;
+
+import org.primefaces.component.calendar.*;
+import org.primefaces.component.commandbutton.CommandButton;
+import org.primefaces.component.inputtext.InputText;
+
+import org.primefaces.event.RowEditEvent;
+
+import java.io.Serializable;
+
+import java.sql.*;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Set;
+import java.util.TimeZone;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
+
+
+/**
+ * @author Zathura Code Generator http://code.google.com/p/zathura
+ *
+ */
+@ManagedBean
+@ViewScoped
+public class UsuariosInternosView implements Serializable {
+    private static final long serialVersionUID = 1L;
+    private InputText txtApellidos;
+    private InputText txtContrasena;
+    private InputText txtCorreoElectronico;
+    private InputText txtEstadoRegistro;
+    private InputText txtLogin;
+    private InputText txtNombres;
+    private InputText txtNumeroIdentificacion;
+    private InputText txtIdAreaInvolucrada_AreasInvolucradas;
+    private InputText txtIdRol_Roles;
+    private InputText txtIdUsuInterno;
+    private Calendar txtFechaCreacion;
+    private CommandButton btnSave;
+    private CommandButton btnModify;
+    private CommandButton btnDelete;
+    private CommandButton btnClear;
+    private List<UsuariosInternosDTO> data;
+    private UsuariosInternosDTO selectedUsuariosInternos;
+    private UsuariosInternos entity;
+    private boolean showDialog;
+    @ManagedProperty(value = "#{BusinessDelegatorView}")
+    private IBusinessDelegatorView businessDelegatorView;
+
+    public UsuariosInternosView() {
+        super();
+    }
+
+    public void rowEventListener(RowEditEvent e) {
+        try {
+            UsuariosInternosDTO usuariosInternosDTO = (UsuariosInternosDTO) e.getObject();
+
+            if (txtApellidos == null) {
+                txtApellidos = new InputText();
+            }
+
+            txtApellidos.setValue(usuariosInternosDTO.getApellidos());
+
+            if (txtContrasena == null) {
+                txtContrasena = new InputText();
+            }
+
+            txtContrasena.setValue(usuariosInternosDTO.getContrasena());
+
+            if (txtCorreoElectronico == null) {
+                txtCorreoElectronico = new InputText();
+            }
+
+            txtCorreoElectronico.setValue(usuariosInternosDTO.getCorreoElectronico());
+
+            if (txtEstadoRegistro == null) {
+                txtEstadoRegistro = new InputText();
+            }
+
+            txtEstadoRegistro.setValue(usuariosInternosDTO.getEstadoRegistro());
+
+            if (txtLogin == null) {
+                txtLogin = new InputText();
+            }
+
+            txtLogin.setValue(usuariosInternosDTO.getLogin());
+
+            if (txtNombres == null) {
+                txtNombres = new InputText();
+            }
+
+            txtNombres.setValue(usuariosInternosDTO.getNombres());
+
+            if (txtNumeroIdentificacion == null) {
+                txtNumeroIdentificacion = new InputText();
+            }
+
+            txtNumeroIdentificacion.setValue(usuariosInternosDTO.getNumeroIdentificacion());
+
+            if (txtIdAreaInvolucrada_AreasInvolucradas == null) {
+                txtIdAreaInvolucrada_AreasInvolucradas = new InputText();
+            }
+
+            txtIdAreaInvolucrada_AreasInvolucradas.setValue(usuariosInternosDTO.getIdAreaInvolucrada_AreasInvolucradas());
+
+            if (txtIdRol_Roles == null) {
+                txtIdRol_Roles = new InputText();
+            }
+
+            txtIdRol_Roles.setValue(usuariosInternosDTO.getIdRol_Roles());
+
+            if (txtIdUsuInterno == null) {
+                txtIdUsuInterno = new InputText();
+            }
+
+            txtIdUsuInterno.setValue(usuariosInternosDTO.getIdUsuInterno());
+
+            if (txtFechaCreacion == null) {
+                txtFechaCreacion = new Calendar();
+            }
+
+            txtFechaCreacion.setValue(usuariosInternosDTO.getFechaCreacion());
+
+            Long idUsuInterno = FacesUtils.checkLong(txtIdUsuInterno);
+            entity = businessDelegatorView.getUsuariosInternos(idUsuInterno);
+
+            action_modify();
+        } catch (Exception ex) {
+        }
+    }
+
+    public String action_new() {
+        action_clear();
+        selectedUsuariosInternos = null;
+        setShowDialog(true);
+
+        return "";
+    }
+
+    public String action_clear() {
+        entity = null;
+        selectedUsuariosInternos = null;
+
+        if (txtApellidos != null) {
+            txtApellidos.setValue(null);
+            txtApellidos.setDisabled(true);
+        }
+
+        if (txtContrasena != null) {
+            txtContrasena.setValue(null);
+            txtContrasena.setDisabled(true);
+        }
+
+        if (txtCorreoElectronico != null) {
+            txtCorreoElectronico.setValue(null);
+            txtCorreoElectronico.setDisabled(true);
+        }
+
+        if (txtEstadoRegistro != null) {
+            txtEstadoRegistro.setValue(null);
+            txtEstadoRegistro.setDisabled(true);
+        }
+
+        if (txtLogin != null) {
+            txtLogin.setValue(null);
+            txtLogin.setDisabled(true);
+        }
+
+        if (txtNombres != null) {
+            txtNombres.setValue(null);
+            txtNombres.setDisabled(true);
+        }
+
+        if (txtNumeroIdentificacion != null) {
+            txtNumeroIdentificacion.setValue(null);
+            txtNumeroIdentificacion.setDisabled(true);
+        }
+
+        if (txtIdAreaInvolucrada_AreasInvolucradas != null) {
+            txtIdAreaInvolucrada_AreasInvolucradas.setValue(null);
+            txtIdAreaInvolucrada_AreasInvolucradas.setDisabled(true);
+        }
+
+        if (txtIdRol_Roles != null) {
+            txtIdRol_Roles.setValue(null);
+            txtIdRol_Roles.setDisabled(true);
+        }
+
+        if (txtFechaCreacion != null) {
+            txtFechaCreacion.setValue(null);
+            txtFechaCreacion.setDisabled(true);
+        }
+
+        if (txtIdUsuInterno != null) {
+            txtIdUsuInterno.setValue(null);
+            txtIdUsuInterno.setDisabled(false);
+        }
+
+        if (btnSave != null) {
+            btnSave.setDisabled(true);
+        }
+
+        if (btnDelete != null) {
+            btnDelete.setDisabled(true);
+        }
+
+        return "";
+    }
+
+    public void listener_txtFechaCreacion() {
+        Date inputDate = (Date) txtFechaCreacion.getValue();
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        FacesContext.getCurrentInstance()
+                    .addMessage("",
+            new FacesMessage("Selected Date " + dateFormat.format(inputDate)));
+    }
+
+    public void listener_txtId() {
+        try {
+            Long idUsuInterno = FacesUtils.checkLong(txtIdUsuInterno);
+            entity = (idUsuInterno != null)
+                ? businessDelegatorView.getUsuariosInternos(idUsuInterno) : null;
+        } catch (Exception e) {
+            entity = null;
+        }
+
+        if (entity == null) {
+            txtApellidos.setDisabled(false);
+            txtContrasena.setDisabled(false);
+            txtCorreoElectronico.setDisabled(false);
+            txtEstadoRegistro.setDisabled(false);
+            txtLogin.setDisabled(false);
+            txtNombres.setDisabled(false);
+            txtNumeroIdentificacion.setDisabled(false);
+            txtIdAreaInvolucrada_AreasInvolucradas.setDisabled(false);
+            txtIdRol_Roles.setDisabled(false);
+            txtFechaCreacion.setDisabled(false);
+            txtIdUsuInterno.setDisabled(false);
+            btnSave.setDisabled(false);
+        } else {
+            txtApellidos.setValue(entity.getApellidos());
+            txtApellidos.setDisabled(false);
+            txtContrasena.setValue(entity.getContrasena());
+            txtContrasena.setDisabled(false);
+            txtCorreoElectronico.setValue(entity.getCorreoElectronico());
+            txtCorreoElectronico.setDisabled(false);
+            txtEstadoRegistro.setValue(entity.getEstadoRegistro());
+            txtEstadoRegistro.setDisabled(false);
+            txtFechaCreacion.setValue(entity.getFechaCreacion());
+            txtFechaCreacion.setDisabled(false);
+            txtLogin.setValue(entity.getLogin());
+            txtLogin.setDisabled(false);
+            txtNombres.setValue(entity.getNombres());
+            txtNombres.setDisabled(false);
+            txtNumeroIdentificacion.setValue(entity.getNumeroIdentificacion());
+            txtNumeroIdentificacion.setDisabled(false);
+            txtIdAreaInvolucrada_AreasInvolucradas.setValue(entity.getAreasInvolucradas()
+                                                                  .getIdAreaInvolucrada());
+            txtIdAreaInvolucrada_AreasInvolucradas.setDisabled(false);
+            txtIdRol_Roles.setValue(entity.getRoles().getIdRol());
+            txtIdRol_Roles.setDisabled(false);
+            txtIdUsuInterno.setValue(entity.getIdUsuInterno());
+            txtIdUsuInterno.setDisabled(true);
+            btnSave.setDisabled(false);
+
+            if (btnDelete != null) {
+                btnDelete.setDisabled(false);
+            }
+        }
+    }
+
+    public String action_edit(ActionEvent evt) {
+        selectedUsuariosInternos = (UsuariosInternosDTO) (evt.getComponent()
+                                                             .getAttributes()
+                                                             .get("selectedUsuariosInternos"));
+        txtApellidos.setValue(selectedUsuariosInternos.getApellidos());
+        txtApellidos.setDisabled(false);
+        txtContrasena.setValue(selectedUsuariosInternos.getContrasena());
+        txtContrasena.setDisabled(false);
+        txtCorreoElectronico.setValue(selectedUsuariosInternos.getCorreoElectronico());
+        txtCorreoElectronico.setDisabled(false);
+        txtEstadoRegistro.setValue(selectedUsuariosInternos.getEstadoRegistro());
+        txtEstadoRegistro.setDisabled(false);
+        txtFechaCreacion.setValue(selectedUsuariosInternos.getFechaCreacion());
+        txtFechaCreacion.setDisabled(false);
+        txtLogin.setValue(selectedUsuariosInternos.getLogin());
+        txtLogin.setDisabled(false);
+        txtNombres.setValue(selectedUsuariosInternos.getNombres());
+        txtNombres.setDisabled(false);
+        txtNumeroIdentificacion.setValue(selectedUsuariosInternos.getNumeroIdentificacion());
+        txtNumeroIdentificacion.setDisabled(false);
+        txtIdAreaInvolucrada_AreasInvolucradas.setValue(selectedUsuariosInternos.getIdAreaInvolucrada_AreasInvolucradas());
+        txtIdAreaInvolucrada_AreasInvolucradas.setDisabled(false);
+        txtIdRol_Roles.setValue(selectedUsuariosInternos.getIdRol_Roles());
+        txtIdRol_Roles.setDisabled(false);
+        txtIdUsuInterno.setValue(selectedUsuariosInternos.getIdUsuInterno());
+        txtIdUsuInterno.setDisabled(true);
+        btnSave.setDisabled(false);
+        setShowDialog(true);
+
+        return "";
+    }
+
+    public String action_save() {
+        try {
+            if ((selectedUsuariosInternos == null) && (entity == null)) {
+                action_create();
+            } else {
+                action_modify();
+            }
+
+            data = null;
+        } catch (Exception e) {
+            FacesUtils.addErrorMessage(e.getMessage());
+        }
+
+        return "";
+    }
+
+    public String action_create() {
+        try {
+            entity = new UsuariosInternos();
+
+            Long idUsuInterno = FacesUtils.checkLong(txtIdUsuInterno);
+
+            entity.setApellidos(FacesUtils.checkString(txtApellidos));
+            entity.setContrasena(FacesUtils.checkString(txtContrasena));
+            entity.setCorreoElectronico(FacesUtils.checkString(
+                    txtCorreoElectronico));
+            entity.setEstadoRegistro(FacesUtils.checkString(txtEstadoRegistro));
+            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
+            entity.setIdUsuInterno(idUsuInterno);
+            entity.setLogin(FacesUtils.checkString(txtLogin));
+            entity.setNombres(FacesUtils.checkString(txtNombres));
+            entity.setNumeroIdentificacion(FacesUtils.checkString(
+                    txtNumeroIdentificacion));
+            entity.setAreasInvolucradas((FacesUtils.checkLong(
+                    txtIdAreaInvolucrada_AreasInvolucradas) != null)
+                ? businessDelegatorView.getAreasInvolucradas(
+                    FacesUtils.checkLong(txtIdAreaInvolucrada_AreasInvolucradas))
+                : null);
+            entity.setRoles((FacesUtils.checkLong(txtIdRol_Roles) != null)
+                ? businessDelegatorView.getRoles(FacesUtils.checkLong(
+                        txtIdRol_Roles)) : null);
+            businessDelegatorView.saveUsuariosInternos(entity);
+            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+            action_clear();
+        } catch (Exception e) {
+            entity = null;
+            FacesUtils.addErrorMessage(e.getMessage());
+        }
+
+        return "";
+    }
+
+    public String action_modify() {
+        try {
+            if (entity == null) {
+                Long idUsuInterno = new Long(selectedUsuariosInternos.getIdUsuInterno());
+                entity = businessDelegatorView.getUsuariosInternos(idUsuInterno);
+            }
+
+            entity.setApellidos(FacesUtils.checkString(txtApellidos));
+            entity.setContrasena(FacesUtils.checkString(txtContrasena));
+            entity.setCorreoElectronico(FacesUtils.checkString(
+                    txtCorreoElectronico));
+            entity.setEstadoRegistro(FacesUtils.checkString(txtEstadoRegistro));
+            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
+            entity.setLogin(FacesUtils.checkString(txtLogin));
+            entity.setNombres(FacesUtils.checkString(txtNombres));
+            entity.setNumeroIdentificacion(FacesUtils.checkString(
+                    txtNumeroIdentificacion));
+            entity.setAreasInvolucradas((FacesUtils.checkLong(
+                    txtIdAreaInvolucrada_AreasInvolucradas) != null)
+                ? businessDelegatorView.getAreasInvolucradas(
+                    FacesUtils.checkLong(txtIdAreaInvolucrada_AreasInvolucradas))
+                : null);
+            entity.setRoles((FacesUtils.checkLong(txtIdRol_Roles) != null)
+                ? businessDelegatorView.getRoles(FacesUtils.checkLong(
+                        txtIdRol_Roles)) : null);
+            businessDelegatorView.updateUsuariosInternos(entity);
+            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+        } catch (Exception e) {
+            data = null;
+            FacesUtils.addErrorMessage(e.getMessage());
+        }
+
+        return "";
+    }
+
+    public String action_delete_datatable(ActionEvent evt) {
+        try {
+            selectedUsuariosInternos = (UsuariosInternosDTO) (evt.getComponent()
+                                                                 .getAttributes()
+                                                                 .get("selectedUsuariosInternos"));
+
+            Long idUsuInterno = new Long(selectedUsuariosInternos.getIdUsuInterno());
+            entity = businessDelegatorView.getUsuariosInternos(idUsuInterno);
+            action_delete();
+        } catch (Exception e) {
+            FacesUtils.addErrorMessage(e.getMessage());
+        }
+
+        return "";
+    }
+
+    public String action_delete_master() {
+        try {
+            Long idUsuInterno = FacesUtils.checkLong(txtIdUsuInterno);
+            entity = businessDelegatorView.getUsuariosInternos(idUsuInterno);
+            action_delete();
+        } catch (Exception e) {
+            FacesUtils.addErrorMessage(e.getMessage());
+        }
+
+        return "";
+    }
+
+    public void action_delete() throws Exception {
+        try {
+            businessDelegatorView.deleteUsuariosInternos(entity);
+            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYDELETED);
+            action_clear();
+            data = null;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+    public String action_closeDialog() {
+        setShowDialog(false);
+        action_clear();
+
+        return "";
+    }
+
+    public String actionDeleteDataTableEditable(ActionEvent evt) {
+        try {
+            selectedUsuariosInternos = (UsuariosInternosDTO) (evt.getComponent()
+                                                                 .getAttributes()
+                                                                 .get("selectedUsuariosInternos"));
+
+            Long idUsuInterno = new Long(selectedUsuariosInternos.getIdUsuInterno());
+            entity = businessDelegatorView.getUsuariosInternos(idUsuInterno);
+            businessDelegatorView.deleteUsuariosInternos(entity);
+            data.remove(selectedUsuariosInternos);
+            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYDELETED);
+            action_clear();
+        } catch (Exception e) {
+            FacesUtils.addErrorMessage(e.getMessage());
+        }
+
+        return "";
+    }
+
+    public String action_modifyWitDTO(String apellidos, String contrasena,
+        String correoElectronico, String estadoRegistro, Date fechaCreacion,
+        Long idUsuInterno, String login, String nombres,
+        String numeroIdentificacion, Long idAreaInvolucrada_AreasInvolucradas,
+        Long idRol_Roles) throws Exception {
+        try {
+            entity.setApellidos(FacesUtils.checkString(apellidos));
+            entity.setContrasena(FacesUtils.checkString(contrasena));
+            entity.setCorreoElectronico(FacesUtils.checkString(
+                    correoElectronico));
+            entity.setEstadoRegistro(FacesUtils.checkString(estadoRegistro));
+            entity.setFechaCreacion(FacesUtils.checkDate(fechaCreacion));
+            entity.setLogin(FacesUtils.checkString(login));
+            entity.setNombres(FacesUtils.checkString(nombres));
+            entity.setNumeroIdentificacion(FacesUtils.checkString(
+                    numeroIdentificacion));
+            businessDelegatorView.updateUsuariosInternos(entity);
+            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+        } catch (Exception e) {
+            //renderManager.getOnDemandRenderer("UsuariosInternosView").requestRender();
+            FacesUtils.addErrorMessage(e.getMessage());
+            throw e;
+        }
+
+        return "";
+    }
+
+    public InputText getTxtApellidos() {
+        return txtApellidos;
+    }
+
+    public void setTxtApellidos(InputText txtApellidos) {
+        this.txtApellidos = txtApellidos;
+    }
+
+    public InputText getTxtContrasena() {
+        return txtContrasena;
+    }
+
+    public void setTxtContrasena(InputText txtContrasena) {
+        this.txtContrasena = txtContrasena;
+    }
+
+    public InputText getTxtCorreoElectronico() {
+        return txtCorreoElectronico;
+    }
+
+    public void setTxtCorreoElectronico(InputText txtCorreoElectronico) {
+        this.txtCorreoElectronico = txtCorreoElectronico;
+    }
+
+    public InputText getTxtEstadoRegistro() {
+        return txtEstadoRegistro;
+    }
+
+    public void setTxtEstadoRegistro(InputText txtEstadoRegistro) {
+        this.txtEstadoRegistro = txtEstadoRegistro;
+    }
+
+    public InputText getTxtLogin() {
+        return txtLogin;
+    }
+
+    public void setTxtLogin(InputText txtLogin) {
+        this.txtLogin = txtLogin;
+    }
+
+    public InputText getTxtNombres() {
+        return txtNombres;
+    }
+
+    public void setTxtNombres(InputText txtNombres) {
+        this.txtNombres = txtNombres;
+    }
+
+    public InputText getTxtNumeroIdentificacion() {
+        return txtNumeroIdentificacion;
+    }
+
+    public void setTxtNumeroIdentificacion(InputText txtNumeroIdentificacion) {
+        this.txtNumeroIdentificacion = txtNumeroIdentificacion;
+    }
+
+    public InputText getTxtIdAreaInvolucrada_AreasInvolucradas() {
+        return txtIdAreaInvolucrada_AreasInvolucradas;
+    }
+
+    public void setTxtIdAreaInvolucrada_AreasInvolucradas(
+        InputText txtIdAreaInvolucrada_AreasInvolucradas) {
+        this.txtIdAreaInvolucrada_AreasInvolucradas = txtIdAreaInvolucrada_AreasInvolucradas;
+    }
+
+    public InputText getTxtIdRol_Roles() {
+        return txtIdRol_Roles;
+    }
+
+    public void setTxtIdRol_Roles(InputText txtIdRol_Roles) {
+        this.txtIdRol_Roles = txtIdRol_Roles;
+    }
+
+    public Calendar getTxtFechaCreacion() {
+        return txtFechaCreacion;
+    }
+
+    public void setTxtFechaCreacion(Calendar txtFechaCreacion) {
+        this.txtFechaCreacion = txtFechaCreacion;
+    }
+
+    public InputText getTxtIdUsuInterno() {
+        return txtIdUsuInterno;
+    }
+
+    public void setTxtIdUsuInterno(InputText txtIdUsuInterno) {
+        this.txtIdUsuInterno = txtIdUsuInterno;
+    }
+
+    public List<UsuariosInternosDTO> getData() {
+        try {
+            if (data == null) {
+                data = businessDelegatorView.getDataUsuariosInternos();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return data;
+    }
+
+    public void setData(List<UsuariosInternosDTO> usuariosInternosDTO) {
+        this.data = usuariosInternosDTO;
+    }
+
+    public UsuariosInternosDTO getSelectedUsuariosInternos() {
+        return selectedUsuariosInternos;
+    }
+
+    public void setSelectedUsuariosInternos(
+        UsuariosInternosDTO usuariosInternos) {
+        this.selectedUsuariosInternos = usuariosInternos;
+    }
+
+    public CommandButton getBtnSave() {
+        return btnSave;
+    }
+
+    public void setBtnSave(CommandButton btnSave) {
+        this.btnSave = btnSave;
+    }
+
+    public CommandButton getBtnModify() {
+        return btnModify;
+    }
+
+    public void setBtnModify(CommandButton btnModify) {
+        this.btnModify = btnModify;
+    }
+
+    public CommandButton getBtnDelete() {
+        return btnDelete;
+    }
+
+    public void setBtnDelete(CommandButton btnDelete) {
+        this.btnDelete = btnDelete;
+    }
+
+    public CommandButton getBtnClear() {
+        return btnClear;
+    }
+
+    public void setBtnClear(CommandButton btnClear) {
+        this.btnClear = btnClear;
+    }
+
+    public TimeZone getTimeZone() {
+        return java.util.TimeZone.getDefault();
+    }
+
+    public IBusinessDelegatorView getBusinessDelegatorView() {
+        return businessDelegatorView;
+    }
+
+    public void setBusinessDelegatorView(
+        IBusinessDelegatorView businessDelegatorView) {
+        this.businessDelegatorView = businessDelegatorView;
+    }
+
+    public boolean isShowDialog() {
+        return showDialog;
+    }
+
+    public void setShowDialog(boolean showDialog) {
+        this.showDialog = showDialog;
+    }
+}

@@ -1,0 +1,146 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableInfoSolicitante" header="InfoSolicitanteData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{infoSolicitanteView.data}" var="infoSolicitante"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{infoSolicitante.idInfoSolicitante}" sortBy="#{infoSolicitante.idInfoSolicitante}" >
+										 <f:facet name="header">
+										<h:outputText value="idInfoSolicitante"/>
+										</f:facet>
+										 <h:outputText value="#{infoSolicitante.idInfoSolicitante}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{infoSolicitante.correoElectronico}" sortBy="#{infoSolicitante.correoElectronico}" >
+										 <f:facet name="header">
+										<h:outputText value="CorreoElectronico"/>
+										</f:facet>
+										 <h:outputText value="#{infoSolicitante.correoElectronico}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{infoSolicitante.nombreContacto}" sortBy="#{infoSolicitante.nombreContacto}" >
+										 <f:facet name="header">
+										<h:outputText value="NombreContacto"/>
+										</f:facet>
+										 <h:outputText value="#{infoSolicitante.nombreContacto}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{infoSolicitante.nombreEmpresa}" sortBy="#{infoSolicitante.nombreEmpresa}" >
+										 <f:facet name="header">
+										<h:outputText value="NombreEmpresa"/>
+										</f:facet>
+										 <h:outputText value="#{infoSolicitante.nombreEmpresa}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{infoSolicitante.numeroCelular}" sortBy="#{infoSolicitante.numeroCelular}" >
+										 <f:facet name="header">
+										<h:outputText value="NumeroCelular"/>
+										</f:facet>
+										 <h:outputText value="#{infoSolicitante.numeroCelular}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{infoSolicitante.numeroIdentificacion}" sortBy="#{infoSolicitante.numeroIdentificacion}" >
+										 <f:facet name="header">
+										<h:outputText value="NumeroIdentificacion"/>
+										</f:facet>
+										 <h:outputText value="#{infoSolicitante.numeroIdentificacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{infoSolicitante.telefonoFijo}" sortBy="#{infoSolicitante.telefonoFijo}" >
+										 <f:facet name="header">
+										<h:outputText value="TelefonoFijo"/>
+										</f:facet>
+										 <h:outputText value="#{infoSolicitante.telefonoFijo}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{infoSolicitante.idTpDoc_TipoDocumento}" sortBy="#{infoSolicitante.idTpDoc_TipoDocumento}" >
+										 <f:facet name="header">
+										<h:outputText value="IdTpDoc_TipoDocumento"/>
+										</f:facet>
+										 <h:outputText value="#{infoSolicitante.idTpDoc_TipoDocumento}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogInfoSolicitante"
+										actionListener="#{infoSolicitanteView.action_edit}">
+										<f:attribute name="selectedInfoSolicitante" value="#{infoSolicitante}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{infoSolicitanteView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedInfoSolicitante" value="#{infoSolicitante}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{infoSolicitanteView.action_new()}" update=":dialogInfoSolicitante" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogInfoSolicitante" appendToBody="true" draggable="true"
+						closable="false" visible="#{infoSolicitanteView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" showDetail="true"/>
+							<p:panel id="panelInfoSolicitante" header="InfoSolicitante">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgIdInfoSolicitante" value="IdInfoSolicitante"/>
+									 <p:inputText id="txtIdInfoSolicitante" binding="#{infoSolicitanteView.txtIdInfoSolicitante}">
+									 <p:ajax update=":dialogInfoSolicitante" listener="#{infoSolicitanteView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgCorreoElectronico" value=" CorreoElectronico"/>
+									<p:inputText id="txtCorreoElectronico" disabled="true" binding="#{infoSolicitanteView.txtCorreoElectronico}"/>
+																		<h:outputText id="msgNombreContacto" value=" NombreContacto"/>
+									<p:inputText id="txtNombreContacto" disabled="true" binding="#{infoSolicitanteView.txtNombreContacto}"/>
+																		<h:outputText id="msgNombreEmpresa" value=" NombreEmpresa"/>
+									<p:inputText id="txtNombreEmpresa" disabled="true" binding="#{infoSolicitanteView.txtNombreEmpresa}"/>
+																		<h:outputText id="msgNumeroCelular" value=" NumeroCelular"/>
+									<p:inputText id="txtNumeroCelular" disabled="true" binding="#{infoSolicitanteView.txtNumeroCelular}"/>
+																		<h:outputText id="msgNumeroIdentificacion" value=" NumeroIdentificacion"/>
+									<p:inputText id="txtNumeroIdentificacion" disabled="true" binding="#{infoSolicitanteView.txtNumeroIdentificacion}"/>
+																		<h:outputText id="msgTelefonoFijo" value=" TelefonoFijo"/>
+									<p:inputText id="txtTelefonoFijo" disabled="true" binding="#{infoSolicitanteView.txtTelefonoFijo}"/>
+																		<h:outputText id="msgIdTpDoc_TipoDocumento" value=" IdTpDoc_TipoDocumento"/>
+									<p:inputText id="txtIdTpDoc_TipoDocumento" disabled="true" binding="#{infoSolicitanteView.txtIdTpDoc_TipoDocumento}"/>
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{infoSolicitanteView.btnSave}" value="Save" action="#{infoSolicitanteView.action_save()}" update=":dialogInfoSolicitante :frm:panelDataTableInfoSolicitante" />
+									<p:commandButton id="btnClear" value="Clear" action="#{infoSolicitanteView.action_clear()}" update=":dialogInfoSolicitante" />
+									<p:commandButton id="btnExit" value="Exit" action="#{infoSolicitanteView.action_closeDialog()}" update=":dialogInfoSolicitante" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

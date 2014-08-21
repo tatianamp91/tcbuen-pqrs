@@ -1,0 +1,62 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>		
+	
+	<h:body>
+		<ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		<ui:define name="body">	
+		<f:view>
+			<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>               
+			<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   				<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+			</p:dialog>
+			<h:form id="formDialog">
+				<p:messages id="msg" showDetail="true"/>
+				<p:growl id="men"/>
+					<p:panel id="panelMotivoReclamacion" header="MotivoReclamacion">							
+						<h:panelGrid columns="2" id="panelGrid" >
+												 	<h:outputText id="msgIdMotRecl" value="IdMotRecl"/>
+						 	<p:inputText id="txtIdMotRecl" binding="#{motivoReclamacionView.txtIdMotRecl}">
+						 		<p:ajax update="panelMotivoReclamacion,msg,panelBotones" listener="#{motivoReclamacionView.listener_txtId}"/>
+						 	</p:inputText>	
+																		
+													<h:outputText id="msgDescripcionMotRecl" value=" DescripcionMotRecl"/>
+							<p:inputText id="txtDescripcionMotRecl" disabled="true" binding="#{motivoReclamacionView.txtDescripcionMotRecl}"/>
+													<h:outputText id="msgEstadoRegistro" value=" EstadoRegistro"/>
+							<p:inputText id="txtEstadoRegistro" disabled="true" binding="#{motivoReclamacionView.txtEstadoRegistro}"/>
+													<h:outputText id="msgUsuarioCreador" value=" UsuarioCreador"/>
+							<p:inputText id="txtUsuarioCreador" disabled="true" binding="#{motivoReclamacionView.txtUsuarioCreador}"/>
+													<h:outputText id="msgUsuarioUltimaModificacion" value=" UsuarioUltimaModificacion"/>
+							<p:inputText id="txtUsuarioUltimaModificacion" disabled="true" binding="#{motivoReclamacionView.txtUsuarioUltimaModificacion}"/>
+												
+																				<h:outputText id="msgFechaCreacion" value=" FechaCreacion"/>
+														<p:calendar showOn="button" navigator="true" locale="en" 
+							binding="#{motivoReclamacionView.txtFechaCreacion}" >
+								<p:ajax event="dateSelect" listener="#{motivoReclamacionView.listener_txtFechaCreacion}"  />
+							</p:calendar>
+														<h:outputText id="msgFechaUltimaModificacion" value=" FechaUltimaModificacion"/>
+														<p:calendar showOn="button" navigator="true" locale="en" 
+							binding="#{motivoReclamacionView.txtFechaUltimaModificacion}" >
+								<p:ajax event="dateSelect" listener="#{motivoReclamacionView.listener_txtFechaUltimaModificacion}"  />
+							</p:calendar>
+																	   </h:panelGrid>
+				</p:panel>
+	   			<p:panel id="panelBotones">
+					<div align="center">					
+						<p:commandButton id="btnSave" binding="#{motivoReclamacionView.btnSave}" disabled="true" value="Save" action="#{motivoReclamacionView.action_save()}" update="panelMotivoReclamacion,msg,panelBotones" />
+						<p:commandButton id="btnDelete" binding="#{motivoReclamacionView.btnDelete}" disabled="true" value="Delete" action="#{motivoReclamacionView.action_delete_master()}" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" update="panelMotivoReclamacion,msg,panelBotones" />
+						<p:commandButton id="btnClear" value="Clear" action="#{motivoReclamacionView.action_clear()}" update="panelMotivoReclamacion,msg,panelBotones" />
+					</div>
+				</p:panel>			
+			</h:form>
+		</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

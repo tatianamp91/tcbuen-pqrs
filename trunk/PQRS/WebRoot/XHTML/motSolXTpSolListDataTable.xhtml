@@ -1,0 +1,101 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableMotSolXTpSol" header="MotSolXTpSolData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{motSolXTpSolView.data}" var="motSolXTpSol"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{motSolXTpSol.idMotSolXTpSol}" sortBy="#{motSolXTpSol.idMotSolXTpSol}" >
+										 <f:facet name="header">
+										<h:outputText value="idMotSolXTpSol"/>
+										</f:facet>
+										 <h:outputText value="#{motSolXTpSol.idMotSolXTpSol}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{motSolXTpSol.idMotSol_MotivoSolicitud}" sortBy="#{motSolXTpSol.idMotSol_MotivoSolicitud}" >
+										 <f:facet name="header">
+										<h:outputText value="IdMotSol_MotivoSolicitud"/>
+										</f:facet>
+										 <h:outputText value="#{motSolXTpSol.idMotSol_MotivoSolicitud}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{motSolXTpSol.idTpSolPqr_TipoSolicitudPqr}" sortBy="#{motSolXTpSol.idTpSolPqr_TipoSolicitudPqr}" >
+										 <f:facet name="header">
+										<h:outputText value="IdTpSolPqr_TipoSolicitudPqr"/>
+										</f:facet>
+										 <h:outputText value="#{motSolXTpSol.idTpSolPqr_TipoSolicitudPqr}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogMotSolXTpSol"
+										actionListener="#{motSolXTpSolView.action_edit}">
+										<f:attribute name="selectedMotSolXTpSol" value="#{motSolXTpSol}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{motSolXTpSolView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedMotSolXTpSol" value="#{motSolXTpSol}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{motSolXTpSolView.action_new()}" update=":dialogMotSolXTpSol" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogMotSolXTpSol" appendToBody="true" draggable="true"
+						closable="false" visible="#{motSolXTpSolView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" showDetail="true"/>
+							<p:panel id="panelMotSolXTpSol" header="MotSolXTpSol">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgIdMotSolXTpSol" value="IdMotSolXTpSol"/>
+									 <p:inputText id="txtIdMotSolXTpSol" binding="#{motSolXTpSolView.txtIdMotSolXTpSol}">
+									 <p:ajax update=":dialogMotSolXTpSol" listener="#{motSolXTpSolView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgIdMotSol_MotivoSolicitud" value=" IdMotSol_MotivoSolicitud"/>
+									<p:inputText id="txtIdMotSol_MotivoSolicitud" disabled="true" binding="#{motSolXTpSolView.txtIdMotSol_MotivoSolicitud}"/>
+																		<h:outputText id="msgIdTpSolPqr_TipoSolicitudPqr" value=" IdTpSolPqr_TipoSolicitudPqr"/>
+									<p:inputText id="txtIdTpSolPqr_TipoSolicitudPqr" disabled="true" binding="#{motSolXTpSolView.txtIdTpSolPqr_TipoSolicitudPqr}"/>
+																		
+																    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{motSolXTpSolView.btnSave}" value="Save" action="#{motSolXTpSolView.action_save()}" update=":dialogMotSolXTpSol :frm:panelDataTableMotSolXTpSol" />
+									<p:commandButton id="btnClear" value="Clear" action="#{motSolXTpSolView.action_clear()}" update=":dialogMotSolXTpSol" />
+									<p:commandButton id="btnExit" value="Exit" action="#{motSolXTpSolView.action_closeDialog()}" update=":dialogMotSolXTpSol" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 20-ago-2014 23:05:44 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.tcbuen.pqrs.modelo.RespuestaSol" table="RESPUESTA_SOL" schema="PQRS">
+        <id name="idRespSol" type="java.lang.Long">
+            <column name="ID_RESP_SOL" precision="10" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="solicitudAsignadaArea" class="com.tcbuen.pqrs.modelo.SolicitudAsignadaArea" fetch="select">
+            <column name="ID_SOL_ASIG_AREA" precision="10" scale="0" not-null="true" />
+        </many-to-one>
+        <property name="descObservacion" type="java.lang.String">
+            <column name="DESC_OBSERVACION" length="2000" />
+        </property>
+        <property name="valorReclamacion" type="java.lang.Double">
+            <column name="VALOR_RECLAMACION" precision="15" />
+        </property>
+        <property name="estadoRegistro" type="java.lang.String">
+            <column name="ESTADO_REGISTRO" length="1" not-null="true" />
+        </property>
+        <property name="fechaCreacion" type="java.util.Date">
+            <column name="FECHA_CREACION" length="7" />
+        </property>
+        <property name="usuarioCreador" type="java.lang.String">
+            <column name="USUARIO_CREADOR" length="50" />
+        </property>
+        <property name="fechaUltimaModificacion" type="java.util.Date">
+            <column name="FECHA_ULTIMA_MODIFICACION" length="7" />
+        </property>
+        <property name="usuarioUltimaModificacion" type="java.lang.String">
+            <column name="USUARIO_ULTIMA_MODIFICACION" length="50" />
+        </property>
+        <set name="anexosRespuestas" table="ANEXOS_RESPUESTA" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ID_RESP_SOL" precision="10" scale="0" not-null="true" />
+            </key>
+            <one-to-many class="com.tcbuen.pqrs.modelo.AnexosRespuesta" />
+        </set>
+    </class>
+</hibernate-mapping>

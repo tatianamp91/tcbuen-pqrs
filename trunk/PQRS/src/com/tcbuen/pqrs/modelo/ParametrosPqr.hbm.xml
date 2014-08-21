@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 20-ago-2014 23:05:44 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.tcbuen.pqrs.modelo.ParametrosPqr" table="PARAMETROS_PQR" schema="PQRS">
+        <id name="idParam" type="java.lang.Long">
+            <column name="ID_PARAM" precision="10" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <property name="descripcionParam" type="java.lang.String">
+            <column name="DESCRIPCION_PARAM" length="100" not-null="true" />
+        </property>
+        <property name="valorParam" type="java.lang.String">
+            <column name="VALOR_PARAM" length="4000" not-null="true" />
+        </property>
+        <property name="estadoRegistro" type="java.lang.String">
+            <column name="ESTADO_REGISTRO" length="1" not-null="true" />
+        </property>
+        <property name="fechaCreacion" type="java.util.Date">
+            <column name="FECHA_CREACION" length="7" />
+        </property>
+        <property name="usuarioCreador" type="java.lang.String">
+            <column name="USUARIO_CREADOR" length="50" />
+        </property>
+        <property name="fechaUltimaModificacion" type="java.util.Date">
+            <column name="FECHA_ULTIMA_MODIFICACION" length="7" />
+        </property>
+        <property name="usuarioUltimaModificacion" type="java.lang.String">
+            <column name="USUARIO_ULTIMA_MODIFICACION" length="50" />
+        </property>
+    </class>
+</hibernate-mapping>

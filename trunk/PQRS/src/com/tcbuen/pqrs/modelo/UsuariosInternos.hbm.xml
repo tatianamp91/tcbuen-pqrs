@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 20-ago-2014 23:05:44 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.tcbuen.pqrs.modelo.UsuariosInternos" table="USUARIOS_INTERNOS" schema="PQRS">
+        <id name="idUsuInterno" type="java.lang.Long">
+            <column name="ID_USU_INTERNO" precision="10" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="roles" class="com.tcbuen.pqrs.modelo.Roles" fetch="select">
+            <column name="ID_ROL" precision="10" scale="0" />
+        </many-to-one>
+        <many-to-one name="areasInvolucradas" class="com.tcbuen.pqrs.modelo.AreasInvolucradas" fetch="select">
+            <column name="ID_AREA_INVOLUCRADA" precision="10" scale="0" not-null="true" />
+        </many-to-one>
+        <property name="numeroIdentificacion" type="java.lang.String">
+            <column name="NUMERO_IDENTIFICACION" length="50" not-null="true" />
+        </property>
+        <property name="nombres" type="java.lang.String">
+            <column name="NOMBRES" length="50" not-null="true" />
+        </property>
+        <property name="apellidos" type="java.lang.String">
+            <column name="APELLIDOS" length="50" not-null="true" />
+        </property>
+        <property name="login" type="java.lang.String">
+            <column name="LOGIN" length="50" not-null="true" />
+        </property>
+        <property name="contrasena" type="java.lang.String">
+            <column name="CONTRASENA" length="50" not-null="true" />
+        </property>
+        <property name="correoElectronico" type="java.lang.String">
+            <column name="CORREO_ELECTRONICO" length="100" />
+        </property>
+        <property name="estadoRegistro" type="java.lang.String">
+            <column name="ESTADO_REGISTRO" length="1" not-null="true" />
+        </property>
+        <property name="fechaCreacion" type="java.util.Date">
+            <column name="FECHA_CREACION" length="7" />
+        </property>
+    </class>
+</hibernate-mapping>

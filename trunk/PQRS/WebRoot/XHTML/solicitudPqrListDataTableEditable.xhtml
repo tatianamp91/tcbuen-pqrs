@@ -1,0 +1,266 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+	    <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+			<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		 
+		 <h:form id="form">
+			
+			 
+			<p:panel id="msgProjectClientesTitle" header="SolicitudPqrData">
+					<p:messages id="msg" showDetail="true"/>
+				<p:dataTable id ="tabla" value="#{solicitudPqrView.data}" var="solicitudPqr"
+					paginator="true" rows="5"  editable="true" >
+					 
+					 <p:ajax event ="rowEdit" update=":form:msg,:form:tabla" listener="#{solicitudPqrView.rowEventListener}" />
+					
+															<p:column filterBy="#{solicitudPqr.idSolPqr}" sortBy="#{solicitudPqr.idSolPqr}" headerText="idSolPqr">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{solicitudPqr.idSolPqr}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{solicitudPqr.idSolPqr}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+                    										
+											
+						<p:column filterBy="#{solicitudPqr.descripcionCaso}" sortBy="#{solicitudPqr.descripcionCaso}" 
+							headerText="descripcionCaso">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{solicitudPqr.descripcionCaso}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{solicitudPqr.descripcionCaso}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{solicitudPqr.nombreAgenciaAduana}" sortBy="#{solicitudPqr.nombreAgenciaAduana}" 
+							headerText="nombreAgenciaAduana">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{solicitudPqr.nombreAgenciaAduana}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{solicitudPqr.nombreAgenciaAduana}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{solicitudPqr.nombreCliente}" sortBy="#{solicitudPqr.nombreCliente}" 
+							headerText="nombreCliente">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{solicitudPqr.nombreCliente}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{solicitudPqr.nombreCliente}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{solicitudPqr.numeroRadicacion}" sortBy="#{solicitudPqr.numeroRadicacion}" 
+							headerText="numeroRadicacion">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{solicitudPqr.numeroRadicacion}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{solicitudPqr.numeroRadicacion}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{solicitudPqr.solicitudARealizar}" sortBy="#{solicitudPqr.solicitudARealizar}" 
+							headerText="solicitudARealizar">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{solicitudPqr.solicitudARealizar}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{solicitudPqr.solicitudARealizar}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{solicitudPqr.usuarioCreador}" sortBy="#{solicitudPqr.usuarioCreador}" 
+							headerText="usuarioCreador">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{solicitudPqr.usuarioCreador}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{solicitudPqr.usuarioCreador}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{solicitudPqr.usuarioUltimaModificacion}" sortBy="#{solicitudPqr.usuarioUltimaModificacion}" 
+							headerText="usuarioUltimaModificacion">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{solicitudPqr.usuarioUltimaModificacion}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{solicitudPqr.usuarioUltimaModificacion}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{solicitudPqr.idInfoSolicitante_InfoSolicitante}" sortBy="#{solicitudPqr.idInfoSolicitante_InfoSolicitante}" 
+							headerText="idInfoSolicitante_InfoSolicitante">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{solicitudPqr.idInfoSolicitante_InfoSolicitante}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{solicitudPqr.idInfoSolicitante_InfoSolicitante}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{solicitudPqr.idTpEstPqr_TipoEstadoPqr}" sortBy="#{solicitudPqr.idTpEstPqr_TipoEstadoPqr}" 
+							headerText="idTpEstPqr_TipoEstadoPqr">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{solicitudPqr.idTpEstPqr_TipoEstadoPqr}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{solicitudPqr.idTpEstPqr_TipoEstadoPqr}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{solicitudPqr.idTpSolPqr_TipoSolicitudPqr}" sortBy="#{solicitudPqr.idTpSolPqr_TipoSolicitudPqr}" 
+							headerText="idTpSolPqr_TipoSolicitudPqr">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{solicitudPqr.idTpSolPqr_TipoSolicitudPqr}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{solicitudPqr.idTpSolPqr_TipoSolicitudPqr}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+										
+										   						 
+						 <p:column filterBy="#{solicitudPqr.fechaCreacion}" sortBy="#{solicitudPqr.fechaCreacion}" 
+							headerText="fechaCreacion">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{solicitudPqr.fechaCreacion}">
+									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
+									</h:outputText>		
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:calendar value="#{solicitudPqr.fechaCreacion}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
+									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{solicitudPqrView.timeZone}" />	
+								    </p:calendar>		
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+					   						 
+						 <p:column filterBy="#{solicitudPqr.fechaUltimaModificacion}" sortBy="#{solicitudPqr.fechaUltimaModificacion}" 
+							headerText="fechaUltimaModificacion">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{solicitudPqr.fechaUltimaModificacion}">
+									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
+									</h:outputText>		
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:calendar value="#{solicitudPqr.fechaUltimaModificacion}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
+									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{solicitudPqrView.timeZone}" />	
+								    </p:calendar>		
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+					   											
+					<p:column headerText="Options" >
+						<p:rowEditor id="row"/>
+						<p:tooltip for="row" value="Edit" showEffect="fade" hideEffect="fade" />
+						<p:tooltip for="btnDelete" value="Delete" showEffect="fade" hideEffect="fade" />
+						<p:commandButton id="btnDelete" actionListener="#{solicitudPqrView.actionDeleteDataTableEditable}" title="Delete" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" icon="ui-icon-trash" update=":form:msg,:form:tabla" >
+							<f:attribute name="selectedSolicitudPqr" value="#{solicitudPqr}" />  
+						</p:commandButton>
+						
+					</p:column>	
+				
+				</p:dataTable>	
+					
+				
+			</p:panel>
+				
+	   </h:form>
+		 </f:view>
+			</ui:define>		
+		</ui:composition>	
+	
+	</h:body>	
+	
+</html>	
