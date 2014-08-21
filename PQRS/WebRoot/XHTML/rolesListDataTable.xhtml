@@ -1,0 +1,143 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableRoles" header="RolesData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{rolesView.data}" var="roles"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{roles.idRol}" sortBy="#{roles.idRol}" >
+										 <f:facet name="header">
+										<h:outputText value="idRol"/>
+										</f:facet>
+										 <h:outputText value="#{roles.idRol}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{roles.estadoRegistro}" sortBy="#{roles.estadoRegistro}" >
+										 <f:facet name="header">
+										<h:outputText value="EstadoRegistro"/>
+										</f:facet>
+										 <h:outputText value="#{roles.estadoRegistro}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{roles.fechaCreacion}" sortBy="#{roles.fechaCreacion}" >
+										 <f:facet name="header">
+										<h:outputText value="FechaCreacion"/>
+										</f:facet>
+										 <h:outputText value="#{roles.fechaCreacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{roles.fechaUltimaModificacion}" sortBy="#{roles.fechaUltimaModificacion}" >
+										 <f:facet name="header">
+										<h:outputText value="FechaUltimaModificacion"/>
+										</f:facet>
+										 <h:outputText value="#{roles.fechaUltimaModificacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{roles.nombreRol}" sortBy="#{roles.nombreRol}" >
+										 <f:facet name="header">
+										<h:outputText value="NombreRol"/>
+										</f:facet>
+										 <h:outputText value="#{roles.nombreRol}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{roles.usuarioCreador}" sortBy="#{roles.usuarioCreador}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuarioCreador"/>
+										</f:facet>
+										 <h:outputText value="#{roles.usuarioCreador}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{roles.usuarioUltimaModificacion}" sortBy="#{roles.usuarioUltimaModificacion}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuarioUltimaModificacion"/>
+										</f:facet>
+										 <h:outputText value="#{roles.usuarioUltimaModificacion}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogRoles"
+										actionListener="#{rolesView.action_edit}">
+										<f:attribute name="selectedRoles" value="#{roles}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{rolesView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedRoles" value="#{roles}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{rolesView.action_new()}" update=":dialogRoles" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogRoles" appendToBody="true" draggable="true"
+						closable="false" visible="#{rolesView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" showDetail="true"/>
+							<p:panel id="panelRoles" header="Roles">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgIdRol" value="IdRol"/>
+									 <p:inputText id="txtIdRol" binding="#{rolesView.txtIdRol}">
+									 <p:ajax update=":dialogRoles" listener="#{rolesView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgEstadoRegistro" value=" EstadoRegistro"/>
+									<p:inputText id="txtEstadoRegistro" disabled="true" binding="#{rolesView.txtEstadoRegistro}"/>
+																		<h:outputText id="msgNombreRol" value=" NombreRol"/>
+									<p:inputText id="txtNombreRol" disabled="true" binding="#{rolesView.txtNombreRol}"/>
+																		<h:outputText id="msgUsuarioCreador" value=" UsuarioCreador"/>
+									<p:inputText id="txtUsuarioCreador" disabled="true" binding="#{rolesView.txtUsuarioCreador}"/>
+																		<h:outputText id="msgUsuarioUltimaModificacion" value=" UsuarioUltimaModificacion"/>
+									<p:inputText id="txtUsuarioUltimaModificacion" disabled="true" binding="#{rolesView.txtUsuarioUltimaModificacion}"/>
+																		
+																													<h:outputText id="msgFechaCreacion" value=" FechaCreacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{rolesView.txtFechaCreacion}" >
+										<p:ajax event="dateSelect" listener="#{rolesView.listener_txtFechaCreacion}" />
+										</p:calendar>
+																				<h:outputText id="msgFechaUltimaModificacion" value=" FechaUltimaModificacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{rolesView.txtFechaUltimaModificacion}" >
+										<p:ajax event="dateSelect" listener="#{rolesView.listener_txtFechaUltimaModificacion}" />
+										</p:calendar>
+																										    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{rolesView.btnSave}" value="Save" action="#{rolesView.action_save()}" update=":dialogRoles :frm:panelDataTableRoles" />
+									<p:commandButton id="btnClear" value="Clear" action="#{rolesView.action_clear()}" update=":dialogRoles" />
+									<p:commandButton id="btnExit" value="Exit" action="#{rolesView.action_closeDialog()}" update=":dialogRoles" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

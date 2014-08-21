@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 20-ago-2014 23:05:44 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.tcbuen.pqrs.modelo.MotSolXTpSol" table="MOT_SOL_X_TP_SOL" schema="PQRS">
+        <id name="idMotSolXTpSol" type="java.lang.Long">
+            <column name="ID_MOT_SOL_X_TP_SOL" precision="10" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="tipoSolicitudPqr" class="com.tcbuen.pqrs.modelo.TipoSolicitudPqr" fetch="select">
+            <column name="ID_TP_SOL_PQR" precision="10" scale="0" not-null="true" />
+        </many-to-one>
+        <many-to-one name="motivoSolicitud" class="com.tcbuen.pqrs.modelo.MotivoSolicitud" fetch="select">
+            <column name="ID_MOT_SOL" precision="10" scale="0" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

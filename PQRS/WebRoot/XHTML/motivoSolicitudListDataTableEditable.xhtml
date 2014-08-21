@@ -1,0 +1,170 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+	    <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+			<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		 
+		 <h:form id="form">
+			
+			 
+			<p:panel id="msgProjectClientesTitle" header="MotivoSolicitudData">
+					<p:messages id="msg" showDetail="true"/>
+				<p:dataTable id ="tabla" value="#{motivoSolicitudView.data}" var="motivoSolicitud"
+					paginator="true" rows="5"  editable="true" >
+					 
+					 <p:ajax event ="rowEdit" update=":form:msg,:form:tabla" listener="#{motivoSolicitudView.rowEventListener}" />
+					
+															<p:column filterBy="#{motivoSolicitud.idMotSol}" sortBy="#{motivoSolicitud.idMotSol}" headerText="idMotSol">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{motivoSolicitud.idMotSol}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{motivoSolicitud.idMotSol}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+                    										
+											
+						<p:column filterBy="#{motivoSolicitud.descripcionMotSol}" sortBy="#{motivoSolicitud.descripcionMotSol}" 
+							headerText="descripcionMotSol">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{motivoSolicitud.descripcionMotSol}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{motivoSolicitud.descripcionMotSol}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{motivoSolicitud.estadoRegistro}" sortBy="#{motivoSolicitud.estadoRegistro}" 
+							headerText="estadoRegistro">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{motivoSolicitud.estadoRegistro}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{motivoSolicitud.estadoRegistro}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{motivoSolicitud.usuarioCreador}" sortBy="#{motivoSolicitud.usuarioCreador}" 
+							headerText="usuarioCreador">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{motivoSolicitud.usuarioCreador}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{motivoSolicitud.usuarioCreador}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{motivoSolicitud.usuarioUltimaModificacion}" sortBy="#{motivoSolicitud.usuarioUltimaModificacion}" 
+							headerText="usuarioUltimaModificacion">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{motivoSolicitud.usuarioUltimaModificacion}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{motivoSolicitud.usuarioUltimaModificacion}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+										
+										   						 
+						 <p:column filterBy="#{motivoSolicitud.fechaCreacion}" sortBy="#{motivoSolicitud.fechaCreacion}" 
+							headerText="fechaCreacion">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{motivoSolicitud.fechaCreacion}">
+									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
+									</h:outputText>		
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:calendar value="#{motivoSolicitud.fechaCreacion}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
+									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{motivoSolicitudView.timeZone}" />	
+								    </p:calendar>		
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+					   						 
+						 <p:column filterBy="#{motivoSolicitud.fechaUltimaModificacion}" sortBy="#{motivoSolicitud.fechaUltimaModificacion}" 
+							headerText="fechaUltimaModificacion">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{motivoSolicitud.fechaUltimaModificacion}">
+									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
+									</h:outputText>		
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:calendar value="#{motivoSolicitud.fechaUltimaModificacion}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
+									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{motivoSolicitudView.timeZone}" />	
+								    </p:calendar>		
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+					   											
+					<p:column headerText="Options" >
+						<p:rowEditor id="row"/>
+						<p:tooltip for="row" value="Edit" showEffect="fade" hideEffect="fade" />
+						<p:tooltip for="btnDelete" value="Delete" showEffect="fade" hideEffect="fade" />
+						<p:commandButton id="btnDelete" actionListener="#{motivoSolicitudView.actionDeleteDataTableEditable}" title="Delete" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" icon="ui-icon-trash" update=":form:msg,:form:tabla" >
+							<f:attribute name="selectedMotivoSolicitud" value="#{motivoSolicitud}" />  
+						</p:commandButton>
+						
+					</p:column>	
+				
+				</p:dataTable>	
+					
+				
+			</p:panel>
+				
+	   </h:form>
+		 </f:view>
+			</ui:define>		
+		</ui:composition>	
+	
+	</h:body>	
+	
+</html>	

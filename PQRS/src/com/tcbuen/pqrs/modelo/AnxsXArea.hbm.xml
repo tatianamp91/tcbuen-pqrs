@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 20-ago-2014 23:05:44 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.tcbuen.pqrs.modelo.AnxsXArea" table="ANXS_X_AREA" schema="PQRS">
+        <id name="idAnxXArea" type="java.lang.Long">
+            <column name="ID_ANX_X_AREA" precision="10" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="anexosPqr" class="com.tcbuen.pqrs.modelo.AnexosPqr" fetch="select">
+            <column name="ID_ANEXO_PQR" precision="10" scale="0" not-null="true" />
+        </many-to-one>
+        <many-to-one name="areasInvolucradas" class="com.tcbuen.pqrs.modelo.AreasInvolucradas" fetch="select">
+            <column name="ID_AREA_INVOLUCRADA" precision="10" scale="0" not-null="true" />
+        </many-to-one>
+        <property name="esObligatorio" type="java.lang.String">
+            <column name="ES_OBLIGATORIO" length="1" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 20-ago-2014 23:05:44 by Hibernate Tools 4.0.0 -->
+<hibernate-mapping>
+    <class name="com.tcbuen.pqrs.modelo.MotReclSelect" table="MOT_RECL_SELECT" schema="PQRS">
+        <id name="idMotReclSelect" type="java.lang.Long">
+            <column name="ID_MOT_RECL_SELECT" precision="10" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="motivoReclamacion" class="com.tcbuen.pqrs.modelo.MotivoReclamacion" fetch="select">
+            <column name="ID_MOT_RECL" precision="10" scale="0" not-null="true" />
+        </many-to-one>
+        <many-to-one name="solicitudPqr" class="com.tcbuen.pqrs.modelo.SolicitudPqr" fetch="select">
+            <column name="ID_SOL_PQR" precision="10" scale="0" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

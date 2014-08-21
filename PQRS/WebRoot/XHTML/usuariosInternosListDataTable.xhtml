@@ -1,0 +1,176 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableUsuariosInternos" header="UsuariosInternosData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{usuariosInternosView.data}" var="usuariosInternos"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{usuariosInternos.idUsuInterno}" sortBy="#{usuariosInternos.idUsuInterno}" >
+										 <f:facet name="header">
+										<h:outputText value="idUsuInterno"/>
+										</f:facet>
+										 <h:outputText value="#{usuariosInternos.idUsuInterno}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{usuariosInternos.apellidos}" sortBy="#{usuariosInternos.apellidos}" >
+										 <f:facet name="header">
+										<h:outputText value="Apellidos"/>
+										</f:facet>
+										 <h:outputText value="#{usuariosInternos.apellidos}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{usuariosInternos.contrasena}" sortBy="#{usuariosInternos.contrasena}" >
+										 <f:facet name="header">
+										<h:outputText value="Contrasena"/>
+										</f:facet>
+										 <h:outputText value="#{usuariosInternos.contrasena}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{usuariosInternos.correoElectronico}" sortBy="#{usuariosInternos.correoElectronico}" >
+										 <f:facet name="header">
+										<h:outputText value="CorreoElectronico"/>
+										</f:facet>
+										 <h:outputText value="#{usuariosInternos.correoElectronico}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{usuariosInternos.estadoRegistro}" sortBy="#{usuariosInternos.estadoRegistro}" >
+										 <f:facet name="header">
+										<h:outputText value="EstadoRegistro"/>
+										</f:facet>
+										 <h:outputText value="#{usuariosInternos.estadoRegistro}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{usuariosInternos.fechaCreacion}" sortBy="#{usuariosInternos.fechaCreacion}" >
+										 <f:facet name="header">
+										<h:outputText value="FechaCreacion"/>
+										</f:facet>
+										 <h:outputText value="#{usuariosInternos.fechaCreacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{usuariosInternos.login}" sortBy="#{usuariosInternos.login}" >
+										 <f:facet name="header">
+										<h:outputText value="Login"/>
+										</f:facet>
+										 <h:outputText value="#{usuariosInternos.login}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{usuariosInternos.nombres}" sortBy="#{usuariosInternos.nombres}" >
+										 <f:facet name="header">
+										<h:outputText value="Nombres"/>
+										</f:facet>
+										 <h:outputText value="#{usuariosInternos.nombres}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{usuariosInternos.numeroIdentificacion}" sortBy="#{usuariosInternos.numeroIdentificacion}" >
+										 <f:facet name="header">
+										<h:outputText value="NumeroIdentificacion"/>
+										</f:facet>
+										 <h:outputText value="#{usuariosInternos.numeroIdentificacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{usuariosInternos.idAreaInvolucrada_AreasInvolucradas}" sortBy="#{usuariosInternos.idAreaInvolucrada_AreasInvolucradas}" >
+										 <f:facet name="header">
+										<h:outputText value="IdAreaInvolucrada_AreasInvolucradas"/>
+										</f:facet>
+										 <h:outputText value="#{usuariosInternos.idAreaInvolucrada_AreasInvolucradas}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{usuariosInternos.idRol_Roles}" sortBy="#{usuariosInternos.idRol_Roles}" >
+										 <f:facet name="header">
+										<h:outputText value="IdRol_Roles"/>
+										</f:facet>
+										 <h:outputText value="#{usuariosInternos.idRol_Roles}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogUsuariosInternos"
+										actionListener="#{usuariosInternosView.action_edit}">
+										<f:attribute name="selectedUsuariosInternos" value="#{usuariosInternos}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{usuariosInternosView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedUsuariosInternos" value="#{usuariosInternos}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{usuariosInternosView.action_new()}" update=":dialogUsuariosInternos" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogUsuariosInternos" appendToBody="true" draggable="true"
+						closable="false" visible="#{usuariosInternosView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" showDetail="true"/>
+							<p:panel id="panelUsuariosInternos" header="UsuariosInternos">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgIdUsuInterno" value="IdUsuInterno"/>
+									 <p:inputText id="txtIdUsuInterno" binding="#{usuariosInternosView.txtIdUsuInterno}">
+									 <p:ajax update=":dialogUsuariosInternos" listener="#{usuariosInternosView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgApellidos" value=" Apellidos"/>
+									<p:inputText id="txtApellidos" disabled="true" binding="#{usuariosInternosView.txtApellidos}"/>
+																		<h:outputText id="msgContrasena" value=" Contrasena"/>
+									<p:inputText id="txtContrasena" disabled="true" binding="#{usuariosInternosView.txtContrasena}"/>
+																		<h:outputText id="msgCorreoElectronico" value=" CorreoElectronico"/>
+									<p:inputText id="txtCorreoElectronico" disabled="true" binding="#{usuariosInternosView.txtCorreoElectronico}"/>
+																		<h:outputText id="msgEstadoRegistro" value=" EstadoRegistro"/>
+									<p:inputText id="txtEstadoRegistro" disabled="true" binding="#{usuariosInternosView.txtEstadoRegistro}"/>
+																		<h:outputText id="msgLogin" value=" Login"/>
+									<p:inputText id="txtLogin" disabled="true" binding="#{usuariosInternosView.txtLogin}"/>
+																		<h:outputText id="msgNombres" value=" Nombres"/>
+									<p:inputText id="txtNombres" disabled="true" binding="#{usuariosInternosView.txtNombres}"/>
+																		<h:outputText id="msgNumeroIdentificacion" value=" NumeroIdentificacion"/>
+									<p:inputText id="txtNumeroIdentificacion" disabled="true" binding="#{usuariosInternosView.txtNumeroIdentificacion}"/>
+																		<h:outputText id="msgIdAreaInvolucrada_AreasInvolucradas" value=" IdAreaInvolucrada_AreasInvolucradas"/>
+									<p:inputText id="txtIdAreaInvolucrada_AreasInvolucradas" disabled="true" binding="#{usuariosInternosView.txtIdAreaInvolucrada_AreasInvolucradas}"/>
+																		<h:outputText id="msgIdRol_Roles" value=" IdRol_Roles"/>
+									<p:inputText id="txtIdRol_Roles" disabled="true" binding="#{usuariosInternosView.txtIdRol_Roles}"/>
+																		
+																													<h:outputText id="msgFechaCreacion" value=" FechaCreacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{usuariosInternosView.txtFechaCreacion}" >
+										<p:ajax event="dateSelect" listener="#{usuariosInternosView.listener_txtFechaCreacion}" />
+										</p:calendar>
+																										    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{usuariosInternosView.btnSave}" value="Save" action="#{usuariosInternosView.action_save()}" update=":dialogUsuariosInternos :frm:panelDataTableUsuariosInternos" />
+									<p:commandButton id="btnClear" value="Clear" action="#{usuariosInternosView.action_clear()}" update=":dialogUsuariosInternos" />
+									<p:commandButton id="btnExit" value="Exit" action="#{usuariosInternosView.action_closeDialog()}" update=":dialogUsuariosInternos" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

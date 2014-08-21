@@ -1,0 +1,76 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>		
+	
+	<h:body>
+		<ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		<ui:define name="body">	
+		<f:view>
+			<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>               
+			<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   				<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+			</p:dialog>
+			<h:form id="formDialog">
+				<p:messages id="msg" showDetail="true"/>
+				<p:growl id="men"/>
+					<p:panel id="panelAnexosSolicitante" header="AnexosSolicitante">							
+						<h:panelGrid columns="2" id="panelGrid" >
+												 	<h:outputText id="msgIdAnxSolicitante" value="IdAnxSolicitante"/>
+						 	<p:inputText id="txtIdAnxSolicitante" binding="#{anexosSolicitanteView.txtIdAnxSolicitante}">
+						 		<p:ajax update="panelAnexosSolicitante,msg,panelBotones" listener="#{anexosSolicitanteView.listener_txtId}"/>
+						 	</p:inputText>	
+																		
+													<h:outputText id="msgAdjuntoDocumento" value=" AdjuntoDocumento"/>
+							<p:inputText id="txtAdjuntoDocumento" disabled="true" binding="#{anexosSolicitanteView.txtAdjuntoDocumento}"/>
+													<h:outputText id="msgApruebaAnexo" value=" ApruebaAnexo"/>
+							<p:inputText id="txtApruebaAnexo" disabled="true" binding="#{anexosSolicitanteView.txtApruebaAnexo}"/>
+													<h:outputText id="msgDocumentoReal" value=" DocumentoReal"/>
+							<p:inputText id="txtDocumentoReal" disabled="true" binding="#{anexosSolicitanteView.txtDocumentoReal}"/>
+													<h:outputText id="msgEstadoRegistro" value=" EstadoRegistro"/>
+							<p:inputText id="txtEstadoRegistro" disabled="true" binding="#{anexosSolicitanteView.txtEstadoRegistro}"/>
+													<h:outputText id="msgNombreAnexo" value=" NombreAnexo"/>
+							<p:inputText id="txtNombreAnexo" disabled="true" binding="#{anexosSolicitanteView.txtNombreAnexo}"/>
+													<h:outputText id="msgNombreBusqueda" value=" NombreBusqueda"/>
+							<p:inputText id="txtNombreBusqueda" disabled="true" binding="#{anexosSolicitanteView.txtNombreBusqueda}"/>
+													<h:outputText id="msgRazonRechazo" value=" RazonRechazo"/>
+							<p:inputText id="txtRazonRechazo" disabled="true" binding="#{anexosSolicitanteView.txtRazonRechazo}"/>
+													<h:outputText id="msgUsuarioCreador" value=" UsuarioCreador"/>
+							<p:inputText id="txtUsuarioCreador" disabled="true" binding="#{anexosSolicitanteView.txtUsuarioCreador}"/>
+													<h:outputText id="msgUsuarioUltimaModificacion" value=" UsuarioUltimaModificacion"/>
+							<p:inputText id="txtUsuarioUltimaModificacion" disabled="true" binding="#{anexosSolicitanteView.txtUsuarioUltimaModificacion}"/>
+													<h:outputText id="msgIdAnexoPqr_AnexosPqr" value=" IdAnexoPqr_AnexosPqr"/>
+							<p:inputText id="txtIdAnexoPqr_AnexosPqr" disabled="true" binding="#{anexosSolicitanteView.txtIdAnexoPqr_AnexosPqr}"/>
+													<h:outputText id="msgIdSolPqr_SolicitudPqr" value=" IdSolPqr_SolicitudPqr"/>
+							<p:inputText id="txtIdSolPqr_SolicitudPqr" disabled="true" binding="#{anexosSolicitanteView.txtIdSolPqr_SolicitudPqr}"/>
+												
+																				<h:outputText id="msgFechaCreacion" value=" FechaCreacion"/>
+														<p:calendar showOn="button" navigator="true" locale="en" 
+							binding="#{anexosSolicitanteView.txtFechaCreacion}" >
+								<p:ajax event="dateSelect" listener="#{anexosSolicitanteView.listener_txtFechaCreacion}"  />
+							</p:calendar>
+														<h:outputText id="msgFechaUltimaModificacion" value=" FechaUltimaModificacion"/>
+														<p:calendar showOn="button" navigator="true" locale="en" 
+							binding="#{anexosSolicitanteView.txtFechaUltimaModificacion}" >
+								<p:ajax event="dateSelect" listener="#{anexosSolicitanteView.listener_txtFechaUltimaModificacion}"  />
+							</p:calendar>
+																	   </h:panelGrid>
+				</p:panel>
+	   			<p:panel id="panelBotones">
+					<div align="center">					
+						<p:commandButton id="btnSave" binding="#{anexosSolicitanteView.btnSave}" disabled="true" value="Save" action="#{anexosSolicitanteView.action_save()}" update="panelAnexosSolicitante,msg,panelBotones" />
+						<p:commandButton id="btnDelete" binding="#{anexosSolicitanteView.btnDelete}" disabled="true" value="Delete" action="#{anexosSolicitanteView.action_delete_master()}" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" update="panelAnexosSolicitante,msg,panelBotones" />
+						<p:commandButton id="btnClear" value="Clear" action="#{anexosSolicitanteView.action_clear()}" update="panelAnexosSolicitante,msg,panelBotones" />
+					</div>
+				</p:panel>			
+			</h:form>
+		</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

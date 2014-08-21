@@ -1,0 +1,197 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableSolicitudPqr" header="SolicitudPqrData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{solicitudPqrView.data}" var="solicitudPqr"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{solicitudPqr.idSolPqr}" sortBy="#{solicitudPqr.idSolPqr}" >
+										 <f:facet name="header">
+										<h:outputText value="idSolPqr"/>
+										</f:facet>
+										 <h:outputText value="#{solicitudPqr.idSolPqr}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{solicitudPqr.descripcionCaso}" sortBy="#{solicitudPqr.descripcionCaso}" >
+										 <f:facet name="header">
+										<h:outputText value="DescripcionCaso"/>
+										</f:facet>
+										 <h:outputText value="#{solicitudPqr.descripcionCaso}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{solicitudPqr.fechaCreacion}" sortBy="#{solicitudPqr.fechaCreacion}" >
+										 <f:facet name="header">
+										<h:outputText value="FechaCreacion"/>
+										</f:facet>
+										 <h:outputText value="#{solicitudPqr.fechaCreacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{solicitudPqr.fechaUltimaModificacion}" sortBy="#{solicitudPqr.fechaUltimaModificacion}" >
+										 <f:facet name="header">
+										<h:outputText value="FechaUltimaModificacion"/>
+										</f:facet>
+										 <h:outputText value="#{solicitudPqr.fechaUltimaModificacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{solicitudPqr.nombreAgenciaAduana}" sortBy="#{solicitudPqr.nombreAgenciaAduana}" >
+										 <f:facet name="header">
+										<h:outputText value="NombreAgenciaAduana"/>
+										</f:facet>
+										 <h:outputText value="#{solicitudPqr.nombreAgenciaAduana}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{solicitudPqr.nombreCliente}" sortBy="#{solicitudPqr.nombreCliente}" >
+										 <f:facet name="header">
+										<h:outputText value="NombreCliente"/>
+										</f:facet>
+										 <h:outputText value="#{solicitudPqr.nombreCliente}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{solicitudPqr.numeroRadicacion}" sortBy="#{solicitudPqr.numeroRadicacion}" >
+										 <f:facet name="header">
+										<h:outputText value="NumeroRadicacion"/>
+										</f:facet>
+										 <h:outputText value="#{solicitudPqr.numeroRadicacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{solicitudPqr.solicitudARealizar}" sortBy="#{solicitudPqr.solicitudARealizar}" >
+										 <f:facet name="header">
+										<h:outputText value="SolicitudARealizar"/>
+										</f:facet>
+										 <h:outputText value="#{solicitudPqr.solicitudARealizar}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{solicitudPqr.usuarioCreador}" sortBy="#{solicitudPqr.usuarioCreador}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuarioCreador"/>
+										</f:facet>
+										 <h:outputText value="#{solicitudPqr.usuarioCreador}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{solicitudPqr.usuarioUltimaModificacion}" sortBy="#{solicitudPqr.usuarioUltimaModificacion}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuarioUltimaModificacion"/>
+										</f:facet>
+										 <h:outputText value="#{solicitudPqr.usuarioUltimaModificacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{solicitudPqr.idInfoSolicitante_InfoSolicitante}" sortBy="#{solicitudPqr.idInfoSolicitante_InfoSolicitante}" >
+										 <f:facet name="header">
+										<h:outputText value="IdInfoSolicitante_InfoSolicitante"/>
+										</f:facet>
+										 <h:outputText value="#{solicitudPqr.idInfoSolicitante_InfoSolicitante}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{solicitudPqr.idTpEstPqr_TipoEstadoPqr}" sortBy="#{solicitudPqr.idTpEstPqr_TipoEstadoPqr}" >
+										 <f:facet name="header">
+										<h:outputText value="IdTpEstPqr_TipoEstadoPqr"/>
+										</f:facet>
+										 <h:outputText value="#{solicitudPqr.idTpEstPqr_TipoEstadoPqr}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{solicitudPqr.idTpSolPqr_TipoSolicitudPqr}" sortBy="#{solicitudPqr.idTpSolPqr_TipoSolicitudPqr}" >
+										 <f:facet name="header">
+										<h:outputText value="IdTpSolPqr_TipoSolicitudPqr"/>
+										</f:facet>
+										 <h:outputText value="#{solicitudPqr.idTpSolPqr_TipoSolicitudPqr}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogSolicitudPqr"
+										actionListener="#{solicitudPqrView.action_edit}">
+										<f:attribute name="selectedSolicitudPqr" value="#{solicitudPqr}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{solicitudPqrView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedSolicitudPqr" value="#{solicitudPqr}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{solicitudPqrView.action_new()}" update=":dialogSolicitudPqr" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogSolicitudPqr" appendToBody="true" draggable="true"
+						closable="false" visible="#{solicitudPqrView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" showDetail="true"/>
+							<p:panel id="panelSolicitudPqr" header="SolicitudPqr">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgIdSolPqr" value="IdSolPqr"/>
+									 <p:inputText id="txtIdSolPqr" binding="#{solicitudPqrView.txtIdSolPqr}">
+									 <p:ajax update=":dialogSolicitudPqr" listener="#{solicitudPqrView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgDescripcionCaso" value=" DescripcionCaso"/>
+									<p:inputText id="txtDescripcionCaso" disabled="true" binding="#{solicitudPqrView.txtDescripcionCaso}"/>
+																		<h:outputText id="msgNombreAgenciaAduana" value=" NombreAgenciaAduana"/>
+									<p:inputText id="txtNombreAgenciaAduana" disabled="true" binding="#{solicitudPqrView.txtNombreAgenciaAduana}"/>
+																		<h:outputText id="msgNombreCliente" value=" NombreCliente"/>
+									<p:inputText id="txtNombreCliente" disabled="true" binding="#{solicitudPqrView.txtNombreCliente}"/>
+																		<h:outputText id="msgNumeroRadicacion" value=" NumeroRadicacion"/>
+									<p:inputText id="txtNumeroRadicacion" disabled="true" binding="#{solicitudPqrView.txtNumeroRadicacion}"/>
+																		<h:outputText id="msgSolicitudARealizar" value=" SolicitudARealizar"/>
+									<p:inputText id="txtSolicitudARealizar" disabled="true" binding="#{solicitudPqrView.txtSolicitudARealizar}"/>
+																		<h:outputText id="msgUsuarioCreador" value=" UsuarioCreador"/>
+									<p:inputText id="txtUsuarioCreador" disabled="true" binding="#{solicitudPqrView.txtUsuarioCreador}"/>
+																		<h:outputText id="msgUsuarioUltimaModificacion" value=" UsuarioUltimaModificacion"/>
+									<p:inputText id="txtUsuarioUltimaModificacion" disabled="true" binding="#{solicitudPqrView.txtUsuarioUltimaModificacion}"/>
+																		<h:outputText id="msgIdInfoSolicitante_InfoSolicitante" value=" IdInfoSolicitante_InfoSolicitante"/>
+									<p:inputText id="txtIdInfoSolicitante_InfoSolicitante" disabled="true" binding="#{solicitudPqrView.txtIdInfoSolicitante_InfoSolicitante}"/>
+																		<h:outputText id="msgIdTpEstPqr_TipoEstadoPqr" value=" IdTpEstPqr_TipoEstadoPqr"/>
+									<p:inputText id="txtIdTpEstPqr_TipoEstadoPqr" disabled="true" binding="#{solicitudPqrView.txtIdTpEstPqr_TipoEstadoPqr}"/>
+																		<h:outputText id="msgIdTpSolPqr_TipoSolicitudPqr" value=" IdTpSolPqr_TipoSolicitudPqr"/>
+									<p:inputText id="txtIdTpSolPqr_TipoSolicitudPqr" disabled="true" binding="#{solicitudPqrView.txtIdTpSolPqr_TipoSolicitudPqr}"/>
+																		
+																													<h:outputText id="msgFechaCreacion" value=" FechaCreacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{solicitudPqrView.txtFechaCreacion}" >
+										<p:ajax event="dateSelect" listener="#{solicitudPqrView.listener_txtFechaCreacion}" />
+										</p:calendar>
+																				<h:outputText id="msgFechaUltimaModificacion" value=" FechaUltimaModificacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{solicitudPqrView.txtFechaUltimaModificacion}" >
+										<p:ajax event="dateSelect" listener="#{solicitudPqrView.listener_txtFechaUltimaModificacion}" />
+										</p:calendar>
+																										    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{solicitudPqrView.btnSave}" value="Save" action="#{solicitudPqrView.action_save()}" update=":dialogSolicitudPqr :frm:panelDataTableSolicitudPqr" />
+									<p:commandButton id="btnClear" value="Clear" action="#{solicitudPqrView.action_clear()}" update=":dialogSolicitudPqr" />
+									<p:commandButton id="btnExit" value="Exit" action="#{solicitudPqrView.action_closeDialog()}" update=":dialogSolicitudPqr" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

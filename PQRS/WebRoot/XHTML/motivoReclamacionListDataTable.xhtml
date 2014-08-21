@@ -1,0 +1,143 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableMotivoReclamacion" header="MotivoReclamacionData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{motivoReclamacionView.data}" var="motivoReclamacion"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{motivoReclamacion.idMotRecl}" sortBy="#{motivoReclamacion.idMotRecl}" >
+										 <f:facet name="header">
+										<h:outputText value="idMotRecl"/>
+										</f:facet>
+										 <h:outputText value="#{motivoReclamacion.idMotRecl}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{motivoReclamacion.descripcionMotRecl}" sortBy="#{motivoReclamacion.descripcionMotRecl}" >
+										 <f:facet name="header">
+										<h:outputText value="DescripcionMotRecl"/>
+										</f:facet>
+										 <h:outputText value="#{motivoReclamacion.descripcionMotRecl}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{motivoReclamacion.estadoRegistro}" sortBy="#{motivoReclamacion.estadoRegistro}" >
+										 <f:facet name="header">
+										<h:outputText value="EstadoRegistro"/>
+										</f:facet>
+										 <h:outputText value="#{motivoReclamacion.estadoRegistro}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{motivoReclamacion.fechaCreacion}" sortBy="#{motivoReclamacion.fechaCreacion}" >
+										 <f:facet name="header">
+										<h:outputText value="FechaCreacion"/>
+										</f:facet>
+										 <h:outputText value="#{motivoReclamacion.fechaCreacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{motivoReclamacion.fechaUltimaModificacion}" sortBy="#{motivoReclamacion.fechaUltimaModificacion}" >
+										 <f:facet name="header">
+										<h:outputText value="FechaUltimaModificacion"/>
+										</f:facet>
+										 <h:outputText value="#{motivoReclamacion.fechaUltimaModificacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{motivoReclamacion.usuarioCreador}" sortBy="#{motivoReclamacion.usuarioCreador}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuarioCreador"/>
+										</f:facet>
+										 <h:outputText value="#{motivoReclamacion.usuarioCreador}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{motivoReclamacion.usuarioUltimaModificacion}" sortBy="#{motivoReclamacion.usuarioUltimaModificacion}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuarioUltimaModificacion"/>
+										</f:facet>
+										 <h:outputText value="#{motivoReclamacion.usuarioUltimaModificacion}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogMotivoReclamacion"
+										actionListener="#{motivoReclamacionView.action_edit}">
+										<f:attribute name="selectedMotivoReclamacion" value="#{motivoReclamacion}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{motivoReclamacionView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedMotivoReclamacion" value="#{motivoReclamacion}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{motivoReclamacionView.action_new()}" update=":dialogMotivoReclamacion" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogMotivoReclamacion" appendToBody="true" draggable="true"
+						closable="false" visible="#{motivoReclamacionView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" showDetail="true"/>
+							<p:panel id="panelMotivoReclamacion" header="MotivoReclamacion">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgIdMotRecl" value="IdMotRecl"/>
+									 <p:inputText id="txtIdMotRecl" binding="#{motivoReclamacionView.txtIdMotRecl}">
+									 <p:ajax update=":dialogMotivoReclamacion" listener="#{motivoReclamacionView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgDescripcionMotRecl" value=" DescripcionMotRecl"/>
+									<p:inputText id="txtDescripcionMotRecl" disabled="true" binding="#{motivoReclamacionView.txtDescripcionMotRecl}"/>
+																		<h:outputText id="msgEstadoRegistro" value=" EstadoRegistro"/>
+									<p:inputText id="txtEstadoRegistro" disabled="true" binding="#{motivoReclamacionView.txtEstadoRegistro}"/>
+																		<h:outputText id="msgUsuarioCreador" value=" UsuarioCreador"/>
+									<p:inputText id="txtUsuarioCreador" disabled="true" binding="#{motivoReclamacionView.txtUsuarioCreador}"/>
+																		<h:outputText id="msgUsuarioUltimaModificacion" value=" UsuarioUltimaModificacion"/>
+									<p:inputText id="txtUsuarioUltimaModificacion" disabled="true" binding="#{motivoReclamacionView.txtUsuarioUltimaModificacion}"/>
+																		
+																													<h:outputText id="msgFechaCreacion" value=" FechaCreacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{motivoReclamacionView.txtFechaCreacion}" >
+										<p:ajax event="dateSelect" listener="#{motivoReclamacionView.listener_txtFechaCreacion}" />
+										</p:calendar>
+																				<h:outputText id="msgFechaUltimaModificacion" value=" FechaUltimaModificacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{motivoReclamacionView.txtFechaUltimaModificacion}" >
+										<p:ajax event="dateSelect" listener="#{motivoReclamacionView.listener_txtFechaUltimaModificacion}" />
+										</p:calendar>
+																										    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{motivoReclamacionView.btnSave}" value="Save" action="#{motivoReclamacionView.action_save()}" update=":dialogMotivoReclamacion :frm:panelDataTableMotivoReclamacion" />
+									<p:commandButton id="btnClear" value="Clear" action="#{motivoReclamacionView.action_clear()}" update=":dialogMotivoReclamacion" />
+									<p:commandButton id="btnExit" value="Exit" action="#{motivoReclamacionView.action_closeDialog()}" update=":dialogMotivoReclamacion" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

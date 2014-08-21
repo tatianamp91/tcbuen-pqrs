@@ -1,0 +1,143 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableTipoEstadoPqr" header="TipoEstadoPqrData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{tipoEstadoPqrView.data}" var="tipoEstadoPqr"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{tipoEstadoPqr.idTpEstPqr}" sortBy="#{tipoEstadoPqr.idTpEstPqr}" >
+										 <f:facet name="header">
+										<h:outputText value="idTpEstPqr"/>
+										</f:facet>
+										 <h:outputText value="#{tipoEstadoPqr.idTpEstPqr}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{tipoEstadoPqr.descripcionEstado}" sortBy="#{tipoEstadoPqr.descripcionEstado}" >
+										 <f:facet name="header">
+										<h:outputText value="DescripcionEstado"/>
+										</f:facet>
+										 <h:outputText value="#{tipoEstadoPqr.descripcionEstado}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipoEstadoPqr.estadoRegistro}" sortBy="#{tipoEstadoPqr.estadoRegistro}" >
+										 <f:facet name="header">
+										<h:outputText value="EstadoRegistro"/>
+										</f:facet>
+										 <h:outputText value="#{tipoEstadoPqr.estadoRegistro}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipoEstadoPqr.fechaCreacion}" sortBy="#{tipoEstadoPqr.fechaCreacion}" >
+										 <f:facet name="header">
+										<h:outputText value="FechaCreacion"/>
+										</f:facet>
+										 <h:outputText value="#{tipoEstadoPqr.fechaCreacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipoEstadoPqr.fechaUltimaModificacion}" sortBy="#{tipoEstadoPqr.fechaUltimaModificacion}" >
+										 <f:facet name="header">
+										<h:outputText value="FechaUltimaModificacion"/>
+										</f:facet>
+										 <h:outputText value="#{tipoEstadoPqr.fechaUltimaModificacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipoEstadoPqr.usuarioCreador}" sortBy="#{tipoEstadoPqr.usuarioCreador}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuarioCreador"/>
+										</f:facet>
+										 <h:outputText value="#{tipoEstadoPqr.usuarioCreador}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipoEstadoPqr.usuarioUltimaModificacion}" sortBy="#{tipoEstadoPqr.usuarioUltimaModificacion}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuarioUltimaModificacion"/>
+										</f:facet>
+										 <h:outputText value="#{tipoEstadoPqr.usuarioUltimaModificacion}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogTipoEstadoPqr"
+										actionListener="#{tipoEstadoPqrView.action_edit}">
+										<f:attribute name="selectedTipoEstadoPqr" value="#{tipoEstadoPqr}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{tipoEstadoPqrView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedTipoEstadoPqr" value="#{tipoEstadoPqr}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{tipoEstadoPqrView.action_new()}" update=":dialogTipoEstadoPqr" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogTipoEstadoPqr" appendToBody="true" draggable="true"
+						closable="false" visible="#{tipoEstadoPqrView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" showDetail="true"/>
+							<p:panel id="panelTipoEstadoPqr" header="TipoEstadoPqr">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgIdTpEstPqr" value="IdTpEstPqr"/>
+									 <p:inputText id="txtIdTpEstPqr" binding="#{tipoEstadoPqrView.txtIdTpEstPqr}">
+									 <p:ajax update=":dialogTipoEstadoPqr" listener="#{tipoEstadoPqrView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgDescripcionEstado" value=" DescripcionEstado"/>
+									<p:inputText id="txtDescripcionEstado" disabled="true" binding="#{tipoEstadoPqrView.txtDescripcionEstado}"/>
+																		<h:outputText id="msgEstadoRegistro" value=" EstadoRegistro"/>
+									<p:inputText id="txtEstadoRegistro" disabled="true" binding="#{tipoEstadoPqrView.txtEstadoRegistro}"/>
+																		<h:outputText id="msgUsuarioCreador" value=" UsuarioCreador"/>
+									<p:inputText id="txtUsuarioCreador" disabled="true" binding="#{tipoEstadoPqrView.txtUsuarioCreador}"/>
+																		<h:outputText id="msgUsuarioUltimaModificacion" value=" UsuarioUltimaModificacion"/>
+									<p:inputText id="txtUsuarioUltimaModificacion" disabled="true" binding="#{tipoEstadoPqrView.txtUsuarioUltimaModificacion}"/>
+																		
+																													<h:outputText id="msgFechaCreacion" value=" FechaCreacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{tipoEstadoPqrView.txtFechaCreacion}" >
+										<p:ajax event="dateSelect" listener="#{tipoEstadoPqrView.listener_txtFechaCreacion}" />
+										</p:calendar>
+																				<h:outputText id="msgFechaUltimaModificacion" value=" FechaUltimaModificacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{tipoEstadoPqrView.txtFechaUltimaModificacion}" >
+										<p:ajax event="dateSelect" listener="#{tipoEstadoPqrView.listener_txtFechaUltimaModificacion}" />
+										</p:calendar>
+																										    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{tipoEstadoPqrView.btnSave}" value="Save" action="#{tipoEstadoPqrView.action_save()}" update=":dialogTipoEstadoPqr :frm:panelDataTableTipoEstadoPqr" />
+									<p:commandButton id="btnClear" value="Clear" action="#{tipoEstadoPqrView.action_clear()}" update=":dialogTipoEstadoPqr" />
+									<p:commandButton id="btnExit" value="Exit" action="#{tipoEstadoPqrView.action_closeDialog()}" update=":dialogTipoEstadoPqr" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

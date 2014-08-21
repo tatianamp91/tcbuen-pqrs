@@ -1,0 +1,143 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+		  <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+					<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		  			<h:form id="frm">								  		
+						
+						<p:panel id="panelDataTableTipoDocumento" header="TipoDocumentoData">
+							<p:growl id="men"/>				
+							<p:dataTable value="#{tipoDocumentoView.data}" var="tipoDocumento"
+								paginator="true" rows="5">
+																										<p:column filterBy="#{tipoDocumento.idTpDoc}" sortBy="#{tipoDocumento.idTpDoc}" >
+										 <f:facet name="header">
+										<h:outputText value="idTpDoc"/>
+										</f:facet>
+										 <h:outputText value="#{tipoDocumento.idTpDoc}"/>
+										 </p:column>
+			                    																									
+										<p:column filterBy="#{tipoDocumento.descripcionTpDoc}" sortBy="#{tipoDocumento.descripcionTpDoc}" >
+										 <f:facet name="header">
+										<h:outputText value="DescripcionTpDoc"/>
+										</f:facet>
+										 <h:outputText value="#{tipoDocumento.descripcionTpDoc}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipoDocumento.estadoRegistro}" sortBy="#{tipoDocumento.estadoRegistro}" >
+										 <f:facet name="header">
+										<h:outputText value="EstadoRegistro"/>
+										</f:facet>
+										 <h:outputText value="#{tipoDocumento.estadoRegistro}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipoDocumento.fechaCreacion}" sortBy="#{tipoDocumento.fechaCreacion}" >
+										 <f:facet name="header">
+										<h:outputText value="FechaCreacion"/>
+										</f:facet>
+										 <h:outputText value="#{tipoDocumento.fechaCreacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipoDocumento.fechaUltimaModificacion}" sortBy="#{tipoDocumento.fechaUltimaModificacion}" >
+										 <f:facet name="header">
+										<h:outputText value="FechaUltimaModificacion"/>
+										</f:facet>
+										 <h:outputText value="#{tipoDocumento.fechaUltimaModificacion}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipoDocumento.usuarioCreador}" sortBy="#{tipoDocumento.usuarioCreador}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuarioCreador"/>
+										</f:facet>
+										 <h:outputText value="#{tipoDocumento.usuarioCreador}"/>
+										</p:column>   
+			                    									
+										<p:column filterBy="#{tipoDocumento.usuarioUltimaModificacion}" sortBy="#{tipoDocumento.usuarioUltimaModificacion}" >
+										 <f:facet name="header">
+										<h:outputText value="UsuarioUltimaModificacion"/>
+										</f:facet>
+										 <h:outputText value="#{tipoDocumento.usuarioUltimaModificacion}"/>
+										</p:column>   
+			                    			                    
+								<p:column headerText="Options">
+									<p:commandButton id="btnEdit" icon="ui-icon-pencil"
+										update=":dialogTipoDocumento"
+										actionListener="#{tipoDocumentoView.action_edit}">
+										<f:attribute name="selectedTipoDocumento" value="#{tipoDocumento}" />
+									</p:commandButton>
+									<p:commandButton id="btnDelete"									
+										title="Delete" actionListener="#{tipoDocumentoView.action_delete_datatable}"
+										onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}"
+										icon="ui-icon-trash" update="@form">
+										<f:attribute name="selectedTipoDocumento" value="#{tipoDocumento}" />
+									</p:commandButton>
+								</p:column>									                    
+							</p:dataTable>	
+						</p:panel>
+						<p:panel id="panelBoton">
+							<div align="center">
+								<p:commandButton id="btnNew" value="New"
+									action="#{tipoDocumentoView.action_new()}" update=":dialogTipoDocumento" />
+							</div>
+						</p:panel>						
+		   			</h:form>
+					<p:dialog id="dialogTipoDocumento" appendToBody="true" draggable="true"
+						closable="false" visible="#{tipoDocumentoView.showDialog}" resizable="false"
+						modal="true" width="500">
+						<h:form id="formDialog">
+							<p:messages id="msg" showDetail="true"/>
+							<p:panel id="panelTipoDocumento" header="TipoDocumento">							
+							    <h:panelGrid columns="2" id="panelGrid" >
+																		 <h:outputText id="msgIdTpDoc" value="IdTpDoc"/>
+									 <p:inputText id="txtIdTpDoc" binding="#{tipoDocumentoView.txtIdTpDoc}">
+									 <p:ajax update=":dialogTipoDocumento" listener="#{tipoDocumentoView.listener_txtId}"/>
+									 </p:inputText>	
+																											
+																		<h:outputText id="msgDescripcionTpDoc" value=" DescripcionTpDoc"/>
+									<p:inputText id="txtDescripcionTpDoc" disabled="true" binding="#{tipoDocumentoView.txtDescripcionTpDoc}"/>
+																		<h:outputText id="msgEstadoRegistro" value=" EstadoRegistro"/>
+									<p:inputText id="txtEstadoRegistro" disabled="true" binding="#{tipoDocumentoView.txtEstadoRegistro}"/>
+																		<h:outputText id="msgUsuarioCreador" value=" UsuarioCreador"/>
+									<p:inputText id="txtUsuarioCreador" disabled="true" binding="#{tipoDocumentoView.txtUsuarioCreador}"/>
+																		<h:outputText id="msgUsuarioUltimaModificacion" value=" UsuarioUltimaModificacion"/>
+									<p:inputText id="txtUsuarioUltimaModificacion" disabled="true" binding="#{tipoDocumentoView.txtUsuarioUltimaModificacion}"/>
+																		
+																													<h:outputText id="msgFechaCreacion" value=" FechaCreacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{tipoDocumentoView.txtFechaCreacion}" >
+										<p:ajax event="dateSelect" listener="#{tipoDocumentoView.listener_txtFechaCreacion}" />
+										</p:calendar>
+																				<h:outputText id="msgFechaUltimaModificacion" value=" FechaUltimaModificacion"/>
+																				<p:calendar showOn="button" navigator="true" locale="en" 
+										binding="#{tipoDocumentoView.txtFechaUltimaModificacion}" >
+										<p:ajax event="dateSelect" listener="#{tipoDocumentoView.listener_txtFechaUltimaModificacion}" />
+										</p:calendar>
+																										    </h:panelGrid>
+							</p:panel>						   
+							<p:panel id="panelBotones">
+								<div align="center">					
+									<p:commandButton id="btnSave" binding="#{tipoDocumentoView.btnSave}" value="Save" action="#{tipoDocumentoView.action_save()}" update=":dialogTipoDocumento :frm:panelDataTableTipoDocumento" />
+									<p:commandButton id="btnClear" value="Clear" action="#{tipoDocumentoView.action_clear()}" update=":dialogTipoDocumento" />
+									<p:commandButton id="btnExit" value="Exit" action="#{tipoDocumentoView.action_closeDialog()}" update=":dialogTipoDocumento" />
+								</div>
+							</p:panel>					
+						</h:form>
+					</p:dialog>
+				</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

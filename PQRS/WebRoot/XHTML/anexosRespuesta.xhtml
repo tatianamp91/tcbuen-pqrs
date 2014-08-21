@@ -1,0 +1,65 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>		
+	
+	<h:body>
+		<ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		<ui:define name="body">	
+		<f:view>
+			<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>               
+			<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   				<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+			</p:dialog>
+			<h:form id="formDialog">
+				<p:messages id="msg" showDetail="true"/>
+				<p:growl id="men"/>
+					<p:panel id="panelAnexosRespuesta" header="AnexosRespuesta">							
+						<h:panelGrid columns="2" id="panelGrid" >
+												 	<h:outputText id="msgIdAnxResp" value="IdAnxResp"/>
+						 	<p:inputText id="txtIdAnxResp" binding="#{anexosRespuestaView.txtIdAnxResp}">
+						 		<p:ajax update="panelAnexosRespuesta,msg,panelBotones" listener="#{anexosRespuestaView.listener_txtId}"/>
+						 	</p:inputText>	
+																		
+													<h:outputText id="msgAdjuntoDocumento" value=" AdjuntoDocumento"/>
+							<p:inputText id="txtAdjuntoDocumento" disabled="true" binding="#{anexosRespuestaView.txtAdjuntoDocumento}"/>
+													<h:outputText id="msgDocumentoReal" value=" DocumentoReal"/>
+							<p:inputText id="txtDocumentoReal" disabled="true" binding="#{anexosRespuestaView.txtDocumentoReal}"/>
+													<h:outputText id="msgEstadoRegistro" value=" EstadoRegistro"/>
+							<p:inputText id="txtEstadoRegistro" disabled="true" binding="#{anexosRespuestaView.txtEstadoRegistro}"/>
+													<h:outputText id="msgNombreAnexo" value=" NombreAnexo"/>
+							<p:inputText id="txtNombreAnexo" disabled="true" binding="#{anexosRespuestaView.txtNombreAnexo}"/>
+													<h:outputText id="msgNombreBusqueda" value=" NombreBusqueda"/>
+							<p:inputText id="txtNombreBusqueda" disabled="true" binding="#{anexosRespuestaView.txtNombreBusqueda}"/>
+													<h:outputText id="msgUsuarioCreador" value=" UsuarioCreador"/>
+							<p:inputText id="txtUsuarioCreador" disabled="true" binding="#{anexosRespuestaView.txtUsuarioCreador}"/>
+													<h:outputText id="msgIdAnexoPqr_AnexosPqr" value=" IdAnexoPqr_AnexosPqr"/>
+							<p:inputText id="txtIdAnexoPqr_AnexosPqr" disabled="true" binding="#{anexosRespuestaView.txtIdAnexoPqr_AnexosPqr}"/>
+													<h:outputText id="msgIdRespSol_RespuestaSol" value=" IdRespSol_RespuestaSol"/>
+							<p:inputText id="txtIdRespSol_RespuestaSol" disabled="true" binding="#{anexosRespuestaView.txtIdRespSol_RespuestaSol}"/>
+												
+																				<h:outputText id="msgFechaCreacion" value=" FechaCreacion"/>
+														<p:calendar showOn="button" navigator="true" locale="en" 
+							binding="#{anexosRespuestaView.txtFechaCreacion}" >
+								<p:ajax event="dateSelect" listener="#{anexosRespuestaView.listener_txtFechaCreacion}"  />
+							</p:calendar>
+																	   </h:panelGrid>
+				</p:panel>
+	   			<p:panel id="panelBotones">
+					<div align="center">					
+						<p:commandButton id="btnSave" binding="#{anexosRespuestaView.btnSave}" disabled="true" value="Save" action="#{anexosRespuestaView.action_save()}" update="panelAnexosRespuesta,msg,panelBotones" />
+						<p:commandButton id="btnDelete" binding="#{anexosRespuestaView.btnDelete}" disabled="true" value="Delete" action="#{anexosRespuestaView.action_delete_master()}" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" update="panelAnexosRespuesta,msg,panelBotones" />
+						<p:commandButton id="btnClear" value="Clear" action="#{anexosRespuestaView.action_clear()}" update="panelAnexosRespuesta,msg,panelBotones" />
+					</div>
+				</p:panel>			
+			</h:form>
+		</f:view>
+			</ui:define>		
+		</ui:composition>	
+	</h:body>	
+</html>	

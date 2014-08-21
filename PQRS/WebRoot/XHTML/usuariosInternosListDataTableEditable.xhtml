@@ -1,0 +1,230 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	</h:head>
+
+	<h:body>
+	    <ui:composition template="/WEB-INF/facelets/template.xhtml">	
+		 
+		 	<ui:define name="body">	
+				<f:view>
+			<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>               
+					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
+   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
+					</p:dialog>
+		 
+		 <h:form id="form">
+			
+			 
+			<p:panel id="msgProjectClientesTitle" header="UsuariosInternosData">
+					<p:messages id="msg" showDetail="true"/>
+				<p:dataTable id ="tabla" value="#{usuariosInternosView.data}" var="usuariosInternos"
+					paginator="true" rows="5"  editable="true" >
+					 
+					 <p:ajax event ="rowEdit" update=":form:msg,:form:tabla" listener="#{usuariosInternosView.rowEventListener}" />
+					
+															<p:column filterBy="#{usuariosInternos.idUsuInterno}" sortBy="#{usuariosInternos.idUsuInterno}" headerText="idUsuInterno">
+						<p:cellEditor>
+							<f:facet name="output">
+								<h:outputText value="#{usuariosInternos.idUsuInterno}"/>
+							</f:facet>
+							<f:facet name="input">
+								<p:inputText value="#{usuariosInternos.idUsuInterno}"/>
+							</f:facet>
+						</p:cellEditor>
+					</p:column>
+                    										
+											
+						<p:column filterBy="#{usuariosInternos.apellidos}" sortBy="#{usuariosInternos.apellidos}" 
+							headerText="apellidos">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{usuariosInternos.apellidos}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{usuariosInternos.apellidos}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{usuariosInternos.contrasena}" sortBy="#{usuariosInternos.contrasena}" 
+							headerText="contrasena">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{usuariosInternos.contrasena}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{usuariosInternos.contrasena}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{usuariosInternos.correoElectronico}" sortBy="#{usuariosInternos.correoElectronico}" 
+							headerText="correoElectronico">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{usuariosInternos.correoElectronico}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{usuariosInternos.correoElectronico}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{usuariosInternos.estadoRegistro}" sortBy="#{usuariosInternos.estadoRegistro}" 
+							headerText="estadoRegistro">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{usuariosInternos.estadoRegistro}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{usuariosInternos.estadoRegistro}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{usuariosInternos.login}" sortBy="#{usuariosInternos.login}" 
+							headerText="login">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{usuariosInternos.login}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{usuariosInternos.login}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{usuariosInternos.nombres}" sortBy="#{usuariosInternos.nombres}" 
+							headerText="nombres">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{usuariosInternos.nombres}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{usuariosInternos.nombres}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{usuariosInternos.numeroIdentificacion}" sortBy="#{usuariosInternos.numeroIdentificacion}" 
+							headerText="numeroIdentificacion">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{usuariosInternos.numeroIdentificacion}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{usuariosInternos.numeroIdentificacion}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{usuariosInternos.idAreaInvolucrada_AreasInvolucradas}" sortBy="#{usuariosInternos.idAreaInvolucrada_AreasInvolucradas}" 
+							headerText="idAreaInvolucrada_AreasInvolucradas">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{usuariosInternos.idAreaInvolucrada_AreasInvolucradas}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{usuariosInternos.idAreaInvolucrada_AreasInvolucradas}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+											
+						<p:column filterBy="#{usuariosInternos.idRol_Roles}" sortBy="#{usuariosInternos.idRol_Roles}" 
+							headerText="idRol_Roles">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{usuariosInternos.idRol_Roles}"/>
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:inputText value="#{usuariosInternos.idRol_Roles}"/>
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+										
+										   						 
+						 <p:column filterBy="#{usuariosInternos.fechaCreacion}" sortBy="#{usuariosInternos.fechaCreacion}" 
+							headerText="fechaCreacion">
+							
+								<p:cellEditor>
+								
+								<f:facet name="output">
+									<h:outputText value="#{usuariosInternos.fechaCreacion}">
+									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
+									</h:outputText>		
+								</f:facet>
+							
+								<f:facet name="input">
+									<p:calendar value="#{usuariosInternos.fechaCreacion}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
+									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{usuariosInternosView.timeZone}" />	
+								    </p:calendar>		
+								</f:facet>
+								</p:cellEditor>	
+							</p:column>
+						
+					   											
+					<p:column headerText="Options" >
+						<p:rowEditor id="row"/>
+						<p:tooltip for="row" value="Edit" showEffect="fade" hideEffect="fade" />
+						<p:tooltip for="btnDelete" value="Delete" showEffect="fade" hideEffect="fade" />
+						<p:commandButton id="btnDelete" actionListener="#{usuariosInternosView.actionDeleteDataTableEditable}" title="Delete" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" icon="ui-icon-trash" update=":form:msg,:form:tabla" >
+							<f:attribute name="selectedUsuariosInternos" value="#{usuariosInternos}" />  
+						</p:commandButton>
+						
+					</p:column>	
+				
+				</p:dataTable>	
+					
+				
+			</p:panel>
+				
+	   </h:form>
+		 </f:view>
+			</ui:define>		
+		</ui:composition>	
+	
+	</h:body>	
+	
+</html>	
