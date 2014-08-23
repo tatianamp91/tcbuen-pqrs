@@ -6,7 +6,9 @@
     <class name="com.tcbuen.pqrs.modelo.MotivoSolicitud" table="MOTIVO_SOLICITUD" schema="PQRS">
         <id name="idMotSol" type="java.lang.Long">
             <column name="ID_MOT_SOL" precision="10" scale="0" />
-            <generator class="assigned" />
+            <generator class="sequence">
+            	<param name="sequence">SEQ_ID_MOT_SOL</param>
+            </generator>
         </id>
         <property name="descripcionMotSol" type="java.lang.String">
             <column name="DESCRIPCION_MOT_SOL" length="50" not-null="true" />

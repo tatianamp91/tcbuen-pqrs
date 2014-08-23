@@ -6,7 +6,9 @@
     <class name="com.tcbuen.pqrs.modelo.AreasInvolucradas" table="AREAS_INVOLUCRADAS" schema="PQRS">
         <id name="idAreaInvolucrada" type="java.lang.Long">
             <column name="ID_AREA_INVOLUCRADA" precision="10" scale="0" />
-            <generator class="assigned" />
+            <generator class="sequence">
+            	<param name="sequence">SEQ_ID_AREA_INVOLUCRADA</param>
+            </generator>
         </id>
         <property name="nombreArea" type="java.lang.String">
             <column name="NOMBRE_AREA" length="100" not-null="true" />

@@ -6,7 +6,9 @@
     <class name="com.tcbuen.pqrs.modelo.AnxsXArea" table="ANXS_X_AREA" schema="PQRS">
         <id name="idAnxXArea" type="java.lang.Long">
             <column name="ID_ANX_X_AREA" precision="10" scale="0" />
-            <generator class="assigned" />
+            <generator class="sequence">
+            	<param name="sequence">SEQ_ID_ANX_X_AREA</param>
+            </generator>
         </id>
         <many-to-one name="anexosPqr" class="com.tcbuen.pqrs.modelo.AnexosPqr" fetch="select">
             <column name="ID_ANEXO_PQR" precision="10" scale="0" not-null="true" />

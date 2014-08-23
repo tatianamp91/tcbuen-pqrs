@@ -6,7 +6,9 @@
     <class name="com.tcbuen.pqrs.modelo.ParametrosPqr" table="PARAMETROS_PQR" schema="PQRS">
         <id name="idParam" type="java.lang.Long">
             <column name="ID_PARAM" precision="10" scale="0" />
-            <generator class="assigned" />
+            <generator class="sequence">
+            	<param name="sequence">SEQ_ID_PARAM</param>
+            </generator>
         </id>
         <property name="descripcionParam" type="java.lang.String">
             <column name="DESCRIPCION_PARAM" length="100" not-null="true" />

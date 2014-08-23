@@ -6,7 +6,9 @@
     <class name="com.tcbuen.pqrs.modelo.InfoSolicitante" table="INFO_SOLICITANTE" schema="PQRS">
         <id name="idInfoSolicitante" type="java.lang.Long">
             <column name="ID_INFO_SOLICITANTE" precision="10" scale="0" />
-            <generator class="assigned" />
+            <generator class="sequence">
+            	<param name="sequence">SEQ_ID_INFO_SOLICITANTE</param>
+            </generator>
         </id>
         <many-to-one name="tipoDocumento" class="com.tcbuen.pqrs.modelo.TipoDocumento" fetch="select">
             <column name="ID_TP_DOC" precision="10" scale="0" not-null="true" />

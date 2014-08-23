@@ -6,7 +6,9 @@
     <class name="com.tcbuen.pqrs.modelo.TipoDocumento" table="TIPO_DOCUMENTO" schema="PQRS">
         <id name="idTpDoc" type="java.lang.Long">
             <column name="ID_TP_DOC" precision="10" scale="0" />
-            <generator class="assigned" />
+            <generator class="sequence">
+            	<param name="sequence">SEQ_ID_TP_DOC</param>
+            </generator>
         </id>
         <property name="descripcionTpDoc" type="java.lang.String">
             <column name="DESCRIPCION_TP_DOC" length="50" not-null="true" />
