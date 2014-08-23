@@ -6,7 +6,9 @@
     <class name="com.tcbuen.pqrs.modelo.TipoSolicitudPqr" table="TIPO_SOLICITUD_PQR" schema="PQRS">
         <id name="idTpSolPqr" type="java.lang.Long">
             <column name="ID_TP_SOL_PQR" precision="10" scale="0" />
-            <generator class="assigned" />
+            <generator class="sequence">
+            <param name="sequence">SEQ_ID_TP_SOL_PQR</param>
+            </generator>
         </id>
         <property name="descTpSol" type="java.lang.String">
             <column name="DESC_TP_SOL" length="200" not-null="true" />

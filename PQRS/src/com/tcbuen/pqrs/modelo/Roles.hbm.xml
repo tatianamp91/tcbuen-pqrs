@@ -6,7 +6,9 @@
     <class name="com.tcbuen.pqrs.modelo.Roles" table="ROLES" schema="PQRS">
         <id name="idRol" type="java.lang.Long">
             <column name="ID_ROL" precision="10" scale="0" />
-            <generator class="assigned" />
+            <generator class="sequence">
+            	<param name="sequence">SEQ_ID_ROL</param>
+            </generator>
         </id>
         <property name="nombreRol" type="java.lang.String">
             <column name="NOMBRE_ROL" length="50" not-null="true" />

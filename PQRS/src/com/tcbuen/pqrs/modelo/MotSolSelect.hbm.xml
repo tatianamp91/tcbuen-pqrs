@@ -6,7 +6,9 @@
     <class name="com.tcbuen.pqrs.modelo.MotSolSelect" table="MOT_SOL_SELECT" schema="PQRS">
         <id name="idMotSolSelected" type="java.lang.Long">
             <column name="ID_MOT_SOL_SELECTED" precision="10" scale="0" />
-            <generator class="assigned" />
+            <generator class="sequence">
+            <param name="sequence">SEQ_ID_MOT_SOL_SELECTED</param>
+            </generator>
         </id>
         <many-to-one name="solicitudPqr" class="com.tcbuen.pqrs.modelo.SolicitudPqr" fetch="select">
             <column name="ID_SOL_PQR" precision="10" scale="0" not-null="true" />

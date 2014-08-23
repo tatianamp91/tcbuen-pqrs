@@ -6,7 +6,9 @@
     <class name="com.tcbuen.pqrs.modelo.AnexosSolicitante" table="ANEXOS_SOLICITANTE" schema="PQRS">
         <id name="idAnxSolicitante" type="java.lang.Long">
             <column name="ID_ANX_SOLICITANTE" precision="10" scale="0" />
-            <generator class="assigned" />
+            <generator class="sequence">
+            	<param name="sequence">SEQ_ID_ANX_SOLICITANTE</param>
+            </generator>
         </id>
         <many-to-one name="solicitudPqr" class="com.tcbuen.pqrs.modelo.SolicitudPqr" fetch="select">
             <column name="ID_SOL_PQR" precision="10" scale="0" not-null="true" />

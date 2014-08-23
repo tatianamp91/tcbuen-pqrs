@@ -6,7 +6,9 @@
     <class name="com.tcbuen.pqrs.modelo.TipoEstadoPqr" table="TIPO_ESTADO_PQR" schema="PQRS">
         <id name="idTpEstPqr" type="java.lang.Long">
             <column name="ID_TP_EST_PQR" precision="10" scale="0" />
-            <generator class="assigned" />
+            <generator class="sequence">
+            	<param name="sequence">SEQ_ID_TP_EST_PQR</param>
+            </generator>
         </id>
         <property name="descripcionEstado" type="java.lang.String">
             <column name="DESCRIPCION_ESTADO" length="50" not-null="true" />
