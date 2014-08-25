@@ -3,65 +3,91 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
-	
-	<h:head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	</h:head>		
-	
-	<h:body>
-		<ui:composition template="/WEB-INF/facelets/template.xhtml">	
-		<ui:define name="body">	
-		<f:view>
-			<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>               
-			<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
-   				<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
-			</p:dialog>
-			<h:form id="formDialog">
-				<p:messages id="msg" showDetail="true"/>
-				<p:growl id="men"/>
-					<p:panel id="panelUsuariosInternos" header="UsuariosInternos">							
-						<h:panelGrid columns="2" id="panelGrid" >
-												 	<h:outputText id="msgIdUsuInterno" value="IdUsuInterno"/>
-						 	<p:inputText id="txtIdUsuInterno" binding="#{usuariosInternosView.txtIdUsuInterno}">
-						 		<p:ajax update="panelUsuariosInternos,msg,panelBotones" listener="#{usuariosInternosView.listener_txtId}"/>
-						 	</p:inputText>	
-																		
-													<h:outputText id="msgApellidos" value=" Apellidos"/>
-							<p:inputText id="txtApellidos" disabled="true" binding="#{usuariosInternosView.txtApellidos}"/>
-													<h:outputText id="msgContrasena" value=" Contrasena"/>
-							<p:inputText id="txtContrasena" disabled="true" binding="#{usuariosInternosView.txtContrasena}"/>
-													<h:outputText id="msgCorreoElectronico" value=" CorreoElectronico"/>
-							<p:inputText id="txtCorreoElectronico" disabled="true" binding="#{usuariosInternosView.txtCorreoElectronico}"/>
-													<h:outputText id="msgEstadoRegistro" value=" EstadoRegistro"/>
-							<p:inputText id="txtEstadoRegistro" disabled="true" binding="#{usuariosInternosView.txtEstadoRegistro}"/>
-													<h:outputText id="msgLogin" value=" Login"/>
-							<p:inputText id="txtLogin" disabled="true" binding="#{usuariosInternosView.txtLogin}"/>
-													<h:outputText id="msgNombres" value=" Nombres"/>
-							<p:inputText id="txtNombres" disabled="true" binding="#{usuariosInternosView.txtNombres}"/>
-													<h:outputText id="msgNumeroIdentificacion" value=" NumeroIdentificacion"/>
-							<p:inputText id="txtNumeroIdentificacion" disabled="true" binding="#{usuariosInternosView.txtNumeroIdentificacion}"/>
-													<h:outputText id="msgIdAreaInvolucrada_AreasInvolucradas" value=" IdAreaInvolucrada_AreasInvolucradas"/>
-							<p:inputText id="txtIdAreaInvolucrada_AreasInvolucradas" disabled="true" binding="#{usuariosInternosView.txtIdAreaInvolucrada_AreasInvolucradas}"/>
-													<h:outputText id="msgIdRol_Roles" value=" IdRol_Roles"/>
-							<p:inputText id="txtIdRol_Roles" disabled="true" binding="#{usuariosInternosView.txtIdRol_Roles}"/>
-												
-																				<h:outputText id="msgFechaCreacion" value=" FechaCreacion"/>
-														<p:calendar showOn="button" navigator="true" locale="en" 
-							binding="#{usuariosInternosView.txtFechaCreacion}" >
-								<p:ajax event="dateSelect" listener="#{usuariosInternosView.listener_txtFechaCreacion}"  />
-							</p:calendar>
-																	   </h:panelGrid>
-				</p:panel>
-	   			<p:panel id="panelBotones">
-					<div align="center">					
-						<p:commandButton id="btnSave" binding="#{usuariosInternosView.btnSave}" disabled="true" value="Save" action="#{usuariosInternosView.action_save()}" update="panelUsuariosInternos,msg,panelBotones" />
-						<p:commandButton id="btnDelete" binding="#{usuariosInternosView.btnDelete}" disabled="true" value="Delete" action="#{usuariosInternosView.action_delete_master()}" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" update="panelUsuariosInternos,msg,panelBotones" />
-						<p:commandButton id="btnClear" value="Clear" action="#{usuariosInternosView.action_clear()}" update="panelUsuariosInternos,msg,panelBotones" />
-					</div>
-				</p:panel>			
-			</h:form>
-		</f:view>
-			</ui:define>		
-		</ui:composition>	
-	</h:body>	
-</html>	
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template.xhtml">
+		<ui:define name="body">
+			<f:view>
+				<p:ajaxStatus onstart="statusDialog.show();"
+					onsuccess="statusDialog.hide();" />
+				<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+					draggable="false" closable="false">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+				<h:form id="formDialog">
+					<p:messages id="msg" showDetail="true" />
+					<p:growl id="men" />
+					<p:panel id="panelUsuariosInternos" header="UsuariosInternos">
+						<h:panelGrid columns="6" id="panelGrid">
+
+							<h:outputText id="msgNumeroIdentificacion"
+								value="Número Identificacion" />
+							<p:inputText id="txtNumeroIdentificacion" disabled="false"
+								binding="#{usuariosInternosView.txtNumeroIdentificacion}" />
+
+							<h:outputText id="msgNombres" value="Nombres" />
+							<p:inputText id="txtNombres" disabled="false"
+								binding="#{usuariosInternosView.txtNombres}" />
+
+							<h:outputText id="msgApellidos" value="Apellidos" />
+							<p:inputText id="txtApellidos" disabled="false"
+								binding="#{usuariosInternosView.txtApellidos}" />
+
+							<h:outputText id="msgCorreoElectronico"
+								value="Correo Electrónico" />
+							<p:inputText id="txtCorreoElectronico" disabled="false"
+								binding="#{usuariosInternosView.txtCorreoElectronico}" />
+
+							<h:outputText id="msgLogin" value=" Login" />
+							<p:inputText id="txtLogin" disabled="false"
+								binding="#{usuariosInternosView.txtLogin}" />
+
+							<h:outputText id="msgContrasena" value="Contraseña" />
+							<p:inputText id="txtContrasena" disabled="false"
+								binding="#{usuariosInternosView.txtContrasena}" />
+
+
+							<h:outputText id="msgEstadoRegistro" value="Estado" />
+							<p:selectOneMenu id="estadoRegistro"
+								value="#{rolesView.estadoRegistro}">
+								<f:selectItem itemLabel="Seleccione" itemValue="" />
+								<f:selectItem itemLabel="Activo" itemValue="A" />
+								<f:selectItem itemLabel="Inactivo" itemValue="I" />
+							</p:selectOneMenu>
+
+							<h:outputText id="msgIdAreaInvolucrada_AreasInvolucradas"
+								value="Area" />
+							<p:selectOneMenu id="areasInvolucradas" value="#{usuariosInternosView.area}">
+								<f:selectItems itemLabel="#{usuariosInternosView.areas.idAreaInvolucrada}" 
+								itemValue="#{usuariosInternosView.areas.nombreArea}" />
+							</p:selectOneMenu>
+
+							<h:outputText id="msgIdRol_Roles" value="Rol" />
+							<p:selectOneMenu id="roles" value="#{usuariosInternosView.rol}">
+								<f:selectItems itemLabel="#{usuariosInternosView.roles.idRol}" 
+								itemValue="#{usuariosInternosView.roles.nombreRol}" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+					</p:panel>
+					<p:panel id="panelBotones">
+						<div align="center">
+							<p:commandButton id="btnSave"
+								binding="#{usuariosInternosView.btnSave}" disabled="false"
+								value="Save" action="#{usuariosInternosView.action_save()}"
+								update="panelUsuariosInternos,msg,panelBotones" />
+							<p:commandButton id="btnClear" value="Clear"
+								action="#{usuariosInternosView.action_clear()}"
+								update="panelUsuariosInternos,msg,panelBotones" />
+						</div>
+					</p:panel>
+				</h:form>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
