@@ -2,6 +2,8 @@ package com.tcbuen.pqrs.presentation.backingBeans;
 
 import com.tcbuen.pqrs.exceptions.*;
 import com.tcbuen.pqrs.modelo.*;
+import com.tcbuen.pqrs.modelo.dto.AreasInvolucradasDTO;
+import com.tcbuen.pqrs.modelo.dto.RolesDTO;
 import com.tcbuen.pqrs.modelo.dto.UsuariosInternosDTO;
 import com.tcbuen.pqrs.presentation.businessDelegate.*;
 import com.tcbuen.pqrs.utilities.*;
@@ -9,16 +11,11 @@ import com.tcbuen.pqrs.utilities.*;
 import org.primefaces.component.calendar.*;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
-
 import org.primefaces.event.RowEditEvent;
 
 import java.io.Serializable;
-
-import java.sql.*;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -44,6 +41,7 @@ public class UsuariosInternosView implements Serializable {
     private InputText txtApellidos;
     private InputText txtContrasena;
     private InputText txtCorreoElectronico;
+    private String estadoRegistro;
     private InputText txtEstadoRegistro;
     private InputText txtLogin;
     private InputText txtNombres;
@@ -62,6 +60,11 @@ public class UsuariosInternosView implements Serializable {
     private boolean showDialog;
     @ManagedProperty(value = "#{BusinessDelegatorView}")
     private IBusinessDelegatorView businessDelegatorView;
+    
+    private List<Roles> roles;
+    private String rol;
+    private List<AreasInvolucradas> areas;
+    private String area;
 
     public UsuariosInternosView() {
         super();
@@ -74,67 +77,56 @@ public class UsuariosInternosView implements Serializable {
             if (txtApellidos == null) {
                 txtApellidos = new InputText();
             }
-
             txtApellidos.setValue(usuariosInternosDTO.getApellidos());
 
             if (txtContrasena == null) {
                 txtContrasena = new InputText();
             }
-
             txtContrasena.setValue(usuariosInternosDTO.getContrasena());
 
             if (txtCorreoElectronico == null) {
                 txtCorreoElectronico = new InputText();
             }
-
             txtCorreoElectronico.setValue(usuariosInternosDTO.getCorreoElectronico());
 
             if (txtEstadoRegistro == null) {
                 txtEstadoRegistro = new InputText();
             }
-
             txtEstadoRegistro.setValue(usuariosInternosDTO.getEstadoRegistro());
 
             if (txtLogin == null) {
                 txtLogin = new InputText();
             }
-
             txtLogin.setValue(usuariosInternosDTO.getLogin());
 
             if (txtNombres == null) {
                 txtNombres = new InputText();
             }
-
             txtNombres.setValue(usuariosInternosDTO.getNombres());
 
             if (txtNumeroIdentificacion == null) {
                 txtNumeroIdentificacion = new InputText();
             }
-
             txtNumeroIdentificacion.setValue(usuariosInternosDTO.getNumeroIdentificacion());
 
             if (txtIdAreaInvolucrada_AreasInvolucradas == null) {
                 txtIdAreaInvolucrada_AreasInvolucradas = new InputText();
             }
-
             txtIdAreaInvolucrada_AreasInvolucradas.setValue(usuariosInternosDTO.getIdAreaInvolucrada_AreasInvolucradas());
 
             if (txtIdRol_Roles == null) {
                 txtIdRol_Roles = new InputText();
             }
-
             txtIdRol_Roles.setValue(usuariosInternosDTO.getIdRol_Roles());
 
             if (txtIdUsuInterno == null) {
                 txtIdUsuInterno = new InputText();
             }
-
             txtIdUsuInterno.setValue(usuariosInternosDTO.getIdUsuInterno());
 
             if (txtFechaCreacion == null) {
                 txtFechaCreacion = new Calendar();
             }
-
             txtFechaCreacion.setValue(usuariosInternosDTO.getFechaCreacion());
 
             Long idUsuInterno = FacesUtils.checkLong(txtIdUsuInterno);
@@ -159,65 +151,42 @@ public class UsuariosInternosView implements Serializable {
 
         if (txtApellidos != null) {
             txtApellidos.setValue(null);
-            txtApellidos.setDisabled(true);
         }
 
         if (txtContrasena != null) {
             txtContrasena.setValue(null);
-            txtContrasena.setDisabled(true);
         }
 
         if (txtCorreoElectronico != null) {
             txtCorreoElectronico.setValue(null);
-            txtCorreoElectronico.setDisabled(true);
         }
 
         if (txtEstadoRegistro != null) {
             txtEstadoRegistro.setValue(null);
-            txtEstadoRegistro.setDisabled(true);
         }
 
         if (txtLogin != null) {
             txtLogin.setValue(null);
-            txtLogin.setDisabled(true);
         }
 
         if (txtNombres != null) {
             txtNombres.setValue(null);
-            txtNombres.setDisabled(true);
         }
 
         if (txtNumeroIdentificacion != null) {
             txtNumeroIdentificacion.setValue(null);
-            txtNumeroIdentificacion.setDisabled(true);
         }
 
         if (txtIdAreaInvolucrada_AreasInvolucradas != null) {
             txtIdAreaInvolucrada_AreasInvolucradas.setValue(null);
-            txtIdAreaInvolucrada_AreasInvolucradas.setDisabled(true);
         }
 
         if (txtIdRol_Roles != null) {
             txtIdRol_Roles.setValue(null);
-            txtIdRol_Roles.setDisabled(true);
         }
-
-        if (txtFechaCreacion != null) {
-            txtFechaCreacion.setValue(null);
-            txtFechaCreacion.setDisabled(true);
-        }
-
-        if (txtIdUsuInterno != null) {
-            txtIdUsuInterno.setValue(null);
-            txtIdUsuInterno.setDisabled(false);
-        }
-
+        
         if (btnSave != null) {
             btnSave.setDisabled(true);
-        }
-
-        if (btnDelete != null) {
-            btnDelete.setDisabled(true);
         }
 
         return "";
@@ -337,19 +306,18 @@ public class UsuariosInternosView implements Serializable {
         try {
             entity = new UsuariosInternos();
 
-            Long idUsuInterno = FacesUtils.checkLong(txtIdUsuInterno);
-
-            entity.setApellidos(FacesUtils.checkString(txtApellidos));
-            entity.setContrasena(FacesUtils.checkString(txtContrasena));
-            entity.setCorreoElectronico(FacesUtils.checkString(
-                    txtCorreoElectronico));
-            entity.setEstadoRegistro(FacesUtils.checkString(txtEstadoRegistro));
-            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-            entity.setIdUsuInterno(idUsuInterno);
-            entity.setLogin(FacesUtils.checkString(txtLogin));
-            entity.setNombres(FacesUtils.checkString(txtNombres));
+            //Long idUsuInterno = FacesUtils.checkLong(txtIdUsuInterno);
+            //entity.setIdUsuInterno(idUsuInterno);
             entity.setNumeroIdentificacion(FacesUtils.checkString(
                     txtNumeroIdentificacion));
+            entity.setNombres(FacesUtils.checkString(txtNombres));
+            entity.setApellidos(FacesUtils.checkString(txtApellidos));
+            entity.setCorreoElectronico(FacesUtils.checkString(txtCorreoElectronico));
+            entity.setLogin(FacesUtils.checkString(txtLogin));
+            entity.setContrasena(FacesUtils.checkString(txtContrasena));
+            entity.setEstadoRegistro(estadoRegistro);
+            entity.setFechaCreacion(new Date());
+            /*
             entity.setAreasInvolucradas((FacesUtils.checkLong(
                     txtIdAreaInvolucrada_AreasInvolucradas) != null)
                 ? businessDelegatorView.getAreasInvolucradas(
@@ -358,6 +326,7 @@ public class UsuariosInternosView implements Serializable {
             entity.setRoles((FacesUtils.checkLong(txtIdRol_Roles) != null)
                 ? businessDelegatorView.getRoles(FacesUtils.checkLong(
                         txtIdRol_Roles)) : null);
+            */
             businessDelegatorView.saveUsuariosInternos(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
             action_clear();
@@ -375,17 +344,18 @@ public class UsuariosInternosView implements Serializable {
                 Long idUsuInterno = new Long(selectedUsuariosInternos.getIdUsuInterno());
                 entity = businessDelegatorView.getUsuariosInternos(idUsuInterno);
             }
-
-            entity.setApellidos(FacesUtils.checkString(txtApellidos));
-            entity.setContrasena(FacesUtils.checkString(txtContrasena));
-            entity.setCorreoElectronico(FacesUtils.checkString(
-                    txtCorreoElectronico));
-            entity.setEstadoRegistro(FacesUtils.checkString(txtEstadoRegistro));
-            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-            entity.setLogin(FacesUtils.checkString(txtLogin));
-            entity.setNombres(FacesUtils.checkString(txtNombres));
+            
             entity.setNumeroIdentificacion(FacesUtils.checkString(
                     txtNumeroIdentificacion));
+            entity.setNombres(FacesUtils.checkString(txtNombres));
+            entity.setApellidos(FacesUtils.checkString(txtApellidos));
+            entity.setCorreoElectronico(FacesUtils.checkString(
+                    txtCorreoElectronico));
+            entity.setLogin(FacesUtils.checkString(txtLogin));
+            entity.setContrasena(FacesUtils.checkString(txtContrasena));            
+            entity.setEstadoRegistro(FacesUtils.checkString(estadoRegistro));
+            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));           
+            
             entity.setAreasInvolucradas((FacesUtils.checkLong(
                     txtIdAreaInvolucrada_AreasInvolucradas) != null)
                 ? businessDelegatorView.getAreasInvolucradas(
@@ -662,4 +632,60 @@ public class UsuariosInternosView implements Serializable {
     public void setShowDialog(boolean showDialog) {
         this.showDialog = showDialog;
     }
+
+	public String getEstadoRegistro() {
+		return estadoRegistro;
+	}
+
+	public void setEstadoRegistro(String estadoRegistro) {
+		this.estadoRegistro = estadoRegistro;
+	}
+
+	public List<Roles> getRoles() {
+        try {
+            if (roles == null) {
+                roles = businessDelegatorView.getRoles();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return roles;
+	}
+
+	public void setRoles(List<Roles> roles) {
+		this.roles = roles;
+	}
+
+	public String getRol() {
+		return rol;
+	}
+
+	public void setRol(String rol) {
+		this.rol = rol;
+	}
+
+	public List<AreasInvolucradas> getAreas() {
+        try {
+            if (areas == null) {
+                areas = businessDelegatorView.getAreasInvolucradas();                
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return areas;
+	}
+
+	public void setAreas(List<AreasInvolucradas> areas) {
+		this.areas = areas;
+	}
+
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
+	}
 }

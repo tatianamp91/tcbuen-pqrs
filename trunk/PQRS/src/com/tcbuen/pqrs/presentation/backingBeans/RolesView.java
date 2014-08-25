@@ -9,16 +9,12 @@ import com.tcbuen.pqrs.utilities.*;
 import org.primefaces.component.calendar.*;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
-
 import org.primefaces.event.RowEditEvent;
 
 import java.io.Serializable;
-
 import java.sql.*;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +27,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.model.SelectItem;
 
 
 /**
@@ -43,6 +40,7 @@ public class RolesView implements Serializable {
     private static final long serialVersionUID = 1L;
     private InputText txtEstadoRegistro;
     private InputText txtNombreRol;
+    private String estadoRegistro;
     private InputText txtUsuarioCreador;
     private InputText txtUsuarioUltimaModificacion;
     private InputText txtIdRol;
@@ -70,43 +68,36 @@ public class RolesView implements Serializable {
             if (txtEstadoRegistro == null) {
                 txtEstadoRegistro = new InputText();
             }
-
             txtEstadoRegistro.setValue(rolesDTO.getEstadoRegistro());
 
             if (txtNombreRol == null) {
                 txtNombreRol = new InputText();
             }
-
             txtNombreRol.setValue(rolesDTO.getNombreRol());
 
             if (txtUsuarioCreador == null) {
                 txtUsuarioCreador = new InputText();
             }
-
             txtUsuarioCreador.setValue(rolesDTO.getUsuarioCreador());
 
             if (txtUsuarioUltimaModificacion == null) {
                 txtUsuarioUltimaModificacion = new InputText();
             }
-
             txtUsuarioUltimaModificacion.setValue(rolesDTO.getUsuarioUltimaModificacion());
 
             if (txtIdRol == null) {
                 txtIdRol = new InputText();
             }
-
             txtIdRol.setValue(rolesDTO.getIdRol());
 
             if (txtFechaCreacion == null) {
                 txtFechaCreacion = new Calendar();
             }
-
             txtFechaCreacion.setValue(rolesDTO.getFechaCreacion());
 
             if (txtFechaUltimaModificacion == null) {
                 txtFechaUltimaModificacion = new Calendar();
             }
-
             txtFechaUltimaModificacion.setValue(rolesDTO.getFechaUltimaModificacion());
 
             Long idRol = FacesUtils.checkLong(txtIdRol);
@@ -128,50 +119,18 @@ public class RolesView implements Serializable {
     public String action_clear() {
         entity = null;
         selectedRoles = null;
-
-        if (txtEstadoRegistro != null) {
-            txtEstadoRegistro.setValue(null);
-            txtEstadoRegistro.setDisabled(true);
+        
+        if(estadoRegistro != null){
+        	estadoRegistro = null;
         }
 
         if (txtNombreRol != null) {
             txtNombreRol.setValue(null);
-            txtNombreRol.setDisabled(true);
-        }
-
-        if (txtUsuarioCreador != null) {
-            txtUsuarioCreador.setValue(null);
-            txtUsuarioCreador.setDisabled(true);
-        }
-
-        if (txtUsuarioUltimaModificacion != null) {
-            txtUsuarioUltimaModificacion.setValue(null);
-            txtUsuarioUltimaModificacion.setDisabled(true);
-        }
-
-        if (txtFechaCreacion != null) {
-            txtFechaCreacion.setValue(null);
-            txtFechaCreacion.setDisabled(true);
-        }
-
-        if (txtFechaUltimaModificacion != null) {
-            txtFechaUltimaModificacion.setValue(null);
-            txtFechaUltimaModificacion.setDisabled(true);
-        }
-
-        if (txtIdRol != null) {
-            txtIdRol.setValue(null);
-            txtIdRol.setDisabled(false);
         }
 
         if (btnSave != null) {
-            btnSave.setDisabled(true);
+            btnSave.setDisabled(false);
         }
-
-        if (btnDelete != null) {
-            btnDelete.setDisabled(true);
-        }
-
         return "";
     }
 
@@ -262,12 +221,11 @@ public class RolesView implements Serializable {
             } else {
                 action_modify();
             }
-
             data = null;
+            data = getData();
         } catch (Exception e) {
             FacesUtils.addErrorMessage(e.getMessage());
         }
-
         return "";
     }
 
@@ -275,17 +233,15 @@ public class RolesView implements Serializable {
         try {
             entity = new Roles();
 
-            Long idRol = FacesUtils.checkLong(txtIdRol);
-
-            entity.setEstadoRegistro(FacesUtils.checkString(txtEstadoRegistro));
-            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-            entity.setFechaUltimaModificacion(FacesUtils.checkDate(
-                    txtFechaUltimaModificacion));
-            entity.setIdRol(idRol);
+            //Long idRol = FacesUtils.checkLong(txtIdRol);
+            //entity.setIdRol(idRol);
             entity.setNombreRol(FacesUtils.checkString(txtNombreRol));
-            entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
-            entity.setUsuarioUltimaModificacion(FacesUtils.checkString(
-                    txtUsuarioUltimaModificacion));
+            entity.setEstadoRegistro(estadoRegistro);
+            //Falta agregar usuario de sesion
+            entity.setUsuarioCreador("Admin");
+            entity.setFechaCreacion(new Date());
+            entity.setFechaUltimaModificacion(null);
+            entity.setUsuarioUltimaModificacion(null);
             businessDelegatorView.saveRoles(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
             action_clear();
@@ -303,15 +259,16 @@ public class RolesView implements Serializable {
                 Long idRol = new Long(selectedRoles.getIdRol());
                 entity = businessDelegatorView.getRoles(idRol);
             }
-
-            entity.setEstadoRegistro(FacesUtils.checkString(txtEstadoRegistro));
-            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-            entity.setFechaUltimaModificacion(FacesUtils.checkDate(
-                    txtFechaUltimaModificacion));
+            
             entity.setNombreRol(FacesUtils.checkString(txtNombreRol));
+            entity.setEstadoRegistro(FacesUtils.checkString(txtEstadoRegistro));
+          //Falta agregar usuario de sesion
+            entity.setUsuarioUltimaModificacion(FacesUtils.checkString(txtUsuarioUltimaModificacion));
             entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
-            entity.setUsuarioUltimaModificacion(FacesUtils.checkString(
-                    txtUsuarioUltimaModificacion));
+            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
+            entity.setUsuarioUltimaModificacion("Facturación");
+            entity.setFechaUltimaModificacion(new Date());
+
             businessDelegatorView.updateRoles(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
         } catch (Exception e) {
@@ -321,11 +278,10 @@ public class RolesView implements Serializable {
 
         return "";
     }
-
+    
     public String action_delete_datatable(ActionEvent evt) {
         try {
-            selectedRoles = (RolesDTO) (evt.getComponent().getAttributes()
-                                           .get("selectedRoles"));
+            selectedRoles = (RolesDTO) (evt.getComponent().getAttributes().get("selectedRoles"));
 
             Long idRol = new Long(selectedRoles.getIdRol());
             entity = businessDelegatorView.getRoles(idRol);
@@ -369,8 +325,7 @@ public class RolesView implements Serializable {
 
     public String actionDeleteDataTableEditable(ActionEvent evt) {
         try {
-            selectedRoles = (RolesDTO) (evt.getComponent().getAttributes()
-                                           .get("selectedRoles"));
+            selectedRoles = (RolesDTO) (evt.getComponent().getAttributes().get("selectedRoles"));
 
             Long idRol = new Long(selectedRoles.getIdRol());
             entity = businessDelegatorView.getRoles(idRol);
@@ -543,4 +498,12 @@ public class RolesView implements Serializable {
     public void setShowDialog(boolean showDialog) {
         this.showDialog = showDialog;
     }
+
+	public String getEstadoRegistro() {
+		return estadoRegistro;
+	}
+
+	public void setEstadoRegistro(String estadoRegistro) {
+		this.estadoRegistro = estadoRegistro;
+	}	
 }
