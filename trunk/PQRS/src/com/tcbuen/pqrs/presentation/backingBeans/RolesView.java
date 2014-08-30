@@ -41,9 +41,7 @@ public class RolesView implements Serializable {
     private static final long serialVersionUID = 1L;
     private InputText txtEstadoRegistro;
     private InputText txtNombreRol;
-    private SelectOneMenu itemEstadoRegistro;
-    private List<SelectItem> itemsEstadosRegistro;
-	private String estadoRegistro;
+	private String estadoRegistroSeleccionado;
     private InputText txtUsuarioCreador;
     private InputText txtUsuarioUltimaModificacion;
     private InputText txtIdRol;
@@ -62,17 +60,13 @@ public class RolesView implements Serializable {
 
     public RolesView() {
         super();
-                
-        itemsEstadosRegistro = new ArrayList<SelectItem>();
-        itemsEstadosRegistro.add(new SelectItem(1L, "Activo"));
-        itemsEstadosRegistro.add(new SelectItem(2L, "Inactivo"));
     }
 
     public void rowEventListener(RowEditEvent e) {
         try {
             RolesDTO rolesDTO = (RolesDTO) e.getObject();
 
-            if (estadoRegistro == null) {
+            if (txtEstadoRegistro == null) {
             	txtEstadoRegistro = new InputText();
             }
             txtEstadoRegistro.setValue(rolesDTO.getEstadoRegistro());
@@ -127,8 +121,8 @@ public class RolesView implements Serializable {
         entity = null;
         selectedRoles = null;
         
-        if(estadoRegistro != null){
-        	estadoRegistro = null;
+        if(estadoRegistroSeleccionado != null){
+        	estadoRegistroSeleccionado = null;
         }
 
         if (txtNombreRol != null) {
@@ -138,6 +132,8 @@ public class RolesView implements Serializable {
         if (btnSave != null) {
             btnSave.setDisabled(false);
         }
+        data = null;
+        data = getData();
         return "";
     }
 
@@ -243,7 +239,8 @@ public class RolesView implements Serializable {
             //Long idRol = FacesUtils.checkLong(txtIdRol);
             //entity.setIdRol(idRol);
             entity.setNombreRol(FacesUtils.checkString(txtNombreRol));
-            entity.setEstadoRegistro(estadoRegistro);
+            String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
+            entity.setEstadoRegistro(estado);
             //Falta agregar usuario de sesion
             entity.setUsuarioCreador("Admin");
             entity.setFechaCreacion(new Date());
@@ -268,8 +265,8 @@ public class RolesView implements Serializable {
             }
             
             entity.setNombreRol(FacesUtils.checkString(txtNombreRol));
-            estadoRegistro = (itemEstadoRegistro.getValue().toString().equals("1"))?"Activo":"Intactivo";
-            entity.setEstadoRegistro(FacesUtils.checkString(estadoRegistro));
+            String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
+            entity.setEstadoRegistro(estado);
           //Falta agregar usuario de sesion
             entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
             entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
@@ -507,28 +504,11 @@ public class RolesView implements Serializable {
         this.showDialog = showDialog;
     }
 
-	public String getEstadoRegistro() {
-		return estadoRegistro;
+	public String getEstadoRegistroSeleccionado() {
+		return estadoRegistroSeleccionado;
 	}
 
-	public void setEstadoRegistro(String estadoRegistro) {
-		this.estadoRegistro = estadoRegistro;
-	}
-
-	public SelectOneMenu getItemEstadoRegistro() {
-		return itemEstadoRegistro;
-	}
-
-	public void setItemEstadoRegistro(SelectOneMenu itemEstadoRegistro) {
-		this.itemEstadoRegistro = itemEstadoRegistro;
-	}	
-	
-    public List<SelectItem> getItemsEstadosRegistro() {
-   	
-		return itemsEstadosRegistro;
-	}
-
-	public void setItemsEstadosRegistro(List<SelectItem> itemsEstadosRegistro) {
-		this.itemsEstadosRegistro = itemsEstadosRegistro;
+	public void setEstadoRegistroSeleccionado(String estadoRegistroSeleccionado) {
+		this.estadoRegistroSeleccionado = estadoRegistroSeleccionado;
 	}
 }

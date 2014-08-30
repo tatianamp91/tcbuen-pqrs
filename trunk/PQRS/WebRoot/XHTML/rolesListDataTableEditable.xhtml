@@ -41,7 +41,7 @@
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
-							
+
 							<p:column filterBy="#{roles.estadoRegistro}"
 								sortBy="#{roles.estadoRegistro}" headerText="estadoRegistro">
 								<p:cellEditor>
@@ -50,8 +50,9 @@
 									</f:facet>
 									<f:facet name="input">
 										<p:selectOneMenu id="estadoRegistro"
-											value="#{rolesView.itemEstadoRegistro}">
-											<f:selectItems value="#{rolesView.itemsEstadosRegistro}"/>
+											value="#{rolesView.estadoRegistroSeleccionado}" style="height:20px;width:75px">
+											<f:selectItem itemValue="Activo" itemLabel="Activo" />
+											<f:selectItem itemValue="Inactivo" itemLabel="Inactivo" />
 										</p:selectOneMenu>
 									</f:facet>
 								</p:cellEditor>
@@ -87,10 +88,9 @@
 
 								<h:outputText id="msgEstadoRegistro" value="* Estado Registro:" />
 								<p:selectOneMenu id="estadoRegistro"
-									value="#{rolesView.estadoRegistro}">
-									<f:selectItem itemLabel="Seleccione" itemValue="" />
-									<f:selectItem itemLabel="Activo" itemValue="A" />
-									<f:selectItem itemLabel="Inactivo" itemValue="I" />
+									value="#{rolesView.estadoRegistroSeleccionado}">
+									<f:selectItem itemValue="Activo" itemLabel="Activo" />
+									<f:selectItem itemValue="Inactivo" itemLabel="Inactivo" />
 								</p:selectOneMenu>
 							</h:panelGrid>
 						</p:panel>
