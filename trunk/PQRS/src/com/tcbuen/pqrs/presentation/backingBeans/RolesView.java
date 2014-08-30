@@ -9,6 +9,7 @@ import com.tcbuen.pqrs.utilities.*;
 import org.primefaces.component.calendar.*;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
+import org.primefaces.component.selectonemenu.SelectOneMenu;
 import org.primefaces.event.RowEditEvent;
 
 import java.io.Serializable;
@@ -40,7 +41,9 @@ public class RolesView implements Serializable {
     private static final long serialVersionUID = 1L;
     private InputText txtEstadoRegistro;
     private InputText txtNombreRol;
-    private String estadoRegistro;
+    private SelectOneMenu itemEstadoRegistro;
+    private List<SelectItem> itemsEstadosRegistro;
+	private String estadoRegistro;
     private InputText txtUsuarioCreador;
     private InputText txtUsuarioUltimaModificacion;
     private InputText txtIdRol;
@@ -59,14 +62,18 @@ public class RolesView implements Serializable {
 
     public RolesView() {
         super();
+                
+        itemsEstadosRegistro = new ArrayList<SelectItem>();
+        itemsEstadosRegistro.add(new SelectItem(1L, "Activo"));
+        itemsEstadosRegistro.add(new SelectItem(2L, "Inactivo"));
     }
 
     public void rowEventListener(RowEditEvent e) {
         try {
             RolesDTO rolesDTO = (RolesDTO) e.getObject();
 
-            if (txtEstadoRegistro == null) {
-                txtEstadoRegistro = new InputText();
+            if (estadoRegistro == null) {
+            	txtEstadoRegistro = new InputText();
             }
             txtEstadoRegistro.setValue(rolesDTO.getEstadoRegistro());
 
@@ -261,9 +268,9 @@ public class RolesView implements Serializable {
             }
             
             entity.setNombreRol(FacesUtils.checkString(txtNombreRol));
-            entity.setEstadoRegistro(FacesUtils.checkString(txtEstadoRegistro));
+            estadoRegistro = (itemEstadoRegistro.getValue().toString().equals("1"))?"Activo":"Intactivo";
+            entity.setEstadoRegistro(FacesUtils.checkString(estadoRegistro));
           //Falta agregar usuario de sesion
-            entity.setUsuarioUltimaModificacion(FacesUtils.checkString(txtUsuarioUltimaModificacion));
             entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
             entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
             entity.setUsuarioUltimaModificacion("Facturación");
@@ -271,6 +278,7 @@ public class RolesView implements Serializable {
 
             businessDelegatorView.updateRoles(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+            action_clear();
         } catch (Exception e) {
             data = null;
             FacesUtils.addErrorMessage(e.getMessage());
@@ -505,5 +513,22 @@ public class RolesView implements Serializable {
 
 	public void setEstadoRegistro(String estadoRegistro) {
 		this.estadoRegistro = estadoRegistro;
+	}
+
+	public SelectOneMenu getItemEstadoRegistro() {
+		return itemEstadoRegistro;
+	}
+
+	public void setItemEstadoRegistro(SelectOneMenu itemEstadoRegistro) {
+		this.itemEstadoRegistro = itemEstadoRegistro;
 	}	
+	
+    public List<SelectItem> getItemsEstadosRegistro() {
+   	
+		return itemsEstadosRegistro;
+	}
+
+	public void setItemsEstadosRegistro(List<SelectItem> itemsEstadosRegistro) {
+		this.itemsEstadosRegistro = itemsEstadosRegistro;
+	}
 }
