@@ -61,15 +61,18 @@ public class RolesLogic implements IRolesLogic {
 	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void saveRoles(Roles entity) throws Exception {
 		try {
-			
+
 			/*
-			 * if (entity.getIdRol() == null) { throw new ZMessManager().new
-			 * EmptyFieldException("idRol"); }
-			 * 
-			 * if ((entity.getIdRol() != null) &&
-			 * (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
-			 * entity.getIdRol(), 10, 0) == false)) { throw new
-			 * ZMessManager().new NotValidFormatException("idRol"); }
+			 if (entity.getIdRol() == null) { 
+			 	throw new ZMessManager().new EmptyFieldException("idRol"); }
+			 
+			 if ((entity.getIdRol() != null) && (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +entity.getIdRol(), 10, 0) == false)) {
+			 	throw new ZMessManager().new NotValidFormatException("idRol");
+			 }
+			 
+			 if (getRoles(entity.getIdRol()) != null) {
+			 	throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY); 
+			 }
 			 */
 			if (entity.getNombreRol() == null) {
 				throw new ZMessManager().new EmptyFieldException("nombreRol");
@@ -101,18 +104,12 @@ public class RolesLogic implements IRolesLogic {
 						"usuarioCreador");
 			}
 
-			/*
-			 if ((entity.getUsuarioUltimaModificacion() != null)
+			if ((entity.getUsuarioUltimaModificacion() != null)
 					&& (Utilities.checkWordAndCheckWithlength(
 							entity.getUsuarioUltimaModificacion(), 50) == false)) {
 				throw new ZMessManager().new NotValidFormatException(
 						"usuarioUltimaModificacion");
 			}
-
-			if (getRoles(entity.getIdRol()) != null) {
-				throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
-			}
-			*/
 
 			rolesDAO.save(entity);
 		} catch (Exception e) {

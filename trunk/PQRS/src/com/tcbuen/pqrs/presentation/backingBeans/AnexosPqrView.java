@@ -9,16 +9,12 @@ import com.tcbuen.pqrs.utilities.*;
 import org.primefaces.component.calendar.*;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
-
 import org.primefaces.event.RowEditEvent;
 
 import java.io.Serializable;
-
 import java.sql.*;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -43,6 +39,7 @@ public class AnexosPqrView implements Serializable {
     private static final long serialVersionUID = 1L;
     private InputText txtDescripcionAnexo;
     private InputText txtEstadoRegistro;
+    private String estadoRegistroSeleccionado;
     private InputText txtUsuarioCreador;
     private InputText txtUsuarioUltimaModificacion;
     private InputText txtIdAnexoPqr;
@@ -131,47 +128,21 @@ public class AnexosPqrView implements Serializable {
 
         if (txtDescripcionAnexo != null) {
             txtDescripcionAnexo.setValue(null);
-            txtDescripcionAnexo.setDisabled(true);
         }
 
         if (txtEstadoRegistro != null) {
             txtEstadoRegistro.setValue(null);
-            txtEstadoRegistro.setDisabled(true);
-        }
-
-        if (txtUsuarioCreador != null) {
-            txtUsuarioCreador.setValue(null);
-            txtUsuarioCreador.setDisabled(true);
-        }
-
-        if (txtUsuarioUltimaModificacion != null) {
-            txtUsuarioUltimaModificacion.setValue(null);
-            txtUsuarioUltimaModificacion.setDisabled(true);
-        }
-
-        if (txtFechaCreacion != null) {
-            txtFechaCreacion.setValue(null);
-            txtFechaCreacion.setDisabled(true);
-        }
-
-        if (txtFechaUltimaModificacion != null) {
-            txtFechaUltimaModificacion.setValue(null);
-            txtFechaUltimaModificacion.setDisabled(true);
-        }
-
-        if (txtIdAnexoPqr != null) {
-            txtIdAnexoPqr.setValue(null);
-            txtIdAnexoPqr.setDisabled(false);
         }
 
         if (btnSave != null) {
-            btnSave.setDisabled(true);
+            btnSave.setDisabled(false);
         }
 
         if (btnDelete != null) {
             btnDelete.setDisabled(true);
         }
-
+        data = null;
+        data = getData();
         return "";
     }
 
@@ -275,20 +246,20 @@ public class AnexosPqrView implements Serializable {
         try {
             entity = new AnexosPqr();
 
-            Long idAnexoPqr = FacesUtils.checkLong(txtIdAnexoPqr);
-
-            entity.setDescripcionAnexo(FacesUtils.checkString(
-                    txtDescripcionAnexo));
-            entity.setEstadoRegistro(FacesUtils.checkString(txtEstadoRegistro));
-            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-            entity.setFechaUltimaModificacion(FacesUtils.checkDate(
-                    txtFechaUltimaModificacion));
-            entity.setIdAnexoPqr(idAnexoPqr);
-            entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
-            entity.setUsuarioUltimaModificacion(FacesUtils.checkString(
-                    txtUsuarioUltimaModificacion));
+            //Long idAnexoPqr = FacesUtils.checkLong(txtIdAnexoPqr);
+            //entity.setIdAnexoPqr(idAnexoPqr);
+            entity.setDescripcionAnexo(FacesUtils.checkString(txtDescripcionAnexo));
+            String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
+            entity.setEstadoRegistro(estado);
+            //Falta agregar usuario de sesion
+            entity.setUsuarioCreador("Admin");
+            entity.setFechaCreacion(new Date());
+            entity.setUsuarioUltimaModificacion(null);
+            entity.setFechaUltimaModificacion(null);   
+            
             businessDelegatorView.saveAnexosPqr(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+            
             action_clear();
         } catch (Exception e) {
             entity = null;
@@ -305,17 +276,19 @@ public class AnexosPqrView implements Serializable {
                 entity = businessDelegatorView.getAnexosPqr(idAnexoPqr);
             }
 
-            entity.setDescripcionAnexo(FacesUtils.checkString(
-                    txtDescripcionAnexo));
-            entity.setEstadoRegistro(FacesUtils.checkString(txtEstadoRegistro));
-            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-            entity.setFechaUltimaModificacion(FacesUtils.checkDate(
-                    txtFechaUltimaModificacion));
+            entity.setDescripcionAnexo(FacesUtils.checkString(txtDescripcionAnexo));
+            String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
+            entity.setEstadoRegistro(estado);
             entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
-            entity.setUsuarioUltimaModificacion(FacesUtils.checkString(
-                    txtUsuarioUltimaModificacion));
+            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
+            entity.setFechaUltimaModificacion(new Date());
+            //Falta agregar usuario de sesion
+            entity.setUsuarioUltimaModificacion("Facturación");
             businessDelegatorView.updateAnexosPqr(entity);
+            
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+            
+            action_clear();
         } catch (Exception e) {
             data = null;
             FacesUtils.addErrorMessage(e.getMessage());
@@ -547,4 +520,12 @@ public class AnexosPqrView implements Serializable {
     public void setShowDialog(boolean showDialog) {
         this.showDialog = showDialog;
     }
+
+	public String getEstadoRegistroSeleccionado() {
+		return estadoRegistroSeleccionado;
+	}
+
+	public void setEstadoRegistroSeleccionado(String estadoRegistroSeleccionado) {
+		this.estadoRegistroSeleccionado = estadoRegistroSeleccionado;
+	}
 }
