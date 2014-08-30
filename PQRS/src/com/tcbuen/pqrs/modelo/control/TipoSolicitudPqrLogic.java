@@ -85,6 +85,22 @@ public class TipoSolicitudPqrLogic implements ITipoSolicitudPqrLogic {
     public void saveTipoSolicitudPqr(TipoSolicitudPqr entity)
         throws Exception {
         try {
+        	/*
+            if (entity.getIdTpSolPqr() == null) {
+                throw new ZMessManager().new EmptyFieldException("idTpSolPqr");
+            }
+
+            if ((entity.getIdTpSolPqr() != null) &&
+                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
+                        entity.getIdTpSolPqr(), 10, 0) == false)) {
+                throw new ZMessManager().new NotValidFormatException(
+                    "idTpSolPqr");
+            }
+            
+            if (getTipoSolicitudPqr(entity.getIdTpSolPqr()) != null) {
+                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
+            }
+            */
             if (entity.getDescTpSol() == null) {
                 throw new ZMessManager().new EmptyFieldException("descTpSol");
             }
@@ -108,17 +124,6 @@ public class TipoSolicitudPqrLogic implements ITipoSolicitudPqrLogic {
                     "estadoRegistro");
             }
 
-            if (entity.getIdTpSolPqr() == null) {
-                throw new ZMessManager().new EmptyFieldException("idTpSolPqr");
-            }
-
-            if ((entity.getIdTpSolPqr() != null) &&
-                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
-                        entity.getIdTpSolPqr(), 10, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException(
-                    "idTpSolPqr");
-            }
-
             if ((entity.getUsuarioCreador() != null) &&
                     (Utilities.checkWordAndCheckWithlength(
                         entity.getUsuarioCreador(), 50) == false)) {
@@ -131,10 +136,6 @@ public class TipoSolicitudPqrLogic implements ITipoSolicitudPqrLogic {
                         entity.getUsuarioUltimaModificacion(), 50) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "usuarioUltimaModificacion");
-            }
-
-            if (getTipoSolicitudPqr(entity.getIdTpSolPqr()) != null) {
-                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
             }
 
             tipoSolicitudPqrDAO.save(entity);
