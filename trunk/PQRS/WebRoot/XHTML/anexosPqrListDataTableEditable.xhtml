@@ -19,7 +19,7 @@
 						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
 				</p:dialog>
 				<h:form id="form">
-					<p:panel id="msgProjectClientesTitle" header="AnexosPqrData">
+					<p:panel id="msgProjectClientesTitle" header="Anexos">
 						<p:messages id="msg" showDetail="true" />
 						<p:dataTable id="tabla" value="#{anexosPqrView.data}"
 							var="anexosPqr" paginator="true" rows="5" editable="true">
@@ -29,7 +29,7 @@
 
 							<p:column filterBy="#{anexosPqr.descripcionAnexo}"
 								sortBy="#{anexosPqr.descripcionAnexo}"
-								headerText="descripcionAnexo">
+								headerText="Descripción">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{anexosPqr.descripcionAnexo}" />
@@ -40,7 +40,7 @@
 								</p:cellEditor>
 							</p:column>
 							<p:column filterBy="#{anexosPqr.estadoRegistro}"
-								sortBy="#{anexosPqr.estadoRegistro}" headerText="estadoRegistro">
+								sortBy="#{anexosPqr.estadoRegistro}" headerText="Estado">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{anexosPqr.estadoRegistro}" />
@@ -56,7 +56,7 @@
 								</p:cellEditor>
 							</p:column>
 
-							<p:column headerText="Options">
+							<p:column headerText="Editar">
 								<p:rowEditor id="row" />
 								<p:tooltip for="row" value="Edit" showEffect="fade"
 									hideEffect="fade" />
@@ -75,7 +75,7 @@
 					resizable="false" modal="true" width="500">
 					<h:form id="formDialog">
 						<p:messages id="msg" showDetail="true" />
-						<p:panel id="panelAnexosPqr" header="AnexosPqr">
+						<p:panel id="panelAnexosPqr" header="Nuevo Anexo">
 							<h:panelGrid columns="2" id="panelGrid">
 
 								<h:outputText id="msgDescripcionAnexo" value="*Descripción:" />
@@ -93,12 +93,12 @@
 						<p:panel id="panelBotones">
 							<div align="center">
 								<p:commandButton id="btnSave" binding="#{anexosPqrView.btnSave}"
-									value="Save" action="#{anexosPqrView.action_save()}"
+									value="Guardar" action="#{anexosPqrView.action_save()}"
 									update=":dialogAnexosPqr :form:msgProjectClientesTitle" />
-								<p:commandButton id="btnClear" value="Clear"
+								<p:commandButton id="btnClear" value="Limpiar"
 									action="#{anexosPqrView.action_clear()}"
 									update=":dialogAnexosPqr" />
-								<p:commandButton id="btnExit" value="Exit"
+								<p:commandButton id="btnExit" value="Salir"
 									action="#{anexosPqrView.action_closeDialog()}"
 									update=":dialogAnexosPqr" />
 							</div>

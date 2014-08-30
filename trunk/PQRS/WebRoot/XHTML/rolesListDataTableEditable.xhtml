@@ -31,7 +31,7 @@
 								listener="#{rolesView.rowEventListener}" />
 
 							<p:column filterBy="#{roles.nombreRol}"
-								sortBy="#{roles.nombreRol}" headerText="nombreRol">
+								sortBy="#{roles.nombreRol}" headerText="Nombre">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{roles.nombreRol}" />
@@ -43,7 +43,7 @@
 							</p:column>
 
 							<p:column filterBy="#{roles.estadoRegistro}"
-								sortBy="#{roles.estadoRegistro}" headerText="estadoRegistro">
+								sortBy="#{roles.estadoRegistro}" headerText="Estado">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{roles.estadoRegistro}" />
@@ -58,7 +58,7 @@
 								</p:cellEditor>
 							</p:column>
 
-							<p:column headerText="Options">
+							<p:column headerText="Editar">
 								<p:rowEditor id="row" />
 								<p:tooltip for="row" value="Edit" showEffect="fade"
 									hideEffect="fade" />
@@ -96,11 +96,11 @@
 						<p:panel id="panelBotones">
 							<div align="center">
 								<p:commandButton id="btnSave" binding="#{rolesView.btnSave}"
-									value="Save" action="#{rolesView.action_save()}"
+									value="Guardar" action="#{rolesView.action_save()}"
 									update=":dialogRoles :form:msgProjectClientesTitle" />
-								<p:commandButton id="btnClear" value="Clear"
+								<p:commandButton id="btnClear" value="Limpiar"
 									action="#{rolesView.action_clear()}" update=":dialogRoles" />
-								<p:commandButton id="btnExit" value="Exit"
+								<p:commandButton id="btnExit" value="Salir"
 									action="#{rolesView.action_closeDialog()}"
 									update=":dialogRoles" />
 							</div>

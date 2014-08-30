@@ -4,167 +4,110 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	<h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	</h:head>
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template.xhtml">
+		<ui:define name="body">
+			<f:view>
+				<p:ajaxStatus onstart="statusDialog.show();"
+					onsuccess="statusDialog.hide();" />
+				<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+					draggable="false" closable="false">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+				<h:form id="form">
+					<p:panel id="msgProjectClientesTitle" header="Areas">
+						<p:messages id="msg" showDetail="true" />
+						<p:dataTable id="tabla" value="#{areasInvolucradasView.data}"
+							var="areasInvolucradas" paginator="true" rows="5" editable="true">
 
-	<h:body>
-	    <ui:composition template="/WEB-INF/facelets/template.xhtml">	
-		 
-		 	<ui:define name="body">	
-				<f:view>
-			<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>               
-					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
-   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
-					</p:dialog>
-		 
-		 <h:form id="form">
-			
-			 
-			<p:panel id="msgProjectClientesTitle" header="AreasInvolucradasData">
-					<p:messages id="msg" showDetail="true"/>
-				<p:dataTable id ="tabla" value="#{areasInvolucradasView.data}" var="areasInvolucradas"
-					paginator="true" rows="5"  editable="true" >
-					 
-					 <p:ajax event ="rowEdit" update=":form:msg,:form:tabla" listener="#{areasInvolucradasView.rowEventListener}" />
-					
-															<p:column filterBy="#{areasInvolucradas.idAreaInvolucrada}" sortBy="#{areasInvolucradas.idAreaInvolucrada}" headerText="idAreaInvolucrada">
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{areasInvolucradas.idAreaInvolucrada}"/>
-							</f:facet>
-							<f:facet name="input">
-								<p:inputText value="#{areasInvolucradas.idAreaInvolucrada}"/>
-							</f:facet>
-						</p:cellEditor>
-					</p:column>
-                    										
-											
-						<p:column filterBy="#{areasInvolucradas.estadoRegistro}" sortBy="#{areasInvolucradas.estadoRegistro}" 
-							headerText="estadoRegistro">
-							
+							<p:ajax event="rowEdit" update=":form:msg,:form:tabla"
+								listener="#{areasInvolucradasView.rowEventListener}" />
+
+							<p:column filterBy="#{areasInvolucradas.nombreArea}"
+								sortBy="#{areasInvolucradas.nombreArea}" headerText="Nombre">
 								<p:cellEditor>
-								
-								<f:facet name="output">
-									<h:outputText value="#{areasInvolucradas.estadoRegistro}"/>
-								</f:facet>
-							
-								<f:facet name="input">
-									<p:inputText value="#{areasInvolucradas.estadoRegistro}"/>
-								</f:facet>
-								</p:cellEditor>	
+									<f:facet name="output">
+										<h:outputText value="#{areasInvolucradas.nombreArea}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{areasInvolucradas.nombreArea}" />
+									</f:facet>
+								</p:cellEditor>
 							</p:column>
-						
-											
-						<p:column filterBy="#{areasInvolucradas.nombreArea}" sortBy="#{areasInvolucradas.nombreArea}" 
-							headerText="nombreArea">
-							
+
+							<p:column filterBy="#{areasInvolucradas.estadoRegistro}"
+								sortBy="#{areasInvolucradas.estadoRegistro}" headerText="Estado">
 								<p:cellEditor>
-								
-								<f:facet name="output">
-									<h:outputText value="#{areasInvolucradas.nombreArea}"/>
-								</f:facet>
-							
-								<f:facet name="input">
-									<p:inputText value="#{areasInvolucradas.nombreArea}"/>
-								</f:facet>
-								</p:cellEditor>	
+									<f:facet name="output">
+										<h:outputText value="#{areasInvolucradas.estadoRegistro}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:selectOneMenu id="estadoRegistro"
+											value="#{areasInvolucradasView.estadoRegistroSeleccionado}"
+											style="height:20px;width:75px">
+											<f:selectItem itemValue="Activo" itemLabel="Activo" />
+											<f:selectItem itemValue="Inactivo" itemLabel="Inactivo" />
+										</p:selectOneMenu>
+									</f:facet>
+								</p:cellEditor>
 							</p:column>
-						
-											
-						<p:column filterBy="#{areasInvolucradas.usuarioCreador}" sortBy="#{areasInvolucradas.usuarioCreador}" 
-							headerText="usuarioCreador">
-							
-								<p:cellEditor>
-								
-								<f:facet name="output">
-									<h:outputText value="#{areasInvolucradas.usuarioCreador}"/>
-								</f:facet>
-							
-								<f:facet name="input">
-									<p:inputText value="#{areasInvolucradas.usuarioCreador}"/>
-								</f:facet>
-								</p:cellEditor>	
+							<p:column headerText="Editar">
+								<p:rowEditor id="row" />
+								<p:tooltip for="row" value="Edit" showEffect="fade"
+									hideEffect="fade" />
 							</p:column>
-						
-											
-						<p:column filterBy="#{areasInvolucradas.usuarioUltimaModificacion}" sortBy="#{areasInvolucradas.usuarioUltimaModificacion}" 
-							headerText="usuarioUltimaModificacion">
-							
-								<p:cellEditor>
-								
-								<f:facet name="output">
-									<h:outputText value="#{areasInvolucradas.usuarioUltimaModificacion}"/>
-								</f:facet>
-							
-								<f:facet name="input">
-									<p:inputText value="#{areasInvolucradas.usuarioUltimaModificacion}"/>
-								</f:facet>
-								</p:cellEditor>	
-							</p:column>
-						
-										
-										   						 
-						 <p:column filterBy="#{areasInvolucradas.fechaCreacion}" sortBy="#{areasInvolucradas.fechaCreacion}" 
-							headerText="fechaCreacion">
-							
-								<p:cellEditor>
-								
-								<f:facet name="output">
-									<h:outputText value="#{areasInvolucradas.fechaCreacion}">
-									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
-									</h:outputText>		
-								</f:facet>
-							
-								<f:facet name="input">
-									<p:calendar value="#{areasInvolucradas.fechaCreacion}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
-									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{areasInvolucradasView.timeZone}" />	
-								    </p:calendar>		
-								</f:facet>
-								</p:cellEditor>	
-							</p:column>
-						
-					   						 
-						 <p:column filterBy="#{areasInvolucradas.fechaUltimaModificacion}" sortBy="#{areasInvolucradas.fechaUltimaModificacion}" 
-							headerText="fechaUltimaModificacion">
-							
-								<p:cellEditor>
-								
-								<f:facet name="output">
-									<h:outputText value="#{areasInvolucradas.fechaUltimaModificacion}">
-									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
-									</h:outputText>		
-								</f:facet>
-							
-								<f:facet name="input">
-									<p:calendar value="#{areasInvolucradas.fechaUltimaModificacion}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
-									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{areasInvolucradasView.timeZone}" />	
-								    </p:calendar>		
-								</f:facet>
-								</p:cellEditor>	
-							</p:column>
-						
-					   											
-					<p:column headerText="Options" >
-						<p:rowEditor id="row"/>
-						<p:tooltip for="row" value="Edit" showEffect="fade" hideEffect="fade" />
-						<p:tooltip for="btnDelete" value="Delete" showEffect="fade" hideEffect="fade" />
-						<p:commandButton id="btnDelete" actionListener="#{areasInvolucradasView.actionDeleteDataTableEditable}" title="Delete" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" icon="ui-icon-trash" update=":form:msg,:form:tabla" >
-							<f:attribute name="selectedAreasInvolucradas" value="#{areasInvolucradas}" />  
-						</p:commandButton>
-						
-					</p:column>	
-				
-				</p:dataTable>	
-					
-				
-			</p:panel>
-				
-	   </h:form>
-		 </f:view>
-			</ui:define>		
-		</ui:composition>	
-	
-	</h:body>	
-	
-</html>	
+						</p:dataTable>
+					</p:panel>
+					<p:panel id="panelBoton">
+						<div align="center">
+							<p:commandButton id="btnNew" value="Nevo"
+								action="#{areasInvolucradasView.action_new()}"
+								update=":dialogAreasInvolucradas" />
+						</div>
+					</p:panel>
+				</h:form>
+				<p:dialog id="dialogAreasInvolucradas" appendToBody="true"
+					draggable="true" closable="false"
+					visible="#{areasInvolucradasView.showDialog}" resizable="false"
+					modal="true" width="500">
+					<h:form id="formDialog">
+						<p:messages id="msg" showDetail="true" />
+						<p:panel id="panelAreasInvolucradas" header="Nueva Area">
+							<h:panelGrid columns="2" id="panelGrid">
+
+								<h:outputText id="msgNombreArea" value="*Nombre:" />
+								<p:inputText id="txtNombreArea" disabled="false"
+									binding="#{areasInvolucradasView.txtNombreArea}" />
+								<h:outputText id="msgEstadoRegistro" value="*Estado:" />
+								<p:selectOneMenu id="estadoRegistro"
+									value="#{areasInvolucradasView.estadoRegistroSeleccionado}">
+									<f:selectItem itemValue="Activo" itemLabel="Activo" />
+									<f:selectItem itemValue="Inactivo" itemLabel="Inactivo" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+						</p:panel>
+						<p:panel id="panelBotones">
+							<div align="center">
+								<p:commandButton id="btnSave"
+									binding="#{areasInvolucradasView.btnSave}" value="Guardar"
+									action="#{areasInvolucradasView.action_save()}"
+									update=":dialogAreasInvolucradas :form:msgProjectClientesTitle" />
+								<p:commandButton id="btnClear" value="Limpiar"
+									action="#{areasInvolucradasView.action_clear()}"
+									update=":dialogAreasInvolucradas" />
+								<p:commandButton id="btnExit" value="Salir"
+									action="#{areasInvolucradasView.action_closeDialog()}"
+									update=":dialogAreasInvolucradas" />
+							</div>
+						</p:panel>
+					</h:form>
+				</p:dialog>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

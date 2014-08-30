@@ -9,16 +9,12 @@ import com.tcbuen.pqrs.utilities.*;
 import org.primefaces.component.calendar.*;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
-
 import org.primefaces.event.RowEditEvent;
 
 import java.io.Serializable;
-
 import java.sql.*;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,6 +38,7 @@ import javax.faces.event.ActionEvent;
 public class AreasInvolucradasView implements Serializable {
     private static final long serialVersionUID = 1L;
     private InputText txtEstadoRegistro;
+	private String estadoRegistroSeleccionado;
     private InputText txtNombreArea;
     private InputText txtUsuarioCreador;
     private InputText txtUsuarioUltimaModificacion;
@@ -129,49 +126,20 @@ public class AreasInvolucradasView implements Serializable {
         entity = null;
         selectedAreasInvolucradas = null;
 
-        if (txtEstadoRegistro != null) {
-            txtEstadoRegistro.setValue(null);
-            txtEstadoRegistro.setDisabled(true);
+        if (estadoRegistroSeleccionado != null) {
+            estadoRegistroSeleccionado = null;
         }
 
         if (txtNombreArea != null) {
             txtNombreArea.setValue(null);
-            txtNombreArea.setDisabled(true);
-        }
-
-        if (txtUsuarioCreador != null) {
-            txtUsuarioCreador.setValue(null);
-            txtUsuarioCreador.setDisabled(true);
-        }
-
-        if (txtUsuarioUltimaModificacion != null) {
-            txtUsuarioUltimaModificacion.setValue(null);
-            txtUsuarioUltimaModificacion.setDisabled(true);
-        }
-
-        if (txtFechaCreacion != null) {
-            txtFechaCreacion.setValue(null);
-            txtFechaCreacion.setDisabled(true);
-        }
-
-        if (txtFechaUltimaModificacion != null) {
-            txtFechaUltimaModificacion.setValue(null);
-            txtFechaUltimaModificacion.setDisabled(true);
-        }
-
-        if (txtIdAreaInvolucrada != null) {
-            txtIdAreaInvolucrada.setValue(null);
-            txtIdAreaInvolucrada.setDisabled(false);
         }
 
         if (btnSave != null) {
-            btnSave.setDisabled(true);
+            btnSave.setDisabled(false);
         }
 
-        if (btnDelete != null) {
-            btnDelete.setDisabled(true);
-        }
-
+        data = null;
+        data = getData();
         return "";
     }
 
@@ -266,6 +234,7 @@ public class AreasInvolucradasView implements Serializable {
             }
 
             data = null;
+            data = getData();
         } catch (Exception e) {
             FacesUtils.addErrorMessage(e.getMessage());
         }
@@ -277,19 +246,21 @@ public class AreasInvolucradasView implements Serializable {
         try {
             entity = new AreasInvolucradas();
 
-            Long idAreaInvolucrada = FacesUtils.checkLong(txtIdAreaInvolucrada);
+            //Long idAreaInvolucrada = FacesUtils.checkLong(txtIdAreaInvolucrada);
+            //entity.setIdAreaInvolucrada(idAreaInvolucrada);
 
-            entity.setEstadoRegistro(FacesUtils.checkString(txtEstadoRegistro));
-            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-            entity.setFechaUltimaModificacion(FacesUtils.checkDate(
-                    txtFechaUltimaModificacion));
-            entity.setIdAreaInvolucrada(idAreaInvolucrada);
             entity.setNombreArea(FacesUtils.checkString(txtNombreArea));
-            entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
-            entity.setUsuarioUltimaModificacion(FacesUtils.checkString(
-                    txtUsuarioUltimaModificacion));
+            String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
+            entity.setEstadoRegistro(estado);
+            //Falta agregar usuario de sesion
+            entity.setUsuarioCreador("Admin");
+            entity.setFechaCreacion(new Date());
+            entity.setUsuarioUltimaModificacion(null);
+            entity.setFechaUltimaModificacion(null);          
+            
             businessDelegatorView.saveAreasInvolucradas(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+            
             action_clear();
         } catch (Exception e) {
             entity = null;
@@ -306,16 +277,20 @@ public class AreasInvolucradasView implements Serializable {
                 entity = businessDelegatorView.getAreasInvolucradas(idAreaInvolucrada);
             }
 
-            entity.setEstadoRegistro(FacesUtils.checkString(txtEstadoRegistro));
-            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-            entity.setFechaUltimaModificacion(FacesUtils.checkDate(
-                    txtFechaUltimaModificacion));
             entity.setNombreArea(FacesUtils.checkString(txtNombreArea));
+            String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
+            entity.setEstadoRegistro(estado);
             entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
-            entity.setUsuarioUltimaModificacion(FacesUtils.checkString(
-                    txtUsuarioUltimaModificacion));
+            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
+            //Falta agregar usuario de sesion
+            entity.setUsuarioUltimaModificacion("Facturación");
+            entity.setFechaUltimaModificacion(new Date());           
+          
+            
             businessDelegatorView.updateAreasInvolucradas(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+            
+            action_clear();
         } catch (Exception e) {
             data = null;
             FacesUtils.addErrorMessage(e.getMessage());
@@ -548,4 +523,13 @@ public class AreasInvolucradasView implements Serializable {
     public void setShowDialog(boolean showDialog) {
         this.showDialog = showDialog;
     }
+
+	public String getEstadoRegistroSeleccionado() {
+		return estadoRegistroSeleccionado;
+	}
+
+	public void setEstadoRegistroSeleccionado(String estadoRegistroSeleccionado) {
+		this.estadoRegistroSeleccionado = estadoRegistroSeleccionado;
+	}
+    
 }

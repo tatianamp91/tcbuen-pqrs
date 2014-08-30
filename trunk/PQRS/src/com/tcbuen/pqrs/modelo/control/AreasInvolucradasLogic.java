@@ -78,6 +78,23 @@ public class AreasInvolucradasLogic implements IAreasInvolucradasLogic {
     public void saveAreasInvolucradas(AreasInvolucradas entity)
         throws Exception {
         try {
+        	/*
+        	if (getAreasInvolucradas(entity.getIdAreaInvolucrada()) != null) {
+                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
+            }
+            
+            if (entity.getIdAreaInvolucrada() == null) {
+                throw new ZMessManager().new EmptyFieldException(
+                    "idAreaInvolucrada");
+            }
+
+            if ((entity.getIdAreaInvolucrada() != null) &&
+                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
+                        entity.getIdAreaInvolucrada(), 10, 0) == false)) {
+                throw new ZMessManager().new NotValidFormatException(
+                    "idAreaInvolucrada");
+            }
+            */
             if (entity.getEstadoRegistro() == null) {
                 throw new ZMessManager().new EmptyFieldException(
                     "estadoRegistro");
@@ -90,17 +107,6 @@ public class AreasInvolucradasLogic implements IAreasInvolucradasLogic {
                     "estadoRegistro");
             }
 
-            if (entity.getIdAreaInvolucrada() == null) {
-                throw new ZMessManager().new EmptyFieldException(
-                    "idAreaInvolucrada");
-            }
-
-            if ((entity.getIdAreaInvolucrada() != null) &&
-                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
-                        entity.getIdAreaInvolucrada(), 10, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException(
-                    "idAreaInvolucrada");
-            }
 
             if (entity.getNombreArea() == null) {
                 throw new ZMessManager().new EmptyFieldException("nombreArea");
@@ -125,10 +131,6 @@ public class AreasInvolucradasLogic implements IAreasInvolucradasLogic {
                         entity.getUsuarioUltimaModificacion(), 50) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "usuarioUltimaModificacion");
-            }
-
-            if (getAreasInvolucradas(entity.getIdAreaInvolucrada()) != null) {
-                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
             }
 
             areasInvolucradasDAO.save(entity);
