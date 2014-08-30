@@ -22,7 +22,7 @@
 				</p:dialog>
 
 				<h:form id="form">
-					<p:panel id="msgProjectClientesTitle" header="RolesData">
+					<p:panel id="msgProjectClientesTitle" header="Roles">
 						<p:messages id="msg" showDetail="true" />
 						<p:dataTable id="tabla" value="#{rolesView.data}" var="roles"
 							paginator="true" rows="5" editable="true">
@@ -65,11 +65,10 @@
 							</p:column>
 						</p:dataTable>
 
-
 					</p:panel>
 					<p:panel id="panelBoton">
 						<div align="center">
-							<p:commandButton id="btnNew" value="New"
+							<p:commandButton id="btnNew" value="Nuevo"
 								action="#{rolesView.action_new()}" update=":dialogRoles" />
 						</div>
 					</p:panel>
@@ -82,11 +81,11 @@
 						<p:panel id="panelRoles" header="Nuevo Rol">
 							<h:panelGrid columns="2" id="panelGrid">
 
-								<h:outputText id="msgNombreRol" value="* Nombre Rol: " />
+								<h:outputText id="msgNombreRol" value="* Nombre: " />
 								<p:inputText id="txtNombreRol" disabled="false"
 									binding="#{rolesView.txtNombreRol}" />
 
-								<h:outputText id="msgEstadoRegistro" value="* Estado Registro:" />
+								<h:outputText id="msgEstadoRegistro" value="* Estado:" />
 								<p:selectOneMenu id="estadoRegistro"
 									value="#{rolesView.estadoRegistroSeleccionado}">
 									<f:selectItem itemValue="Activo" itemLabel="Activo" />

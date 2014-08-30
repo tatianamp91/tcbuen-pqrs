@@ -83,6 +83,24 @@ public class AnexosPqrLogic implements IAnexosPqrLogic {
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void saveAnexosPqr(AnexosPqr entity) throws Exception {
         try {
+        	
+        	/*
+            if (entity.getIdAnexoPqr() == null) {
+                throw new ZMessManager().new EmptyFieldException("idAnexoPqr");
+            }
+
+            if ((entity.getIdAnexoPqr() != null) &&
+                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
+                        entity.getIdAnexoPqr(), 10, 0) == false)) {
+                throw new ZMessManager().new NotValidFormatException(
+                    "idAnexoPqr");
+            }
+            
+            if (getAnexosPqr(entity.getIdAnexoPqr()) != null) {
+                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
+            }
+
+            */
             if (entity.getDescripcionAnexo() == null) {
                 throw new ZMessManager().new EmptyFieldException(
                     "descripcionAnexo");
@@ -107,17 +125,6 @@ public class AnexosPqrLogic implements IAnexosPqrLogic {
                     "estadoRegistro");
             }
 
-            if (entity.getIdAnexoPqr() == null) {
-                throw new ZMessManager().new EmptyFieldException("idAnexoPqr");
-            }
-
-            if ((entity.getIdAnexoPqr() != null) &&
-                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
-                        entity.getIdAnexoPqr(), 10, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException(
-                    "idAnexoPqr");
-            }
-
             if ((entity.getUsuarioCreador() != null) &&
                     (Utilities.checkWordAndCheckWithlength(
                         entity.getUsuarioCreador(), 50) == false)) {
@@ -130,10 +137,6 @@ public class AnexosPqrLogic implements IAnexosPqrLogic {
                         entity.getUsuarioUltimaModificacion(), 50) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "usuarioUltimaModificacion");
-            }
-
-            if (getAnexosPqr(entity.getIdAnexoPqr()) != null) {
-                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
             }
 
             anexosPqrDAO.save(entity);

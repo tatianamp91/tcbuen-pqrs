@@ -246,8 +246,10 @@ public class RolesView implements Serializable {
             entity.setFechaCreacion(new Date());
             entity.setFechaUltimaModificacion(null);
             entity.setUsuarioUltimaModificacion(null);
+            
             businessDelegatorView.saveRoles(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+            
             action_clear();
         } catch (Exception e) {
             entity = null;
@@ -267,14 +269,15 @@ public class RolesView implements Serializable {
             entity.setNombreRol(FacesUtils.checkString(txtNombreRol));
             String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
             entity.setEstadoRegistro(estado);
-          //Falta agregar usuario de sesion
             entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
             entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
+          //Falta agregar usuario de sesion
             entity.setUsuarioUltimaModificacion("Facturación");
             entity.setFechaUltimaModificacion(new Date());
 
             businessDelegatorView.updateRoles(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+            
             action_clear();
         } catch (Exception e) {
             data = null;
