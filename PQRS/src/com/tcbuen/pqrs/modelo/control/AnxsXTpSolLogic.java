@@ -39,7 +39,7 @@ public class AnxsXTpSolLogic implements IAnxsXTpSolLogic {
 
     /**
     * Logic injected by Spring that manages AnexosPqr entities
-    *
+    * buu
     */
     @Autowired
     IAnexosPqrLogic logicAnexosPqr1;
