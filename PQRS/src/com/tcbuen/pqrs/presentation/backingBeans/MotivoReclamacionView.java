@@ -6,19 +6,16 @@ import com.tcbuen.pqrs.modelo.dto.MotivoReclamacionDTO;
 import com.tcbuen.pqrs.presentation.businessDelegate.*;
 import com.tcbuen.pqrs.utilities.*;
 
+import org.hibernate.validator.util.GetAnnotationParameter;
 import org.primefaces.component.calendar.*;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
-
 import org.primefaces.event.RowEditEvent;
 
 import java.io.Serializable;
-
 import java.sql.*;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -42,6 +39,7 @@ import javax.faces.event.ActionEvent;
 public class MotivoReclamacionView implements Serializable {
     private static final long serialVersionUID = 1L;
     private InputText txtDescripcionMotRecl;
+    private String estadoRegistroSeleccionado;
     private InputText txtEstadoRegistro;
     private InputText txtUsuarioCreador;
     private InputText txtUsuarioUltimaModificacion;
@@ -131,47 +129,18 @@ public class MotivoReclamacionView implements Serializable {
 
         if (txtDescripcionMotRecl != null) {
             txtDescripcionMotRecl.setValue(null);
-            txtDescripcionMotRecl.setDisabled(true);
         }
 
-        if (txtEstadoRegistro != null) {
-            txtEstadoRegistro.setValue(null);
-            txtEstadoRegistro.setDisabled(true);
-        }
-
-        if (txtUsuarioCreador != null) {
-            txtUsuarioCreador.setValue(null);
-            txtUsuarioCreador.setDisabled(true);
-        }
-
-        if (txtUsuarioUltimaModificacion != null) {
-            txtUsuarioUltimaModificacion.setValue(null);
-            txtUsuarioUltimaModificacion.setDisabled(true);
-        }
-
-        if (txtFechaCreacion != null) {
-            txtFechaCreacion.setValue(null);
-            txtFechaCreacion.setDisabled(true);
-        }
-
-        if (txtFechaUltimaModificacion != null) {
-            txtFechaUltimaModificacion.setValue(null);
-            txtFechaUltimaModificacion.setDisabled(true);
-        }
-
-        if (txtIdMotRecl != null) {
-            txtIdMotRecl.setValue(null);
-            txtIdMotRecl.setDisabled(false);
+        if(estadoRegistroSeleccionado != null){
+        	estadoRegistroSeleccionado = null;
         }
 
         if (btnSave != null) {
-            btnSave.setDisabled(true);
+            btnSave.setDisabled(false);
         }
-
-        if (btnDelete != null) {
-            btnDelete.setDisabled(true);
-        }
-
+        
+        data = null;
+        data = getData();
         return "";
     }
 
@@ -265,6 +234,7 @@ public class MotivoReclamacionView implements Serializable {
             }
 
             data = null;
+            data = getData();
         } catch (Exception e) {
             FacesUtils.addErrorMessage(e.getMessage());
         }
@@ -276,20 +246,19 @@ public class MotivoReclamacionView implements Serializable {
         try {
             entity = new MotivoReclamacion();
 
-            Long idMotRecl = FacesUtils.checkLong(txtIdMotRecl);
+            //Long idMotRecl = FacesUtils.checkLong(txtIdMotRecl);
+            //entity.setIdMotRecl(idMotRecl);
+            entity.setDescripcionMotRecl(FacesUtils.checkString(txtDescripcionMotRecl));
+            entity.setEstadoRegistro(estadoRegistroSeleccionado);
+            //Falta agregar usuario de sesion
+            entity.setUsuarioCreador("Admin");
+            entity.setFechaCreacion(new Date());
+            entity.setUsuarioUltimaModificacion(null);
+            entity.setFechaUltimaModificacion(null);
 
-            entity.setDescripcionMotRecl(FacesUtils.checkString(
-                    txtDescripcionMotRecl));
-            entity.setEstadoRegistro(FacesUtils.checkString(txtEstadoRegistro));
-            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-            entity.setFechaUltimaModificacion(FacesUtils.checkDate(
-                    txtFechaUltimaModificacion));
-            entity.setIdMotRecl(idMotRecl);
-            entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
-            entity.setUsuarioUltimaModificacion(FacesUtils.checkString(
-                    txtUsuarioUltimaModificacion));
             businessDelegatorView.saveMotivoReclamacion(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+            
             action_clear();
         } catch (Exception e) {
             entity = null;
@@ -306,17 +275,18 @@ public class MotivoReclamacionView implements Serializable {
                 entity = businessDelegatorView.getMotivoReclamacion(idMotRecl);
             }
 
-            entity.setDescripcionMotRecl(FacesUtils.checkString(
-                    txtDescripcionMotRecl));
-            entity.setEstadoRegistro(FacesUtils.checkString(txtEstadoRegistro));
-            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-            entity.setFechaUltimaModificacion(FacesUtils.checkDate(
-                    txtFechaUltimaModificacion));
+            entity.setDescripcionMotRecl(FacesUtils.checkString(txtDescripcionMotRecl));
+            entity.setEstadoRegistro(estadoRegistroSeleccionado);
             entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
-            entity.setUsuarioUltimaModificacion(FacesUtils.checkString(
-                    txtUsuarioUltimaModificacion));
+            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
+            //Falta agregar usuario de sesion
+            entity.setUsuarioUltimaModificacion("Facturación");
+            entity.setFechaUltimaModificacion(new Date());
+           
             businessDelegatorView.updateMotivoReclamacion(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+            
+            action_clear();
         } catch (Exception e) {
             data = null;
             FacesUtils.addErrorMessage(e.getMessage());
@@ -550,4 +520,12 @@ public class MotivoReclamacionView implements Serializable {
     public void setShowDialog(boolean showDialog) {
         this.showDialog = showDialog;
     }
+
+	public String getEstadoRegistroSeleccionado() {
+		return estadoRegistroSeleccionado;
+	}
+
+	public void setEstadoRegistroSeleccionado(String estadoRegistroSeleccionado) {
+		this.estadoRegistroSeleccionado = estadoRegistroSeleccionado;
+	}
 }

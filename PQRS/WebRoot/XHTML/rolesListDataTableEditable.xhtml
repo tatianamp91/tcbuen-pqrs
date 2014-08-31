@@ -51,8 +51,8 @@
 									<f:facet name="input">
 										<p:selectOneMenu id="estadoRegistro"
 											value="#{rolesView.estadoRegistroSeleccionado}" style="height:20px;width:75px">
-											<f:selectItem itemValue="Activo" itemLabel="Activo" />
-											<f:selectItem itemValue="Inactivo" itemLabel="Inactivo" />
+											<f:selectItem itemValue="A" itemLabel="Activo" />
+											<f:selectItem itemValue="I" itemLabel="Inactivo" />
 										</p:selectOneMenu>
 									</f:facet>
 								</p:cellEditor>
@@ -69,12 +69,12 @@
 					<p:panel id="panelBoton">
 						<div align="center">
 							<p:commandButton id="btnNew" value="Nuevo"
-								action="#{rolesView.action_new()}" update=":dialogRoles" />
+								action="#{rolesView.action_new()}" update=":dialogRoles"/>
 						</div>
 					</p:panel>
 				</h:form>
 				<p:dialog id="dialogRoles" appendToBody="true" draggable="true"
-					closable="false" visible="#{rolesView.showDialog}"
+					closable="true" visible="#{rolesView.showDialog}"
 					resizable="false" modal="true" width="500">
 					<h:form id="formDialog">
 						<p:messages id="msg" showDetail="true" />
@@ -88,8 +88,8 @@
 								<h:outputText id="msgEstadoRegistro" value="* Estado:" />
 								<p:selectOneMenu id="estadoRegistro"
 									value="#{rolesView.estadoRegistroSeleccionado}">
-									<f:selectItem itemValue="Activo" itemLabel="Activo" />
-									<f:selectItem itemValue="Inactivo" itemLabel="Inactivo" />
+									<f:selectItem itemValue="A" itemLabel="Activo" />
+									<f:selectItem itemValue="I" itemLabel="Inactivo" />
 								</p:selectOneMenu>
 							</h:panelGrid>
 						</p:panel>

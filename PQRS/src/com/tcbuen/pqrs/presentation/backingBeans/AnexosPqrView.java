@@ -130,17 +130,14 @@ public class AnexosPqrView implements Serializable {
             txtDescripcionAnexo.setValue(null);
         }
 
-        if (txtEstadoRegistro != null) {
-            txtEstadoRegistro.setValue(null);
+        if(estadoRegistroSeleccionado != null){
+        	estadoRegistroSeleccionado = null;
         }
 
         if (btnSave != null) {
             btnSave.setDisabled(false);
         }
 
-        if (btnDelete != null) {
-            btnDelete.setDisabled(true);
-        }
         data = null;
         data = getData();
         return "";
@@ -249,8 +246,7 @@ public class AnexosPqrView implements Serializable {
             //Long idAnexoPqr = FacesUtils.checkLong(txtIdAnexoPqr);
             //entity.setIdAnexoPqr(idAnexoPqr);
             entity.setDescripcionAnexo(FacesUtils.checkString(txtDescripcionAnexo));
-            String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
-            entity.setEstadoRegistro(estado);
+            entity.setEstadoRegistro(estadoRegistroSeleccionado);
             //Falta agregar usuario de sesion
             entity.setUsuarioCreador("Admin");
             entity.setFechaCreacion(new Date());
@@ -277,8 +273,7 @@ public class AnexosPqrView implements Serializable {
             }
 
             entity.setDescripcionAnexo(FacesUtils.checkString(txtDescripcionAnexo));
-            String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
-            entity.setEstadoRegistro(estado);
+            entity.setEstadoRegistro(estadoRegistroSeleccionado);
             entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
             entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
             entity.setFechaUltimaModificacion(new Date());

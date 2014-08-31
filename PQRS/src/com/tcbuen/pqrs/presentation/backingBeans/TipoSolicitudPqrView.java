@@ -249,8 +249,7 @@ public class TipoSolicitudPqrView implements Serializable {
             //entity.setIdTpSolPqr(idTpSolPqr);
             
             entity.setDescTpSol(FacesUtils.checkString(txtDescTpSol));
-            String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
-            entity.setEstadoRegistro(estado);
+            entity.setEstadoRegistro(estadoRegistroSeleccionado);
             //Falta agregar usuario de sesion
             entity.setUsuarioCreador("Admin");
             entity.setFechaCreacion(new Date());
@@ -277,8 +276,7 @@ public class TipoSolicitudPqrView implements Serializable {
             }
 
             entity.setDescTpSol(FacesUtils.checkString(txtDescTpSol));
-            String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
-            entity.setEstadoRegistro(estado);
+            entity.setEstadoRegistro(estadoRegistroSeleccionado);
             entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
             entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
             //Falta agregar usuario de sesion
