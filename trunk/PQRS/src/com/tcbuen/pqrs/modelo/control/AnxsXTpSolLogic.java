@@ -39,7 +39,7 @@ public class AnxsXTpSolLogic implements IAnxsXTpSolLogic {
 
     /**
     * Logic injected by Spring that manages AnexosPqr entities
-    * buu
+    *
     */
     @Autowired
     IAnexosPqrLogic logicAnexosPqr1;
@@ -69,6 +69,23 @@ public class AnxsXTpSolLogic implements IAnxsXTpSolLogic {
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void saveAnxsXTpSol(AnxsXTpSol entity) throws Exception {
         try {
+        	/*
+        	if (getAnxsXTpSol(entity.getIdAnexoXTpSol()) != null) {
+                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
+            }
+            
+            if (entity.getIdAnexoXTpSol() == null) {
+                throw new ZMessManager().new EmptyFieldException(
+                    "idAnexoXTpSol");
+            }
+
+            if ((entity.getIdAnexoXTpSol() != null) &&
+                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
+                        entity.getIdAnexoXTpSol(), 10, 0) == false)) {
+                throw new ZMessManager().new NotValidFormatException(
+                    "idAnexoXTpSol");
+            }
+            */
             if (entity.getAnexosPqr() == null) {
                 throw new ZMessManager().new ForeignException("anexosPqr");
             }
@@ -88,18 +105,6 @@ public class AnxsXTpSolLogic implements IAnxsXTpSolLogic {
                         entity.getEsObligatorio(), 1) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "esObligatorio");
-            }
-
-            if (entity.getIdAnexoXTpSol() == null) {
-                throw new ZMessManager().new EmptyFieldException(
-                    "idAnexoXTpSol");
-            }
-
-            if ((entity.getIdAnexoXTpSol() != null) &&
-                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
-                        entity.getIdAnexoXTpSol(), 10, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException(
-                    "idAnexoXTpSol");
             }
 
             if (entity.getAnexosPqr().getIdAnexoPqr() == null) {
@@ -124,10 +129,6 @@ public class AnxsXTpSolLogic implements IAnxsXTpSolLogic {
                         entity.getTipoSolicitudPqr().getIdTpSolPqr(), 10, 0) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "idTpSolPqr_TipoSolicitudPqr");
-            }
-
-            if (getAnxsXTpSol(entity.getIdAnexoXTpSol()) != null) {
-                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
             }
 
             anxsXTpSolDAO.save(entity);
