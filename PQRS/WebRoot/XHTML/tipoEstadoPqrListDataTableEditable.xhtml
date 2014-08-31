@@ -22,8 +22,6 @@
 				</p:dialog>
 
 				<h:form id="form">
-
-
 					<p:panel id="msgProjectClientesTitle" header="Tipo Estados">
 						<p:messages id="msg" showDetail="true" />
 						<p:dataTable id="tabla" value="#{tipoEstadoPqrView.data}"
@@ -35,32 +33,25 @@
 							<p:column filterBy="#{tipoEstadoPqr.descripcionEstado}"
 								sortBy="#{tipoEstadoPqr.descripcionEstado}"
 								headerText="Descripción">
-
 								<p:cellEditor>
-
 									<f:facet name="output">
 										<h:outputText value="#{tipoEstadoPqr.descripcionEstado}" />
 									</f:facet>
-
 									<f:facet name="input">
 										<p:inputText value="#{tipoEstadoPqr.descripcionEstado}" />
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
 
-
 							<p:column filterBy="#{tipoEstadoPqr.estadoRegistro}"
 								sortBy="#{tipoEstadoPqr.estadoRegistro}" headerText="Estado">
-
 								<p:cellEditor>
-
 									<f:facet name="output">
 										<h:outputText value="#{tipoEstadoPqr.estadoRegistro}" />
 									</f:facet>
-
 									<f:facet name="input">
-									<p:selectOneMenu id="estadoRegistro"
-											value="#{parametrosPqrView.estadoRegistroSeleccionado}"
+										<p:selectOneMenu id="estadoRegistro"
+											value="#{tipoEstadoPqrView.estadoRegistroSeleccionado}"
 											style="height:20px;width:75px">
 											<f:selectItem itemValue="Activo" itemLabel="Activo" />
 											<f:selectItem itemValue="Inactivo" itemLabel="Inactivo" />
@@ -69,8 +60,6 @@
 								</p:cellEditor>
 							</p:column>
 
-
-
 							<p:column headerText="Editar">
 								<p:rowEditor id="row" />
 								<p:tooltip for="row" value="Edit" showEffect="fade"
@@ -78,30 +67,30 @@
 							</p:column>
 						</p:dataTable>
 					</p:panel>
-					
 					<p:panel id="panelBoton">
 						<div align="center">
 							<p:commandButton id="btnNew" value="Nuevo"
-								action="#{tipoEstadoPqrView.action_new()}" update=":dialogTipoEstadoPqr">
+								action="#{tipoEstadoPqrView.action_new()}"
+								update=":dialogTipoEstadoPqr">
 							</p:commandButton>
 						</div>
 					</p:panel>
 				</h:form>
-				
-				<p:dialog id="dialogTipoEstadoPqr" appendToBody="true" draggable="true"
-						closable="false" visible="#{tipoEstadoPqrView.showDialog}"
-						resizable="false" modal="true" width="500">
+				<p:dialog id="dialogTipoEstadoPqr" appendToBody="true"
+					draggable="true" closable="false"
+					visible="#{tipoEstadoPqrView.showDialog}" resizable="false"
+					modal="true" width="500">
 					<h:form id="formDialog">
 						<p:messages id="msg" showDetail="true"></p:messages>
 						<p:panel id="panelTipoEstadoPqr" header="Nuevo Estado">
 							<h:panelGrid columns="2" id="panelGrid">
 								<h:outputText id="msgDescripcionEstado" value="*Descripción:"></h:outputText>
-								<p:inputText id="txtDescripcionEstado" 
-										binding="#{tipoEstadoPqrView.txtDescripcionEstado}" />
-								<h:outputText id="msgEstadoRegistro" value="*Estado:"></h:outputText> 
+								<p:inputText id="txtDescripcionEstado"
+									binding="#{tipoEstadoPqrView.txtDescripcionEstado}" />
+								<h:outputText id="msgEstadoRegistro" value="*Estado:"></h:outputText>
 								<p:selectOneMenu id="estadoRegistro"
-											value="#{parametrosPqrView.estadoRegistroSeleccionado}"
-											style="height:20px;width:75px">
+									value="#{tipoEstadoPqrView.estadoRegistroSeleccionado}"
+									style="height:20px;width:75px">
 									<f:selectItem itemValue="Activo" itemLabel="Activo"></f:selectItem>
 									<f:selectItem itemValue="Inactivo" itemLabel="Inactivo"></f:selectItem>
 								</p:selectOneMenu>
@@ -110,25 +99,25 @@
 						<p:panel id="panelBotones">
 							<div align="center">
 								<p:commandButton id="btnSave" value="Guardar"
-												binding="#{tipoEstadoPqrView.btnSave}"
-												action="#{tipoEstadoPqrView.action_save()}"
-												update=":dialogTipoEstadoPqr :form:msgProjectClientesTitle">
+									binding="#{tipoEstadoPqrView.btnSave}"
+									action="#{tipoEstadoPqrView.action_save()}"
+									update=":dialogTipoEstadoPqr :form:msgProjectClientesTitle">
 								</p:commandButton>
 								<p:commandButton id="btnClear" value="Limpiar"
-												action="#{tipoEstadoPqrView.action_clear()}"
-												update=":dialogTipoEstadoPqr">
+									action="#{tipoEstadoPqrView.action_clear()}"
+									update=":dialogTipoEstadoPqr">
 								</p:commandButton>
 								<p:commandButton id="btnExit" value="Salir"
-												action="#{tipoEstadoPqrView.action_closeDialog()}"
-												update=":dialogTipoEstadoPqr">
+									action="#{tipoEstadoPqrView.action_closeDialog()}"
+									update=":dialogTipoEstadoPqr">
 								</p:commandButton>
 							</div>
 						</p:panel>
-					</h:form>	
-				</p:dialog>				
+					</h:form>
+				</p:dialog>
 			</f:view>
 		</ui:define>
 	</ui:composition>
-	</h:body>
+</h:body>
 
 </html>
