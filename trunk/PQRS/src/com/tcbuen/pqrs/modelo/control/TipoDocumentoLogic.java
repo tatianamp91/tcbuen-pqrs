@@ -87,7 +87,7 @@ public class TipoDocumentoLogic implements ITipoDocumentoLogic {
                     "estadoRegistro");
             }
 
-            if (entity.getIdTpDoc() == null) {
+            /*if (entity.getIdTpDoc() == null) {
                 throw new ZMessManager().new EmptyFieldException("idTpDoc");
             }
 
@@ -95,7 +95,7 @@ public class TipoDocumentoLogic implements ITipoDocumentoLogic {
                     (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
                         entity.getIdTpDoc(), 10, 0) == false)) {
                 throw new ZMessManager().new NotValidFormatException("idTpDoc");
-            }
+            }*/
 
             if ((entity.getUsuarioCreador() != null) &&
                     (Utilities.checkWordAndCheckWithlength(
@@ -111,9 +111,9 @@ public class TipoDocumentoLogic implements ITipoDocumentoLogic {
                     "usuarioUltimaModificacion");
             }
 
-            if (getTipoDocumento(entity.getIdTpDoc()) != null) {
+            /*if (getTipoDocumento(entity.getIdTpDoc()) != null) {
                 throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
-            }
+            }*/
 
             tipoDocumentoDAO.save(entity);
         } catch (Exception e) {
