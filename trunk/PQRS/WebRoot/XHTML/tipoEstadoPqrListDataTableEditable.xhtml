@@ -4,167 +4,131 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	<h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	</h:head>
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
 
-	<h:body>
-	    <ui:composition template="/WEB-INF/facelets/template.xhtml">	
-		 
-		 	<ui:define name="body">	
-				<f:view>
-			<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>               
-					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
-   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
-					</p:dialog>
-		 
-		 <h:form id="form">
-			
-			 
-			<p:panel id="msgProjectClientesTitle" header="TipoEstadoPqrData">
-					<p:messages id="msg" showDetail="true"/>
-				<p:dataTable id ="tabla" value="#{tipoEstadoPqrView.data}" var="tipoEstadoPqr"
-					paginator="true" rows="5"  editable="true" >
-					 
-					 <p:ajax event ="rowEdit" update=":form:msg,:form:tabla" listener="#{tipoEstadoPqrView.rowEventListener}" />
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template.xhtml">
+
+		<ui:define name="body">
+			<f:view>
+				<p:ajaxStatus onstart="statusDialog.show();"
+					onsuccess="statusDialog.hide();" />
+				<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+					draggable="false" closable="false">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+
+				<h:form id="form">
+
+
+					<p:panel id="msgProjectClientesTitle" header="Tipo Estados">
+						<p:messages id="msg" showDetail="true" />
+						<p:dataTable id="tabla" value="#{tipoEstadoPqrView.data}"
+							var="tipoEstadoPqr" paginator="true" rows="5" editable="true">
+
+							<p:ajax event="rowEdit" update=":form:msg,:form:tabla"
+								listener="#{tipoEstadoPqrView.rowEventListener}" />
+
+							<p:column filterBy="#{tipoEstadoPqr.descripcionEstado}"
+								sortBy="#{tipoEstadoPqr.descripcionEstado}"
+								headerText="Descripción">
+
+								<p:cellEditor>
+
+									<f:facet name="output">
+										<h:outputText value="#{tipoEstadoPqr.descripcionEstado}" />
+									</f:facet>
+
+									<f:facet name="input">
+										<p:inputText value="#{tipoEstadoPqr.descripcionEstado}" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+
+							<p:column filterBy="#{tipoEstadoPqr.estadoRegistro}"
+								sortBy="#{tipoEstadoPqr.estadoRegistro}" headerText="Estado">
+
+								<p:cellEditor>
+
+									<f:facet name="output">
+										<h:outputText value="#{tipoEstadoPqr.estadoRegistro}" />
+									</f:facet>
+
+									<f:facet name="input">
+									<p:selectOneMenu id="estadoRegistro"
+											value="#{parametrosPqrView.estadoRegistroSeleccionado}"
+											style="height:20px;width:75px">
+											<f:selectItem itemValue="Activo" itemLabel="Activo" />
+											<f:selectItem itemValue="Inactivo" itemLabel="Inactivo" />
+										</p:selectOneMenu>
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+
+
+							<p:column headerText="Editar">
+								<p:rowEditor id="row" />
+								<p:tooltip for="row" value="Edit" showEffect="fade"
+									hideEffect="fade" />
+							</p:column>
+						</p:dataTable>
+					</p:panel>
 					
-															<p:column filterBy="#{tipoEstadoPqr.idTpEstPqr}" sortBy="#{tipoEstadoPqr.idTpEstPqr}" headerText="idTpEstPqr">
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{tipoEstadoPqr.idTpEstPqr}"/>
-							</f:facet>
-							<f:facet name="input">
-								<p:inputText value="#{tipoEstadoPqr.idTpEstPqr}"/>
-							</f:facet>
-						</p:cellEditor>
-					</p:column>
-                    										
-											
-						<p:column filterBy="#{tipoEstadoPqr.descripcionEstado}" sortBy="#{tipoEstadoPqr.descripcionEstado}" 
-							headerText="descripcionEstado">
-							
-								<p:cellEditor>
-								
-								<f:facet name="output">
-									<h:outputText value="#{tipoEstadoPqr.descripcionEstado}"/>
-								</f:facet>
-							
-								<f:facet name="input">
-									<p:inputText value="#{tipoEstadoPqr.descripcionEstado}"/>
-								</f:facet>
-								</p:cellEditor>	
-							</p:column>
-						
-											
-						<p:column filterBy="#{tipoEstadoPqr.estadoRegistro}" sortBy="#{tipoEstadoPqr.estadoRegistro}" 
-							headerText="estadoRegistro">
-							
-								<p:cellEditor>
-								
-								<f:facet name="output">
-									<h:outputText value="#{tipoEstadoPqr.estadoRegistro}"/>
-								</f:facet>
-							
-								<f:facet name="input">
-									<p:inputText value="#{tipoEstadoPqr.estadoRegistro}"/>
-								</f:facet>
-								</p:cellEditor>	
-							</p:column>
-						
-											
-						<p:column filterBy="#{tipoEstadoPqr.usuarioCreador}" sortBy="#{tipoEstadoPqr.usuarioCreador}" 
-							headerText="usuarioCreador">
-							
-								<p:cellEditor>
-								
-								<f:facet name="output">
-									<h:outputText value="#{tipoEstadoPqr.usuarioCreador}"/>
-								</f:facet>
-							
-								<f:facet name="input">
-									<p:inputText value="#{tipoEstadoPqr.usuarioCreador}"/>
-								</f:facet>
-								</p:cellEditor>	
-							</p:column>
-						
-											
-						<p:column filterBy="#{tipoEstadoPqr.usuarioUltimaModificacion}" sortBy="#{tipoEstadoPqr.usuarioUltimaModificacion}" 
-							headerText="usuarioUltimaModificacion">
-							
-								<p:cellEditor>
-								
-								<f:facet name="output">
-									<h:outputText value="#{tipoEstadoPqr.usuarioUltimaModificacion}"/>
-								</f:facet>
-							
-								<f:facet name="input">
-									<p:inputText value="#{tipoEstadoPqr.usuarioUltimaModificacion}"/>
-								</f:facet>
-								</p:cellEditor>	
-							</p:column>
-						
-										
-										   						 
-						 <p:column filterBy="#{tipoEstadoPqr.fechaCreacion}" sortBy="#{tipoEstadoPqr.fechaCreacion}" 
-							headerText="fechaCreacion">
-							
-								<p:cellEditor>
-								
-								<f:facet name="output">
-									<h:outputText value="#{tipoEstadoPqr.fechaCreacion}">
-									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
-									</h:outputText>		
-								</f:facet>
-							
-								<f:facet name="input">
-									<p:calendar value="#{tipoEstadoPqr.fechaCreacion}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
-									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{tipoEstadoPqrView.timeZone}" />	
-								    </p:calendar>		
-								</f:facet>
-								</p:cellEditor>	
-							</p:column>
-						
-					   						 
-						 <p:column filterBy="#{tipoEstadoPqr.fechaUltimaModificacion}" sortBy="#{tipoEstadoPqr.fechaUltimaModificacion}" 
-							headerText="fechaUltimaModificacion">
-							
-								<p:cellEditor>
-								
-								<f:facet name="output">
-									<h:outputText value="#{tipoEstadoPqr.fechaUltimaModificacion}">
-									  <f:convertDateTime  pattern="dd/MM/yyyy"/>
-									</h:outputText>		
-								</f:facet>
-							
-								<f:facet name="input">
-									<p:calendar value="#{tipoEstadoPqr.fechaUltimaModificacion}" showOn="button" pattern="dd/MM/yyyy" navigator="true" >
-									  <f:convertDateTime  pattern="dd/MM/yyyy" timeZone="#{tipoEstadoPqrView.timeZone}" />	
-								    </p:calendar>		
-								</f:facet>
-								</p:cellEditor>	
-							</p:column>
-						
-					   											
-					<p:column headerText="Options" >
-						<p:rowEditor id="row"/>
-						<p:tooltip for="row" value="Edit" showEffect="fade" hideEffect="fade" />
-						<p:tooltip for="btnDelete" value="Delete" showEffect="fade" hideEffect="fade" />
-						<p:commandButton id="btnDelete" actionListener="#{tipoEstadoPqrView.actionDeleteDataTableEditable}" title="Delete" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" icon="ui-icon-trash" update=":form:msg,:form:tabla" >
-							<f:attribute name="selectedTipoEstadoPqr" value="#{tipoEstadoPqr}" />  
-						</p:commandButton>
-						
-					</p:column>	
+					<p:panel id="panelBoton">
+						<div align="center">
+							<p:commandButton id="btnNew" value="Nuevo"
+								action="#{tipoEstadoPqrView.action_new()}" update=":dialogTipoEstadoPqr">
+							</p:commandButton>
+						</div>
+					</p:panel>
+				</h:form>
 				
-				</p:dataTable>	
-					
-				
-			</p:panel>
-				
-	   </h:form>
-		 </f:view>
-			</ui:define>		
-		</ui:composition>	
-	
-	</h:body>	
-	
-</html>	
+				<p:dialog id="dialogTipoEstadoPqr" appendToBody="true" draggable="true"
+						closable="false" visible="#{tipoEstadoPqrView.showDialog}"
+						resizable="false" modal="true" width="500">
+					<h:form id="formDialog">
+						<p:messages id="msg" showDetail="true"></p:messages>
+						<p:panel id="panelTipoEstadoPqr" header="Nuevo Estado">
+							<h:panelGrid columns="2" id="panelGrid">
+								<h:outputText id="msgDescripcionEstado" value="*Descripción:"></h:outputText>
+								<p:inputText id="txtDescripcionEstado" 
+										binding="#{tipoEstadoPqrView.txtDescripcionEstado}" />
+								<h:outputText id="msgEstadoRegistro" value="*Estado:"></h:outputText> 
+								<p:selectOneMenu id="estadoRegistro"
+											value="#{parametrosPqrView.estadoRegistroSeleccionado}"
+											style="height:20px;width:75px">
+									<f:selectItem itemValue="Activo" itemLabel="Activo"></f:selectItem>
+									<f:selectItem itemValue="Inactivo" itemLabel="Inactivo"></f:selectItem>
+								</p:selectOneMenu>
+							</h:panelGrid>
+						</p:panel>
+						<p:panel id="panelBotones">
+							<div align="center">
+								<p:commandButton id="btnSave" value="Guardar"
+												binding="#{tipoEstadoPqrView.btnSave}"
+												action="#{tipoEstadoPqrView.action_save()}"
+												update=":dialogTipoEstadoPqr :form:msgProjectClientesTitle">
+								</p:commandButton>
+								<p:commandButton id="btnClear" value="Limpiar"
+												action="#{tipoEstadoPqrView.action_clear()}"
+												update=":dialogTipoEstadoPqr">
+								</p:commandButton>
+								<p:commandButton id="btnExit" value="Salir"
+												action="#{tipoEstadoPqrView.action_closeDialog()}"
+												update=":dialogTipoEstadoPqr">
+								</p:commandButton>
+							</div>
+						</p:panel>
+					</h:form>	
+				</p:dialog>				
+			</f:view>
+		</ui:define>
+	</ui:composition>
+	</h:body>
+
+</html>

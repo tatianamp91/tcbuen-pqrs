@@ -9,16 +9,12 @@ import com.tcbuen.pqrs.utilities.*;
 import org.primefaces.component.calendar.*;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
-
 import org.primefaces.event.RowEditEvent;
 
 import java.io.Serializable;
-
 import java.sql.*;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -58,8 +54,10 @@ public class TipoEstadoPqrView implements Serializable {
     private boolean showDialog;
     @ManagedProperty(value = "#{BusinessDelegatorView}")
     private IBusinessDelegatorView businessDelegatorView;
+    private String estadoRegistroSeleccionado;
 
-    public TipoEstadoPqrView() {
+   
+	public TipoEstadoPqrView() {
         super();
     }
 
@@ -131,47 +129,24 @@ public class TipoEstadoPqrView implements Serializable {
 
         if (txtDescripcionEstado != null) {
             txtDescripcionEstado.setValue(null);
-            txtDescripcionEstado.setDisabled(true);
+            
         }
 
         if (txtEstadoRegistro != null) {
             txtEstadoRegistro.setValue(null);
-            txtEstadoRegistro.setDisabled(true);
-        }
-
-        if (txtUsuarioCreador != null) {
-            txtUsuarioCreador.setValue(null);
-            txtUsuarioCreador.setDisabled(true);
-        }
-
-        if (txtUsuarioUltimaModificacion != null) {
-            txtUsuarioUltimaModificacion.setValue(null);
-            txtUsuarioUltimaModificacion.setDisabled(true);
-        }
-
-        if (txtFechaCreacion != null) {
-            txtFechaCreacion.setValue(null);
-            txtFechaCreacion.setDisabled(true);
-        }
-
-        if (txtFechaUltimaModificacion != null) {
-            txtFechaUltimaModificacion.setValue(null);
-            txtFechaUltimaModificacion.setDisabled(true);
-        }
-
-        if (txtIdTpEstPqr != null) {
-            txtIdTpEstPqr.setValue(null);
-            txtIdTpEstPqr.setDisabled(false);
+            
         }
 
         if (btnSave != null) {
-            btnSave.setDisabled(true);
+            btnSave.setDisabled(false);
         }
 
         if (btnDelete != null) {
             btnDelete.setDisabled(true);
         }
 
+        data = null;
+        data = getData();
         return "";
     }
 
@@ -276,19 +251,19 @@ public class TipoEstadoPqrView implements Serializable {
         try {
             entity = new TipoEstadoPqr();
 
-            Long idTpEstPqr = FacesUtils.checkLong(txtIdTpEstPqr);
+            //Long idTpEstPqr = FacesUtils.checkLong(txtIdTpEstPqr);
 
-            entity.setDescripcionEstado(FacesUtils.checkString(
-                    txtDescripcionEstado));
-            entity.setEstadoRegistro(FacesUtils.checkString(txtEstadoRegistro));
-            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-            entity.setFechaUltimaModificacion(FacesUtils.checkDate(
-                    txtFechaUltimaModificacion));
-            entity.setIdTpEstPqr(idTpEstPqr);
-            entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
-            entity.setUsuarioUltimaModificacion(FacesUtils.checkString(
-                    txtUsuarioUltimaModificacion));
-            businessDelegatorView.saveTipoEstadoPqr(entity);
+            //entity.setIdTpEstPqr(idTpEstPqr);
+            entity.setDescripcionEstado(FacesUtils.checkString(txtDescripcionEstado));
+            String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
+            entity.setEstadoRegistro(estado);
+            //Falta agregar usuarios sesion
+            entity.setUsuarioCreador("Admin");
+			entity.setFechaCreacion(new Date());
+			entity.setUsuarioUltimaModificacion(null);
+			entity.setFechaUltimaModificacion(null);
+     
+			businessDelegatorView.saveTipoEstadoPqr(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
             action_clear();
         } catch (Exception e) {
@@ -306,17 +281,16 @@ public class TipoEstadoPqrView implements Serializable {
                 entity = businessDelegatorView.getTipoEstadoPqr(idTpEstPqr);
             }
 
-            entity.setDescripcionEstado(FacesUtils.checkString(
-                    txtDescripcionEstado));
-            entity.setEstadoRegistro(FacesUtils.checkString(txtEstadoRegistro));
+            entity.setDescripcionEstado(FacesUtils.checkString(txtDescripcionEstado));
+            String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
+            entity.setEstadoRegistro(estado);
             entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-            entity.setFechaUltimaModificacion(FacesUtils.checkDate(
-                    txtFechaUltimaModificacion));
+            entity.setFechaUltimaModificacion(new Date());
             entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
-            entity.setUsuarioUltimaModificacion(FacesUtils.checkString(
-                    txtUsuarioUltimaModificacion));
+            entity.setUsuarioUltimaModificacion("Admin-1");
             businessDelegatorView.updateTipoEstadoPqr(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+            action_clear();
         } catch (Exception e) {
             data = null;
             FacesUtils.addErrorMessage(e.getMessage());
@@ -549,4 +523,12 @@ public class TipoEstadoPqrView implements Serializable {
     public void setShowDialog(boolean showDialog) {
         this.showDialog = showDialog;
     }
+    
+    public String getEstadoRegistroSeleccionado() {
+		return estadoRegistroSeleccionado;
+	}
+
+	public void setEstadoRegistroSeleccionado(String estadoRegistroSeleccionado) {
+		this.estadoRegistroSeleccionado = estadoRegistroSeleccionado;
+	}
 }
