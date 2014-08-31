@@ -80,7 +80,7 @@ public class ParametrosPqrLogic implements IParametrosPqrLogic {
                     "estadoRegistro");
             }
 
-            if (entity.getIdParam() == null) {
+           /* if (entity.getIdParam() == null) {
                 throw new ZMessManager().new EmptyFieldException("idParam");
             }
 
@@ -88,7 +88,7 @@ public class ParametrosPqrLogic implements IParametrosPqrLogic {
                     (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
                         entity.getIdParam(), 10, 0) == false)) {
                 throw new ZMessManager().new NotValidFormatException("idParam");
-            }
+            }*/
 
             if ((entity.getUsuarioCreador() != null) &&
                     (Utilities.checkWordAndCheckWithlength(
@@ -115,9 +115,9 @@ public class ParametrosPqrLogic implements IParametrosPqrLogic {
                     "valorParam");
             }
 
-            if (getParametrosPqr(entity.getIdParam()) != null) {
+           /* if (getParametrosPqr(entity.getIdParam()) != null) {
                 throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
-            }
+            }*/
 
             parametrosPqrDAO.save(entity);
         } catch (Exception e) {
