@@ -87,7 +87,7 @@ public class TipoEstadoPqrLogic implements ITipoEstadoPqrLogic {
                     "estadoRegistro");
             }
 
-            if (entity.getIdTpEstPqr() == null) {
+         /*   if (entity.getIdTpEstPqr() == null) {
                 throw new ZMessManager().new EmptyFieldException("idTpEstPqr");
             }
 
@@ -96,7 +96,7 @@ public class TipoEstadoPqrLogic implements ITipoEstadoPqrLogic {
                         entity.getIdTpEstPqr(), 10, 0) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "idTpEstPqr");
-            }
+            }*/
 
             if ((entity.getUsuarioCreador() != null) &&
                     (Utilities.checkWordAndCheckWithlength(
@@ -112,9 +112,9 @@ public class TipoEstadoPqrLogic implements ITipoEstadoPqrLogic {
                     "usuarioUltimaModificacion");
             }
 
-            if (getTipoEstadoPqr(entity.getIdTpEstPqr()) != null) {
+       /*     if (getTipoEstadoPqr(entity.getIdTpEstPqr()) != null) {
                 throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
-            }
+            }*/
 
             tipoEstadoPqrDAO.save(entity);
         } catch (Exception e) {
