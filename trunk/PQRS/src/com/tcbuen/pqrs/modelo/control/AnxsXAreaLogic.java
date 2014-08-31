@@ -69,6 +69,20 @@ public class AnxsXAreaLogic implements IAnxsXAreaLogic {
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void saveAnxsXArea(AnxsXArea entity) throws Exception {
         try {
+        	/*
+            if (getAnxsXArea(entity.getIdAnxXArea()) != null) {
+                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
+            }	
+            if (entity.getIdAnxXArea() == null) {
+                throw new ZMessManager().new EmptyFieldException("idAnxXArea");
+            }
+
+            if ((entity.getIdAnxXArea() != null) &&
+                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
+                        entity.getIdAnxXArea(), 10, 0) == false)) {
+                throw new ZMessManager().new NotValidFormatException(
+                    "idAnxXArea");
+            }*/
             if (entity.getAnexosPqr() == null) {
                 throw new ZMessManager().new ForeignException("anexosPqr");
             }
@@ -88,17 +102,6 @@ public class AnxsXAreaLogic implements IAnxsXAreaLogic {
                         entity.getEsObligatorio(), 1) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "esObligatorio");
-            }
-
-            if (entity.getIdAnxXArea() == null) {
-                throw new ZMessManager().new EmptyFieldException("idAnxXArea");
-            }
-
-            if ((entity.getIdAnxXArea() != null) &&
-                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
-                        entity.getIdAnxXArea(), 10, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException(
-                    "idAnxXArea");
             }
 
             if (entity.getAnexosPqr().getIdAnexoPqr() == null) {
@@ -124,10 +127,6 @@ public class AnxsXAreaLogic implements IAnxsXAreaLogic {
                         10, 0) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "idAreaInvolucrada_AreasInvolucradas");
-            }
-
-            if (getAnxsXArea(entity.getIdAnxXArea()) != null) {
-                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
             }
 
             anxsXAreaDAO.save(entity);

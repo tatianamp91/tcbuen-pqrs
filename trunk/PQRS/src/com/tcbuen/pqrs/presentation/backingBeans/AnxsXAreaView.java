@@ -9,16 +9,12 @@ import com.tcbuen.pqrs.utilities.*;
 import org.primefaces.component.calendar.*;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
-
 import org.primefaces.event.RowEditEvent;
 
 import java.io.Serializable;
-
 import java.sql.*;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +27,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.model.SelectItem;
 
 
 /**
@@ -53,11 +50,17 @@ public class AnxsXAreaView implements Serializable {
     private AnxsXAreaDTO selectedAnxsXArea;
     private AnxsXArea entity;
     private boolean showDialog;
+    private Long idAnexoPqr;
+    private List<SelectItem> anexospqr;
+    private Long idAreaInvolucrada;
+    private List<SelectItem> areasInvolucradas;
+    private String esObligatorioSeleccionado;
     @ManagedProperty(value = "#{BusinessDelegatorView}")
     private IBusinessDelegatorView businessDelegatorView;
 
     public AnxsXAreaView() {
         super();
+        
     }
 
     public void rowEventListener(RowEditEvent e) {
@@ -113,28 +116,26 @@ public class AnxsXAreaView implements Serializable {
             txtEsObligatorio.setDisabled(true);
         }
 
-        if (txtIdAnexoPqr_AnexosPqr != null) {
-            txtIdAnexoPqr_AnexosPqr.setValue(null);
-            txtIdAnexoPqr_AnexosPqr.setDisabled(true);
+        if (idAnexoPqr != null) {
+            idAnexoPqr = null;
         }
 
-        if (txtIdAreaInvolucrada_AreasInvolucradas != null) {
-            txtIdAreaInvolucrada_AreasInvolucradas.setValue(null);
-            txtIdAreaInvolucrada_AreasInvolucradas.setDisabled(true);
-        }
-
-        if (txtIdAnxXArea != null) {
-            txtIdAnxXArea.setValue(null);
-            txtIdAnxXArea.setDisabled(false);
+        if (idAreaInvolucrada != null) {
+            idAreaInvolucrada = null;
         }
 
         if (btnSave != null) {
-            btnSave.setDisabled(true);
+            btnSave.setDisabled(false);
         }
-
-        if (btnDelete != null) {
-            btnDelete.setDisabled(true);
-        }
+        
+        data = null;
+        data = getData();
+        
+        areasInvolucradas = null;
+        areasInvolucradas = getAreasInvolucradas();
+        
+        anexospqr = null;
+        anexospqr = getAnexospqr();
 
         return "";
     }
@@ -197,8 +198,7 @@ public class AnxsXAreaView implements Serializable {
             } else {
                 action_modify();
             }
-
-            data = null;
+            action_clear();
         } catch (Exception e) {
             FacesUtils.addErrorMessage(e.getMessage());
         }
@@ -210,20 +210,17 @@ public class AnxsXAreaView implements Serializable {
         try {
             entity = new AnxsXArea();
 
-            Long idAnxXArea = FacesUtils.checkLong(txtIdAnxXArea);
-
-            entity.setEsObligatorio(FacesUtils.checkString(txtEsObligatorio));
-            entity.setIdAnxXArea(idAnxXArea);
-            entity.setAnexosPqr((FacesUtils.checkLong(txtIdAnexoPqr_AnexosPqr) != null)
-                ? businessDelegatorView.getAnexosPqr(FacesUtils.checkLong(
-                        txtIdAnexoPqr_AnexosPqr)) : null);
-            entity.setAreasInvolucradas((FacesUtils.checkLong(
-                    txtIdAreaInvolucrada_AreasInvolucradas) != null)
-                ? businessDelegatorView.getAreasInvolucradas(
-                    FacesUtils.checkLong(txtIdAreaInvolucrada_AreasInvolucradas))
-                : null);
+            //Long idAnxXArea = FacesUtils.checkLong(txtIdAnxXArea);
+            //entity.setIdAnxXArea(idAnxXArea);
+            entity.setEsObligatorio(esObligatorioSeleccionado);           
+            entity.setAnexosPqr((idAnexoPqr != null)
+                ? businessDelegatorView.getAnexosPqr(idAnexoPqr) : null);
+            entity.setAreasInvolucradas((idAreaInvolucrada != null)
+                ? businessDelegatorView.getAreasInvolucradas((idAreaInvolucrada)): null);
+            
             businessDelegatorView.saveAnxsXArea(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+            
             action_clear();
         } catch (Exception e) {
             entity = null;
@@ -239,18 +236,17 @@ public class AnxsXAreaView implements Serializable {
                 Long idAnxXArea = new Long(selectedAnxsXArea.getIdAnxXArea());
                 entity = businessDelegatorView.getAnxsXArea(idAnxXArea);
             }
-
-            entity.setEsObligatorio(FacesUtils.checkString(txtEsObligatorio));
-            entity.setAnexosPqr((FacesUtils.checkLong(txtIdAnexoPqr_AnexosPqr) != null)
-                ? businessDelegatorView.getAnexosPqr(FacesUtils.checkLong(
-                        txtIdAnexoPqr_AnexosPqr)) : null);
-            entity.setAreasInvolucradas((FacesUtils.checkLong(
-                    txtIdAreaInvolucrada_AreasInvolucradas) != null)
-                ? businessDelegatorView.getAreasInvolucradas(
-                    FacesUtils.checkLong(txtIdAreaInvolucrada_AreasInvolucradas))
-                : null);
+            
+            entity.setEsObligatorio(esObligatorioSeleccionado);           
+            entity.setAnexosPqr((idAnexoPqr != null)
+                ? businessDelegatorView.getAnexosPqr(idAnexoPqr) : null);
+            entity.setAreasInvolucradas((idAreaInvolucrada != null)
+                ? businessDelegatorView.getAreasInvolucradas((idAreaInvolucrada)): null);
+            
             businessDelegatorView.updateAnxsXArea(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+            
+            action_clear();
         } catch (Exception e) {
             data = null;
             FacesUtils.addErrorMessage(e.getMessage());
@@ -449,4 +445,66 @@ public class AnxsXAreaView implements Serializable {
     public void setShowDialog(boolean showDialog) {
         this.showDialog = showDialog;
     }
+
+	public Long getIdAnexoPqr() {
+		return idAnexoPqr;
+	}
+
+	public void setIdAnexoPqr(Long idAnexoPqr) {
+		this.idAnexoPqr = idAnexoPqr;
+	}
+
+	public List<SelectItem> getAnexospqr() {
+		try {
+	       	anexospqr = new ArrayList<SelectItem>();
+			List<AnexosPqr> anexos = businessDelegatorView.getAnexosPqr();
+	       	for (AnexosPqr anex : anexos) {
+				anexospqr.add(new SelectItem(anex.getIdAnexoPqr(), anex.getDescripcionAnexo()));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return anexospqr;
+		
+	}
+
+	public void setAnexospqr(List<SelectItem> anexospqr) {
+		this.anexospqr = anexospqr;
+	}
+
+	public Long getIdAreaInvolucrada() {
+		
+		return idAreaInvolucrada;
+	}
+
+	public void setIdAreaInvolucrada(Long idAreaInvolucrada) {
+		this.idAreaInvolucrada = idAreaInvolucrada;
+	}
+
+	public List<SelectItem> getAreasInvolucradas() {
+		try {
+	       	areasInvolucradas = new ArrayList<SelectItem>();
+			List<AreasInvolucradas> areas = businessDelegatorView.getAreasInvolucradas();
+	       	for (AreasInvolucradas area : areas) {
+				areasInvolucradas.add(new SelectItem(area.getIdAreaInvolucrada(), area.getNombreArea()));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return areasInvolucradas;
+	}
+
+	public void setAreasInvolucradas(List<SelectItem> areasInvolucradas) {
+		this.areasInvolucradas = areasInvolucradas;
+	}
+
+	public String getEsObligatorioSeleccionado() {
+		return esObligatorioSeleccionado;
+	}
+
+	public void setEsObligatorioSeleccionado(String esObligatorioSeleccionado) {
+		this.esObligatorioSeleccionado = esObligatorioSeleccionado;
+	}
 }

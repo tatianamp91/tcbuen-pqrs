@@ -3,112 +3,151 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template.xhtml">
+		<ui:define name="body">
+			<f:view>
+				<p:ajaxStatus onstart="statusDialog.show();"
+					onsuccess="statusDialog.hide();" />
+				<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+					draggable="false" closable="false">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+				<h:form id="form">
+					<p:panel id="msgProjectClientesTitle"
+						header="Anexos por Tipo de Solicitud">
+						<p:messages id="msg" showDetail="true" />
+						<p:dataTable id="tabla" value="#{anxsXTpSolView.data}"
+							var="anxsXTpSol" paginator="true" rows="5" editable="true">
 
-	<h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-	</h:head>
+							<p:ajax event="rowEdit" update=":form:msg,:form:tabla"
+								listener="#{anxsXTpSolView.rowEventListener}" />
 
-	<h:body>
-	    <ui:composition template="/WEB-INF/facelets/template.xhtml">	
-		 
-		 	<ui:define name="body">	
-				<f:view>
-			<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>               
-					<p:dialog modal="true" widgetVar="statusDialog" header="Loading"  draggable="false" closable="false">  
-   						<p:graphicImage value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />   
-					</p:dialog>
-		 
-		 <h:form id="form">
-			
-			 
-			<p:panel id="msgProjectClientesTitle" header="AnxsXTpSolData">
-					<p:messages id="msg" showDetail="true"/>
-				<p:dataTable id ="tabla" value="#{anxsXTpSolView.data}" var="anxsXTpSol"
-					paginator="true" rows="5"  editable="true" >
-					 
-					 <p:ajax event ="rowEdit" update=":form:msg,:form:tabla" listener="#{anxsXTpSolView.rowEventListener}" />
-					
-															<p:column filterBy="#{anxsXTpSol.idAnexoXTpSol}" sortBy="#{anxsXTpSol.idAnexoXTpSol}" headerText="idAnexoXTpSol">
-						<p:cellEditor>
-							<f:facet name="output">
-								<h:outputText value="#{anxsXTpSol.idAnexoXTpSol}"/>
-							</f:facet>
-							<f:facet name="input">
-								<p:inputText value="#{anxsXTpSol.idAnexoXTpSol}"/>
-							</f:facet>
-						</p:cellEditor>
-					</p:column>
-                    										
-											
-						<p:column filterBy="#{anxsXTpSol.esObligatorio}" sortBy="#{anxsXTpSol.esObligatorio}" 
-							headerText="esObligatorio">
-							
+							<p:column filterBy="#{anxsXTpSol.idAnexoPqr_AnexosPqr}"
+								sortBy="#{anxsXTpSol.idAnexoPqr_AnexosPqr}" headerText="Anexo">
 								<p:cellEditor>
-								
-								<f:facet name="output">
-									<h:outputText value="#{anxsXTpSol.esObligatorio}"/>
-								</f:facet>
-							
-								<f:facet name="input">
-									<p:inputText value="#{anxsXTpSol.esObligatorio}"/>
-								</f:facet>
-								</p:cellEditor>	
+									<f:facet name="output">
+										<h:outputText value="#{anxsXTpSol.idAnexoPqr_AnexosPqr}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:selectOneMenu id="AnexosPqr"
+											value="#{anxsXTpSolView.idAnexoPqr}"
+											style="height:20px;width:150px">
+											<f:selectItem itemLabel="Seleccione" itemValue="" />
+											<f:selectItems value="#{anxsXTpSolView.anexospqr}" />
+										</p:selectOneMenu>
+									</f:facet>
+								</p:cellEditor>
 							</p:column>
-						
-											
-						<p:column filterBy="#{anxsXTpSol.idAnexoPqr_AnexosPqr}" sortBy="#{anxsXTpSol.idAnexoPqr_AnexosPqr}" 
-							headerText="idAnexoPqr_AnexosPqr">
-							
+							<p:column filterBy="#{anxsXTpSol.idTpSolPqr_TipoSolicitudPqr}"
+								sortBy="#{anxsXTpSol.idTpSolPqr_TipoSolicitudPqr}"
+								headerText="Tipo Solicitud">
 								<p:cellEditor>
-								
-								<f:facet name="output">
-									<h:outputText value="#{anxsXTpSol.idAnexoPqr_AnexosPqr}"/>
-								</f:facet>
-							
-								<f:facet name="input">
-									<p:inputText value="#{anxsXTpSol.idAnexoPqr_AnexosPqr}"/>
-								</f:facet>
-								</p:cellEditor>	
+									<f:facet name="output">
+										<h:outputText
+											value="#{anxsXTpSol.idTpSolPqr_TipoSolicitudPqr}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:selectOneMenu id="tipoSolicitudPqr"
+											value="#{anxsXTpSolView.idTpSolPqr}"
+											style="height:20px;width:150px">
+											<f:selectItem itemLabel="Seleccione" itemValue="" />
+											<f:selectItems value="#{anxsXTpSolView.tipoSolicitudPqr}" />
+										</p:selectOneMenu>
+									</f:facet>
+								</p:cellEditor>
 							</p:column>
-						
-											
-						<p:column filterBy="#{anxsXTpSol.idTpSolPqr_TipoSolicitudPqr}" sortBy="#{anxsXTpSol.idTpSolPqr_TipoSolicitudPqr}" 
-							headerText="idTpSolPqr_TipoSolicitudPqr">
-							
+
+							<p:column filterBy="#{anxsXTpSol.esObligatorio}"
+								sortBy="#{anxsXTpSol.esObligatorio}" headerText="Obligatorio">
 								<p:cellEditor>
-								
-								<f:facet name="output">
-									<h:outputText value="#{anxsXTpSol.idTpSolPqr_TipoSolicitudPqr}"/>
-								</f:facet>
-							
-								<f:facet name="input">
-									<p:inputText value="#{anxsXTpSol.idTpSolPqr_TipoSolicitudPqr}"/>
-								</f:facet>
-								</p:cellEditor>	
+									<f:facet name="output">
+										<h:outputText value="#{anxsXTpSol.esObligatorio}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:selectOneMenu id="esObligatorio"
+											value="#{anxsXTpSolView.esObligatorioSeleccionado}"
+											style="height:20px;width:75px">
+											<f:selectItem itemLabel="Seleccione" itemValue="" />
+											<f:selectItem itemValue="S" itemLabel="Si" />
+											<f:selectItem itemValue="N" itemLabel="No" />
+										</p:selectOneMenu>
+									</f:facet>
+								</p:cellEditor>
 							</p:column>
-						
-										
-											
-					<p:column headerText="Options" >
-						<p:rowEditor id="row"/>
-						<p:tooltip for="row" value="Edit" showEffect="fade" hideEffect="fade" />
-						<p:tooltip for="btnDelete" value="Delete" showEffect="fade" hideEffect="fade" />
-						<p:commandButton id="btnDelete" actionListener="#{anxsXTpSolView.actionDeleteDataTableEditable}" title="Delete" onclick="if(!confirm('Do you really want to delete this Entry?')){return false;}" icon="ui-icon-trash" update=":form:msg,:form:tabla" >
-							<f:attribute name="selectedAnxsXTpSol" value="#{anxsXTpSol}" />  
-						</p:commandButton>
-						
-					</p:column>	
-				
-				</p:dataTable>	
-					
-				
-			</p:panel>
-				
-	   </h:form>
-		 </f:view>
-			</ui:define>		
-		</ui:composition>	
-	
-	</h:body>	
-	
-</html>	
+							<p:column headerText="Options">
+								<p:rowEditor id="row" />
+								<p:tooltip for="row" value="Edit" showEffect="fade"
+									hideEffect="fade" />
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+					<p:panel id="panelBoton">
+						<div align="center">
+							<p:commandButton id="btnNew" value="New"
+								action="#{anxsXTpSolView.action_new()}"
+								update=":dialogAnxsXTpSol" />
+						</div>
+					</p:panel>
+				</h:form>
+				<p:dialog id="dialogAnxsXTpSol" appendToBody="true" draggable="true"
+					closable="false" visible="#{anxsXTpSolView.showDialog}"
+					resizable="false" modal="true" width="500">
+					<h:form id="formDialog">
+						<p:messages id="msg" showDetail="true" />
+						<p:panel id="panelAnxsXTpSol"
+							header="Nuevo Anexo por Tipo de Solicitud">
+							<h:panelGrid columns="2" id="panelGrid">
+
+								<h:outputText id="msgIdAnexoPqr_AnexosPqr" value=" *Anexo:" />
+								<p:selectOneMenu id="AnexosPqr"
+									value="#{anxsXTpSolView.idAnexoPqr}"
+									style="height:20px;width:150px">
+									<f:selectItem itemLabel="Seleccione" itemValue="" />
+									<f:selectItems value="#{anxsXTpSolView.anexospqr}" />
+								</p:selectOneMenu>
+
+								<h:outputText id="msgIdTpSolPqr_TipoSolicitudPqr"
+									value=" *Tipo de Solicitud:" />
+								<p:selectOneMenu id="tipoSolicitudPqr"
+									value="#{anxsXTpSolView.idTpSolPqr}"
+									style="height:20px;width:150px">
+									<f:selectItem itemLabel="Seleccione" itemValue="" />
+									<f:selectItems value="#{anxsXTpSolView.tipoSolicitudPqr}" />
+								</p:selectOneMenu>
+
+								<h:outputText id="msgEsObligatorio" value=" *Obligatorio:" />
+								<p:selectOneMenu id="esObligatorio"
+									value="#{anxsXTpSolView.esObligatorioSeleccionado}"
+									style="height:20px;width:75px">
+									<f:selectItem itemLabel="Seleccione" itemValue="" />
+									<f:selectItem itemValue="S" itemLabel="Si" />
+									<f:selectItem itemValue="N" itemLabel="No" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+						</p:panel>
+						<p:panel id="panelBotones">
+							<div align="center">
+								<p:commandButton id="btnSave"
+									binding="#{anxsXTpSolView.btnSave}" value="Guardar"
+									action="#{anxsXTpSolView.action_save()}"
+									update=":dialogAnxsXTpSol :form:msgProjectClientesTitle" />
+								<p:commandButton id="btnClear" value="Limpiar"
+									action="#{anxsXTpSolView.action_clear()}"
+									update=":dialogAnxsXTpSol" />
+								<p:commandButton id="btnExit" value="Salir"
+									action="#{anxsXTpSolView.action_closeDialog()}"
+									update=":dialogAnxsXTpSol" />
+							</div>
+						</p:panel>
+					</h:form>
+				</p:dialog>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

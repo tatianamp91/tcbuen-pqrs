@@ -250,8 +250,7 @@ public class AreasInvolucradasView implements Serializable {
             //entity.setIdAreaInvolucrada(idAreaInvolucrada);
 
             entity.setNombreArea(FacesUtils.checkString(txtNombreArea));
-            String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
-            entity.setEstadoRegistro(estado);
+            entity.setEstadoRegistro(estadoRegistroSeleccionado);
             //Falta agregar usuario de sesion
             entity.setUsuarioCreador("Admin");
             entity.setFechaCreacion(new Date());
@@ -278,8 +277,7 @@ public class AreasInvolucradasView implements Serializable {
             }
 
             entity.setNombreArea(FacesUtils.checkString(txtNombreArea));
-            String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
-            entity.setEstadoRegistro(estado);
+            entity.setEstadoRegistro(estadoRegistroSeleccionado);
             entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
             entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
             //Falta agregar usuario de sesion

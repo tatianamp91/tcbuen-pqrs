@@ -239,8 +239,7 @@ public class RolesView implements Serializable {
             //Long idRol = FacesUtils.checkLong(txtIdRol);
             //entity.setIdRol(idRol);
             entity.setNombreRol(FacesUtils.checkString(txtNombreRol));
-            String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
-            entity.setEstadoRegistro(estado);
+            entity.setEstadoRegistro(estadoRegistroSeleccionado);
             //Falta agregar usuario de sesion
             entity.setUsuarioCreador("Admin");
             entity.setFechaCreacion(new Date());
@@ -267,8 +266,7 @@ public class RolesView implements Serializable {
             }
             
             entity.setNombreRol(FacesUtils.checkString(txtNombreRol));
-            String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
-            entity.setEstadoRegistro(estado);
+            entity.setEstadoRegistro(estadoRegistroSeleccionado);
             entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
             entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
           //Falta agregar usuario de sesion

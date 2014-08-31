@@ -70,6 +70,20 @@ public class MotivoSolicitudLogic implements IMotivoSolicitudLogic {
     public void saveMotivoSolicitud(MotivoSolicitud entity)
         throws Exception {
         try {
+        	/*
+        	if (getMotivoSolicitud(entity.getIdMotSol()) != null) {
+                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
+            }
+            if (entity.getIdMotSol() == null) {
+                throw new ZMessManager().new EmptyFieldException("idMotSol");
+            }
+
+            if ((entity.getIdMotSol() != null) &&
+                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
+                        entity.getIdMotSol(), 10, 0) == false)) {
+                throw new ZMessManager().new NotValidFormatException("idMotSol");
+            }
+            */
             if (entity.getDescripcionMotSol() == null) {
                 throw new ZMessManager().new EmptyFieldException(
                     "descripcionMotSol");
@@ -94,16 +108,6 @@ public class MotivoSolicitudLogic implements IMotivoSolicitudLogic {
                     "estadoRegistro");
             }
 
-            if (entity.getIdMotSol() == null) {
-                throw new ZMessManager().new EmptyFieldException("idMotSol");
-            }
-
-            if ((entity.getIdMotSol() != null) &&
-                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
-                        entity.getIdMotSol(), 10, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException("idMotSol");
-            }
-
             if ((entity.getUsuarioCreador() != null) &&
                     (Utilities.checkWordAndCheckWithlength(
                         entity.getUsuarioCreador(), 50) == false)) {
@@ -116,10 +120,6 @@ public class MotivoSolicitudLogic implements IMotivoSolicitudLogic {
                         entity.getUsuarioUltimaModificacion(), 50) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "usuarioUltimaModificacion");
-            }
-
-            if (getMotivoSolicitud(entity.getIdMotSol()) != null) {
-                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
             }
 
             motivoSolicitudDAO.save(entity);
