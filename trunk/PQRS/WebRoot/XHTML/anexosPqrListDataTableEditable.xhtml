@@ -28,8 +28,7 @@
 								listener="#{anexosPqrView.rowEventListener}" />
 
 							<p:column filterBy="#{anexosPqr.descripcionAnexo}"
-								sortBy="#{anexosPqr.descripcionAnexo}"
-								headerText="Descripción">
+								sortBy="#{anexosPqr.descripcionAnexo}" headerText="Descripción">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{anexosPqr.descripcionAnexo}" />
