@@ -28,6 +28,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.model.SelectItem;
 
 
 /**
@@ -60,6 +61,11 @@ public class UsuariosInternosView implements Serializable {
     private boolean showDialog;
     @ManagedProperty(value = "#{BusinessDelegatorView}")
     private IBusinessDelegatorView businessDelegatorView;
+    private String estadoRegistroSeleccionado;
+    private Long idAreaInvolucrada;
+    private List<SelectItem> areasInvolucradas;
+    private Long idRol;
+    private List<SelectItem> idRoles;
     
     private List<Roles> roles;
     private String rol;
@@ -186,8 +192,15 @@ public class UsuariosInternosView implements Serializable {
         }
         
         if (btnSave != null) {
-            btnSave.setDisabled(true);
+            btnSave.setDisabled(false);
         }
+        
+        data = null;
+        data = getData();
+        areasInvolucradas = null;
+        areasInvolucradas = getAreasInvolucradas();
+        idRoles = null;
+        idRoles = getIdRoles();
 
         return "";
     }
@@ -315,18 +328,22 @@ public class UsuariosInternosView implements Serializable {
             entity.setCorreoElectronico(FacesUtils.checkString(txtCorreoElectronico));
             entity.setLogin(FacesUtils.checkString(txtLogin));
             entity.setContrasena(FacesUtils.checkString(txtContrasena));
-            entity.setEstadoRegistro(estadoRegistro);
+            String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
+			entity.setEstadoRegistro(estado);
             entity.setFechaCreacion(new Date());
-            /*
-            entity.setAreasInvolucradas((FacesUtils.checkLong(
-                    txtIdAreaInvolucrada_AreasInvolucradas) != null)
-                ? businessDelegatorView.getAreasInvolucradas(
-                    FacesUtils.checkLong(txtIdAreaInvolucrada_AreasInvolucradas))
+            
+            entity.setAreasInvolucradas((idAreaInvolucrada != null)
+                    ? businessDelegatorView.getAreasInvolucradas((idAreaInvolucrada)): null);
+            
+            entity.setRoles((idRol != null) ? businessDelegatorView.getRoles(idRol): null);
+            
+           /* entity.setAreasInvolucradas((FacesUtils.checkLong(txtIdAreaInvolucrada_AreasInvolucradas) != null)
+                ? businessDelegatorView.getAreasInvolucradas(FacesUtils.checkLong(txtIdAreaInvolucrada_AreasInvolucradas))
                 : null);
             entity.setRoles((FacesUtils.checkLong(txtIdRol_Roles) != null)
                 ? businessDelegatorView.getRoles(FacesUtils.checkLong(
-                        txtIdRol_Roles)) : null);
-            */
+                        txtIdRol_Roles)) : null);*/
+            
             businessDelegatorView.saveUsuariosInternos(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
             action_clear();
@@ -345,27 +362,23 @@ public class UsuariosInternosView implements Serializable {
                 entity = businessDelegatorView.getUsuariosInternos(idUsuInterno);
             }
             
-            entity.setNumeroIdentificacion(FacesUtils.checkString(
-                    txtNumeroIdentificacion));
+            entity.setNumeroIdentificacion(FacesUtils.checkString(txtNumeroIdentificacion));
             entity.setNombres(FacesUtils.checkString(txtNombres));
             entity.setApellidos(FacesUtils.checkString(txtApellidos));
-            entity.setCorreoElectronico(FacesUtils.checkString(
-                    txtCorreoElectronico));
+            entity.setCorreoElectronico(FacesUtils.checkString(txtCorreoElectronico));
             entity.setLogin(FacesUtils.checkString(txtLogin));
             entity.setContrasena(FacesUtils.checkString(txtContrasena));            
-            entity.setEstadoRegistro(FacesUtils.checkString(estadoRegistro));
-            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));           
+            String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
+			entity.setEstadoRegistro(estado);
+            entity.setFechaCreacion(null);           
             
-            entity.setAreasInvolucradas((FacesUtils.checkLong(
-                    txtIdAreaInvolucrada_AreasInvolucradas) != null)
-                ? businessDelegatorView.getAreasInvolucradas(
-                    FacesUtils.checkLong(txtIdAreaInvolucrada_AreasInvolucradas))
-                : null);
-            entity.setRoles((FacesUtils.checkLong(txtIdRol_Roles) != null)
-                ? businessDelegatorView.getRoles(FacesUtils.checkLong(
-                        txtIdRol_Roles)) : null);
+            entity.setAreasInvolucradas((idAreaInvolucrada != null)
+                    ? businessDelegatorView.getAreasInvolucradas((idAreaInvolucrada)): null);
+            
+            entity.setRoles((idRol != null) ? businessDelegatorView.getRoles(idRol): null);
             businessDelegatorView.updateUsuariosInternos(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+            action_clear();
         } catch (Exception e) {
             data = null;
             FacesUtils.addErrorMessage(e.getMessage());
@@ -688,4 +701,67 @@ public class UsuariosInternosView implements Serializable {
 	public void setArea(String area) {
 		this.area = area;
 	}
+
+	public String getEstadoRegistroSeleccionado() {
+		return estadoRegistroSeleccionado;
+	}
+
+	public void setEstadoRegistroSeleccionado(String estadoRegistroSeleccionado) {
+		this.estadoRegistroSeleccionado = estadoRegistroSeleccionado;
+	}
+
+	public Long getIdAreaInvolucrada() {
+		return idAreaInvolucrada;
+	}
+
+	public void setIdAreaInvolucrada(Long idAreaInvolucrada) {
+		this.idAreaInvolucrada = idAreaInvolucrada;
+	}
+	
+	public List<SelectItem> getAreasInvolucradas() {
+		try {
+	       	areasInvolucradas = new ArrayList<SelectItem>();
+			List<AreasInvolucradas> areas = businessDelegatorView.getAreasInvolucradas();
+	       	for (AreasInvolucradas area : areas) {
+				areasInvolucradas.add(new SelectItem(area.getIdAreaInvolucrada(), area.getNombreArea()));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return areasInvolucradas;
+	}
+
+	public void setAreasInvolucradas(List<SelectItem> areasInvolucradas) {
+		this.areasInvolucradas = areasInvolucradas;
+	}
+	
+	
+	
+	public Long getIdRol() {
+		return idRol;
+	}
+
+	public void setIdRol(Long idRol) {
+		this.idRol = idRol;
+	}
+
+	public List<SelectItem> getIdRoles() {
+		try {
+	       	idRoles = new ArrayList<SelectItem>();
+			List<Roles> roles = businessDelegatorView.getRoles();
+	       	for (Roles rol : roles) {
+				idRoles.add(new SelectItem(rol.getIdRol(), rol.getNombreRol()));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return idRoles;
+	}
+
+	public void setIdRoles(List<SelectItem> idRoles) {
+		this.idRoles = idRoles;
+	}
+	
 }

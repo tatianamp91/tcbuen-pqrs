@@ -7,9 +7,9 @@ body {
 }
 
 #container {
-	width: 1024px;
+	width: 1080px;
 	padding: 0px;
-	margin: 10px auto;
+	margin: 12px auto;
 	overflow: auto;
 }
 

@@ -121,7 +121,7 @@ public class UsuariosInternosLogic implements IUsuariosInternosLogic {
                     "estadoRegistro");
             }
 
-            if (entity.getIdUsuInterno() == null) {
+           /*if (entity.getIdUsuInterno() == null) {
                 throw new ZMessManager().new EmptyFieldException("idUsuInterno");
             }
 
@@ -130,7 +130,7 @@ public class UsuariosInternosLogic implements IUsuariosInternosLogic {
                         entity.getIdUsuInterno(), 10, 0) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "idUsuInterno");
-            }
+            }*/
 
             if (entity.getLogin() == null) {
                 throw new ZMessManager().new EmptyFieldException("login");
@@ -187,9 +187,9 @@ public class UsuariosInternosLogic implements IUsuariosInternosLogic {
                     "idRol_Roles");
             }
 
-            if (getUsuariosInternos(entity.getIdUsuInterno()) != null) {
+           /* if (getUsuariosInternos(entity.getIdUsuInterno()) != null) {
                 throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
-            }
+            }*/
 
             usuariosInternosDAO.save(entity);
         } catch (Exception e) {

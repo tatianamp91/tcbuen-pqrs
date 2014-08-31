@@ -14,7 +14,7 @@
 				
 							<h:form>
 							
-								<p:megaMenu style="width:989px">  
+								<p:megaMenu style="width:1080px">  
 									<p:submenu label="Master" icon="ui-icon-pencil">  
 							            <p:column>
 							            
