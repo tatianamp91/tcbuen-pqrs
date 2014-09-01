@@ -70,16 +70,10 @@ public class MotReclXTpSolLogic implements IMotReclXTpSolLogic {
     public void saveMotReclXTpSol(MotReclXTpSol entity)
         throws Exception {
         try {
-            if (entity.getMotivoReclamacion() == null) {
-                throw new ZMessManager().new ForeignException(
-                    "motivoReclamacion");
+        	/*
+        	if (getMotReclXTpSol(entity.getIdMotReclXTpSol()) != null) {
+                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
             }
-
-            if (entity.getTipoSolicitudPqr() == null) {
-                throw new ZMessManager().new ForeignException(
-                    "tipoSolicitudPqr");
-            }
-
             if (entity.getIdMotReclXTpSol() == null) {
                 throw new ZMessManager().new EmptyFieldException(
                     "idMotReclXTpSol");
@@ -90,6 +84,16 @@ public class MotReclXTpSolLogic implements IMotReclXTpSolLogic {
                         entity.getIdMotReclXTpSol(), 10, 0) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "idMotReclXTpSol");
+            }
+            */
+            if (entity.getMotivoReclamacion() == null) {
+                throw new ZMessManager().new ForeignException(
+                    "motivoReclamacion");
+            }
+
+            if (entity.getTipoSolicitudPqr() == null) {
+                throw new ZMessManager().new ForeignException(
+                    "tipoSolicitudPqr");
             }
 
             if (entity.getMotivoReclamacion().getIdMotRecl() == null) {
@@ -114,10 +118,6 @@ public class MotReclXTpSolLogic implements IMotReclXTpSolLogic {
                         entity.getTipoSolicitudPqr().getIdTpSolPqr(), 10, 0) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "idTpSolPqr_TipoSolicitudPqr");
-            }
-
-            if (getMotReclXTpSol(entity.getIdMotReclXTpSol()) != null) {
-                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
             }
 
             motReclXTpSolDAO.save(entity);
