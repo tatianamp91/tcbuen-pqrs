@@ -69,13 +69,9 @@ public class MotSolXTpSolLogic implements IMotSolXTpSolLogic {
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void saveMotSolXTpSol(MotSolXTpSol entity) throws Exception {
         try {
-            if (entity.getMotivoSolicitud() == null) {
-                throw new ZMessManager().new ForeignException("motivoSolicitud");
-            }
-
-            if (entity.getTipoSolicitudPqr() == null) {
-                throw new ZMessManager().new ForeignException(
-                    "tipoSolicitudPqr");
+        	/*
+        	if (getMotSolXTpSol(entity.getIdMotSolXTpSol()) != null) {
+                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
             }
 
             if (entity.getIdMotSolXTpSol() == null) {
@@ -88,6 +84,16 @@ public class MotSolXTpSolLogic implements IMotSolXTpSolLogic {
                         entity.getIdMotSolXTpSol(), 10, 0) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "idMotSolXTpSol");
+            }
+            */
+        	
+            if (entity.getMotivoSolicitud() == null) {
+                throw new ZMessManager().new ForeignException("motivoSolicitud");
+            }
+
+            if (entity.getTipoSolicitudPqr() == null) {
+                throw new ZMessManager().new ForeignException(
+                    "tipoSolicitudPqr");
             }
 
             if (entity.getMotivoSolicitud().getIdMotSol() == null) {
@@ -112,10 +118,6 @@ public class MotSolXTpSolLogic implements IMotSolXTpSolLogic {
                         entity.getTipoSolicitudPqr().getIdTpSolPqr(), 10, 0) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "idTpSolPqr_TipoSolicitudPqr");
-            }
-
-            if (getMotSolXTpSol(entity.getIdMotSolXTpSol()) != null) {
-                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
             }
 
             motSolXTpSolDAO.save(entity);

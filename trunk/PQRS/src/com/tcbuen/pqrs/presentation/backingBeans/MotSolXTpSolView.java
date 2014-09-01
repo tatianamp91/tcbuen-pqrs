@@ -9,16 +9,12 @@ import com.tcbuen.pqrs.utilities.*;
 import org.primefaces.component.calendar.*;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
-
 import org.primefaces.event.RowEditEvent;
 
 import java.io.Serializable;
-
 import java.sql.*;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +27,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.model.SelectItem;
 
 
 /**
@@ -52,6 +49,10 @@ public class MotSolXTpSolView implements Serializable {
     private MotSolXTpSolDTO selectedMotSolXTpSol;
     private MotSolXTpSol entity;
     private boolean showDialog;
+    private Long idMotSol;
+    private List<SelectItem> motivoSolicitud;
+    private Long idTpSolPqr;
+    private List<SelectItem> tipoSolicitudPqr;
     @ManagedProperty(value = "#{BusinessDelegatorView}")
     private IBusinessDelegatorView businessDelegatorView;
 
@@ -111,18 +112,19 @@ public class MotSolXTpSolView implements Serializable {
             txtIdTpSolPqr_TipoSolicitudPqr.setDisabled(true);
         }
 
-        if (txtIdMotSolXTpSol != null) {
-            txtIdMotSolXTpSol.setValue(null);
-            txtIdMotSolXTpSol.setDisabled(false);
-        }
 
         if (btnSave != null) {
             btnSave.setDisabled(true);
         }
-
-        if (btnDelete != null) {
-            btnDelete.setDisabled(true);
-        }
+        
+        data = null;
+        data = getData();
+        
+        motivoSolicitud = null;
+        motivoSolicitud = getMotivoSolicitud();
+        
+        tipoSolicitudPqr = null;
+        tipoSolicitudPqr = getTipoSolicitudPqr();
 
         return "";
     }
@@ -182,7 +184,7 @@ public class MotSolXTpSolView implements Serializable {
                 action_modify();
             }
 
-            data = null;
+            action_clear();
         } catch (Exception e) {
             FacesUtils.addErrorMessage(e.getMessage());
         }
@@ -194,19 +196,16 @@ public class MotSolXTpSolView implements Serializable {
         try {
             entity = new MotSolXTpSol();
 
-            Long idMotSolXTpSol = FacesUtils.checkLong(txtIdMotSolXTpSol);
-
-            entity.setIdMotSolXTpSol(idMotSolXTpSol);
-            entity.setMotivoSolicitud((FacesUtils.checkLong(
-                    txtIdMotSol_MotivoSolicitud) != null)
-                ? businessDelegatorView.getMotivoSolicitud(FacesUtils.checkLong(
-                        txtIdMotSol_MotivoSolicitud)) : null);
-            entity.setTipoSolicitudPqr((FacesUtils.checkLong(
-                    txtIdTpSolPqr_TipoSolicitudPqr) != null)
-                ? businessDelegatorView.getTipoSolicitudPqr(
-                    FacesUtils.checkLong(txtIdTpSolPqr_TipoSolicitudPqr)) : null);
+            //Long idMotSolXTpSol = FacesUtils.checkLong(txtIdMotSolXTpSol);
+           //entity.setIdMotSolXTpSol(idMotSolXTpSol);
+            entity.setMotivoSolicitud((idMotSol != null)
+                ? businessDelegatorView.getMotivoSolicitud(idMotSol) : null);
+            entity.setTipoSolicitudPqr((idTpSolPqr != null)
+                ? businessDelegatorView.getTipoSolicitudPqr(idTpSolPqr) : null);
+            
             businessDelegatorView.saveMotSolXTpSol(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+            
             action_clear();
         } catch (Exception e) {
             entity = null;
@@ -223,16 +222,15 @@ public class MotSolXTpSolView implements Serializable {
                 entity = businessDelegatorView.getMotSolXTpSol(idMotSolXTpSol);
             }
 
-            entity.setMotivoSolicitud((FacesUtils.checkLong(
-                    txtIdMotSol_MotivoSolicitud) != null)
-                ? businessDelegatorView.getMotivoSolicitud(FacesUtils.checkLong(
-                        txtIdMotSol_MotivoSolicitud)) : null);
-            entity.setTipoSolicitudPqr((FacesUtils.checkLong(
-                    txtIdTpSolPqr_TipoSolicitudPqr) != null)
-                ? businessDelegatorView.getTipoSolicitudPqr(
-                    FacesUtils.checkLong(txtIdTpSolPqr_TipoSolicitudPqr)) : null);
+            entity.setMotivoSolicitud((idMotSol != null)
+                    ? businessDelegatorView.getMotivoSolicitud(idMotSol) : null);
+                entity.setTipoSolicitudPqr((idTpSolPqr != null)
+                    ? businessDelegatorView.getTipoSolicitudPqr(idTpSolPqr) : null);
+            
             businessDelegatorView.updateMotSolXTpSol(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+            
+            action_clear();
         } catch (Exception e) {
             data = null;
             FacesUtils.addErrorMessage(e.getMessage());
@@ -423,4 +421,57 @@ public class MotSolXTpSolView implements Serializable {
     public void setShowDialog(boolean showDialog) {
         this.showDialog = showDialog;
     }
+
+	public Long getIdMotSol() {
+		return idMotSol;
+	}
+	public void setIdMotSol(Long idMotSol) {
+		this.idMotSol = idMotSol;
+	}
+
+	public List<SelectItem> getMotivoSolicitud() {
+		try {
+			motivoSolicitud = new ArrayList<SelectItem>();
+			List<MotivoSolicitud> motivoSol = businessDelegatorView.getMotivoSolicitud();
+	       	for (MotivoSolicitud motivoSo : motivoSol) {
+				motivoSolicitud.add(new SelectItem(motivoSo.getIdMotSol(), motivoSo.getDescripcionMotSol()));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return motivoSolicitud;
+	}
+
+	public void setMotivoSolicitud(List<SelectItem> motivoSolicitud) {
+		this.motivoSolicitud = motivoSolicitud;
+	}
+
+	public Long getIdTpSolPqr() {
+		return idTpSolPqr;
+	}
+
+	public void setIdTpSolPqr(Long idTpSolPqr) {
+		this.idTpSolPqr = idTpSolPqr;
+	}
+
+
+	public List<SelectItem> getTipoSolicitudPqr() {
+		try {
+			tipoSolicitudPqr = new ArrayList<SelectItem>();
+			List<TipoSolicitudPqr> tipoSolicitud = businessDelegatorView.getTipoSolicitudPqr();
+	       	for (TipoSolicitudPqr tiposoli : tipoSolicitud) {
+				tipoSolicitudPqr.add(new SelectItem(tiposoli.getIdTpSolPqr(), tiposoli.getDescTpSol()));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return tipoSolicitudPqr;
+	}
+
+	public void setTipoSolicitudPqr(List<SelectItem> tipoSolicitudPqr) {
+		this.tipoSolicitudPqr = tipoSolicitudPqr;
+	}
+    
 }
