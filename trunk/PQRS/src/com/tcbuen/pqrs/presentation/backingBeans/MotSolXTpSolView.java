@@ -104,17 +104,14 @@ public class MotSolXTpSolView implements Serializable {
 
         if (txtIdMotSol_MotivoSolicitud != null) {
             txtIdMotSol_MotivoSolicitud.setValue(null);
-            txtIdMotSol_MotivoSolicitud.setDisabled(true);
         }
 
         if (txtIdTpSolPqr_TipoSolicitudPqr != null) {
             txtIdTpSolPqr_TipoSolicitudPqr.setValue(null);
-            txtIdTpSolPqr_TipoSolicitudPqr.setDisabled(true);
         }
 
-
         if (btnSave != null) {
-            btnSave.setDisabled(true);
+            btnSave.setDisabled(false);
         }
         
         data = null;

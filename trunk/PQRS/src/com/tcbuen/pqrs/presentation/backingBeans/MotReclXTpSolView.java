@@ -104,16 +104,14 @@ public class MotReclXTpSolView implements Serializable {
 
         if (txtIdMotRecl_MotivoReclamacion != null) {
             txtIdMotRecl_MotivoReclamacion.setValue(null);
-            txtIdMotRecl_MotivoReclamacion.setDisabled(true);
         }
 
         if (txtIdTpSolPqr_TipoSolicitudPqr != null) {
             txtIdTpSolPqr_TipoSolicitudPqr.setValue(null);
-            txtIdTpSolPqr_TipoSolicitudPqr.setDisabled(true);
         }
 
         if (btnSave != null) {
-            btnSave.setDisabled(true);
+            btnSave.setDisabled(false);
         }
         
         data = null;
