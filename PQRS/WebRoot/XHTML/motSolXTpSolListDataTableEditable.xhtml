@@ -18,7 +18,8 @@
 						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
 				</p:dialog>
 				<h:form id="form">
-					<p:panel id="msgProjectClientesTitle" header="Motivos de Solicitud por Tipo de Solicitud">
+					<p:panel id="msgProjectClientesTitle"
+						header="Motivos de Solicitud por Tipo de Solicitud">
 						<p:messages id="msg" showDetail="true" />
 						<p:dataTable id="tabla" value="#{motSolXTpSolView.data}"
 							var="motSolXTpSol" paginator="true" rows="5" editable="true">
@@ -28,33 +29,42 @@
 
 							<p:column filterBy="#{motSolXTpSol.idMotSol_MotivoSolicitud}"
 								sortBy="#{motSolXTpSol.idMotSol_MotivoSolicitud}"
-								headerText="idMotSol_MotivoSolicitud">
+								headerText="Motivo de Solicitud">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{motSolXTpSol.idMotSol_MotivoSolicitud}" />
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText value="#{motSolXTpSol.idMotSol_MotivoSolicitud}" />
+										<p:selectOneMenu id="motivoSolicitud"
+											value="#{motSolXTpSolView.idMotSol}"
+											style="height:20px;width:150px">
+											<f:selectItem itemLabel="Seleccione" itemValue="" />
+											<f:selectItems value="#{motSolXTpSolView.motivoSolicitud}" />
+										</p:selectOneMenu>
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
 
 							<p:column filterBy="#{motSolXTpSol.idTpSolPqr_TipoSolicitudPqr}"
 								sortBy="#{motSolXTpSol.idTpSolPqr_TipoSolicitudPqr}"
-								headerText="idTpSolPqr_TipoSolicitudPqr">
+								headerText="Tipo de Solicitud Pqr">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText
 											value="#{motSolXTpSol.idTpSolPqr_TipoSolicitudPqr}" />
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText
-											value="#{motSolXTpSol.idTpSolPqr_TipoSolicitudPqr}" />
+										<p:selectOneMenu id="tipoSolicitudPqr"
+											value="#{motSolXTpSolView.idTpSolPqr}"
+											style="height:20px;width:150px">
+											<f:selectItem itemLabel="Seleccione" itemValue="" />
+											<f:selectItems value="#{motSolXTpSolView.tipoSolicitudPqr}" />
+										</p:selectOneMenu>
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
 
-							<p:column headerText="Options">
+							<p:column headerText="Editar">
 								<p:rowEditor id="row" />
 								<p:tooltip for="row" value="Edit" showEffect="fade"
 									hideEffect="fade" />
@@ -75,19 +85,27 @@
 					modal="true" width="500">
 					<h:form id="formDialog">
 						<p:messages id="msg" showDetail="true" />
-						<p:panel id="panelMotSolXTpSol" header="Nuevo Motivo de Solicitud por Tipo de Solicitud">
+						<p:panel id="panelMotSolXTpSol"
+							header="Nuevo Motivo de Solicitud por Tipo de Solicitud">
 							<h:panelGrid columns="2" id="panelGrid">
 
 								<h:outputText id="msgIdMotSol_MotivoSolicitud"
-									value=" IdMotSol_MotivoSolicitud" />
-								<p:inputText id="txtIdMotSol_MotivoSolicitud" disabled="true"
-									binding="#{motSolXTpSolView.txtIdMotSol_MotivoSolicitud}" />
-									
-								<h:outputText id="msgIdTpSolPqr_TipoSolicitudPqr"
-									value=" IdTpSolPqr_TipoSolicitudPqr" />
-								<p:inputText id="txtIdTpSolPqr_TipoSolicitudPqr" disabled="true"
-									binding="#{motSolXTpSolView.txtIdTpSolPqr_TipoSolicitudPqr}" />
+									value="*Motivo de Solicitud:" />
+								<p:selectOneMenu id="motivoSolicitud"
+									value="#{motSolXTpSolView.idMotSol}"
+									style="height:20px;width:150px">
+									<f:selectItem itemLabel="Seleccione" itemValue="" />
+									<f:selectItems value="#{motSolXTpSolView.motivoSolicitud}" />
+								</p:selectOneMenu>
 
+								<h:outputText id="msgIdTpSolPqr_TipoSolicitudPqr"
+									value="*Tipo de Solicitud Pqr:" />
+								<p:selectOneMenu id="tipoSolicitudPqr"
+									value="#{motSolXTpSolView.idTpSolPqr}"
+									style="height:20px;width:150px">
+									<f:selectItem itemLabel="Seleccione" itemValue="" />
+									<f:selectItems value="#{motSolXTpSolView.tipoSolicitudPqr}" />
+								</p:selectOneMenu>
 							</h:panelGrid>
 						</p:panel>
 						<p:panel id="panelBotones">
@@ -95,7 +113,7 @@
 								<p:commandButton id="btnSave"
 									binding="#{motSolXTpSolView.btnSave}" value="Guardar"
 									action="#{motSolXTpSolView.action_save()}"
-									update=":dialogMotSolXTpSol :frm:panelDataTableMotSolXTpSol" />
+									update=":dialogMotSolXTpSol :form:msgProjectClientesTitle" />
 								<p:commandButton id="btnClear" value="Limpiar"
 									action="#{motSolXTpSolView.action_clear()}"
 									update=":dialogMotSolXTpSol" />

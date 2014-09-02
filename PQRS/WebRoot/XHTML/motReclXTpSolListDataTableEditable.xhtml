@@ -18,7 +18,7 @@
 						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
 				</p:dialog>
 				<h:form id="form">
-					<p:panel id="msgProjectClientesTitle" header="MotReclXTpSolData">
+					<p:panel id="msgProjectClientesTitle" header="Motivos de Reclamación por Tipo de Solicitud">
 						<p:messages id="msg" showDetail="true" />
 						<p:dataTable id="tabla" value="#{motReclXTpSolView.data}"
 							var="Motivos de Reclamación por Tipo de Solicitud"
@@ -29,7 +29,7 @@
 
 							<p:column filterBy="#{motReclXTpSol.idMotRecl_MotivoReclamacion}"
 								sortBy="#{motReclXTpSol.idMotRecl_MotivoReclamacion}"
-								headerText="idMotRecl_MotivoReclamacion">
+								headerText="Motivo de Reclamación">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText
@@ -42,15 +42,13 @@
 											<f:selectItem itemLabel="Seleccione" itemValue="" />
 											<f:selectItems value="#{motReclXTpSolView.motivoReclamacion}" />
 										</p:selectOneMenu>
-										<p:inputText
-											value="#{motReclXTpSol.idMotRecl_MotivoReclamacion}" />
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
 
 							<p:column filterBy="#{motReclXTpSol.idTpSolPqr_TipoSolicitudPqr}"
 								sortBy="#{motReclXTpSol.idTpSolPqr_TipoSolicitudPqr}"
-								headerText="idTpSolPqr_TipoSolicitudPqr">
+								headerText="Tipo de Solicitud Pqr">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText
@@ -63,12 +61,10 @@
 											<f:selectItem itemLabel="Seleccione" itemValue="" />
 											<f:selectItems value="#{motReclXTpSolView.tipoSolicitudPqr}" />
 										</p:selectOneMenu>
-										<p:inputText
-											value="#{motReclXTpSol.idTpSolPqr_TipoSolicitudPqr}" />
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
-							<p:column headerText="Options">
+							<p:column headerText="Editar">
 								<p:rowEditor id="row" />
 								<p:tooltip for="row" value="Edit" showEffect="fade"
 									hideEffect="fade" />
@@ -93,26 +89,22 @@
 							<h:panelGrid columns="2" id="panelGrid">
 
 								<h:outputText id="msgIdMotRecl_MotivoReclamacion"
-									value=" IdMotRecl_MotivoReclamacion" />
+									value="*Motivo de Reclamación:" />
 								<p:selectOneMenu id="motivoReclamacion"
 									value="#{motReclXTpSolView.idMotRecl}"
 									style="height:20px;width:150px">
 									<f:selectItem itemLabel="Seleccione" itemValue="" />
 									<f:selectItems value="#{motReclXTpSolView.motivoReclamacion}" />
 								</p:selectOneMenu>
-								<p:inputText id="txtIdMotRecl_MotivoReclamacion" disabled="true"
-									binding="#{motReclXTpSolView.txtIdMotRecl_MotivoReclamacion}" />
-
+								
 								<h:outputText id="msgIdTpSolPqr_TipoSolicitudPqr"
-									value=" IdTpSolPqr_TipoSolicitudPqr" />
+									value="*Tipo de Solicitud Pqr:" />
 								<p:selectOneMenu id="tipoSolicitudPqr"
 									value="#{motReclXTpSolView.idTpSolPqr}"
 									style="height:20px;width:150px">
 									<f:selectItem itemLabel="Seleccione" itemValue="" />
 									<f:selectItems value="#{motReclXTpSolView.tipoSolicitudPqr}" />
 								</p:selectOneMenu>
-								<p:inputText id="txtIdTpSolPqr_TipoSolicitudPqr" disabled="true"
-									binding="#{motReclXTpSolView.txtIdTpSolPqr_TipoSolicitudPqr}" />
 							</h:panelGrid>
 						</p:panel>
 						<p:panel id="panelBotones">
