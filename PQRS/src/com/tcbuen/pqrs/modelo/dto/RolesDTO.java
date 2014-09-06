@@ -25,6 +25,11 @@ public class RolesDTO implements Serializable {
     private String usuarioUltimaModificacion;
 
     public String getEstadoRegistro() {
+        if(estadoRegistro.equals("A")){
+        	estadoRegistro = "Activo";
+        }else{
+        	estadoRegistro ="Inactivo";
+        }
         return estadoRegistro;
     }
 

@@ -83,60 +83,33 @@ public class AnexosPqrLogic implements IAnexosPqrLogic {
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void saveAnexosPqr(AnexosPqr entity) throws Exception {
         try {
-        	
-        	/*
-            if (entity.getIdAnexoPqr() == null) {
-                throw new ZMessManager().new EmptyFieldException("idAnexoPqr");
-            }
 
-            if ((entity.getIdAnexoPqr() != null) &&
-                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
-                        entity.getIdAnexoPqr(), 10, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException(
-                    "idAnexoPqr");
-            }
-            
-            if (getAnexosPqr(entity.getIdAnexoPqr()) != null) {
-                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
-            }
-
-            */
-            if (entity.getDescripcionAnexo() == null) {
-                throw new ZMessManager().new EmptyFieldException(
-                    "descripcionAnexo");
+            if (entity.getDescripcionAnexo() == null || entity.getDescripcionAnexo().equals("")) {
+                throw new ZMessManager().new EmptyFieldException("Descripción");
             }
 
             if ((entity.getDescripcionAnexo() != null) &&
-                    (Utilities.checkWordAndCheckWithlength(
-                        entity.getDescripcionAnexo(), 50) == false)) {
-                throw new ZMessManager().new NotValidFormatException(
-                    "descripcionAnexo");
+            		(Utilities.checkWordAndCheckWithlength(entity.getDescripcionAnexo(), 50) == false)) {
+                throw new ZMessManager().new NotValidFormatException("Descripción");
             }
 
             if (entity.getEstadoRegistro() == null) {
-                throw new ZMessManager().new EmptyFieldException(
-                    "estadoRegistro");
+                throw new ZMessManager().new EmptyFieldException("Estado");
             }
 
             if ((entity.getEstadoRegistro() != null) &&
-                    (Utilities.checkWordAndCheckWithlength(
-                        entity.getEstadoRegistro(), 1) == false)) {
-                throw new ZMessManager().new NotValidFormatException(
-                    "estadoRegistro");
+                    (Utilities.checkWordAndCheckWithlength(entity.getEstadoRegistro(), 1) == false)) {
+                throw new ZMessManager().new NotValidFormatException("Estado");
             }
 
             if ((entity.getUsuarioCreador() != null) &&
-                    (Utilities.checkWordAndCheckWithlength(
-                        entity.getUsuarioCreador(), 50) == false)) {
-                throw new ZMessManager().new NotValidFormatException(
-                    "usuarioCreador");
+                    (Utilities.checkWordAndCheckWithlength(entity.getUsuarioCreador(), 50) == false)) {
+                throw new ZMessManager().new NotValidFormatException("Usuario Creador");
             }
 
             if ((entity.getUsuarioUltimaModificacion() != null) &&
-                    (Utilities.checkWordAndCheckWithlength(
-                        entity.getUsuarioUltimaModificacion(), 50) == false)) {
-                throw new ZMessManager().new NotValidFormatException(
-                    "usuarioUltimaModificacion");
+                    (Utilities.checkWordAndCheckWithlength(entity.getUsuarioUltimaModificacion(), 50) == false)) {
+                throw new ZMessManager().new NotValidFormatException("Usuario Ultima Modificación");
             }
 
             anexosPqrDAO.save(entity);
@@ -149,11 +122,11 @@ public class AnexosPqrLogic implements IAnexosPqrLogic {
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void deleteAnexosPqr(AnexosPqr entity) throws Exception {
         if (entity == null) {
-            throw new ZMessManager().new NullEntityExcepcion("AnexosPqr");
+            throw new ZMessManager().new NullEntityExcepcion("Anexos Pqr");
         }
 
         if (entity.getIdAnexoPqr() == null) {
-            throw new ZMessManager().new EmptyFieldException("idAnexoPqr");
+            throw new ZMessManager().new EmptyFieldException("id Anexo");
         }
 
         List<AnexosRespuesta> anexosRespuestas = null;
@@ -166,27 +139,23 @@ public class AnexosPqrLogic implements IAnexosPqrLogic {
                     entity.getIdAnexoPqr());
 
             if (Utilities.validationsList(anexosRespuestas) == true) {
-                throw new ZMessManager().new DeletingException(
-                    "anexosRespuestas");
+                throw new ZMessManager().new DeletingException("anexos Respuestas");
             }
 
             anexosSolicitantes = anexosSolicitanteDAO.findByProperty("anexosPqr.idAnexoPqr",
                     entity.getIdAnexoPqr());
 
             if (Utilities.validationsList(anexosSolicitantes) == true) {
-                throw new ZMessManager().new DeletingException(
-                    "anexosSolicitantes");
+                throw new ZMessManager().new DeletingException("anexos Solicitantes");
             }
 
-            anxsXAreas = anxsXAreaDAO.findByProperty("anexosPqr.idAnexoPqr",
-                    entity.getIdAnexoPqr());
+            anxsXAreas = anxsXAreaDAO.findByProperty("anexosPqr.idAnexoPqr", entity.getIdAnexoPqr());
 
             if (Utilities.validationsList(anxsXAreas) == true) {
                 throw new ZMessManager().new DeletingException("anxsXAreas");
             }
 
-            anxsXTpSols = anxsXTpSolDAO.findByProperty("anexosPqr.idAnexoPqr",
-                    entity.getIdAnexoPqr());
+            anxsXTpSols = anxsXTpSolDAO.findByProperty("anexosPqr.idAnexoPqr", entity.getIdAnexoPqr());
 
             if (Utilities.validationsList(anxsXTpSols) == true) {
                 throw new ZMessManager().new DeletingException("anxsXTpSols");
@@ -207,27 +176,21 @@ public class AnexosPqrLogic implements IAnexosPqrLogic {
             }
 
             if (entity.getDescripcionAnexo() == null) {
-                throw new ZMessManager().new EmptyFieldException(
-                    "descripcionAnexo");
+                throw new ZMessManager().new EmptyFieldException("Descripción");
             }
 
             if ((entity.getDescripcionAnexo() != null) &&
-                    (Utilities.checkWordAndCheckWithlength(
-                        entity.getDescripcionAnexo(), 50) == false)) {
-                throw new ZMessManager().new NotValidFormatException(
-                    "descripcionAnexo");
+                    (Utilities.checkWordAndCheckWithlength(entity.getDescripcionAnexo(), 50) == false)) {
+                throw new ZMessManager().new NotValidFormatException("Descripción");
             }
 
             if (entity.getEstadoRegistro() == null) {
-                throw new ZMessManager().new EmptyFieldException(
-                    "estadoRegistro");
+                throw new ZMessManager().new EmptyFieldException("Estado");
             }
 
             if ((entity.getEstadoRegistro() != null) &&
-                    (Utilities.checkWordAndCheckWithlength(
-                        entity.getEstadoRegistro(), 1) == false)) {
-                throw new ZMessManager().new NotValidFormatException(
-                    "estadoRegistro");
+                    (Utilities.checkWordAndCheckWithlength(entity.getEstadoRegistro(), 1) == false)) {
+                throw new ZMessManager().new NotValidFormatException("Estado");
             }
 
             if (entity.getIdAnexoPqr() == null) {
@@ -237,22 +200,18 @@ public class AnexosPqrLogic implements IAnexosPqrLogic {
             if ((entity.getIdAnexoPqr() != null) &&
                     (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
                         entity.getIdAnexoPqr(), 10, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException(
-                    "idAnexoPqr");
+                throw new ZMessManager().new NotValidFormatException("idAnexoPqr");
             }
 
             if ((entity.getUsuarioCreador() != null) &&
-                    (Utilities.checkWordAndCheckWithlength(
-                        entity.getUsuarioCreador(), 50) == false)) {
-                throw new ZMessManager().new NotValidFormatException(
-                    "usuarioCreador");
+                    (Utilities.checkWordAndCheckWithlength(entity.getUsuarioCreador(), 50) == false)) {
+                throw new ZMessManager().new NotValidFormatException("usuarioCreador");
             }
 
             if ((entity.getUsuarioUltimaModificacion() != null) &&
                     (Utilities.checkWordAndCheckWithlength(
                         entity.getUsuarioUltimaModificacion(), 50) == false)) {
-                throw new ZMessManager().new NotValidFormatException(
-                    "usuarioUltimaModificacion");
+                throw new ZMessManager().new NotValidFormatException("usuario Ultima Modificacion");
             }
 
             anexosPqrDAO.update(entity);
@@ -299,7 +258,7 @@ public class AnexosPqrLogic implements IAnexosPqrLogic {
         try {
             entity = anexosPqrDAO.findById(idAnexoPqr);
         } catch (Exception e) {
-            throw new ZMessManager().new FindingException("AnexosPqr");
+            throw new ZMessManager().new FindingException("Anexos Pqr");
         } finally {
         }
 
