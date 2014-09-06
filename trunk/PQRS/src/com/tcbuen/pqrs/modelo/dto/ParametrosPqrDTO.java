@@ -34,6 +34,11 @@ public class ParametrosPqrDTO implements Serializable {
     }
 
     public String getEstadoRegistro() {
+        if(estadoRegistro.equals("A")){
+        	estadoRegistro = "Activo";
+        }else{
+        	estadoRegistro ="Inactivo";
+        }
         return estadoRegistro;
     }
 
