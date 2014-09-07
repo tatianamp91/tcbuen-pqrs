@@ -3,6 +3,8 @@ package com.tcbuen.pqrs.utilities;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -361,6 +363,102 @@ public class Utilities {
 		}
 
 		return where;
+	}
+
+	public static boolean compararFechas(Date fechaInicio, Date fechaFinal) {
+		boolean mayor = true;
+		System.out.println(fechaInicio.getTime() + " " + fechaFinal.getTime());
+		if (fechaInicio.getTime() - fechaFinal.getTime() >= 0) {
+			mayor = false;
+		} else if (fechaInicio.getTime() - fechaFinal.getTime() < 0) {
+			mayor = true;
+		}
+		return mayor;
+	}
+
+	public static boolean compararFechaActualMenor(Date fechaInicio) {
+		boolean mayor = true;
+		Date fechaActual = new Date();
+		if (fechaInicio.getTime() - fechaActual.getTime() > 0) {
+			mayor = false;
+		} else if (fechaInicio.getTime() - fechaActual.getTime() <= 0) {
+			mayor = true;
+		}
+		return mayor;
+	}
+
+	public static boolean compararFechaActualMayor(Date fechaInicio) {
+		boolean mayor = true;
+		Date fechaActual = new Date();
+		if (fechaInicio.getTime() - fechaActual.getTime() > 0) {
+			mayor = true;
+		} else if (fechaInicio.getTime() - fechaActual.getTime() <= 0) {
+			mayor = false;
+		}
+		return mayor;
+	}
+
+	public static boolean soloLetras(String nombreCiudad) {
+		if (nombreCiudad.matches("[a-zA-Z,.\\s\\ñ\\Ñ]*")) {
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean validarCaracteresEspeciales(String cadena) {
+		if (cadena.contains("@") || cadena.contains("#")
+				|| cadena.contains("?") || cadena.contains("/")
+				|| cadena.contains("&") || cadena.contains("¿")
+				|| cadena.contains("(") || cadena.contains(")")
+				|| cadena.contains("!")) {
+			return true;
+		}
+		return false;
+	}
+	
+	public static boolean correElectronico(String entrada) {
+
+		Pattern pat = null;
+		Matcher mat = null;
+		pat = Pattern
+				.compile("^([0-9a-zA-Z]([_.w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-w]*[0-9a-zA-Z].)+([a-zA-Z]{2,9}.)+[a-zA-Z]{2,3})$");
+		mat = pat.matcher(entrada);
+
+		if (mat.find()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static boolean soloNumeros(String entrada) {
+
+		if (entrada.matches("[0-9]*")) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public static Date strToDate(String strFecha, String patron) {
+		Date convertDate = null;
+		try {
+			convertDate = (new SimpleDateFormat(patron)).parse(strFecha);
+			return convertDate;
+		} catch (ParseException pex) {
+			pex.printStackTrace();
+		}
+		return null;
+	}
+	
+	public static boolean isOnlyLetters2(String word) {
+		boolean ret = false;
+		Pattern pat = Pattern.compile("[^A-Za-z',.\\s]");
+		Matcher mat = pat.matcher(word);
+		if (!mat.find()) {
+			ret = true;
+		}
+		return ret;
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.tcbuen.pqrs.presentation.backingBeans;
 
+
+
 import com.tcbuen.pqrs.exceptions.*;
 import com.tcbuen.pqrs.modelo.*;
 import com.tcbuen.pqrs.modelo.dto.AreasInvolucradasDTO;
@@ -71,6 +73,7 @@ public class UsuariosInternosView implements Serializable {
     private String rol;
     private List<AreasInvolucradas> areas;
     private String area;
+    
 
     public UsuariosInternosView() {
         super();
@@ -314,46 +317,178 @@ public class UsuariosInternosView implements Serializable {
 
         return "";
     }
-
-    public String action_create() {
-        try {
-            entity = new UsuariosInternos();
-
-            //Long idUsuInterno = FacesUtils.checkLong(txtIdUsuInterno);
-            //entity.setIdUsuInterno(idUsuInterno);
-            entity.setNumeroIdentificacion(FacesUtils.checkString(
-                    txtNumeroIdentificacion));
-            entity.setNombres(FacesUtils.checkString(txtNombres));
-            entity.setApellidos(FacesUtils.checkString(txtApellidos));
-            entity.setCorreoElectronico(FacesUtils.checkString(txtCorreoElectronico));
-            entity.setLogin(FacesUtils.checkString(txtLogin));
-            entity.setContrasena(FacesUtils.checkString(txtContrasena));
-            String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
-			entity.setEstadoRegistro(estado);
-            entity.setFechaCreacion(new Date());
-            
-            entity.setAreasInvolucradas((idAreaInvolucrada != null)
-                    ? businessDelegatorView.getAreasInvolucradas((idAreaInvolucrada)): null);
-            
-            entity.setRoles((idRol != null) ? businessDelegatorView.getRoles(idRol): null);
-            
-           /* entity.setAreasInvolucradas((FacesUtils.checkLong(txtIdAreaInvolucrada_AreasInvolucradas) != null)
-                ? businessDelegatorView.getAreasInvolucradas(FacesUtils.checkLong(txtIdAreaInvolucrada_AreasInvolucradas))
-                : null);
-            entity.setRoles((FacesUtils.checkLong(txtIdRol_Roles) != null)
-                ? businessDelegatorView.getRoles(FacesUtils.checkLong(
-                        txtIdRol_Roles)) : null);*/
-            
-            businessDelegatorView.saveUsuariosInternos(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
-            action_clear();
-        } catch (Exception e) {
-            entity = null;
-            FacesUtils.addErrorMessage(e.getMessage());
-        }
-
-        return "";
+    
+    public boolean revizarCampos(String nombres,String apellidos,String numeroIdentificacion,String login,String email,String contrasena,
+    		String areaInvolucrada,String rol,String estado)throws Exception{
+    	
+    	if (nombres.equals("") || nombres.trim().equals("")) {
+			throw new Exception(
+			"Debe de ingresar su Nombre");
+		}
+    	
+    	if (!Utilities.isOnlyLetters2(nombres)) {
+			throw new Exception(
+			"El Nombre ingresado solo debe de contener Letras");
+		}
+    	
+    	if (apellidos.equals("") || apellidos.trim().equals("")) {
+			throw new Exception(
+			"Debe de ingresar su Apellido");
+		}
+    	
+    	if (!Utilities.isOnlyLetters2(apellidos)) {
+			throw new Exception(
+			"Los Apellidos ingresados solo deben de contener Letras");
+		}
+    	
+    	if (numeroIdentificacion.equals("") || numeroIdentificacion.trim().equals("")) {
+			throw new Exception(
+			"El Numero de Identificacion es de caracter obligatorio");
+		}
+    	
+    	if (!Utilities.soloNumeros(numeroIdentificacion)) {
+			throw new Exception(
+			"El Numero de Identificacion debe ser totalmente numerico");
+		}
+    	
+    	if (login.equals("") || login.trim().equals("")) {
+			throw new Exception(
+			"Debe de ingresar un Login deseado");
+		}
+    	
+    	if (email.equals("") || email.trim().equals("")) {
+			throw new Exception(
+					"El Correo Electronico es de caracter obligatorio");
+		}
+    	
+    	if (!Utilities.correElectronico(email)) {
+			throw new Exception(
+					"El Correo Electronico debe tener el siguiente formato \"xxx@xxx.xxx\"");
+		}
+    	
+    	if (contrasena.equals("") || contrasena.trim().equals("")) {
+			throw new Exception(
+					"La Constraseña es de caracter obligatorio");
+		}
+    	
+    	if (areaInvolucrada.equals("") || areaInvolucrada.trim().equals("")) {
+			throw new Exception(
+					"El Area Involucrada es de caracter obligatorio");
+		}
+    	
+    	if (rol.equals("") || rol.trim().equals("")) {
+			throw new Exception(
+					"El Rol es de caracter obligatorio");
+		}
+    	
+    	if (estado.equals("") || estado.trim().equals("")) {
+			throw new Exception(
+					"El Estado es de caracter obligatorio");
+		}
+		return true;
     }
+
+	public String action_create() {
+		try {
+			
+			if (idAreaInvolucrada != null && idRol != null) {
+
+				AreasInvolucradas area = businessDelegatorView.getAreasInvolucradas((idAreaInvolucrada));
+				Roles roles = businessDelegatorView.getRoles(idRol);
+				String nombres = txtNombres.getValue().toString();
+				String apellidos = txtApellidos.getValue().toString();
+				String numeroIdentificacion = txtNumeroIdentificacion.getValue().toString();
+				String login = txtLogin.getValue().toString();
+				String email = txtCorreoElectronico.getValue().toString();
+				String contrasena = txtContrasena.getValue().toString();
+				String areaInvolucrada = area.getNombreArea();
+				String rol = roles.getNombreRol();
+				String estados = getEstadoRegistroSeleccionado();
+
+				if (!revizarCampos(nombres, apellidos, numeroIdentificacion,
+						login, email, contrasena, areaInvolucrada, rol, estados)) {
+					return "";
+				}
+
+				UsuariosInternos usuarioLogin = ObtenerCuentaUsuarios(login);
+				UsuariosInternos usuarioNumeroIdentifiacion = ObtenerNumeroIdentificacionUsuarios(numeroIdentificacion);
+				UsuariosInternos usuarioEmail = ObtenerEmailUsuarios(email);
+
+				if (usuarioNumeroIdentifiacion == null && usuarioLogin == null && usuarioEmail == null) {
+					
+					entity = new UsuariosInternos();
+
+					entity.setNumeroIdentificacion(FacesUtils
+							.checkString(txtNumeroIdentificacion));
+					entity.setNombres(FacesUtils.checkString(txtNombres));
+					entity.setApellidos(FacesUtils.checkString(txtApellidos));
+					entity.setCorreoElectronico(FacesUtils
+							.checkString(txtCorreoElectronico));
+					entity.setLogin(FacesUtils.checkString(txtLogin));
+					entity.setContrasena(FacesUtils.checkString(txtContrasena));
+					String estado = (estadoRegistroSeleccionado
+							.equals("Activo")) ? "A" : "I";
+					entity.setEstadoRegistro(estado);
+					entity.setFechaCreacion(new Date());
+
+					entity.setAreasInvolucradas((idAreaInvolucrada != null) ? businessDelegatorView
+							.getAreasInvolucradas((idAreaInvolucrada)) : null);
+
+					entity.setRoles((idRol != null) ? businessDelegatorView
+							.getRoles(idRol) : null);
+
+					businessDelegatorView.saveUsuariosInternos(entity);
+					FacesUtils
+							.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+
+					action_clear();
+					
+				} else {
+
+					throw new Exception(
+							"El Numero de Identificacion y/o el Login y/o el Email ya existen. Por "
+									+ "favor ingreselos nuevamente");
+				}
+			}else{
+				throw new Exception("Debe seleccionar un Area Involucrada y/o Rol");
+			}
+		} catch (Exception e) {
+			entity = null;
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+
+		return "";
+	}
+	
+	private UsuariosInternos ObtenerCuentaUsuarios(String login) throws Exception {
+		UsuariosInternos entity = null;
+		Object[] variables = { "login", true, login, "=" };
+		List<UsuariosInternos> usuarioConsultadas = businessDelegatorView.findByCriteriaInUsuariosInternos(variables, null, null);
+		if (Utilities.validationsList(usuarioConsultadas)) {
+			entity = usuarioConsultadas.get(0);
+		}
+		return entity;
+	}
+	
+	private UsuariosInternos ObtenerEmailUsuarios(String email) throws Exception {
+		UsuariosInternos entity = null;
+		Object[] variables = { "correoElectronico", true, email, "=" };
+		List<UsuariosInternos> usuarioConsultadas = businessDelegatorView.findByCriteriaInUsuariosInternos(variables, null, null);
+		if (Utilities.validationsList(usuarioConsultadas)) {
+			entity = usuarioConsultadas.get(0);
+		}
+		return entity;
+	}
+	
+	private UsuariosInternos ObtenerNumeroIdentificacionUsuarios(String numeroIdentificacion) throws Exception {
+		UsuariosInternos entity = null;
+		Object[] variables = { "numeroIdentificacion", true, numeroIdentificacion, "=" };
+		List<UsuariosInternos> usuarioConsultadas = businessDelegatorView.findByCriteriaInUsuariosInternos(variables, null, null);
+		if (Utilities.validationsList(usuarioConsultadas)) {
+			entity = usuarioConsultadas.get(0);
+		}
+		return entity;
+	}
 
     public String action_modify() {
         try {
