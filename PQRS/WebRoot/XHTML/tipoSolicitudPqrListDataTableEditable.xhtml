@@ -94,7 +94,7 @@
 									var="motivoReclamacion"
 									itemValue="#{motivoReclamacion}"
 									itemLabel="#{motivoReclamacion.descripcionMotRecl}"
-									filterMatchMode="contains">
+									filterMatchMode="contains" converter="#{motivoReclamacion}">
 								</p:pickList>
 								<h:outputText id="msgMotSol" value="*Motivos de Solicitud:" />
 								<p:pickList id="MotSolPickList"
@@ -102,7 +102,7 @@
 									var="motivoSolicitud"
 									itemValue="#{motivoSolicitud}"
 									itemLabel="#{motivoSolicitud.descripcionMotSol}"
-									filterMatchMode="contains">
+									filterMatchMode="contains" converter="#{motivosSolicitud}">
 								</p:pickList>
 								<h:outputText id="msgAnexosPqr" value="*Anexos:" />
 								<p:pickList id="AnexosPqrPickList"
@@ -110,7 +110,7 @@
 									var="anexoPqr"
 									itemValue="#{anexoPqr}"
 									itemLabel="#{anexoPqr.descripcionAnexo}"
-									filterMatchMode="contains">
+									filterMatchMode="contains" converter="#{anexosPqr}">
 								</p:pickList>
 							</h:panelGrid>
 						</p:panel>
