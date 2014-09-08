@@ -10,6 +10,8 @@ import org.primefaces.component.calendar.*;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.event.TransferEvent;
+import org.primefaces.model.DualListModel;
 
 import java.io.Serializable;
 import java.sql.*;
@@ -21,6 +23,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
 
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -53,13 +56,41 @@ public class TipoSolicitudPqrView implements Serializable {
     private TipoSolicitudPqrDTO selectedTipoSolicitudPqr;
     private TipoSolicitudPqr entity;
     private boolean showDialog;
+    private DualListModel<MotivoReclamacion> motivosReclamacion;
+    List<MotivoReclamacion> motivosReclamacionSource;
+    List<MotivoReclamacion> motivosReclamacionTarget;
+    private DualListModel<MotivoSolicitud> motivosSolicitud;    
+    List<MotivoSolicitud> motivosSolicitudSource;
+    List<MotivoSolicitud> motivosSolicitudTarget;
+    private DualListModel<AnexosPqr> anexosPqr;
+    List<AnexosPqr> anexosPqrSource;
+    List<AnexosPqr> anexosPqrTarget;
+    
+    
     @ManagedProperty(value = "#{BusinessDelegatorView}")
     private IBusinessDelegatorView businessDelegatorView;
 
     public TipoSolicitudPqrView() {
         super();
     }
+    
+    @PostConstruct
+    public void init() {
+		try {
+	        motivosReclamacionSource = businessDelegatorView.getMotivoReclamacion();
+	        motivosReclamacionTarget = new ArrayList<MotivoReclamacion>();
+	        
+	        motivosSolicitudSource = businessDelegatorView.getMotivoSolicitud();
+	       	motivosSolicitudTarget = new ArrayList<MotivoSolicitud>();	         
+	        
+	        anexosPqrSource = businessDelegatorView.getAnexosPqr();
+	        anexosPqrTarget = new ArrayList<AnexosPqr>();	              
 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
+       
     public void rowEventListener(RowEditEvent e) {
         try {
             TipoSolicitudPqrDTO tipoSolicitudPqrDTO = (TipoSolicitudPqrDTO) e.getObject();
@@ -140,6 +171,7 @@ public class TipoSolicitudPqrView implements Serializable {
             
         data = null;
         data = getData();
+               
         return "";
     }
 
@@ -254,9 +286,16 @@ public class TipoSolicitudPqrView implements Serializable {
             entity.setUsuarioCreador("Admin");
             entity.setFechaCreacion(new Date());
             entity.setUsuarioUltimaModificacion(null);
-            entity.setFechaUltimaModificacion(null);            
-            
+            entity.setFechaUltimaModificacion(null);
+                        
             businessDelegatorView.saveTipoSolicitudPqr(entity);
+            
+            TipoSolicitudPqr tipoSol = businessDelegatorView.getTipoSolicitudPqr(entity.getIdTpSolPqr());
+            
+            action_create_mot_recl(tipoSol);
+            action_create_mot_sol(tipoSol);
+            action_create_anexos(tipoSol);
+            
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
             
             action_clear();
@@ -266,6 +305,58 @@ public class TipoSolicitudPqrView implements Serializable {
         }
 
         return "";
+    }
+    public String action_create_mot_recl(TipoSolicitudPqr tipoSol){
+    	try{
+    		motivosReclamacionTarget = motivosReclamacion.getTarget();
+	    	for(MotivoReclamacion motivoRecl: motivosReclamacionTarget){
+	    		 MotReclXTpSol motReclXTpSol = new MotReclXTpSol();	    		 
+	    		 MotivoReclamacion motRecl = businessDelegatorView.getMotivoReclamacion(motivoRecl.getIdMotRecl());	    		 
+	    		 motReclXTpSol.setMotivoReclamacion(motRecl);
+	    		 motReclXTpSol.setTipoSolicitudPqr(tipoSol);
+	    		 
+	    		 businessDelegatorView.saveMotReclXTpSol(motReclXTpSol);
+	    	}
+    	}catch(Exception e){
+    		FacesUtils.addErrorMessage(e.getMessage());
+    	}    	
+    	return "";
+    }
+    
+    public String action_create_mot_sol(TipoSolicitudPqr tipoSol){
+    	try{
+    		motivosSolicitudTarget = motivosSolicitud.getTarget();
+	    	for(MotivoSolicitud motivoSol: motivosSolicitudTarget){
+	    		MotSolXTpSol motSolxTpSol = new MotSolXTpSol();	    		
+	    		MotivoSolicitud motSol = businessDelegatorView.getMotivoSolicitud(motivoSol.getIdMotSol());
+	    		motSolxTpSol.setMotivoSolicitud(motSol);
+	    		motSolxTpSol.setTipoSolicitudPqr(tipoSol);
+	    		
+	    		businessDelegatorView.saveMotSolXTpSol(motSolxTpSol);
+	    	}
+    	}catch(Exception e){
+    		FacesUtils.addErrorMessage(e.getMessage());
+    	}
+    	return "";
+    }
+    
+    public String action_create_anexos(TipoSolicitudPqr tipoSol){
+    	try{
+    		anexosPqrTarget = anexosPqr.getTarget();
+    		for(AnexosPqr anexoPqr: anexosPqrTarget){
+    			AnxsXTpSol anxsXTpSol = new AnxsXTpSol();
+    			anxsXTpSol.setEsObligatorio("S");
+    			AnexosPqr anexPqr = businessDelegatorView.getAnexosPqr(anexoPqr.getIdAnexoPqr());
+    			anxsXTpSol.setAnexosPqr(anexPqr);
+    			anxsXTpSol.setTipoSolicitudPqr(tipoSol);
+    			
+    			businessDelegatorView.saveAnxsXTpSol(anxsXTpSol);
+    		}
+    		
+    	}catch(Exception e){
+    		FacesUtils.addErrorMessage(e.getMessage());
+    	}
+    	return "";
     }
 
     public String action_modify() {
@@ -527,4 +618,84 @@ public class TipoSolicitudPqrView implements Serializable {
 	public void setEstadoRegistroSeleccionado(String estadoRegistroSeleccionado) {
 		this.estadoRegistroSeleccionado = estadoRegistroSeleccionado;
 	}
+	
+	public void setMotivosReclamacion(DualListModel<MotivoReclamacion> motivosReclamacion) {
+		this.motivosReclamacion = motivosReclamacion;
+	}
+	
+	public DualListModel<MotivoReclamacion> getMotivosReclamacion() {
+		motivosReclamacion = new DualListModel<MotivoReclamacion>(motivosReclamacionSource, motivosReclamacionTarget);
+		return motivosReclamacion;
+	}	
+	
+    public DualListModel<MotivoSolicitud> getMotivosSolicitud() {
+    	motivosSolicitud = new DualListModel<MotivoSolicitud>(motivosSolicitudSource, motivosSolicitudTarget);
+		return motivosSolicitud;
+	}
+
+	public void setMotivosSolicitud(DualListModel<MotivoSolicitud> motivosSolicitud) {
+		this.motivosSolicitud = motivosSolicitud;
+	}
+
+	public DualListModel<AnexosPqr> getAnexosPqr() {
+		anexosPqr = new DualListModel<AnexosPqr>(anexosPqrSource, anexosPqrTarget);
+		return anexosPqr;
+	}
+
+	public void setAnexosPqr(DualListModel<AnexosPqr> anexosPqr) {
+		this.anexosPqr = anexosPqr;
+	}
+
+	public List<MotivoReclamacion> getMotivosReclamacionSource() {
+		return motivosReclamacionSource;
+	}
+
+	public void setMotivosReclamacionSource(
+			List<MotivoReclamacion> motivosReclamacionSource) {
+		this.motivosReclamacionSource = motivosReclamacionSource;
+	}
+
+	public List<MotivoReclamacion> getMotivosReclamacionTarget() {
+		return motivosReclamacionTarget;
+	}
+
+	public void setMotivosReclamacionTarget(
+			List<MotivoReclamacion> motivosReclamacionTarget) {
+		this.motivosReclamacionTarget = motivosReclamacionTarget;
+	}
+
+	public List<MotivoSolicitud> getMotivosSolicitudSource() {
+		return motivosSolicitudSource;
+	}
+
+	public void setMotivosSolicitudSource(
+			List<MotivoSolicitud> motivosSolicitudSource) {
+		this.motivosSolicitudSource = motivosSolicitudSource;
+	}
+
+	public List<MotivoSolicitud> getMotivosSolicitudTarget() {
+		return motivosSolicitudTarget;
+	}
+
+	public void setMotivosSolicitudTarget(
+			List<MotivoSolicitud> motivosSolicitudTarget) {
+		this.motivosSolicitudTarget = motivosSolicitudTarget;
+	}
+
+	public List<AnexosPqr> getAnexosPqrSource() {
+		return anexosPqrSource;
+	}
+
+	public void setAnexosPqrSource(List<AnexosPqr> anexosPqrSource) {
+		this.anexosPqrSource = anexosPqrSource;
+	}
+
+	public List<AnexosPqr> getAnexosPqrTarget() {
+		return anexosPqrTarget;
+	}
+
+	public void setAnexosPqrTarget(List<AnexosPqr> anexosPqrTarget) {
+		this.anexosPqrTarget = anexosPqrTarget;
+	}
+	
 }

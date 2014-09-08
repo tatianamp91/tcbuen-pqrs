@@ -73,21 +73,45 @@
 				<p:dialog id="dialogTipoSolicitudPqr" appendToBody="true"
 					draggable="true" closable="false"
 					visible="#{tipoSolicitudPqrView.showDialog}" resizable="false"
-					modal="true" width="500">
+					modal="true" width="1200">
 					<h:form id="formDialog">
 						<p:messages id="msg" showDetail="true" />
-						<p:panel id="panelTipoSolicitudPqr" header="Nuevo Tipo de Solicitud">
-							<h:panelGrid columns="2" id="panelGrid">
-
+						<p:panel id="panelTipoSolicitudPqr"
+							header="Nuevo Tipo de Solicitud">
+							<h:panelGrid columns="4" id="panelGrid">
 								<h:outputText id="msgDescTpSol" value="*Descripción:" />
 								<p:inputText id="txtDescTpSol" disabled="false"
-									binding="#{tipoSolicitudPqrView.txtDescTpSol}" />
+									binding="#{tipoSolicitudPqrView.txtDescTpSol}" size="68" />
 								<h:outputText id="msgEstadoRegistro" value="*Estado:" />
 								<p:selectOneMenu id="estadoRegistro"
 									value="#{tipoSolicitudPqrView.estadoRegistroSeleccionado}">
 									<f:selectItem itemValue="A" itemLabel="Activo" />
 									<f:selectItem itemValue="I" itemLabel="Inactivo" />
 								</p:selectOneMenu>
+								<h:outputText id="msgMotRecl" value="*Motivos de Reclamación:" />
+								<p:pickList id="MotReclPickList"
+									value="#{tipoSolicitudPqrView.motivosReclamacion}"
+									var="motivoReclamacion"
+									itemValue="#{motivoReclamacion}"
+									itemLabel="#{motivoReclamacion.descripcionMotRecl}"
+									filterMatchMode="contains">
+								</p:pickList>
+								<h:outputText id="msgMotSol" value="*Motivos de Solicitud:" />
+								<p:pickList id="MotSolPickList"
+									value="#{tipoSolicitudPqrView.motivosSolicitud}"
+									var="motivoSolicitud"
+									itemValue="#{motivoSolicitud}"
+									itemLabel="#{motivoSolicitud.descripcionMotSol}"
+									filterMatchMode="contains">
+								</p:pickList>
+								<h:outputText id="msgAnexosPqr" value="*Anexos:" />
+								<p:pickList id="AnexosPqrPickList"
+									value="#{tipoSolicitudPqrView.anexosPqr}"
+									var="anexoPqr"
+									itemValue="#{anexoPqr}"
+									itemLabel="#{anexoPqr.descripcionAnexo}"
+									filterMatchMode="contains">
+								</p:pickList>
 							</h:panelGrid>
 						</p:panel>
 						<p:panel id="panelBotones">
