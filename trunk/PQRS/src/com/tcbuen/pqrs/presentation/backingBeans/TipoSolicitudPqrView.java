@@ -77,15 +77,14 @@ public class TipoSolicitudPqrView implements Serializable {
     @PostConstruct
     public void init() {
 		try {
-	        motivosReclamacionSource = businessDelegatorView.getMotivoReclamacion();
-	        motivosReclamacionTarget = new ArrayList<MotivoReclamacion>();
+	        motivosReclamacion = null;
+	        motivosReclamacion = getMotivosReclamacion();
 	        
-	        motivosSolicitudSource = businessDelegatorView.getMotivoSolicitud();
-	       	motivosSolicitudTarget = new ArrayList<MotivoSolicitud>();	         
+	        motivosSolicitud = null;
+	        motivosSolicitud = getMotivosSolicitud();
 	        
-	        anexosPqrSource = businessDelegatorView.getAnexosPqr();
-	        anexosPqrTarget = new ArrayList<AnexosPqr>();	              
-
+	        anexosPqr = null;
+	        anexosPqr = getAnexosPqr();            
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -171,6 +170,15 @@ public class TipoSolicitudPqrView implements Serializable {
             
         data = null;
         data = getData();
+        
+        motivosReclamacion = null;
+        motivosReclamacion = getMotivosReclamacion();
+        
+        motivosSolicitud = null;
+        motivosSolicitud = getMotivosSolicitud();
+        
+        anexosPqr = null;
+        anexosPqr = getAnexosPqr();
                
         return "";
     }
@@ -308,7 +316,7 @@ public class TipoSolicitudPqrView implements Serializable {
     }
     public String action_create_mot_recl(TipoSolicitudPqr tipoSol){
     	try{
-    		motivosReclamacionTarget = motivosReclamacion.getTarget();
+    		motivosReclamacionTarget = (List<MotivoReclamacion>) motivosReclamacion.getTarget();
 	    	for(MotivoReclamacion motivoRecl: motivosReclamacionTarget){
 	    		 MotReclXTpSol motReclXTpSol = new MotReclXTpSol();	    		 
 	    		 MotivoReclamacion motRecl = businessDelegatorView.getMotivoReclamacion(motivoRecl.getIdMotRecl());	    		 
@@ -325,7 +333,7 @@ public class TipoSolicitudPqrView implements Serializable {
     
     public String action_create_mot_sol(TipoSolicitudPqr tipoSol){
     	try{
-    		motivosSolicitudTarget = motivosSolicitud.getTarget();
+    		motivosSolicitudTarget = (List<MotivoSolicitud>) motivosSolicitud.getTarget();
 	    	for(MotivoSolicitud motivoSol: motivosSolicitudTarget){
 	    		MotSolXTpSol motSolxTpSol = new MotSolXTpSol();	    		
 	    		MotivoSolicitud motSol = businessDelegatorView.getMotivoSolicitud(motivoSol.getIdMotSol());
@@ -342,7 +350,7 @@ public class TipoSolicitudPqrView implements Serializable {
     
     public String action_create_anexos(TipoSolicitudPqr tipoSol){
     	try{
-    		anexosPqrTarget = anexosPqr.getTarget();
+    		anexosPqrTarget = (List<AnexosPqr>) anexosPqr.getTarget();
     		for(AnexosPqr anexoPqr: anexosPqrTarget){
     			AnxsXTpSol anxsXTpSol = new AnxsXTpSol();
     			anxsXTpSol.setEsObligatorio("S");
@@ -619,18 +627,30 @@ public class TipoSolicitudPqrView implements Serializable {
 		this.estadoRegistroSeleccionado = estadoRegistroSeleccionado;
 	}
 	
-	public void setMotivosReclamacion(DualListModel<MotivoReclamacion> motivosReclamacion) {
-		this.motivosReclamacion = motivosReclamacion;
-	}
-	
 	public DualListModel<MotivoReclamacion> getMotivosReclamacion() {
-		motivosReclamacion = new DualListModel<MotivoReclamacion>(motivosReclamacionSource, motivosReclamacionTarget);
+		try{
+	        motivosReclamacionSource = businessDelegatorView.getMotivoReclamacion();
+	        motivosReclamacionTarget = new ArrayList<MotivoReclamacion>();
+	        motivosReclamacion = new DualListModel<MotivoReclamacion>(motivosReclamacionSource, motivosReclamacionTarget);
+		}catch(Exception e){
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
 		return motivosReclamacion;
 	}	
 	
+	public void setMotivosReclamacion(DualListModel<MotivoReclamacion> motivosReclamacion) {      
+		this.motivosReclamacion = motivosReclamacion;
+	}
+	
     public DualListModel<MotivoSolicitud> getMotivosSolicitud() {
-    	motivosSolicitud = new DualListModel<MotivoSolicitud>(motivosSolicitudSource, motivosSolicitudTarget);
-		return motivosSolicitud;
+    	try{
+	        motivosSolicitudSource = businessDelegatorView.getMotivoSolicitud();
+	       	motivosSolicitudTarget = new ArrayList<MotivoSolicitud>();
+	    	motivosSolicitud = new DualListModel<MotivoSolicitud>(motivosSolicitudSource, motivosSolicitudTarget);
+		}catch(Exception e){
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+		return motivosSolicitud;        
 	}
 
 	public void setMotivosSolicitud(DualListModel<MotivoSolicitud> motivosSolicitud) {
@@ -638,7 +658,13 @@ public class TipoSolicitudPqrView implements Serializable {
 	}
 
 	public DualListModel<AnexosPqr> getAnexosPqr() {
-		anexosPqr = new DualListModel<AnexosPqr>(anexosPqrSource, anexosPqrTarget);
+		try{
+			anexosPqrSource = businessDelegatorView.getAnexosPqr();
+			anexosPqrTarget = new ArrayList<AnexosPqr>();
+			anexosPqr = new DualListModel<AnexosPqr>(anexosPqrSource, anexosPqrTarget);
+		}catch(Exception e){
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
 		return anexosPqr;
 	}
 
