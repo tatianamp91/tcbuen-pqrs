@@ -323,22 +323,22 @@ public class UsuariosInternosView implements Serializable {
     	
     	if (nombres.equals("") || nombres.trim().equals("")) {
 			throw new Exception(
-			"Debe de ingresar su Nombre");
+			"Debe de ingresar un Nombre");
 		}
     	
     	if (!Utilities.isOnlyLetters2(nombres)) {
 			throw new Exception(
-			"El Nombre ingresado solo debe de contener Letras");
+			"El Nombre ingresado solo debe de contener letras");
 		}
     	
     	if (apellidos.equals("") || apellidos.trim().equals("")) {
 			throw new Exception(
-			"Debe de ingresar su Apellido");
+			"Debe de ingresar un Apellido");
 		}
     	
     	if (!Utilities.isOnlyLetters2(apellidos)) {
 			throw new Exception(
-			"Los Apellidos ingresados solo deben de contener Letras");
+			"Los Apellidos ingresados solo deben de contener letras");
 		}
     	
     	if (numeroIdentificacion.equals("") || numeroIdentificacion.trim().equals("")) {
@@ -358,32 +358,32 @@ public class UsuariosInternosView implements Serializable {
     	
     	if (email.equals("") || email.trim().equals("")) {
 			throw new Exception(
-					"El Correo Electronico es de caracter obligatorio");
+			"El Correo Electronico es de caracter obligatorio");
 		}
     	
     	if (!Utilities.correElectronico(email)) {
 			throw new Exception(
-					"El Correo Electronico debe tener el siguiente formato \"xxx@xxx.xxx\"");
+			"El Correo Electronico debe tener el siguiente formato \"xxx@xxx.xxx\"");
 		}
     	
     	if (contrasena.equals("") || contrasena.trim().equals("")) {
 			throw new Exception(
-					"La Constraseña es de caracter obligatorio");
+			"La Constraseña es de caracter obligatorio");
 		}
     	
     	if (areaInvolucrada.equals("") || areaInvolucrada.trim().equals("")) {
 			throw new Exception(
-					"El Area Involucrada es de caracter obligatorio");
+			"El Area Involucrada es de caracter obligatorio");
 		}
     	
     	if (rol.equals("") || rol.trim().equals("")) {
 			throw new Exception(
-					"El Rol es de caracter obligatorio");
+			"El Rol es de caracter obligatorio");
 		}
     	
     	if (estado.equals("") || estado.trim().equals("")) {
 			throw new Exception(
-					"El Estado es de caracter obligatorio");
+			"El Estado es de caracter obligatorio");
 		}
 		return true;
     }
