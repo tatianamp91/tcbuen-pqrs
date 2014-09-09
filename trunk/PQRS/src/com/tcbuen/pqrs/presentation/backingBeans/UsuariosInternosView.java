@@ -449,9 +449,11 @@ public class UsuariosInternosView implements Serializable {
 							"El Numero de Identificacion y/o el Login y/o el Email ya existen. Por "
 									+ "favor ingreselos nuevamente");
 				}
+			
 			}else{
 				throw new Exception("Debe seleccionar un Area Involucrada y/o Rol");
 			}
+			action_clear();
 		} catch (Exception e) {
 			entity = null;
 			FacesUtils.addErrorMessage(e.getMessage());
@@ -491,36 +493,83 @@ public class UsuariosInternosView implements Serializable {
 	}
 
     public String action_modify() {
-        try {
-            if (entity == null) {
-                Long idUsuInterno = new Long(selectedUsuariosInternos.getIdUsuInterno());
-                entity = businessDelegatorView.getUsuariosInternos(idUsuInterno);
-            }
-            
-            entity.setNumeroIdentificacion(FacesUtils.checkString(txtNumeroIdentificacion));
-            entity.setNombres(FacesUtils.checkString(txtNombres));
-            entity.setApellidos(FacesUtils.checkString(txtApellidos));
-            entity.setCorreoElectronico(FacesUtils.checkString(txtCorreoElectronico));
-            entity.setLogin(FacesUtils.checkString(txtLogin));
-            entity.setContrasena(FacesUtils.checkString(txtContrasena));            
-            String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
-			entity.setEstadoRegistro(estado);
-            entity.setFechaCreacion(null);           
-            
-            entity.setAreasInvolucradas((idAreaInvolucrada != null)
-                    ? businessDelegatorView.getAreasInvolucradas((idAreaInvolucrada)): null);
-            
-            entity.setRoles((idRol != null) ? businessDelegatorView.getRoles(idRol): null);
-            businessDelegatorView.updateUsuariosInternos(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
-            action_clear();
-        } catch (Exception e) {
-            data = null;
-            FacesUtils.addErrorMessage(e.getMessage());
-        }
+		try {
+			
+			String numeroIdentificacion = txtNumeroIdentificacion.getValue()
+					.toString();
+			String login = txtLogin.getValue().toString();
+			String email = txtCorreoElectronico.getValue().toString();
+			
+			
+			AreasInvolucradas area = businessDelegatorView
+					.getAreasInvolucradas((idAreaInvolucrada));
+			Roles roles = businessDelegatorView.getRoles(idRol);
+			String nombres = txtNombres.getValue().toString();
+			String apellidos = txtApellidos.getValue().toString();	
+			String contrasena = txtContrasena.getValue().toString();
+			String areaInvolucrada = area.getNombreArea();
+			String rol = roles.getNombreRol();
+			String estados = getEstadoRegistroSeleccionado();
+			
+					
+			
+			UsuariosInternos UsuLogin = ObtenerCuentaUsuarios(login);
+			UsuariosInternos UsuNumeroIdentifiacion = ObtenerNumeroIdentificacionUsuarios(numeroIdentificacion);
+			UsuariosInternos UsuEmail = ObtenerEmailUsuarios(email);
 
-        return "";
-    }
+			if (UsuNumeroIdentifiacion == null  && UsuLogin == null && UsuEmail == null){
+				
+				if (!revizarCampos(nombres, apellidos, numeroIdentificacion,
+						login, email, contrasena, areaInvolucrada, rol, estados)) {
+					return "";
+				}	
+			
+				entity.setNumeroIdentificacion(FacesUtils
+						.checkString(txtNumeroIdentificacion));
+				entity.setNombres(FacesUtils.checkString(txtNombres));
+				entity.setApellidos(FacesUtils.checkString(txtApellidos));
+				entity.setCorreoElectronico(FacesUtils
+						.checkString(txtCorreoElectronico));
+				entity.setLogin(FacesUtils.checkString(txtLogin));
+				entity.setContrasena(FacesUtils.checkString(txtContrasena));
+				String estado = (estadoRegistroSeleccionado.equals("Activo")) ? "A"
+						: "I";
+				entity.setEstadoRegistro(estado);
+				entity.setFechaCreacion(new Date());
+
+				entity.setAreasInvolucradas((idAreaInvolucrada != null) ? businessDelegatorView
+						.getAreasInvolucradas((idAreaInvolucrada)) : null);
+
+				entity.setRoles((idRol != null) ? businessDelegatorView
+						.getRoles(idRol) : null);
+
+				businessDelegatorView.saveUsuariosInternos(entity);
+				FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+
+				action_clear();
+			}else{
+				throw new Exception("El Numero de Identificacion y/o el Login y/o el Email ya existen. Por "
+									+ "favor ingreselos nuevamente");
+			}
+
+		} catch (Exception e) {
+			entity = null;
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+
+		
+		return "";
+
+	}
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     public String action_delete_datatable(ActionEvent evt) {
         try {

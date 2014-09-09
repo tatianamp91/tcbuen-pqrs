@@ -263,23 +263,44 @@ public class ParametrosPqrView implements Serializable {
 
 	public String action_create() {
 		try {
-			entity = new ParametrosPqr();
 
-			// Long idParam = FacesUtils.checkLong(txtIdParam);
-			//entity.setIdParam(idParam);
-			entity.setDescripcionParam(FacesUtils.checkString(txtDescripcionParam));
-			String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
-			entity.setEstadoRegistro(estado);
-			//Falta agregar usuarios sesion
-			entity.setUsuarioCreador("Admin");
-			entity.setFechaCreacion(new Date());
-			entity.setUsuarioUltimaModificacion(null);
-			entity.setFechaUltimaModificacion(null);
-			entity.setValorParam(FacesUtils.checkString(txtValorParam));
-			
-			businessDelegatorView.saveParametrosPqr(entity);
-			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
-			action_clear();
+			String descripcionParam = txtDescripcionParam.getValue().toString();
+			ParametrosPqr descrpcion = ObtenerParamDescripcion(descripcionParam);
+
+			String valorParam = txtValorParam.getValue().toString();
+			ParametrosPqr valor = ObtenerParamValor(valorParam);
+
+			if (descrpcion == null && valor == null) {
+
+				if (!revizarCampos(descripcionParam, valorParam)) {
+					return "";
+
+				}
+
+				entity = new ParametrosPqr();
+
+				// Long idParam = FacesUtils.checkLong(txtIdParam);
+				// entity.setIdParam(idParam);
+				entity.setDescripcionParam(FacesUtils
+						.checkString(txtDescripcionParam));
+				String estado = (estadoRegistroSeleccionado.equals("Activo")) ? "A"
+						: "I";
+				entity.setEstadoRegistro(estado);
+				// Falta agregar usuarios sesion
+				entity.setUsuarioCreador("Admin");
+				entity.setFechaCreacion(new Date());
+				entity.setUsuarioUltimaModificacion(null);
+				entity.setFechaUltimaModificacion(null);
+				entity.setValorParam(FacesUtils.checkString(txtValorParam));
+
+				businessDelegatorView.saveParametrosPqr(entity);
+				FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+
+				action_clear();
+
+			} else {
+				throw new Exception("Ya existe parametro o descripcion");
+			}
 		} catch (Exception e) {
 			entity = null;
 			FacesUtils.addErrorMessage(e.getMessage());
@@ -288,24 +309,85 @@ public class ParametrosPqrView implements Serializable {
 		return "";
 	}
 
+	private ParametrosPqr ObtenerParamDescripcion(String descripcionParam)
+			throws Exception {
+		ParametrosPqr entity = null;
+		Object[] variables = { "descripcionParam", true, descripcionParam, "=" };
+		List<ParametrosPqr> parametrosPqrs = businessDelegatorView
+				.findByCriteriaInParametrosPqr(variables, null, null);
+
+		if (Utilities.validationsList(parametrosPqrs)) {
+			entity = parametrosPqrs.get(0);
+		}
+		return entity;
+	}
+
+	private ParametrosPqr ObtenerParamValor(String valorParam) throws Exception {
+		ParametrosPqr entity = null;
+		Object[] variables = { "valorParam", true, valorParam, "=" };
+		List<ParametrosPqr> parametrosPqrs = businessDelegatorView
+				.findByCriteriaInParametrosPqr(variables, null, null);
+
+		if (Utilities.validationsList(parametrosPqrs)) {
+			entity = parametrosPqrs.get(0);
+		}
+		return entity;
+	}
+
+	public boolean revizarCampos(String descripcionParam, String valorParam)
+			throws Exception {
+
+		if (valorParam.equals("") || valorParam.trim().equals("")) {
+			throw new Exception("Debe de ingresar un Parametro");
+		}
+
+		if (descripcionParam.equals("") || descripcionParam.trim().equals("")) {
+			throw new Exception("Debe de ingresar una Descripcion");
+		}
+
+		/*
+		 * if (!Utilities.isOnlyLetters2(descripcionMotRecl)) { throw new
+		 * Exception( "La descripcion ingresada solo debe de contener letras");
+		 * }
+		 */
+		return true;
+
+	}
+
 	public String action_modify() {
 		try {
-			if (entity == null) {
-				Long idParam = new Long(selectedParametrosPqr.getIdParam());
-				entity = businessDelegatorView.getParametrosPqr(idParam);
-			}
 
-			entity.setDescripcionParam(FacesUtils.checkString(txtDescripcionParam));
-			String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
-			entity.setEstadoRegistro(estado);
-			entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-			entity.setFechaUltimaModificacion(new Date());
-			entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
-			entity.setUsuarioUltimaModificacion("Admin-1");
-			entity.setValorParam(FacesUtils.checkString(txtValorParam));
-			businessDelegatorView.updateParametrosPqr(entity);
-			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
-			action_clear();
+			String descripcionParam = txtDescripcionParam.getValue().toString();
+			ParametrosPqr descrpcion = ObtenerParamDescripcion(descripcionParam);
+
+			String valorParam = txtValorParam.getValue().toString();
+			ParametrosPqr valor = ObtenerParamValor(valorParam);
+
+			if (descrpcion == null || valor == null) {
+
+				if (!revizarCampos(descripcionParam, valorParam)) {
+					return "";
+
+				}
+
+				entity.setDescripcionParam(FacesUtils
+						.checkString(txtDescripcionParam));
+				String estado = (estadoRegistroSeleccionado.equals("Activo")) ? "A"
+						: "I";
+				entity.setEstadoRegistro(estado);
+				entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
+				entity.setFechaUltimaModificacion(new Date());
+				entity.setUsuarioCreador(FacesUtils
+						.checkString(txtUsuarioCreador));
+				entity.setUsuarioUltimaModificacion("Admin-1");
+				entity.setValorParam(FacesUtils.checkString(txtValorParam));
+				businessDelegatorView.updateParametrosPqr(entity);
+				FacesUtils
+						.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+				action_clear();
+			} else {
+				throw new Exception("Ya existe parametro o descripcion");
+			}
 		} catch (Exception e) {
 			data = null;
 			FacesUtils.addErrorMessage(e.getMessage());

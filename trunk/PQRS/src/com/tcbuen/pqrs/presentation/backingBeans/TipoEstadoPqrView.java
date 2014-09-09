@@ -249,6 +249,17 @@ public class TipoEstadoPqrView implements Serializable {
 
     public String action_create() {
         try {
+        	
+        	String descripcionEstado=txtDescripcionEstado.getValue().toString();
+        	TipoEstadoPqr tipoEstadoPqr= ObtenerDesTipoEstado(descripcionEstado);
+        	
+        	if(tipoEstadoPqr == null){
+        		
+        		if(!revizarCampos(descripcionEstado)){
+        			return "";
+        			
+        		}
+        	
             entity = new TipoEstadoPqr();
 
             //Long idTpEstPqr = FacesUtils.checkLong(txtIdTpEstPqr);
@@ -266,6 +277,11 @@ public class TipoEstadoPqrView implements Serializable {
 			businessDelegatorView.saveTipoEstadoPqr(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
             action_clear();
+            
+        	} else {
+        		throw new Exception("Ya existe estado");
+        	}
+				
         } catch (Exception e) {
             entity = null;
             FacesUtils.addErrorMessage(e.getMessage());
@@ -273,13 +289,45 @@ public class TipoEstadoPqrView implements Serializable {
 
         return "";
     }
+    
+    private TipoEstadoPqr ObtenerDesTipoEstado(String descripcionEstado) throws Exception {
+		TipoEstadoPqr entity = null;
+		Object[] variables = { "descripcionEstado", true, descripcionEstado, "=" };
+		List<TipoEstadoPqr> tipoEstadoPqrs = businessDelegatorView.findByCriteriaInTipoEstadoPqr(variables, null, null);
+				
+
+		if (Utilities.validationsList(tipoEstadoPqrs)) {
+			entity = tipoEstadoPqrs.get(0);
+		}
+		return entity;
+	}
+    
+    public boolean revizarCampos(String descripcionEstado) throws Exception {
+
+		if (descripcionEstado.equals("") || descripcionEstado.trim().equals("")) {
+			throw new Exception("Debe de ingresar una Descripcion");
+		}
+
+		if (!Utilities.isOnlyLetters2(descripcionEstado)) {
+			throw new Exception(
+					"La descripcion ingresada solo debe de contener letras");
+		}
+		return true;
+
+	}
+    
 
     public String action_modify() {
         try {
-            if (entity == null) {
-                Long idTpEstPqr = new Long(selectedTipoEstadoPqr.getIdTpEstPqr());
-                entity = businessDelegatorView.getTipoEstadoPqr(idTpEstPqr);
-            }
+        	String descripcionEstado=txtDescripcionEstado.getValue().toString();
+        	TipoEstadoPqr tipoEstadoPqr= ObtenerDesTipoEstado(descripcionEstado);
+        	
+        	if(tipoEstadoPqr == null){
+        		
+        		if(!revizarCampos(descripcionEstado)){
+        			return "";
+        			
+        		}
 
             entity.setDescripcionEstado(FacesUtils.checkString(txtDescripcionEstado));
             String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
@@ -291,6 +339,11 @@ public class TipoEstadoPqrView implements Serializable {
             businessDelegatorView.updateTipoEstadoPqr(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
             action_clear();
+            
+            
+        	} else {
+        		throw new Exception("Ya existe estado");
+        	}
         } catch (Exception e) {
             data = null;
             FacesUtils.addErrorMessage(e.getMessage());
