@@ -88,30 +88,29 @@
 									<f:selectItem itemValue="A" itemLabel="Activo" />
 									<f:selectItem itemValue="I" itemLabel="Inactivo" />
 								</p:selectOneMenu>
+								
 								<h:outputText id="msgMotRecl" value="*Motivos de Reclamación:" />
 								<p:pickList id="MotReclPickList"
 									value="#{tipoSolicitudPqrView.motivosReclamacion}"
-									var="motivoReclamacion"
-									itemValue="#{motivoReclamacion}"
-									itemLabel="#{motivoReclamacion.descripcionMotRecl}"
-									filterMatchMode="contains" converter="#{motivoReclamacion}">
-								</p:pickList>
+									var="motivoReclamacion" itemValue="#{motivoReclamacion.idMotRecl}"
+									itemLabel="#{motivoReclamacion.descripcionMotRecl}">
+								</p:pickList>	
+														
 								<h:outputText id="msgMotSol" value="*Motivos de Solicitud:" />
 								<p:pickList id="MotSolPickList"
 									value="#{tipoSolicitudPqrView.motivosSolicitud}"
-									var="motivoSolicitud"
-									itemValue="#{motivoSolicitud}"
-									itemLabel="#{motivoSolicitud.descripcionMotSol}"
-									filterMatchMode="contains" converter="#{motivosSolicitud}">
+									var="motivoSolicitud" itemValue="#{motivoSolicitud.idMotSol}"
+									itemLabel="#{motivoSolicitud.descripcionMotSol}">
 								</p:pickList>
+								
 								<h:outputText id="msgAnexosPqr" value="*Anexos:" />
 								<p:pickList id="AnexosPqrPickList"
-									value="#{tipoSolicitudPqrView.anexosPqr}"
-									var="anexoPqr"
-									itemValue="#{anexoPqr}"
-									itemLabel="#{anexoPqr.descripcionAnexo}"
-									filterMatchMode="contains" converter="#{anexosPqr}">
+									value="#{tipoSolicitudPqrView.anexosPqr}" var="anexoPqr"
+									itemValue="#{anexoPqr.idAnexoPqr}"
+									itemLabel="#{anexoPqr.descripcionAnexo}">
 								</p:pickList>
+
+
 							</h:panelGrid>
 						</p:panel>
 						<p:panel id="panelBotones">

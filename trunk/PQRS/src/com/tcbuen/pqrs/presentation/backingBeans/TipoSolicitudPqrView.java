@@ -89,7 +89,7 @@ public class TipoSolicitudPqrView implements Serializable {
 			e.printStackTrace();
 		}
     }
-       
+    
     public void rowEventListener(RowEditEvent e) {
         try {
             TipoSolicitudPqrDTO tipoSolicitudPqrDTO = (TipoSolicitudPqrDTO) e.getObject();
@@ -316,10 +316,11 @@ public class TipoSolicitudPqrView implements Serializable {
     }
     public String action_create_mot_recl(TipoSolicitudPqr tipoSol){
     	try{
-    		motivosReclamacionTarget = (List<MotivoReclamacion>) motivosReclamacion.getTarget();
-	    	for(MotivoReclamacion motivoRecl: motivosReclamacionTarget){
-	    		 MotReclXTpSol motReclXTpSol = new MotReclXTpSol();	    		 
-	    		 MotivoReclamacion motRecl = businessDelegatorView.getMotivoReclamacion(motivoRecl.getIdMotRecl());	    		 
+    		motivosReclamacionTarget = motivosReclamacion.getTarget();    		
+	    	for(Object object: motivosReclamacionTarget){
+	    		 String value = (String) object;    			    		    		 
+	    		 MotivoReclamacion motRecl = businessDelegatorView.getMotivoReclamacion(Long.parseLong(value));	
+	    		 MotReclXTpSol motReclXTpSol = new MotReclXTpSol();	 
 	    		 motReclXTpSol.setMotivoReclamacion(motRecl);
 	    		 motReclXTpSol.setTipoSolicitudPqr(tipoSol);
 	    		 
@@ -333,10 +334,11 @@ public class TipoSolicitudPqrView implements Serializable {
     
     public String action_create_mot_sol(TipoSolicitudPqr tipoSol){
     	try{
-    		motivosSolicitudTarget = (List<MotivoSolicitud>) motivosSolicitud.getTarget();
-	    	for(MotivoSolicitud motivoSol: motivosSolicitudTarget){
-	    		MotSolXTpSol motSolxTpSol = new MotSolXTpSol();	    		
-	    		MotivoSolicitud motSol = businessDelegatorView.getMotivoSolicitud(motivoSol.getIdMotSol());
+    		motivosSolicitudTarget = motivosSolicitud.getTarget();
+	    	for(Object object: motivosSolicitudTarget){
+	    		String value = (String) object;    		
+	    		MotivoSolicitud motSol = businessDelegatorView.getMotivoSolicitud(Long.parseLong(value));
+	    		MotSolXTpSol motSolxTpSol = new MotSolXTpSol();	 
 	    		motSolxTpSol.setMotivoSolicitud(motSol);
 	    		motSolxTpSol.setTipoSolicitudPqr(tipoSol);
 	    		
@@ -350,11 +352,12 @@ public class TipoSolicitudPqrView implements Serializable {
     
     public String action_create_anexos(TipoSolicitudPqr tipoSol){
     	try{
-    		anexosPqrTarget = (List<AnexosPqr>) anexosPqr.getTarget();
-    		for(AnexosPqr anexoPqr: anexosPqrTarget){
+    		anexosPqrTarget = anexosPqr.getTarget();
+    		for(Object object: anexosPqrTarget){
+	    		String value = (String) object; 
+	    		AnexosPqr anexPqr = businessDelegatorView.getAnexosPqr(Long.parseLong(value));
     			AnxsXTpSol anxsXTpSol = new AnxsXTpSol();
     			anxsXTpSol.setEsObligatorio("S");
-    			AnexosPqr anexPqr = businessDelegatorView.getAnexosPqr(anexoPqr.getIdAnexoPqr());
     			anxsXTpSol.setAnexosPqr(anexPqr);
     			anxsXTpSol.setTipoSolicitudPqr(tipoSol);
     			
