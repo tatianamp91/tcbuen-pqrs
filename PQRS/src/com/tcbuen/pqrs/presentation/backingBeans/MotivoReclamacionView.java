@@ -234,7 +234,7 @@ public class MotivoReclamacionView implements Serializable {
             }
 
             data = null;
-            data = getData();
+        //    data = getData();
         } catch (Exception e) {
             FacesUtils.addErrorMessage(e.getMessage());
         }
@@ -243,38 +243,85 @@ public class MotivoReclamacionView implements Serializable {
     }
 
     public String action_create() {
-        try {
-            entity = new MotivoReclamacion();
+        try {     	
+        	       	
+			String descripcionMotRecl = txtDescripcionMotRecl.getValue()
+					.toString();
+			MotivoReclamacion motReclamacion = ObtenerMotReclamacion(descripcionMotRecl);
 
-            //Long idMotRecl = FacesUtils.checkLong(txtIdMotRecl);
-            //entity.setIdMotRecl(idMotRecl);
-            entity.setDescripcionMotRecl(FacesUtils.checkString(txtDescripcionMotRecl));
-            entity.setEstadoRegistro(estadoRegistroSeleccionado);
-            //Falta agregar usuario de sesion
-            entity.setUsuarioCreador("Admin");
-            entity.setFechaCreacion(new Date());
-            entity.setUsuarioUltimaModificacion(null);
-            entity.setFechaUltimaModificacion(null);
+			if (motReclamacion == null) {
 
-            businessDelegatorView.saveMotivoReclamacion(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
-            
-            action_clear();
-        } catch (Exception e) {
-            entity = null;
-            FacesUtils.addErrorMessage(e.getMessage());
-        }
+				if (!revizarCampos(descripcionMotRecl)) {
+					return "";
 
-        return "";
-    }
+				}
+
+				entity = new MotivoReclamacion();
+				// Long idMotRecl = FacesUtils.checkLong(txtIdMotRecl);
+				// entity.setIdMotRecl(idMotRecl);
+				entity.setDescripcionMotRecl(FacesUtils
+						.checkString(txtDescripcionMotRecl));
+				entity.setEstadoRegistro(estadoRegistroSeleccionado);
+				// Falta agregar usuario de sesion
+				entity.setUsuarioCreador("Admin");
+				entity.setFechaCreacion(new Date());
+				entity.setUsuarioUltimaModificacion(null);
+				entity.setFechaUltimaModificacion(null);
+
+				businessDelegatorView.saveMotivoReclamacion(entity);
+				FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+				action_clear();
+
+			} else {
+				throw new Exception("Ya existe motivo");
+			}
+
+		} catch (Exception e) {
+			entity = null;
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+
+		return "";
+	}
+    
+    private MotivoReclamacion ObtenerMotReclamacion(String descripcionMotRecl) throws Exception {
+		MotivoReclamacion entity = null;
+		Object[] variables = { "descripcionMotRecl", true, descripcionMotRecl, "=" };
+		List<MotivoReclamacion> motivoReclamacions = businessDelegatorView.findByCriteriaInMotivoReclamacion(variables, null, null);
+				
+
+		if (Utilities.validationsList(motivoReclamacions)) {
+			entity = motivoReclamacions.get(0);
+		}
+		return entity;
+	}
+    
+    public boolean revizarCampos(String descripcionMotRecl) throws Exception {
+
+		if (descripcionMotRecl.equals("") || descripcionMotRecl.trim().equals("")) {
+			throw new Exception("Debe de ingresar una Descripcion");
+		}
+
+	/*	if (!Utilities.isOnlyLetters2(descripcionMotRecl)) {
+			throw new Exception(
+					"La descripcion ingresada solo debe de contener letras");
+		}*/
+		return true;
+
+	}
 
     public String action_modify() {
         try {
-            if (entity == null) {
-                Long idMotRecl = new Long(selectedMotivoReclamacion.getIdMotRecl());
-                entity = businessDelegatorView.getMotivoReclamacion(idMotRecl);
-            }
-
+                    	
+        	String descripcionMotRecl = txtDescripcionMotRecl.getValue().toString();
+        	MotivoReclamacion motReclamacion= ObtenerMotReclamacion(descripcionMotRecl);
+        	
+            if(motReclamacion == null){
+            	
+            	if(!revizarCampos(descripcionMotRecl)){
+            		return "";
+            		
+            	}
             entity.setDescripcionMotRecl(FacesUtils.checkString(txtDescripcionMotRecl));
             entity.setEstadoRegistro(estadoRegistroSeleccionado);
             entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
@@ -287,6 +334,9 @@ public class MotivoReclamacionView implements Serializable {
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
             
             action_clear();
+            }else{
+            	throw new Exception("Ya existe motivo");
+            }
         } catch (Exception e) {
             data = null;
             FacesUtils.addErrorMessage(e.getMessage());

@@ -10,9 +10,9 @@ public class ZMessManager extends RuntimeException {
 	public final static String ALL = "All ";
 	public final static String ENTCHILD = "related tables(childs)";
 	public final static String FOREIGNDATA = "foreign classes data: ";
-	public static String ENTITY_SUCCESFULLYSAVED = "Entity succesfully saved";
+	public static String ENTITY_SUCCESFULLYSAVED = "Entidad guardada satisfactoriamente";
 	public static String ENTITY_SUCCESFULLYDELETED = "Entity succesfully deleted";
-	public static String ENTITY_SUCCESFULLYMODIFIED = "Entity succesfully modified";
+	public static String ENTITY_SUCCESFULLYMODIFIED = "Entidad modificada satisfactoriamente";
 	public static String ENTITY_WITHSAMEKEY = "Another Entity with the same key was found";
 	public static String ENTITY_NOENTITYTOUPDATE = "No Entity was found, with the typed key ";
 
@@ -27,7 +27,7 @@ public class ZMessManager extends RuntimeException {
 		private static final long serialVersionUID = 1L;
 
 		public NotValidFieldException(String info) {
-			super("The value for the field: \"" + info + "\" is not valid");
+			super("El campo: \"" + info + "\" No es valido");
 		}
 	}
 	
@@ -35,7 +35,7 @@ public class ZMessManager extends RuntimeException {
 		private static final long serialVersionUID = 1L;
 
 		public NullEntityExcepcion(String info) {
-			super("The " + info + " Entity can not be null or empty");
+			super("La entidad " + info + " no puede ser nulo o vacio");
 		}
 	}
 
@@ -43,8 +43,8 @@ public class ZMessManager extends RuntimeException {
 		private static final long serialVersionUID = 1L;
 
 		public EmptyFieldException(String info) {
-			super("The value for the field: \"" + info
-					+ "\" can not be null or empty");
+			super("El campo: \"" + info
+					+ "\" no puede estar vacio");
 		}
 	}
 
@@ -52,8 +52,8 @@ public class ZMessManager extends RuntimeException {
 		private static final long serialVersionUID = 1L;
 
 		public NotValidFormatException(String info) {
-			super("The Format or length for the field: \"" + info
-					+ "\" is not valid");
+			super("El fotmsto o el largo de lo escrito en el campo: \"" + info
+					+ "\" no es valido");
 		}
 	}
 
@@ -72,7 +72,7 @@ public class ZMessManager extends RuntimeException {
 		private static final long serialVersionUID = 1L;
 
 		public ForeignException(String info) {
-			super("There was no data related with the input \"" + info+ "\"");
+			super("No existen datos relacionados con: \"" + info+ "\"");
 		}
 	}	
 
@@ -80,7 +80,7 @@ public class ZMessManager extends RuntimeException {
 		private static final long serialVersionUID = 1L;
 
 		public GettingException(String info) {
-			super("There was an exception getting " + info);
+			super("Existe una excepcion tratando de obtener " + info);
 		}
 	}
 
@@ -88,7 +88,7 @@ public class ZMessManager extends RuntimeException {
 		private static final long serialVersionUID = 1L;
 
 		public FindingException(String info) {
-			super("There was an exception trying to find " + info);
+			super("Hay una excepción tratando de encontrar:  " + info);
 		}
 	}
 

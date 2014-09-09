@@ -234,47 +234,101 @@ public class AreasInvolucradasView implements Serializable {
             }
 
             data = null;
-            data = getData();
+          //  data = getData();
         } catch (Exception e) {
             FacesUtils.addErrorMessage(e.getMessage());
         }
 
         return "";
     }
+    
+  
 
-    public String action_create() {
-        try {
-            entity = new AreasInvolucradas();
+	public String action_create() {
+		try {
+			//
 
-            //Long idAreaInvolucrada = FacesUtils.checkLong(txtIdAreaInvolucrada);
-            //entity.setIdAreaInvolucrada(idAreaInvolucrada);
+			// Long idAreaInvolucrada =
+			// FacesUtils.checkLong(txtIdAreaInvolucrada);
+			// entity.setIdAreaInvolucrada(idAreaInvolucrada);
 
-            entity.setNombreArea(FacesUtils.checkString(txtNombreArea));
-            entity.setEstadoRegistro(estadoRegistroSeleccionado);
-            //Falta agregar usuario de sesion
-            entity.setUsuarioCreador("Admin");
-            entity.setFechaCreacion(new Date());
-            entity.setUsuarioUltimaModificacion(null);
-            entity.setFechaUltimaModificacion(null);          
-            
-            businessDelegatorView.saveAreasInvolucradas(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
-            
-            action_clear();
-        } catch (Exception e) {
-            entity = null;
-            FacesUtils.addErrorMessage(e.getMessage());
-        }
+			String nombreArea = txtNombreArea.getValue().toString();
+			
+			AreasInvolucradas area= ObtenerArea(nombreArea);
+			
+			if (area == null) {								
+				
+				if (revizarCampos(nombreArea)) {
+					return "";
+				}
+				entity = new AreasInvolucradas();
+				entity.setNombreArea(FacesUtils.checkString(txtNombreArea));
+				String estado = (estadoRegistroSeleccionado
+						.equals("Activo")) ? "A" : "I";
+				entity.setEstadoRegistro(estado);
+				//entity.setEstadoRegistro(estadoRegistroSeleccionado);
+				// Falta agregar usuario de sesion
+				entity.setUsuarioCreador("Admin");
+				entity.setFechaCreacion(new Date());
+				entity.setUsuarioUltimaModificacion(null);
+				entity.setFechaUltimaModificacion(null);
+				businessDelegatorView.saveAreasInvolucradas(entity);
+				FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);			
 
-        return "";
-    }
+				action_clear();
+			} else {
+
+				throw new Exception("El nombre del area ya existe");
+			}
+
+		} catch (Exception e) {
+			entity = null;
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+
+		return "";
+	}
+	
+	public boolean revizarCampos(String nombreArea) throws Exception {
+
+		if (nombreArea.equals("") || nombreArea.trim().equals("")) {
+			throw new Exception("Debe de ingresar un Nombre");
+		}
+
+		if (!Utilities.isOnlyLetters2(nombreArea)) {
+			throw new Exception(
+					"El Nombre ingresado solo debe de contener letras");
+		}
+		return true;
+
+	}
+
+	private AreasInvolucradas ObtenerArea(String nombreArea) throws Exception {
+		AreasInvolucradas entity = null;
+		Object[] variables = { "nombreArea", true, nombreArea, "=" };
+		List<AreasInvolucradas> areasInvolucradas = businessDelegatorView
+				.findByCriteriaInAreasInvolucradas(variables, null, null);
+
+		if (Utilities.validationsList(areasInvolucradas)) {
+			entity = areasInvolucradas.get(0);
+		}
+		return entity;
+	}
 
     public String action_modify() {
         try {
-            if (entity == null) {
-                Long idAreaInvolucrada = new Long(selectedAreasInvolucradas.getIdAreaInvolucrada());
-                entity = businessDelegatorView.getAreasInvolucradas(idAreaInvolucrada);
-            }
+        	
+        	String nombreArea = txtNombreArea.getValue().toString();
+			
+			AreasInvolucradas area= ObtenerArea(nombreArea);
+            if (area == null) {
+            /*    Long idAreaInvolucrada = new Long(selectedAreasInvolucradas.getIdAreaInvolucrada());
+                entity = businessDelegatorView.getAreasInvolucradas(idAreaInvolucrada);*/
+            	
+            	
+            	if (!revizarCampos(nombreArea)) {
+					return "";
+				}
 
             entity.setNombreArea(FacesUtils.checkString(txtNombreArea));
             entity.setEstadoRegistro(estadoRegistroSeleccionado);
@@ -289,6 +343,9 @@ public class AreasInvolucradasView implements Serializable {
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
             
             action_clear();
+        }else{
+        	throw new Exception("El nombre "+nombreArea+" ya existe");
+        }
         } catch (Exception e) {
             data = null;
             FacesUtils.addErrorMessage(e.getMessage());

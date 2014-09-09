@@ -232,58 +232,106 @@ public class RolesView implements Serializable {
         return "";
     }
 
-    public String action_create() {
-        try {
-            entity = new Roles();
+	public String action_create() {
+		try {
 
-            //Long idRol = FacesUtils.checkLong(txtIdRol);
-            //entity.setIdRol(idRol);
-            entity.setNombreRol(FacesUtils.checkString(txtNombreRol));
-            entity.setEstadoRegistro(estadoRegistroSeleccionado);
-            //Falta agregar usuario de sesion
-            entity.setUsuarioCreador("Admin");
-            entity.setFechaCreacion(new Date());
-            entity.setFechaUltimaModificacion(null);
-            entity.setUsuarioUltimaModificacion(null);
-            
-            businessDelegatorView.saveRoles(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
-            
-            action_clear();
-        } catch (Exception e) {
-            entity = null;
-            FacesUtils.addErrorMessage(e.getMessage());
-        }
+			String nombreRol = txtNombreRol.getValue().toString();
+			Roles nombre = ObtenerRoles(nombreRol);
 
-        return "";
-    }
+			if (nombre == null) {
 
-    public String action_modify() {
-        try {
-            if (entity == null) {
-                Long idRol = new Long(selectedRoles.getIdRol());
-                entity = businessDelegatorView.getRoles(idRol);
-            }
-            
-            entity.setNombreRol(FacesUtils.checkString(txtNombreRol));
-            entity.setEstadoRegistro(estadoRegistroSeleccionado);
-            entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
-            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-          //Falta agregar usuario de sesion
-            entity.setUsuarioUltimaModificacion("Facturación");
-            entity.setFechaUltimaModificacion(new Date());
+				if (!revizarCampos(nombreRol)) {
+					return "";
 
-            businessDelegatorView.updateRoles(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
-            
-            action_clear();
-        } catch (Exception e) {
-            data = null;
-            FacesUtils.addErrorMessage(e.getMessage());
-        }
+				}
+				entity = new Roles();
 
-        return "";
-    }
+				// Long idRol = FacesUtils.checkLong(txtIdRol);
+				// entity.setIdRol(idRol);
+				entity.setNombreRol(FacesUtils.checkString(txtNombreRol));
+				entity.setEstadoRegistro(estadoRegistroSeleccionado);
+				// Falta agregar usuario de sesion
+				entity.setUsuarioCreador("Admin");
+				entity.setFechaCreacion(new Date());
+				entity.setFechaUltimaModificacion(null);
+				entity.setUsuarioUltimaModificacion(null);
+
+				businessDelegatorView.saveRoles(entity);
+				FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+
+				action_clear();
+
+			} else {
+				throw new Exception("Ya existe Rol");
+			}
+		} catch (Exception e) {
+			entity = null;
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+
+		return "";
+	}
+
+	private Roles ObtenerRoles(String nombreRol) throws Exception {
+		Roles entity = null;
+		Object[] variables = { "nombreRol", true, nombreRol, "=" };
+		List<Roles> roles = businessDelegatorView.findByCriteriaInRoles(
+				variables, null, null);
+
+		if (Utilities.validationsList(roles)) {
+			entity = roles.get(0);
+		}
+		return entity;
+	}
+
+	public boolean revizarCampos(String nombreRol) throws Exception {
+
+		if (nombreRol.equals("") || nombreRol.trim().equals("")) {
+			throw new Exception("Debe de ingresar una Descripcion");
+		}
+
+		if (!Utilities.isOnlyLetters2(nombreRol)) {
+			throw new Exception("El Rol ingresado solo debe de contener letras");
+		}
+		return true;
+
+	}
+
+	public String action_modify() {
+		try {
+			String nombreRol = txtNombreRol.getValue().toString();
+			Roles nombre = ObtenerRoles(nombreRol);
+
+			if (nombre == null) {
+
+				if (!revizarCampos(nombreRol)) {
+					return "";
+
+				}
+				entity.setNombreRol(FacesUtils.checkString(txtNombreRol));
+				entity.setEstadoRegistro(estadoRegistroSeleccionado);
+				entity.setUsuarioCreador(FacesUtils
+						.checkString(txtUsuarioCreador));
+				entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
+				// Falta agregar usuario de sesion
+				entity.setUsuarioUltimaModificacion("Facturación");
+				entity.setFechaUltimaModificacion(new Date());
+
+				businessDelegatorView.updateRoles(entity);
+				FacesUtils
+						.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+
+			} else {
+				throw new Exception("Ya existe Rol");
+			}
+			action_clear();
+		} catch (Exception e) {
+			data = null;
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+
+		return "";
+	}
     
     public String action_delete_datatable(ActionEvent evt) {
         try {

@@ -243,21 +243,35 @@ public class TipoDocumentoView implements Serializable {
 
     public String action_create() {
         try {
-            entity = new TipoDocumento();
+        	
+        	String descripcionTpDoc =txtDescripcionTpDoc.getValue().toString();
+        	TipoDocumento tipoDocumento= ObtenerDocDescripcion(descripcionTpDoc);
+        	
+            if(tipoDocumento == null){
+            	if(!revizarCampos(descripcionTpDoc)){
+            		return "";
+            	}
+            	
+            	entity = new TipoDocumento();
 
-            //Long idTpDoc = FacesUtils.checkLong(txtIdTpDoc);
-            //entity.setIdTpDoc(idTpDoc);
-            
-            entity.setDescripcionTpDoc(FacesUtils.checkString(txtDescripcionTpDoc));
-            String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
-			entity.setEstadoRegistro(estado);
-            entity.setFechaCreacion(new Date());
-            entity.setFechaUltimaModificacion(null);
-            entity.setUsuarioCreador("Admin");
-            entity.setUsuarioUltimaModificacion(null);
-            businessDelegatorView.saveTipoDocumento(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
-            action_clear();
+                //Long idTpDoc = FacesUtils.checkLong(txtIdTpDoc);
+                //entity.setIdTpDoc(idTpDoc);
+                
+                entity.setDescripcionTpDoc(FacesUtils.checkString(txtDescripcionTpDoc));
+                String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
+    			entity.setEstadoRegistro(estado);
+                entity.setFechaCreacion(new Date());
+                entity.setFechaUltimaModificacion(null);
+                entity.setUsuarioCreador("Admin");
+                entity.setUsuarioUltimaModificacion(null);
+                businessDelegatorView.saveTipoDocumento(entity);
+                FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+                action_clear();
+            }else{
+            	throw new Exception("Ya existe Tipo de documento");
+            }
+        	
+        	
         } catch (Exception e) {
             entity = null;
             FacesUtils.addErrorMessage(e.getMessage());
@@ -266,12 +280,42 @@ public class TipoDocumentoView implements Serializable {
         return "";
     }
 
+    private TipoDocumento ObtenerDocDescripcion(String descripcionTpDoc)
+			throws Exception {
+		TipoDocumento entity = null;
+		Object[] variables = { "descripcionTpDoc", true, descripcionTpDoc, "=" };
+		List<TipoDocumento> tipoDocumentos = businessDelegatorView
+				.findByCriteriaInTipoDocumento(variables, null, null);
+
+		if (Utilities.validationsList(tipoDocumentos)) {
+			entity = tipoDocumentos.get(0);
+		}
+		return entity;
+	}
+
+    public boolean revizarCampos(String descripcionTpDoc) throws Exception {
+
+		if (descripcionTpDoc.equals("") || descripcionTpDoc.trim().equals("")) {
+			throw new Exception("Debe de ingresar una Descripcion");
+		}
+
+		if (!Utilities.isOnlyLetters2(descripcionTpDoc)) {
+			throw new Exception(
+					"La descripcion ingresada solo debe de contener letras");
+		}
+		return true;
+
+	}
+    
     public String action_modify() {
         try {
-            if (entity == null) {
-                Long idTpDoc = new Long(selectedTipoDocumento.getIdTpDoc());
-                entity = businessDelegatorView.getTipoDocumento(idTpDoc);
-            }
+        	String descripcionTpDoc =txtDescripcionTpDoc.getValue().toString();
+        	TipoDocumento tipoDocumento= ObtenerDocDescripcion(descripcionTpDoc);
+        	
+            if(tipoDocumento == null){
+            	if(!revizarCampos(descripcionTpDoc)){
+            		return "";
+            	}
 
             entity.setDescripcionTpDoc(FacesUtils.checkString(txtDescripcionTpDoc));
             String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
@@ -283,6 +327,11 @@ public class TipoDocumentoView implements Serializable {
             businessDelegatorView.updateTipoDocumento(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
             action_clear();
+            
+            }else{
+            	throw new Exception("Ya existe Tipo de documento");
+            }
+        	
         } catch (Exception e) {
             data = null;
             FacesUtils.addErrorMessage(e.getMessage());
