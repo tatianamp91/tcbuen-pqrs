@@ -90,13 +90,10 @@ import com.tcbuen.pqrs.modelo.dto.TipoSolicitudPqrDTO;
 import com.tcbuen.pqrs.modelo.dto.UsuariosInternosDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.context.annotation.Scope;
-
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -286,6 +283,12 @@ public interface IBusinessDelegatorView {
 
     public List<MotivoReclamacion> getMotivoReclamacion()
         throws Exception;
+    
+    public List<MotivoReclamacion> consultarMotReclXTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)
+        	throws Exception;
+    
+    public List<MotivoReclamacion> consultarMotReclNoTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)
+        	throws Exception;
 
     public void saveMotivoReclamacion(MotivoReclamacion entity)
         throws Exception;
@@ -367,7 +370,7 @@ public interface IBusinessDelegatorView {
         throws Exception;
 
     public List<MotReclXTpSol> getMotReclXTpSol() throws Exception;
-
+    
     public void saveMotReclXTpSol(MotReclXTpSol entity)
         throws Exception;
 
