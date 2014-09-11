@@ -142,6 +142,44 @@ public class TipoSolicitudPqrView implements Serializable {
             action_modify();
         } catch (Exception ex) {
         }
+    } 
+    
+    public String consultarElementosNuevo(){
+		try{
+	        motivosReclamacionSource = businessDelegatorView.getMotivoReclamacion();
+	        motivosReclamacionTarget = new ArrayList<MotivoReclamacion>();
+	        motivosReclamacion = new DualListModel<MotivoReclamacion>(motivosReclamacionSource, motivosReclamacionTarget);
+	        
+	        motivosSolicitudSource = businessDelegatorView.getMotivoSolicitud();
+	       	motivosSolicitudTarget = new ArrayList<MotivoSolicitud>();
+	    	motivosSolicitud = new DualListModel<MotivoSolicitud>(motivosSolicitudSource, motivosSolicitudTarget);
+	    	
+			anexosPqrSource = businessDelegatorView.getAnexosPqr();
+			anexosPqrTarget = new ArrayList<AnexosPqr>();
+			anexosPqr = new DualListModel<AnexosPqr>(anexosPqrSource, anexosPqrTarget);
+		}catch(Exception e){
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+    	return "";
+    }
+    
+    public String consultarElementosModificar(TipoSolicitudPqr tipoSolicitudPqr){
+		try{
+	        motivosReclamacionSource = businessDelegatorView.consultarMotReclNoTipoPqr(tipoSolicitudPqr);
+	        motivosReclamacionTarget = businessDelegatorView.consultarMotReclXTipoPqr(tipoSolicitudPqr);
+	        motivosReclamacion = new DualListModel<MotivoReclamacion>(motivosReclamacionSource, motivosReclamacionTarget);
+	        
+	        motivosSolicitudSource = businessDelegatorView.getMotivoSolicitud();
+	       	motivosSolicitudTarget = new ArrayList<MotivoSolicitud>();
+	    	motivosSolicitud = new DualListModel<MotivoSolicitud>(motivosSolicitudSource, motivosSolicitudTarget);
+	    	
+			anexosPqrSource = businessDelegatorView.getAnexosPqr();
+			anexosPqrTarget = new ArrayList<AnexosPqr>();
+			anexosPqr = new DualListModel<AnexosPqr>(anexosPqrSource, anexosPqrTarget);
+		}catch(Exception e){
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+    	return "";
     }
 
     public String action_new() {
@@ -631,13 +669,6 @@ public class TipoSolicitudPqrView implements Serializable {
 	}
 	
 	public DualListModel<MotivoReclamacion> getMotivosReclamacion() {
-		try{
-	        motivosReclamacionSource = businessDelegatorView.getMotivoReclamacion();
-	        motivosReclamacionTarget = new ArrayList<MotivoReclamacion>();
-	        motivosReclamacion = new DualListModel<MotivoReclamacion>(motivosReclamacionSource, motivosReclamacionTarget);
-		}catch(Exception e){
-			FacesUtils.addErrorMessage(e.getMessage());
-		}
 		return motivosReclamacion;
 	}	
 	
@@ -646,13 +677,6 @@ public class TipoSolicitudPqrView implements Serializable {
 	}
 	
     public DualListModel<MotivoSolicitud> getMotivosSolicitud() {
-    	try{
-	        motivosSolicitudSource = businessDelegatorView.getMotivoSolicitud();
-	       	motivosSolicitudTarget = new ArrayList<MotivoSolicitud>();
-	    	motivosSolicitud = new DualListModel<MotivoSolicitud>(motivosSolicitudSource, motivosSolicitudTarget);
-		}catch(Exception e){
-			FacesUtils.addErrorMessage(e.getMessage());
-		}
 		return motivosSolicitud;        
 	}
 
@@ -661,13 +685,6 @@ public class TipoSolicitudPqrView implements Serializable {
 	}
 
 	public DualListModel<AnexosPqr> getAnexosPqr() {
-		try{
-			anexosPqrSource = businessDelegatorView.getAnexosPqr();
-			anexosPqrTarget = new ArrayList<AnexosPqr>();
-			anexosPqr = new DualListModel<AnexosPqr>(anexosPqrSource, anexosPqrTarget);
-		}catch(Exception e){
-			FacesUtils.addErrorMessage(e.getMessage());
-		}
 		return anexosPqr;
 	}
 

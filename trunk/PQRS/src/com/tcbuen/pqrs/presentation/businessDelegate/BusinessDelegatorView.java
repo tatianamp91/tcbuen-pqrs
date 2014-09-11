@@ -91,15 +91,11 @@ import com.tcbuen.pqrs.modelo.dto.UsuariosInternosDTO;
 import com.tcbuen.pqrs.presentation.businessDelegate.IBusinessDelegatorView;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.context.annotation.Scope;
-
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-
 import java.sql.*;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -597,7 +593,7 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
         }
 
         return motivoReclamacion;
-    }
+    }       	
 
     public List<MotivoReclamacion> findByCriteriaInMotivoReclamacion(
         Object[] variables, Object[] variablesBetween,
@@ -734,6 +730,28 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 
     public List<MotReclXTpSol> getMotReclXTpSol() throws Exception {
         return motReclXTpSolLogic.getMotReclXTpSol();
+    }
+    
+    public List<MotivoReclamacion> consultarMotReclXTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)
+        	throws Exception{
+    	List<MotivoReclamacion> motivoReclamacion = null;
+    	try{
+    		motivoReclamacion = motivoReclamacionLogic.consultarMotReclXTipoPqr(tipoSolicitudPqr); 		
+    	}catch(Exception e){
+    		throw e;
+    	}
+    	return motivoReclamacion;
+    }
+    
+    public List<MotivoReclamacion> consultarMotReclNoTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)
+        	throws Exception{
+    	List<MotivoReclamacion> motivoReclamacion = null;
+    	try{
+    		motivoReclamacion = motivoReclamacionLogic.consultarMotReclXTipoPqr(tipoSolicitudPqr); 		
+    	}catch(Exception e){
+    		throw e;
+    	}
+    	return motivoReclamacion;
     }
 
     public void saveMotReclXTpSol(MotReclXTpSol entity)
