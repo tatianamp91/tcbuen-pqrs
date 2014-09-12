@@ -228,6 +228,12 @@ public interface IBusinessDelegatorView {
 
     public List<AreasInvolucradas> getAreasInvolucradas()
         throws Exception;
+    
+    public List<AnexosPqr> consultarAnxsXTipoPqr(TipoSolicitudPqr tipoSolicitudPqr)
+        	throws Exception;
+    
+    public List<AnexosPqr> consultarAnxsNoTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)
+        	throws Exception;
 
     public void saveAreasInvolucradas(AreasInvolucradas entity)
         throws Exception;
@@ -316,6 +322,12 @@ public interface IBusinessDelegatorView {
         throws Exception;
 
     public List<MotivoSolicitud> getMotivoSolicitud() throws Exception;
+    
+    public List<MotivoSolicitud> consultarMotSolXTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)
+        	throws Exception;
+    
+    public List<MotivoSolicitud> consultarMotSolNoTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)
+        	throws Exception;
 
     public void saveMotivoSolicitud(MotivoSolicitud entity)
         throws Exception;

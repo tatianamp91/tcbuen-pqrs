@@ -1,27 +1,22 @@
 package com.tcbuen.pqrs.dataaccess.dao;
 
 import com.tcbuen.pqrs.dataaccess.api.HibernateDaoImpl;
+import com.tcbuen.pqrs.modelo.MotivoReclamacion;
 import com.tcbuen.pqrs.modelo.MotivoSolicitud;
+import com.tcbuen.pqrs.modelo.TipoSolicitudPqr;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-
 import org.hibernate.criterion.Example;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
-
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -51,4 +46,27 @@ public class MotivoSolicitudDAO extends HibernateDaoImpl<MotivoSolicitud, Long>
         ApplicationContext ctx) {
         return (IMotivoSolicitudDAO) ctx.getBean("MotivoSolicitudDAO");
     }
+    
+	@Override
+	public List<MotivoSolicitud> consultarMotSolXTipoPqr(TipoSolicitudPqr tipoSolicitudPqr) throws Exception {
+		
+		String hql = "Select motivoSolicitud from MotSolXTpSol motSolXTpSol, MotivoSolicitud motivoSolicitud "
+					+ "where motivoSolicitud.idMotSol = motSolXTpSol.idMotSol "
+					+ "and motSolXTpSol.idTpSolPqr ="+tipoSolicitudPqr.getIdTpSolPqr();
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		List<MotivoSolicitud> motivoSolicitud = query.list();
+		return motivoSolicitud;
+	}
+	
+	@Override
+	public List<MotivoSolicitud> consultarMotSolNoTipoPqr(TipoSolicitudPqr tipoSolicitudPqr) throws Exception {
+		
+		String hql = "Select motivoSolicitud from MotivoSolicitud motivoSolicitud "
+					+ "where motivoSolicitud.idMotSol not in (Select MotivoSolicitud from MotSolXTpSol motSolXTpSol, MotivoSolicitud motivoSolicitud "
+					+ "where motivoSolicitud.idMotSol = motSolXTpSol.idMotSol "
+					+ "and motSolXTpSol.idTpSolPqr ="+tipoSolicitudPqr.getIdTpSolPqr()+")";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		List<MotivoSolicitud> motivoSolicitud = query.list();
+		return motivoSolicitud;
+	}
 }

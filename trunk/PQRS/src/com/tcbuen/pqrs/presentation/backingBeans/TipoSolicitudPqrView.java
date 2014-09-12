@@ -76,18 +76,18 @@ public class TipoSolicitudPqrView implements Serializable {
     
     @PostConstruct
     public void init() {
-		try {
-	        motivosReclamacion = null;
-	        motivosReclamacion = getMotivosReclamacion();
-	        
-	        motivosSolicitud = null;
-	        motivosSolicitud = getMotivosSolicitud();
-	        
-	        anexosPqr = null;
-	        anexosPqr = getAnexosPqr();            
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+    	try{
+	    	/*if(true){
+	    		consultarElementosNuevo();
+	    	}else{*/
+	    		Long idTpSolPqr = new Long(3);
+	            entity = businessDelegatorView.getTipoSolicitudPqr(idTpSolPqr);
+	    		consultarElementosModificar(entity);
+	    //	}
+    	}catch(Exception e){
+    		
+    	}
+		
     }
     
     public void rowEventListener(RowEditEvent e) {
@@ -169,12 +169,12 @@ public class TipoSolicitudPqrView implements Serializable {
 	        motivosReclamacionTarget = businessDelegatorView.consultarMotReclXTipoPqr(tipoSolicitudPqr);
 	        motivosReclamacion = new DualListModel<MotivoReclamacion>(motivosReclamacionSource, motivosReclamacionTarget);
 	        
-	        motivosSolicitudSource = businessDelegatorView.getMotivoSolicitud();
-	       	motivosSolicitudTarget = new ArrayList<MotivoSolicitud>();
+	        motivosSolicitudSource = businessDelegatorView.consultarMotSolXTipoPqr(tipoSolicitudPqr);
+	       	motivosSolicitudTarget = businessDelegatorView.consultarMotSolNoTipoPqr(tipoSolicitudPqr);
 	    	motivosSolicitud = new DualListModel<MotivoSolicitud>(motivosSolicitudSource, motivosSolicitudTarget);
 	    	
-			anexosPqrSource = businessDelegatorView.getAnexosPqr();
-			anexosPqrTarget = new ArrayList<AnexosPqr>();
+			anexosPqrSource = businessDelegatorView.consultarAnxsXTipoPqr(tipoSolicitudPqr);		
+			anexosPqrTarget = businessDelegatorView.consultarAnxsNoTipoPqr(tipoSolicitudPqr);
 			anexosPqr = new DualListModel<AnexosPqr>(anexosPqrSource, anexosPqrTarget);
 		}catch(Exception e){
 			FacesUtils.addErrorMessage(e.getMessage());
@@ -209,14 +209,7 @@ public class TipoSolicitudPqrView implements Serializable {
         data = null;
         data = getData();
         
-        motivosReclamacion = null;
-        motivosReclamacion = getMotivosReclamacion();
-        
-        motivosSolicitud = null;
-        motivosSolicitud = getMotivosSolicitud();
-        
-        anexosPqr = null;
-        anexosPqr = getAnexosPqr();
+        consultarElementosNuevo();
                
         return "";
     }
@@ -309,13 +302,10 @@ public class TipoSolicitudPqrView implements Serializable {
             } else {
                 action_modify();
             }
-
-            data = null;
-            data = getData();
+            action_clear();
         } catch (Exception e) {
             FacesUtils.addErrorMessage(e.getMessage());
         }
-
         return "";
     }
 
@@ -323,9 +313,6 @@ public class TipoSolicitudPqrView implements Serializable {
         try {
             entity = new TipoSolicitudPqr();
 
-            //Long idTpSolPqr = FacesUtils.checkLong(txtIdTpSolPqr);
-            //entity.setIdTpSolPqr(idTpSolPqr);
-            
             entity.setDescTpSol(FacesUtils.checkString(txtDescTpSol));
             entity.setEstadoRegistro(estadoRegistroSeleccionado);
             //Falta agregar usuario de sesion
@@ -400,8 +387,7 @@ public class TipoSolicitudPqrView implements Serializable {
     			anxsXTpSol.setTipoSolicitudPqr(tipoSol);
     			
     			businessDelegatorView.saveAnxsXTpSol(anxsXTpSol);
-    		}
-    		
+    		}    		
     	}catch(Exception e){
     		FacesUtils.addErrorMessage(e.getMessage());
     	}

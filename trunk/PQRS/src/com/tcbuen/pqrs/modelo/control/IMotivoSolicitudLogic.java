@@ -1,14 +1,9 @@
 package com.tcbuen.pqrs.modelo.control;
 
 import com.tcbuen.pqrs.modelo.MotivoSolicitud;
+import com.tcbuen.pqrs.modelo.TipoSolicitudPqr;
 import com.tcbuen.pqrs.modelo.dto.MotivoSolicitudDTO;
-
-import java.math.BigDecimal;
-
 import java.util.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -17,6 +12,12 @@ import java.util.Set;
 */
 public interface IMotivoSolicitudLogic {
     public List<MotivoSolicitud> getMotivoSolicitud() throws Exception;
+    
+    public List<MotivoSolicitud> consultarMotSolXTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)
+        	throws Exception;
+
+    public List<MotivoSolicitud> consultarMotSolNoTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)
+        	throws Exception;
 
     /**
          * Save an new MotivoSolicitud entity

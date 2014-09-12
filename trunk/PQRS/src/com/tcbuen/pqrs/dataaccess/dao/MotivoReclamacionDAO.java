@@ -1,13 +1,11 @@
 package com.tcbuen.pqrs.dataaccess.dao;
 
 import com.tcbuen.pqrs.dataaccess.api.HibernateDaoImpl;
-import com.tcbuen.pqrs.modelo.MotReclXTpSol;
 import com.tcbuen.pqrs.modelo.MotivoReclamacion;
 import com.tcbuen.pqrs.modelo.TipoSolicitudPqr;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,12 +47,13 @@ public class MotivoReclamacionDAO extends HibernateDaoImpl<MotivoReclamacion, Lo
     
 	@Override
 	public List<MotivoReclamacion> consultarMotReclXTipoPqr(TipoSolicitudPqr tipoSolicitudPqr) throws Exception {
-		
-		String hql = "Select MotivoReclamacion from MotReclXTpSol motReclXTpSol, MotivoReclamacion motivoReclamacion"
-					+ " where motivoReclamacion.idMotRecl = motReclXTpSol.idMotRecl "
-					+ "and tipoSolicitudPqr.idTpSolPqr ="+tipoSolicitudPqr.getIdTpSolPqr();
+			
+		String hql = "Select motivoReclamacion from MotReclXTpSol motReclXTpSol, MotivoReclamacion motivoReclamacion "
+					+ "where motivoReclamacion.idMotRecl = motReclXTpSol.idMotRecl "
+					+ "and motReclXTpSol.idTpSolPqr ="+tipoSolicitudPqr.getIdTpSolPqr();
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		List<MotivoReclamacion> motivoReclamacion = query.list();
+		
 		return motivoReclamacion;
 	}
 	
@@ -62,11 +61,11 @@ public class MotivoReclamacionDAO extends HibernateDaoImpl<MotivoReclamacion, Lo
 	public List<MotivoReclamacion> consultarMotReclNoTipoPqr(TipoSolicitudPqr tipoSolicitudPqr) throws Exception {
 		
 		String hql = "Select motivoReclamacion from MotivoReclamacion motivoReclamacion "
-					+ "where motivoReclamacion.idMotRecl not in (Select MotivoReclamacion from MotReclXTpSol motReclXTpSol, MotivoReclamacion motivoReclamacion"
-					+ " where motivoReclamacion.idMotRecl = motReclXTpSol.idMotRecl "
-					+ "and tipoSolicitudPqr.idTpSolPqr ="+tipoSolicitudPqr.getIdTpSolPqr()+")";
+					+ "where motivoReclamacion.idMotRecl not in (Select motivoReclamacion from MotReclXTpSol motReclXTpSol, MotivoReclamacion motivoReclamacion "
+					+ "where motivoReclamacion.idMotRecl = motReclXTpSol.idMotRecl "
+					+ "and motReclXTpSol.idTpSolPqr ="+tipoSolicitudPqr.getIdTpSolPqr()+")";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
-		List<MotivoReclamacion> motivoReclamacion = query.list();
+		List<MotivoReclamacion> motivoReclamacion = query.list();	
 		return motivoReclamacion;
 	}
 }
