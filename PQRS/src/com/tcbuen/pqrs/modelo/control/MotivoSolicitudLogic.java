@@ -2,21 +2,18 @@ package com.tcbuen.pqrs.modelo.control;
 
 import com.tcbuen.pqrs.dataaccess.dao.*;
 import com.tcbuen.pqrs.exceptions.*;
+import com.tcbuen.pqrs.exceptions.ZMessManager.GettingException;
 import com.tcbuen.pqrs.modelo.*;
 import com.tcbuen.pqrs.modelo.dto.MotivoSolicitudDTO;
 import com.tcbuen.pqrs.utilities.Utilities;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.context.annotation.Scope;
-
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -64,6 +61,32 @@ public class MotivoSolicitudLogic implements IMotivoSolicitudLogic {
         }
 
         return list;
+    }
+    
+    @Transactional(readOnly = true)
+    public List<MotivoSolicitud> consultarMotSolXTipoPqr(TipoSolicitudPqr tipoSolicitudPqr)
+        	throws Exception{
+    	List<MotivoSolicitud> motivoSolicitud = new ArrayList<MotivoSolicitud>();
+    	try{
+    		motivoSolicitud = motivoSolicitudDAO.consultarMotSolXTipoPqr(tipoSolicitudPqr);
+    	}catch(Exception e){
+    		throw new ZMessManager().new GettingException(ZMessManager.ALL + 
+    				"Motivos de Solcitud por Tipo de Solicitud");
+    	}
+    	return motivoSolicitud;
+    }
+    
+    @Transactional(readOnly = true)
+    public List<MotivoSolicitud> consultarMotSolNoTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)
+        	throws Exception{
+    	List<MotivoSolicitud> motivoSolicitud = new ArrayList<MotivoSolicitud>();
+    	try{
+    		motivoSolicitud = motivoSolicitudDAO.consultarMotSolNoTipoPqr(tipoSolicitudPqr);
+    	}catch(Exception e){
+    		throw new ZMessManager().new GettingException(ZMessManager.ALL + 
+    				"Motivos de Solcitud por Tipo de Solicitud");
+    	}
+    	return motivoSolicitud;
     }
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)

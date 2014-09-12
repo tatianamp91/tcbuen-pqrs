@@ -2,21 +2,18 @@ package com.tcbuen.pqrs.modelo.control;
 
 import com.tcbuen.pqrs.dataaccess.dao.*;
 import com.tcbuen.pqrs.exceptions.*;
+import com.tcbuen.pqrs.exceptions.ZMessManager.GettingException;
 import com.tcbuen.pqrs.modelo.*;
 import com.tcbuen.pqrs.modelo.dto.AnexosPqrDTO;
 import com.tcbuen.pqrs.utilities.Utilities;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.context.annotation.Scope;
-
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -78,6 +75,32 @@ public class AnexosPqrLogic implements IAnexosPqrLogic {
         }
 
         return list;
+    }
+    
+    @Transactional(readOnly = true)
+    public List<AnexosPqr> consultarAnxsXTipoPqr(TipoSolicitudPqr tipoSolicitudPqr)
+        	throws Exception{
+    	List<AnexosPqr> anexosPqrs = new ArrayList<AnexosPqr>();
+    	try{
+    		anexosPqrs = anexosPqrDAO.consultarAnxsXTipoPqr(tipoSolicitudPqr);
+    	}catch(Exception e){
+    		throw new ZMessManager().new GettingException(ZMessManager.ALL + 
+    				"Anexos por Tipo de Solicitud");
+    	}
+    	return anexosPqrs;
+    }
+    
+    @Transactional(readOnly = true)
+    public List<AnexosPqr> consultarAnxsNoTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)
+        	throws Exception{
+    	List<AnexosPqr> anexosPqrs = new ArrayList<AnexosPqr>();
+    	try{
+    		anexosPqrs = anexosPqrDAO.consultarAnxsNoTipoPqr(tipoSolicitudPqr);
+    	}catch(Exception e){
+    		throw new ZMessManager().new GettingException(ZMessManager.ALL + 
+    				"Anexos por Tipo de Solicitud");
+    	}
+    	return anexosPqrs;
     }
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)

@@ -72,7 +72,7 @@ public class MotivoReclamacionLogic implements IMotivoReclamacionLogic {
     		motivoReclamacion = motivoReclamacionDAO.consultarMotReclXTipoPqr(tipoSolicitudPqr);
     	}catch(Exception e){
     		throw new ZMessManager().new GettingException(ZMessManager.ALL + 
-    				"Motivo de Reclamación por Tipo de Solicitud");
+    				"Motivos de Reclamación por Tipo de Solicitud");
     	}
     	return motivoReclamacion;
     }
@@ -85,7 +85,7 @@ public class MotivoReclamacionLogic implements IMotivoReclamacionLogic {
     		motivoReclamacion = motivoReclamacionDAO.consultarMotReclNoTipoPqr(tipoSolicitudPqr);
     	}catch(Exception e){
     		throw new ZMessManager().new GettingException(ZMessManager.ALL + 
-    				"Motivo de Reclamación por Tipo de Solicitud");
+    				"Motivos de Reclamación por Tipo de Solicitud");
     	}
     	return motivoReclamacion;
     }

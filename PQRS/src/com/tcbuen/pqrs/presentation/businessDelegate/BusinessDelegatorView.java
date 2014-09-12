@@ -455,6 +455,28 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
         throws Exception {
         return areasInvolucradasLogic.getAreasInvolucradas();
     }
+    
+    public List<AnexosPqr> consultarAnxsXTipoPqr(TipoSolicitudPqr tipoSolicitudPqr)
+        throws Exception{
+        List<AnexosPqr> anexosPqr = null;
+        try{
+        	anexosPqr = anexosPqrLogic.consultarAnxsXTipoPqr(tipoSolicitudPqr); 		
+        }catch(Exception e){
+        	throw e;
+        }
+        return anexosPqr;
+    }
+    
+    public List<AnexosPqr> consultarAnxsNoTipoPqr(TipoSolicitudPqr tipoSolicitudPqr)
+    	throws Exception{
+        List<AnexosPqr> anexosPqr = null;
+        try{
+        	anexosPqr = anexosPqrLogic.consultarAnxsNoTipoPqr(tipoSolicitudPqr); 		
+        }catch(Exception e){
+        	throw e;
+        }
+        	return anexosPqr;
+        }
 
     public void saveAreasInvolucradas(AreasInvolucradas entity)
         throws Exception {
@@ -566,6 +588,28 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
         throws Exception {
         return motivoReclamacionLogic.getMotivoReclamacion();
     }
+    
+    public List<MotivoReclamacion> consultarMotReclXTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)
+        throws Exception{
+    	List<MotivoReclamacion> motivoReclamacion = null;
+    	try{
+    		motivoReclamacion = motivoReclamacionLogic.consultarMotReclXTipoPqr(tipoSolicitudPqr); 		
+    	}catch(Exception e){
+    		throw e;
+    	}
+    	return motivoReclamacion;
+    }
+    
+    public List<MotivoReclamacion> consultarMotReclNoTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)
+        	throws Exception{
+    	List<MotivoReclamacion> motivoReclamacion = null;
+    	try{
+    		motivoReclamacion = motivoReclamacionLogic.consultarMotReclXTipoPqr(tipoSolicitudPqr); 		
+    	}catch(Exception e){
+    		throw e;
+    	}
+    	return motivoReclamacion;
+    }
 
     public void saveMotivoReclamacion(MotivoReclamacion entity)
         throws Exception {
@@ -621,6 +665,28 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
     public List<MotivoSolicitud> getMotivoSolicitud() throws Exception {
         return motivoSolicitudLogic.getMotivoSolicitud();
     }
+    
+    public List<MotivoSolicitud> consultarMotSolXTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)
+            throws Exception{
+        	List<MotivoSolicitud> motivoSolicitud = null;
+        	try{
+        		motivoSolicitud = motivoSolicitudLogic.consultarMotSolXTipoPqr(tipoSolicitudPqr); 		
+        	}catch(Exception e){
+        		throw e;
+        	}
+        	return motivoSolicitud;
+        }
+        
+        public List<MotivoSolicitud> consultarMotSolNoTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)
+            	throws Exception{
+        	List<MotivoSolicitud> motivoSolicitud = null;
+        	try{
+        		motivoSolicitud = motivoSolicitudLogic.consultarMotSolXTipoPqr(tipoSolicitudPqr); 		
+        	}catch(Exception e){
+        		throw e;
+        	}
+        	return motivoSolicitud;
+        }
 
     public void saveMotivoSolicitud(MotivoSolicitud entity)
         throws Exception {
@@ -732,28 +798,6 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
         return motReclXTpSolLogic.getMotReclXTpSol();
     }
     
-    public List<MotivoReclamacion> consultarMotReclXTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)
-        	throws Exception{
-    	List<MotivoReclamacion> motivoReclamacion = null;
-    	try{
-    		motivoReclamacion = motivoReclamacionLogic.consultarMotReclXTipoPqr(tipoSolicitudPqr); 		
-    	}catch(Exception e){
-    		throw e;
-    	}
-    	return motivoReclamacion;
-    }
-    
-    public List<MotivoReclamacion> consultarMotReclNoTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)
-        	throws Exception{
-    	List<MotivoReclamacion> motivoReclamacion = null;
-    	try{
-    		motivoReclamacion = motivoReclamacionLogic.consultarMotReclXTipoPqr(tipoSolicitudPqr); 		
-    	}catch(Exception e){
-    		throw e;
-    	}
-    	return motivoReclamacion;
-    }
-
     public void saveMotReclXTpSol(MotReclXTpSol entity)
         throws Exception {
         motReclXTpSolLogic.saveMotReclXTpSol(entity);

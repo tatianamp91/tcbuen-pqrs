@@ -1,14 +1,11 @@
 package com.tcbuen.pqrs.modelo.control;
 
 import com.tcbuen.pqrs.modelo.AnexosPqr;
+import com.tcbuen.pqrs.modelo.TipoSolicitudPqr;
 import com.tcbuen.pqrs.modelo.dto.AnexosPqrDTO;
 
 import java.math.BigDecimal;
-
 import java.util.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -17,6 +14,12 @@ import java.util.Set;
 */
 public interface IAnexosPqrLogic {
     public List<AnexosPqr> getAnexosPqr() throws Exception;
+    
+	public List<AnexosPqr> consultarAnxsXTipoPqr(TipoSolicitudPqr tipoSolicitudPqr) 
+			throws Exception;
+	
+	public List<AnexosPqr> consultarAnxsNoTipoPqr(TipoSolicitudPqr tipoSolicitudPqr) 
+			throws Exception;
 
     /**
          * Save an new AnexosPqr entity
