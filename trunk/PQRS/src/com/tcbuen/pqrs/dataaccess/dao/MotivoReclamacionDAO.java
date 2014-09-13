@@ -1,9 +1,11 @@
 package com.tcbuen.pqrs.dataaccess.dao;
 
 import com.tcbuen.pqrs.dataaccess.api.HibernateDaoImpl;
+import com.tcbuen.pqrs.modelo.MotReclXTpSol;
 import com.tcbuen.pqrs.modelo.MotivoReclamacion;
 import com.tcbuen.pqrs.modelo.TipoSolicitudPqr;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -47,10 +49,11 @@ public class MotivoReclamacionDAO extends HibernateDaoImpl<MotivoReclamacion, Lo
     
 	@Override
 	public List<MotivoReclamacion> consultarMotReclXTipoPqr(TipoSolicitudPqr tipoSolicitudPqr) throws Exception {
-			
-		String hql = "Select motivoReclamacion from MotReclXTpSol motReclXTpSol, MotivoReclamacion motivoReclamacion "
-					+ "where motivoReclamacion.idMotRecl = motReclXTpSol.idMotRecl "
-					+ "and motReclXTpSol.idTpSolPqr ="+tipoSolicitudPqr.getIdTpSolPqr();
+		
+		String hql = "Select motivoReclamacion from MotReclXTpSol motReclXTpSol, MotivoReclamacion motivoReclamacion "				
+					+ "where motivoReclamacion.idMotRecl = motReclXTpSol.motivoReclamacion.idMotRecl "
+					+ "and motReclXTpSol.tipoSolicitudPqr.idTpSolPqr = "+ tipoSolicitudPqr.getIdTpSolPqr();
+		
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		List<MotivoReclamacion> motivoReclamacion = query.list();
 		
@@ -59,13 +62,14 @@ public class MotivoReclamacionDAO extends HibernateDaoImpl<MotivoReclamacion, Lo
 	
 	@Override
 	public List<MotivoReclamacion> consultarMotReclNoTipoPqr(TipoSolicitudPqr tipoSolicitudPqr) throws Exception {
-		
+
 		String hql = "Select motivoReclamacion from MotivoReclamacion motivoReclamacion "
-					+ "where motivoReclamacion.idMotRecl not in (Select motivoReclamacion from MotReclXTpSol motReclXTpSol, MotivoReclamacion motivoReclamacion "
-					+ "where motivoReclamacion.idMotRecl = motReclXTpSol.idMotRecl "
-					+ "and motReclXTpSol.idTpSolPqr ="+tipoSolicitudPqr.getIdTpSolPqr()+")";
+					+ "where motivoReclamacion.idMotRecl not in (Select motivoReclamacion from MotivoReclamacion motivoReclamacion, MotReclXTpSol motReclXTpSol "
+					+ "where motivoReclamacion.idMotRecl = motReclXTpSol.motivoReclamacion.idMotRecl "
+					+ "and motReclXTpSol.tipoSolicitudPqr.idTpSolPqr = " + tipoSolicitudPqr.getIdTpSolPqr() + ")";
+				
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
-		List<MotivoReclamacion> motivoReclamacion = query.list();	
+		List<MotivoReclamacion> motivoReclamacion = query.list(); 	
 		return motivoReclamacion;
 	}
 }

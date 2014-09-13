@@ -50,9 +50,10 @@ public class MotivoSolicitudDAO extends HibernateDaoImpl<MotivoSolicitud, Long>
 	@Override
 	public List<MotivoSolicitud> consultarMotSolXTipoPqr(TipoSolicitudPqr tipoSolicitudPqr) throws Exception {
 		
-		String hql = "Select motivoSolicitud from MotSolXTpSol motSolXTpSol, MotivoSolicitud motivoSolicitud "
-					+ "where motivoSolicitud.idMotSol = motSolXTpSol.idMotSol "
-					+ "and motSolXTpSol.idTpSolPqr ="+tipoSolicitudPqr.getIdTpSolPqr();
+		String hql = "Select motivoSolicitud from MotivoSolicitud motivoSolicitud, MotSolXTpSol motSolXTpSol "
+					+ "where motivoSolicitud.idMotSol = motSolXTpSol.motivoSolicitud.idMotSol "
+					+ "and motSolXTpSol.tipoSolicitudPqr.idTpSolPqr =" + tipoSolicitudPqr.getIdTpSolPqr();
+		
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		List<MotivoSolicitud> motivoSolicitud = query.list();
 		return motivoSolicitud;
@@ -60,11 +61,12 @@ public class MotivoSolicitudDAO extends HibernateDaoImpl<MotivoSolicitud, Long>
 	
 	@Override
 	public List<MotivoSolicitud> consultarMotSolNoTipoPqr(TipoSolicitudPqr tipoSolicitudPqr) throws Exception {
-		
+			
 		String hql = "Select motivoSolicitud from MotivoSolicitud motivoSolicitud "
-					+ "where motivoSolicitud.idMotSol not in (Select MotivoSolicitud from MotSolXTpSol motSolXTpSol, MotivoSolicitud motivoSolicitud "
-					+ "where motivoSolicitud.idMotSol = motSolXTpSol.idMotSol "
-					+ "and motSolXTpSol.idTpSolPqr ="+tipoSolicitudPqr.getIdTpSolPqr()+")";
+					+ "where motivoSolicitud.idMotSol not in (Select motivoSolicitud from MotivoSolicitud motivoSolicitud, MotSolXTpSol motSolXTpSol "
+					+ "where motivoSolicitud.idMotSol = motSolXTpSol.motivoSolicitud.idMotSol "
+					+ "and motSolXTpSol.tipoSolicitudPqr.idTpSolPqr =" + tipoSolicitudPqr.getIdTpSolPqr() + ")";
+		
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		List<MotivoSolicitud> motivoSolicitud = query.list();
 		return motivoSolicitud;
