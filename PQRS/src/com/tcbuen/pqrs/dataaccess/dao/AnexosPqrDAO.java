@@ -51,8 +51,9 @@ public class AnexosPqrDAO extends HibernateDaoImpl<AnexosPqr, Long>
 	public List<AnexosPqr> consultarAnxsXTipoPqr(TipoSolicitudPqr tipoSolicitudPqr) throws Exception {
 			
 		String hql = "Select anexosPqr from AnxsXTpSol anxsXTpSol, AnexosPqr anexosPqr "
-					+ "where anexosPqr.idAnexoPqr = anxsXTpSol.idAnexoPqr "
-					+ "and anxsXTpSol.idTpSolPqr ="+tipoSolicitudPqr.getIdTpSolPqr();
+					+ "where anexosPqr.idAnexoPqr = anxsXTpSol.anexosPqr.idAnexoPqr "
+					+ "and anxsXTpSol.tipoSolicitudPqr.idTpSolPqr ="+ tipoSolicitudPqr.getIdTpSolPqr();
+		
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		List<AnexosPqr> anexosPqr = query.list();
 		
@@ -64,8 +65,9 @@ public class AnexosPqrDAO extends HibernateDaoImpl<AnexosPqr, Long>
 		
 		String hql = "Select anexosPqr from AnexosPqr anexosPqr "
 					+ "where anexosPqr.idAnexoPqr not in (Select anexosPqr from AnxsXTpSol anxsXTpSol, AnexosPqr anexosPqr "
-					+ "where anexosPqr.idAnexoPqr = anxsXTpSol.idAnexoPqr "
-					+ "and AnxsXTpSol.idTpSolPqr ="+tipoSolicitudPqr.getIdTpSolPqr()+")";
+					+ "where anexosPqr.idAnexoPqr = anxsXTpSol.anexosPqr.idAnexoPqr "
+					+ "and anxsXTpSol.tipoSolicitudPqr.idTpSolPqr =" + tipoSolicitudPqr.getIdTpSolPqr() + ")";
+		
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		List<AnexosPqr> anexosPqr = query.list();	
 		return anexosPqr;

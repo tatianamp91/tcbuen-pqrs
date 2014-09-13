@@ -604,7 +604,7 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
         	throws Exception{
     	List<MotivoReclamacion> motivoReclamacion = null;
     	try{
-    		motivoReclamacion = motivoReclamacionLogic.consultarMotReclXTipoPqr(tipoSolicitudPqr); 		
+    		motivoReclamacion = motivoReclamacionLogic.consultarMotReclNoTipoPqr(tipoSolicitudPqr); 		
     	}catch(Exception e){
     		throw e;
     	}
@@ -681,7 +681,7 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
             	throws Exception{
         	List<MotivoSolicitud> motivoSolicitud = null;
         	try{
-        		motivoSolicitud = motivoSolicitudLogic.consultarMotSolXTipoPqr(tipoSolicitudPqr); 		
+        		motivoSolicitud = motivoSolicitudLogic.consultarMotSolNoTipoPqr(tipoSolicitudPqr); 		
         	}catch(Exception e){
         		throw e;
         	}

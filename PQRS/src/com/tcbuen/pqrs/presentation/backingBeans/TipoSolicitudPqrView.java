@@ -80,7 +80,7 @@ public class TipoSolicitudPqrView implements Serializable {
 	    	/*if(true){
 	    		consultarElementosNuevo();
 	    	}else{*/
-	    		Long idTpSolPqr = new Long(3);
+	    		Long idTpSolPqr = new Long(26);
 	            entity = businessDelegatorView.getTipoSolicitudPqr(idTpSolPqr);
 	    		consultarElementosModificar(entity);
 	    //	}
@@ -169,12 +169,12 @@ public class TipoSolicitudPqrView implements Serializable {
 	        motivosReclamacionTarget = businessDelegatorView.consultarMotReclXTipoPqr(tipoSolicitudPqr);
 	        motivosReclamacion = new DualListModel<MotivoReclamacion>(motivosReclamacionSource, motivosReclamacionTarget);
 	        
-	        motivosSolicitudSource = businessDelegatorView.consultarMotSolXTipoPqr(tipoSolicitudPqr);
-	       	motivosSolicitudTarget = businessDelegatorView.consultarMotSolNoTipoPqr(tipoSolicitudPqr);
+	        motivosSolicitudSource = businessDelegatorView.consultarMotSolNoTipoPqr(tipoSolicitudPqr);
+	       	motivosSolicitudTarget = businessDelegatorView.consultarMotSolXTipoPqr(tipoSolicitudPqr);
 	    	motivosSolicitud = new DualListModel<MotivoSolicitud>(motivosSolicitudSource, motivosSolicitudTarget);
 	    	
-			anexosPqrSource = businessDelegatorView.consultarAnxsXTipoPqr(tipoSolicitudPqr);		
-			anexosPqrTarget = businessDelegatorView.consultarAnxsNoTipoPqr(tipoSolicitudPqr);
+			anexosPqrSource = businessDelegatorView.consultarAnxsNoTipoPqr(tipoSolicitudPqr);	
+			anexosPqrTarget = businessDelegatorView.consultarAnxsXTipoPqr(tipoSolicitudPqr);
 			anexosPqr = new DualListModel<AnexosPqr>(anexosPqrSource, anexosPqrTarget);
 		}catch(Exception e){
 			FacesUtils.addErrorMessage(e.getMessage());
@@ -208,8 +208,13 @@ public class TipoSolicitudPqrView implements Serializable {
             
         data = null;
         data = getData();
+        try{
+			Long idTpSolPqr = new Long(26);
+	        entity = businessDelegatorView.getTipoSolicitudPqr(idTpSolPqr);
+			consultarElementosModificar(entity);
+        }catch(Exception e){
         
-        consultarElementosNuevo();
+        }
                
         return "";
     }
