@@ -296,40 +296,59 @@ public class RolesView implements Serializable {
 		return true;
 
 	}
+	
+	public void actualizar(){
+		
+		try {
+			entity.setNombreRol(FacesUtils.checkString(txtNombreRol));
+			entity.setEstadoRegistro(estadoRegistroSeleccionado);
+			entity.setUsuarioCreador(FacesUtils
+					.checkString(txtUsuarioCreador));
+			entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
+			// Falta agregar usuario de sesion
+			entity.setUsuarioUltimaModificacion("Facturación");
+			entity.setFechaUltimaModificacion(new Date());
+
+			businessDelegatorView.updateRoles(entity);
+			FacesUtils
+					.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+
+		} catch (Exception e) {
+			data = null;
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+		
+			}
 
 	public String action_modify() {
 		try {
 			String nombreRol = txtNombreRol.getValue().toString();
 			Roles nombre = ObtenerRoles(nombreRol);
-
+			
 			if (nombre == null) {
-
 				if (!revizarCampos(nombreRol)) {
 					return "";
-
 				}
-				entity.setNombreRol(FacesUtils.checkString(txtNombreRol));
-				entity.setEstadoRegistro(estadoRegistroSeleccionado);
-				entity.setUsuarioCreador(FacesUtils
-						.checkString(txtUsuarioCreador));
-				entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-				// Falta agregar usuario de sesion
-				entity.setUsuarioUltimaModificacion("Facturación");
-				entity.setFechaUltimaModificacion(new Date());
-
-				businessDelegatorView.updateRoles(entity);
-				FacesUtils
-						.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
-
-			} else {
-				throw new Exception("Ya existe Rol");
+				actualizar();
+				action_clear();
+			}else{
+				String nombreTemp = nombre.getNombreRol();
+				String estadoTemp = nombre.getEstadoRegistro();
+				
+				if ((nombreTemp.equals(nombreRol) && !estadoTemp.equals(estadoRegistroSeleccionado))){
+					if (!revizarCampos(nombreRol)) {
+						return "";
+					}
+					actualizar();
+					action_clear();
+				}else{
+					throw new Exception("El Rol no ha sido modificado, porque no ha cambiado nada");
+				}
 			}
-			action_clear();
 		} catch (Exception e) {
 			data = null;
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
-
 		return "";
 	}
     

@@ -494,63 +494,58 @@ public class UsuariosInternosView implements Serializable {
 
     public String action_modify() {
 		try {
-			
-			String numeroIdentificacion = txtNumeroIdentificacion.getValue()
-					.toString();
+						
+			String numeroIdentificacion = txtNumeroIdentificacion.getValue().toString();
 			String login = txtLogin.getValue().toString();
 			String email = txtCorreoElectronico.getValue().toString();
-			
-			
-			AreasInvolucradas area = businessDelegatorView
-					.getAreasInvolucradas((idAreaInvolucrada));
+			AreasInvolucradas area = businessDelegatorView.getAreasInvolucradas((idAreaInvolucrada));
+			String areaInvolucrada = area.getNombreArea();
 			Roles roles = businessDelegatorView.getRoles(idRol);
+			String rol = roles.getNombreRol();
 			String nombres = txtNombres.getValue().toString();
 			String apellidos = txtApellidos.getValue().toString();	
 			String contrasena = txtContrasena.getValue().toString();
-			String areaInvolucrada = area.getNombreArea();
-			String rol = roles.getNombreRol();
 			String estados = getEstadoRegistroSeleccionado();
 			
-					
+			UsuariosInternos usuario = ObtenerNumeroIdentificacionUsuarios(numeroIdentificacion);
 			
-			UsuariosInternos UsuLogin = ObtenerCuentaUsuarios(login);
-			UsuariosInternos UsuNumeroIdentifiacion = ObtenerNumeroIdentificacionUsuarios(numeroIdentificacion);
-			UsuariosInternos UsuEmail = ObtenerEmailUsuarios(email);
-
-			if (UsuNumeroIdentifiacion == null  && UsuLogin == null && UsuEmail == null){
-				
-				if (!revizarCampos(nombres, apellidos, numeroIdentificacion,
-						login, email, contrasena, areaInvolucrada, rol, estados)) {
-					return "";
-				}	
+			String nombresTemp = usuario.getNombres();
+			String apellidosTemp = usuario.getApellidos();
+			String numeroIdentificacionTemp = usuario.getNumeroIdentificacion();
 			
-				entity.setNumeroIdentificacion(FacesUtils
-						.checkString(txtNumeroIdentificacion));
-				entity.setNombres(FacesUtils.checkString(txtNombres));
-				entity.setApellidos(FacesUtils.checkString(txtApellidos));
-				entity.setCorreoElectronico(FacesUtils
-						.checkString(txtCorreoElectronico));
-				entity.setLogin(FacesUtils.checkString(txtLogin));
-				entity.setContrasena(FacesUtils.checkString(txtContrasena));
-				String estado = (estadoRegistroSeleccionado.equals("Activo")) ? "A"
-						: "I";
-				entity.setEstadoRegistro(estado);
-				entity.setFechaCreacion(new Date());
 
-				entity.setAreasInvolucradas((idAreaInvolucrada != null) ? businessDelegatorView
-						.getAreasInvolucradas((idAreaInvolucrada)) : null);
+			if (!revizarCampos(nombres, apellidos, numeroIdentificacion, login,
+					email, contrasena, areaInvolucrada, rol, estados)) {
+				return "";
+			}
 
-				entity.setRoles((idRol != null) ? businessDelegatorView
-						.getRoles(idRol) : null);
+			entity.setNumeroIdentificacion(FacesUtils
+					.checkString(txtNumeroIdentificacion));
+			entity.setNombres(FacesUtils.checkString(txtNombres));
+			entity.setApellidos(FacesUtils.checkString(txtApellidos));
+			entity.setCorreoElectronico(FacesUtils
+					.checkString(txtCorreoElectronico));
+			entity.setLogin(FacesUtils.checkString(txtLogin));
+			entity.setContrasena(FacesUtils.checkString(txtContrasena));
+			String estado = (estadoRegistroSeleccionado.equals("Activo")) ? "A"
+					: "I";
+			entity.setEstadoRegistro(estado);
+			entity.setFechaCreacion(new Date());
 
-				businessDelegatorView.saveUsuariosInternos(entity);
-				FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+			entity.setAreasInvolucradas((idAreaInvolucrada != null) ? businessDelegatorView
+					.getAreasInvolucradas((idAreaInvolucrada)) : null);
 
-				action_clear();
-			}else{
+			entity.setRoles((idRol != null) ? businessDelegatorView
+					.getRoles(idRol) : null);
+
+			businessDelegatorView.saveUsuariosInternos(entity);
+			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+
+			action_clear();
+			/*}else{
 				throw new Exception("El Numero de Identificacion y/o el Login y/o el Email ya existen. Por "
 									+ "favor ingreselos nuevamente");
-			}
+			}*/
 
 		} catch (Exception e) {
 			entity = null;
