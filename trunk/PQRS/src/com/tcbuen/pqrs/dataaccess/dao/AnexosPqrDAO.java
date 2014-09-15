@@ -66,7 +66,8 @@ public class AnexosPqrDAO extends HibernateDaoImpl<AnexosPqr, Long>
 		String hql = "Select anexosPqr from AnexosPqr anexosPqr "
 					+ "where anexosPqr.idAnexoPqr not in (Select anexosPqr from AnxsXTpSol anxsXTpSol, AnexosPqr anexosPqr "
 					+ "where anexosPqr.idAnexoPqr = anxsXTpSol.anexosPqr.idAnexoPqr "
-					+ "and anxsXTpSol.tipoSolicitudPqr.idTpSolPqr =" + tipoSolicitudPqr.getIdTpSolPqr() + ")";
+					+ "and anxsXTpSol.tipoSolicitudPqr.idTpSolPqr =" + tipoSolicitudPqr.getIdTpSolPqr() + ")"
+					+ "and estadoRegistro = 'A'";
 		
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		List<AnexosPqr> anexosPqr = query.list();	

@@ -29,36 +29,22 @@
 
 							<p:column filterBy="#{tipoSolicitudPqr.descTpSol}"
 								sortBy="#{tipoSolicitudPqr.descTpSol}" headerText="Descripción">
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="#{tipoSolicitudPqr.descTpSol}" />
-									</f:facet>
-									<f:facet name="input">
-										<p:inputText value="#{tipoSolicitudPqr.descTpSol}" />
-									</f:facet>
-								</p:cellEditor>
+								<h:outputText value="#{tipoSolicitudPqr.descTpSol}" />
 							</p:column>
 
 							<p:column filterBy="#{tipoSolicitudPqr.estadoRegistro}"
 								sortBy="#{tipoSolicitudPqr.estadoRegistro}" headerText="Estado">
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="#{tipoSolicitudPqr.estadoRegistro}" />
-									</f:facet>
-									<f:facet name="input">
-										<p:selectOneMenu id="estadoRegistro"
-											value="#{tipoSolicitudPqrView.estadoRegistroSeleccionado}"
-											style="height:20px;width:75px">
-											<f:selectItem itemValue="A" itemLabel="Activo" />
-											<f:selectItem itemValue="I" itemLabel="Inactivo" />
-										</p:selectOneMenu>
-									</f:facet>
-								</p:cellEditor>
+								<h:outputText value="#{tipoSolicitudPqr.estadoRegistro}" />
 							</p:column>
 							<p:column headerText="Editar">
-								<p:rowEditor id="row" />
-								<p:tooltip for="row" value="Edit" showEffect="fade"
-									hideEffect="fade" />
+								<p:commandLink update=":dialogTipoSolicitudPqr"
+									action="#{tipoSolicitudPqrView.action_edit()}"
+									title="View Modify">
+									<p:rowEditor id="editar" />
+									<f:setPropertyActionListener
+										value="#{tipoSolicitudPqr.idTpSolPqr}"
+										target="#{tipoSolicitudPqrView.idTpSolPqr}" />
+								</p:commandLink>
 							</p:column>
 						</p:dataTable>
 					</p:panel>
@@ -77,7 +63,7 @@
 					<h:form id="formDialog">
 						<p:messages id="msg" showDetail="true" />
 						<p:panel id="panelTipoSolicitudPqr"
-							header="Nuevo Tipo de Solicitud">
+							header="Tipo de Solicitud">
 							<h:panelGrid columns="4" id="panelGrid">
 								<h:outputText id="msgDescTpSol" value="*Descripción:" />
 								<p:inputText id="txtDescTpSol" disabled="false"
@@ -88,38 +74,44 @@
 									<f:selectItem itemValue="A" itemLabel="Activo" />
 									<f:selectItem itemValue="I" itemLabel="Inactivo" />
 								</p:selectOneMenu>
-								
+
 								<h:outputText id="msgMotRecl" value="*Motivos de Reclamación:" />
 								<p:pickList id="MotReclPickList"
 									value="#{tipoSolicitudPqrView.motivosReclamacion}"
-									var="motivoReclamacion" itemValue="#{motivoReclamacion.idMotRecl}"
+									var="motivoReclamacion"
+									itemValue="#{motivoReclamacion.idMotRecl}"
 									itemLabel="#{motivoReclamacion.descripcionMotRecl}">
-								</p:pickList>	
-														
+								</p:pickList>
+
 								<h:outputText id="msgMotSol" value="*Motivos de Solicitud:" />
 								<p:pickList id="MotSolPickList"
 									value="#{tipoSolicitudPqrView.motivosSolicitud}"
 									var="motivoSolicitud" itemValue="#{motivoSolicitud.idMotSol}"
 									itemLabel="#{motivoSolicitud.descripcionMotSol}">
 								</p:pickList>
-								
+
 								<h:outputText id="msgAnexosPqr" value="*Anexos:" />
 								<p:pickList id="AnexosPqrPickList"
 									value="#{tipoSolicitudPqrView.anexosPqr}" var="anexoPqr"
 									itemValue="#{anexoPqr.idAnexoPqr}"
 									itemLabel="#{anexoPqr.descripcionAnexo}">
 								</p:pickList>
-
-
 							</h:panelGrid>
 						</p:panel>
 						<p:panel id="panelBotones">
 							<div align="center">
 								<p:commandButton id="btnSave"
 									binding="#{tipoSolicitudPqrView.btnSave}" value="Guardar"
+									disabled="#{tipoSolicitudPqrView.boton}"
 									action="#{tipoSolicitudPqrView.action_save()}"
 									update=":dialogTipoSolicitudPqr :form:msgProjectClientesTitle" />
+								<p:commandButton id="btnModify"
+									binding="#{tipoSolicitudPqrView.btnModify}" value="Modificar"
+									disabled="#{!tipoSolicitudPqrView.boton}"
+									action="#{tipoSolicitudPqrView.action_modify()}"
+									update=":dialogTipoSolicitudPqr :form:msgProjectClientesTitle" />
 								<p:commandButton id="btnClear" value="Limpiar"
+									disabled="#{tipoSolicitudPqrView.boton}"
 									action="#{tipoSolicitudPqrView.action_clear()}"
 									update=":dialogTipoSolicitudPqr" />
 								<p:commandButton id="btnExit" value="Salir"

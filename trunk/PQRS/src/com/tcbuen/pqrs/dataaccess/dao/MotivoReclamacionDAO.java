@@ -66,7 +66,8 @@ public class MotivoReclamacionDAO extends HibernateDaoImpl<MotivoReclamacion, Lo
 		String hql = "Select motivoReclamacion from MotivoReclamacion motivoReclamacion "
 					+ "where motivoReclamacion.idMotRecl not in (Select motivoReclamacion from MotivoReclamacion motivoReclamacion, MotReclXTpSol motReclXTpSol "
 					+ "where motivoReclamacion.idMotRecl = motReclXTpSol.motivoReclamacion.idMotRecl "
-					+ "and motReclXTpSol.tipoSolicitudPqr.idTpSolPqr = " + tipoSolicitudPqr.getIdTpSolPqr() + ")";
+					+ "and motReclXTpSol.tipoSolicitudPqr.idTpSolPqr = " + tipoSolicitudPqr.getIdTpSolPqr() + ")"
+					+ "and estadoRegistro = 'A'";
 				
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		List<MotivoReclamacion> motivoReclamacion = query.list(); 	
