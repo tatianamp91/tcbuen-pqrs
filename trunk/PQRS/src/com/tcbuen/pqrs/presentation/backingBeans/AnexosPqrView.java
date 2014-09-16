@@ -239,58 +239,133 @@ public class AnexosPqrView implements Serializable {
         return "";
     }
 
-    public String action_create() {
-        try {
-            entity = new AnexosPqr();
+	public String action_create() {
+		try {
 
-            //Long idAnexoPqr = FacesUtils.checkLong(txtIdAnexoPqr);
-            //entity.setIdAnexoPqr(idAnexoPqr);
-            entity.setDescripcionAnexo(FacesUtils.checkString(txtDescripcionAnexo));
-            entity.setEstadoRegistro(estadoRegistroSeleccionado);
-            //Falta agregar usuario de sesion
-            entity.setUsuarioCreador("Admin");
-            entity.setFechaCreacion(new Date());
-            entity.setUsuarioUltimaModificacion(null);
-            entity.setFechaUltimaModificacion(null);   
-            
-            businessDelegatorView.saveAnexosPqr(entity);
-            FacesUtils.addInfoMessage("El anexo se guardo exitosamente");
-            
-            action_clear();
-        } catch (Exception e) {
-            entity = null;
-            FacesUtils.addErrorMessage(e.getMessage());
-        }
+			String descripcionAnexo = txtDescripcionAnexo.getValue().toString();
+			AnexosPqr anexos = ObtenerAnexo(descripcionAnexo);
 
-        return "";
-    }
+			if (anexos == null) {
 
-    public String action_modify() {
-        try {
-            if (entity == null) {
-                Long idAnexoPqr = new Long(selectedAnexosPqr.getIdAnexoPqr());
-                entity = businessDelegatorView.getAnexosPqr(idAnexoPqr);
-            }
+				if (!revizarCampos(descripcionAnexo)) {
+					return "";
 
-            entity.setDescripcionAnexo(FacesUtils.checkString(txtDescripcionAnexo));
-            entity.setEstadoRegistro(estadoRegistroSeleccionado);
-            entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
-            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-            entity.setFechaUltimaModificacion(new Date());
-            //Falta agregar usuario de sesion
-            entity.setUsuarioUltimaModificacion("Facturación");
-            businessDelegatorView.updateAnexosPqr(entity);
-            
-            FacesUtils.addInfoMessage("El anexo se modifico exitosamente");
-            
-            action_clear();
-        } catch (Exception e) {
-            data = null;
-            FacesUtils.addErrorMessage(e.getMessage());
-        }
+				}
 
-        return "";
-    }
+			}
+
+			entity = new AnexosPqr();
+
+			// Long idAnexoPqr = FacesUtils.checkLong(txtIdAnexoPqr);
+			// entity.setIdAnexoPqr(idAnexoPqr);
+			entity.setDescripcionAnexo(FacesUtils
+					.checkString(txtDescripcionAnexo));
+			entity.setEstadoRegistro(estadoRegistroSeleccionado);
+			// Falta agregar usuario de sesion
+			entity.setUsuarioCreador("Admin");
+			entity.setFechaCreacion(new Date());
+			entity.setUsuarioUltimaModificacion(null);
+			entity.setFechaUltimaModificacion(null);
+
+			businessDelegatorView.saveAnexosPqr(entity);
+			FacesUtils.addInfoMessage("El anexo se guardo exitosamente");
+
+			action_clear();
+		} catch (Exception e) {
+			entity = null;
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+
+		return "";
+	}
+
+	private AnexosPqr ObtenerAnexo(String descripcionAnexo) throws Exception {
+		AnexosPqr entity = null;
+		Object[] variables = { "descripcionAnexo", true, descripcionAnexo, "=" };
+		List<AnexosPqr> anexosPqr = businessDelegatorView
+				.findByCriteriaInAnexosPqr(variables, null, null);
+
+		if (Utilities.validationsList(anexosPqr)) {
+			entity = anexosPqr.get(0);
+		}
+		return entity;
+	}
+
+	public boolean revizarCampos(String descripcionAnexo) throws Exception {
+
+		if (descripcionAnexo.equals("") || descripcionAnexo.trim().equals("")) {
+			throw new Exception("Debe de ingresar un Nombre");
+		}
+
+		if (!Utilities.isOnlyLetters2(descripcionAnexo)) {
+			throw new Exception(
+					"El Nombre ingresado solo debe de contener letras");
+		}
+		return true;
+
+	}
+
+	private void actulizar() {
+		try {
+
+			entity.setDescripcionAnexo(FacesUtils
+					.checkString(txtDescripcionAnexo));
+			entity.setEstadoRegistro(estadoRegistroSeleccionado);
+			entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
+			entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
+			entity.setFechaUltimaModificacion(new Date());
+			// Falta agregar usuario de sesion
+			entity.setUsuarioUltimaModificacion("Facturación");
+			businessDelegatorView.updateAnexosPqr(entity);
+
+			FacesUtils.addInfoMessage("El anexo se modifico exitosamente");
+		} catch (Exception e) {
+			data = null;
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+
+	}
+
+	public String action_modify() {
+		try {
+
+			String descripcionAnexo = txtDescripcionAnexo.getValue().toString();
+			AnexosPqr anexos = ObtenerAnexo(descripcionAnexo);
+
+			if (anexos == null) {
+				if (!revizarCampos(descripcionAnexo)) {
+					return "";
+
+				}
+				actulizar();
+				action_clear();
+			} else {
+
+				String descripcionTemp = anexos.getDescripcionAnexo();
+				String estadoTemp = anexos.getEstadoRegistro();
+
+				if ((descripcionTemp.equals(descripcionAnexo) && !estadoTemp
+						.equals(estadoRegistroSeleccionado))) {
+
+					if (!revizarCampos(descripcionAnexo)) {
+						return "";
+
+					}
+					actulizar();
+					action_clear();
+				} else {
+					throw new Exception(
+							"El anexo no ha sido modificado, anexo ya existe");
+				}
+			}
+
+		} catch (Exception e) {
+			data = null;
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+
+		return "";
+	}
 
     public String action_delete_datatable(ActionEvent evt) {
         try {
