@@ -140,7 +140,6 @@ public class TipoDocumentoView implements Serializable {
 
         data = null;
         data = getData();
-
         return "";
     }
 
@@ -258,8 +257,7 @@ public class TipoDocumentoView implements Serializable {
                 //entity.setIdTpDoc(idTpDoc);
                 
                 entity.setDescripcionTpDoc(FacesUtils.checkString(txtDescripcionTpDoc));
-                String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
-    			entity.setEstadoRegistro(estado);
+                entity.setEstadoRegistro(estadoRegistroSeleccionado);
                 entity.setFechaCreacion(new Date());
                 entity.setFechaUltimaModificacion(null);
                 entity.setUsuarioCreador("Admin");
@@ -312,12 +310,12 @@ public class TipoDocumentoView implements Serializable {
     	try {
     		
     		entity.setDescripcionTpDoc(FacesUtils.checkString(txtDescripcionTpDoc));
-            String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
-    		entity.setEstadoRegistro(estado);
+    		entity.setEstadoRegistro(estadoRegistroSeleccionado);
             entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
             entity.setFechaUltimaModificacion(new Date());
             entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
             entity.setUsuarioUltimaModificacion("Admin-1");
+            
             businessDelegatorView.updateTipoDocumento(entity);
             FacesUtils.addInfoMessage("El tipo de documento se modifico exitosamente");
 			
@@ -330,39 +328,40 @@ public class TipoDocumentoView implements Serializable {
     
 	public String action_modify() {
 		try {
-			
+
 			String descripcionTpDoc = txtDescripcionTpDoc.getValue().toString();
 			TipoDocumento tipoDocumento = ObtenerDocDescripcion(descripcionTpDoc);
 
 			if (tipoDocumento == null) {
+				
 				if (!revizarCampos(descripcionTpDoc)) {
 					return "";
 				}
+
 				actualizar();
 				action_clear();
+			} else {
+				String nombreTemp = tipoDocumento.getDescripcionTpDoc();
+				String estadoTemp = tipoDocumento.getEstadoRegistro();
 				
-				}else{
+				if((nombreTemp.equals(descripcionTpDoc) && 
+						!estadoTemp.equals(estadoRegistroSeleccionado))){
 					
-					String descripcionTemp= tipoDocumento.getDescripcionTpDoc();
-					String estadoTemp= tipoDocumento.getEstadoRegistro();
-					
-					if((descripcionTemp.equals(descripcionTpDoc) && 
-							!estadoTemp.equals(estadoRegistroSeleccionado))){
-						
-						if(!revizarCampos(descripcionTpDoc)){
-							return "";
-						}
-						actualizar();
-						action_clear();
-						
-					}else{
-						throw new Exception("El tipo de documento no ha sido modifaco, tipo de documento ya exite");
+					if (!revizarCampos(descripcionTpDoc)) {
+						return "";
 					}
-				}		
-			} catch (Exception e) {
-				data = null;
-				FacesUtils.addErrorMessage(e.getMessage());
+					
+					actualizar();
+					action_clear();
+				}else{
+					throw new Exception("El tipo documento NO ha sido modificado, tipo documento ya exite");
+				}
+			}
+		} catch (Exception e) {
+			data = null;
+			FacesUtils.addErrorMessage(e.getMessage());
 		}
+
 		return "";
 	}
 

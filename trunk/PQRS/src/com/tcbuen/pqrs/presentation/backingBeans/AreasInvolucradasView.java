@@ -246,12 +246,7 @@ public class AreasInvolucradasView implements Serializable {
 
 	public String action_create() {
 		try {
-			//
-
-			// Long idAreaInvolucrada =
-			// FacesUtils.checkLong(txtIdAreaInvolucrada);
-			// entity.setIdAreaInvolucrada(idAreaInvolucrada);
-
+		
 			String nombreArea = txtNombreArea.getValue().toString();
 			
 			AreasInvolucradas area= ObtenerArea(nombreArea);
@@ -263,11 +258,7 @@ public class AreasInvolucradasView implements Serializable {
 				}
 				entity = new AreasInvolucradas();
 				entity.setNombreArea(FacesUtils.checkString(txtNombreArea));
-				String estado = (estadoRegistroSeleccionado
-						.equals("Activo")) ? "A" : "I";
-				entity.setEstadoRegistro(estado);
-				//entity.setEstadoRegistro(estadoRegistroSeleccionado);
-				// Falta agregar usuario de sesion
+				entity.setEstadoRegistro(estadoRegistroSeleccionado);
 				entity.setUsuarioCreador("Admin");
 				entity.setFechaCreacion(new Date());
 				entity.setUsuarioUltimaModificacion(null);
@@ -325,11 +316,11 @@ public class AreasInvolucradasView implements Serializable {
 		         entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
 		         //Falta agregar usuario de sesion
 		         entity.setUsuarioUltimaModificacion("Facturación");
-		         entity.setFechaUltimaModificacion(new Date());           
-		       
+		         entity.setFechaUltimaModificacion(new Date());           		       
 		         
 		         businessDelegatorView.updateAreasInvolucradas(entity);
 		         FacesUtils.addInfoMessage("El área se guardo exitosamente");
+		         
 		} catch (Exception e) {
 			
 			data = null;
@@ -367,7 +358,7 @@ public class AreasInvolucradasView implements Serializable {
 					actualizar();
 					action_clear();
 				}else{
-					throw new Exception("El Rol NO ha sido modificado");
+					throw new Exception("El área NO ha sido modificado, área ya exite");
 				}
 			}
 		} catch (Exception e) {

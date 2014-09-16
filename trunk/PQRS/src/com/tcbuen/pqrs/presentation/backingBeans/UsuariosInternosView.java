@@ -426,9 +426,7 @@ public class UsuariosInternosView implements Serializable {
 							.checkString(txtCorreoElectronico));
 					entity.setLogin(FacesUtils.checkString(txtLogin));
 					entity.setContrasena(FacesUtils.checkString(txtContrasena));
-					String estado = (estadoRegistroSeleccionado
-							.equals("Activo")) ? "A" : "I";
-					entity.setEstadoRegistro(estado);
+					entity.setEstadoRegistro(estadoRegistroSeleccionado);
 					entity.setFechaCreacion(new Date());
 
 					entity.setAreasInvolucradas((idAreaInvolucrada != null) ? businessDelegatorView
@@ -527,9 +525,7 @@ public class UsuariosInternosView implements Serializable {
 					.checkString(txtCorreoElectronico));
 			entity.setLogin(FacesUtils.checkString(txtLogin));
 			entity.setContrasena(FacesUtils.checkString(txtContrasena));
-			String estado = (estadoRegistroSeleccionado.equals("Activo")) ? "A"
-					: "I";
-			entity.setEstadoRegistro(estado);
+			entity.setEstadoRegistro(estadoRegistroSeleccionado);
 			entity.setFechaCreacion(new Date());
 
 			entity.setAreasInvolucradas((idAreaInvolucrada != null) ? businessDelegatorView

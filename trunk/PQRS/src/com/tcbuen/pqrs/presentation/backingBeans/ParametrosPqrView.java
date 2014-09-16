@@ -283,10 +283,8 @@ public class ParametrosPqrView implements Serializable {
 				// entity.setIdParam(idParam);
 				entity.setDescripcionParam(FacesUtils
 						.checkString(txtDescripcionParam));
-				String estado = (estadoRegistroSeleccionado.equals("Activo")) ? "A"
-						: "I";
-				entity.setEstadoRegistro(estado);
 				// Falta agregar usuarios sesion
+				entity.setEstadoRegistro(estadoRegistroSeleccionado);
 				entity.setUsuarioCreador("Admin");
 				entity.setFechaCreacion(new Date());
 				entity.setUsuarioUltimaModificacion(null);
@@ -359,9 +357,10 @@ public class ParametrosPqrView implements Serializable {
 			
 			entity.setDescripcionParam(FacesUtils
 					.checkString(txtDescripcionParam));
-			String estado = (estadoRegistroSeleccionado.equals("Activo")) ? "A"
+			/*String estado = (estadoRegistroSeleccionado.equals("Activo")) ? "A"
 					: "I";
-			entity.setEstadoRegistro(estado);
+			entity.setEstadoRegistro(estado);*/
+			entity.setEstadoRegistro(estadoRegistroSeleccionado);
 			entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
 			entity.setFechaUltimaModificacion(new Date());
 			entity.setUsuarioCreador(FacesUtils
@@ -401,8 +400,7 @@ public class ParametrosPqrView implements Serializable {
 				String estadoTemp = descrpcion.getEstadoRegistro();
 				
 				if((descripcionTemp.equals(descripcionParam) && 
-						!estadoTemp.equals(estadoRegistroSeleccionado)) && !(valorTemp).equals(valorParam)){
-				
+						!estadoTemp.equals(estadoRegistroSeleccionado)) && !valorTemp.equals(valorParam)){				
 					if (!revizarCampos(descripcionParam, valorParam)) {
 						return "";
 					}
