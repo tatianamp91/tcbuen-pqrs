@@ -267,7 +267,7 @@ public class MotivoSolicitudView implements Serializable {
                 entity.setFechaUltimaModificacion(null);
 
                 businessDelegatorView.saveMotivoSolicitud(entity);
-                FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+                FacesUtils.addInfoMessage("El motivo de solicitud se modifico exitosamente");
                 action_clear();
                 
         	} else {
@@ -283,6 +283,25 @@ public class MotivoSolicitudView implements Serializable {
         return "";
     }
     
+    private void actualizar(){
+    	try {
+    		
+            entity.setDescripcionMotSol(FacesUtils.checkString(txtDescripcionMotSol));
+            entity.setEstadoRegistro(estadoRegistroSeleccionado);
+            entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
+            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
+            //Falta agregar usuario de sesion
+            entity.setUsuarioUltimaModificacion("facturación");
+            entity.setFechaUltimaModificacion(new Date());
+            
+            businessDelegatorView.updateMotivoSolicitud(entity);
+            FacesUtils.addInfoMessage("El motivo de solicitud se modifico exitosamente");	
+			
+		} catch (Exception e) {
+			data = null;
+            FacesUtils.addErrorMessage(e.getMessage());
+		}     	
+    }    
     
     private MotivoSolicitud ObtenerMotSolicitud(String descripcionMotSol) throws Exception {
 		MotivoSolicitud entity = null;
@@ -302,10 +321,10 @@ public class MotivoSolicitudView implements Serializable {
 			throw new Exception("Debe de ingresar una Descripcion");
 		}
 
-	/*	if (!Utilities.isOnlyLetters2(descripcionMotRecl)) {
+		if (!Utilities.isOnlyLetters2(descripcionMotSol)) {
 			throw new Exception(
 					"La descripcion ingresada solo debe de contener letras");
-		}*/
+		}
 		return true;
 	}
 
@@ -315,34 +334,33 @@ public class MotivoSolicitudView implements Serializable {
         	String descripcionMotSol=txtDescripcionMotSol.getValue().toString();
         	MotivoSolicitud motivoSolicitud=ObtenerMotSolicitud(descripcionMotSol);
         	
-        	if(motivoSolicitud == null){
-        		
+        	if(motivoSolicitud == null){        		
         		if(!revizarCampos(descripcionMotSol)){
-        			return "";
-        			
-        		}      
-
-            entity.setDescripcionMotSol(FacesUtils.checkString(txtDescripcionMotSol));
-            entity.setEstadoRegistro(estadoRegistroSeleccionado);
-            entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
-            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-            //Falta agregar usuario de sesion
-            entity.setUsuarioUltimaModificacion("facturación");
-            entity.setFechaUltimaModificacion(new Date());
-            
-            businessDelegatorView.updateMotivoSolicitud(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
-          
-            action_clear();
+        			return "";        			
+        		}  
+        		actualizar();
+        		action_clear();
             
         	}else{
-        		throw new Exception("Ya existe motivo");
+        		String motivoTemp = motivoSolicitud.getDescripcionMotSol();
+        		String estadoTemp = motivoSolicitud.getEstadoRegistro();
+        		
+        		if((motivoTemp.equals(descripcionMotSol) && 
+        				!estadoTemp.equals(estadoRegistroSeleccionado))){
+        			
+        			if(!revizarCampos(descripcionMotSol)){
+        				return "";        				
+        			}
+        			actualizar();
+            		action_clear();
+        		}else{
+        			throw new Exception("El motivo solicitud no ha sido modificado");
+        		}
         	}
         } catch (Exception e) {
             data = null;
             FacesUtils.addErrorMessage(e.getMessage());
         }
-
         return "";
     }
 

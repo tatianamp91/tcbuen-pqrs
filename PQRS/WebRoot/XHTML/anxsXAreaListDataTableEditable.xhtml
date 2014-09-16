@@ -19,7 +19,7 @@
 				</p:dialog>
 				<h:form id="form">
 					<p:panel id="msgProjectClientesTitle" header="Anexos por Areas">
-						<p:messages id="msg" showDetail="true" />
+						<p:messages id="msg" showDetail="false" />
 						<p:dataTable id="tabla" value="#{anxsXAreaView.data}"
 							var="anxsXArea" paginator="true" rows="5" editable="true">
 
@@ -97,7 +97,7 @@
 					closable="false" visible="#{anxsXAreaView.showDialog}"
 					resizable="false" modal="true" width="500">
 					<h:form id="formDialog">
-						<p:messages id="msg" showDetail="true" />
+						<p:messages id="msg" showDetail="false" />
 						<p:panel id="panelAnxsXArea" header="Nuevo Anexo por Area">
 							<h:panelGrid columns="2" id="panelGrid">
 								<h:outputText id="msgIdAnexoPqr_AnexosPqr" value="*Anexo:" />

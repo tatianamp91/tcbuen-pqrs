@@ -25,7 +25,7 @@
 
 
 					<p:panel id="msgProjectClientesTitle" header="Tipo Documento">
-						<p:messages id="msg" showDetail="true" />
+						<p:messages id="msg" showDetail="false" />
 						<p:dataTable id="tabla" value="#{tipoDocumentoView.data}"
 							var="tipoDocumento" paginator="true" rows="5" editable="true">
 
@@ -82,7 +82,7 @@
 					visible="#{tipoDocumentoView.showDialog}" resizable="false"
 					modal="true" width="500">
 					<h:form id="formDialog">
-						<p:messages id="msg" showDetail="true"></p:messages>
+						<p:messages id="msg" showDetail="false"></p:messages>
 						<p:panel id="tipoDocumento" header="Tipo Documento">
 							<h:panelGrid columns="2" id="panelGrid">
 								<h:outputText id="msgTipoDocumento" value="*Tipo Documento:"></h:outputText>

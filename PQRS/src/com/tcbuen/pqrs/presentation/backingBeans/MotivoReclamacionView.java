@@ -269,7 +269,7 @@ public class MotivoReclamacionView implements Serializable {
 				entity.setFechaUltimaModificacion(null);
 
 				businessDelegatorView.saveMotivoReclamacion(entity);
-				FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+				FacesUtils.addInfoMessage("El motivo de la reclamación se guardo exitosamente");
 				action_clear();
 
 			} else {
@@ -309,20 +309,12 @@ public class MotivoReclamacionView implements Serializable {
 		return true;
 
 	}
-
-    public String action_modify() {
-        try {
-                    	
-        	String descripcionMotRecl = txtDescripcionMotRecl.getValue().toString();
-        	MotivoReclamacion motReclamacion= ObtenerMotReclamacion(descripcionMotRecl);
-        	
-            if(motReclamacion == null){
-            	
-            	if(!revizarCampos(descripcionMotRecl)){
-            		return "";
-            		
-            	}
-            entity.setDescripcionMotRecl(FacesUtils.checkString(txtDescripcionMotRecl));
+    
+    private void actualizar(){
+    
+    	try {
+			
+    		entity.setDescripcionMotRecl(FacesUtils.checkString(txtDescripcionMotRecl));
             entity.setEstadoRegistro(estadoRegistroSeleccionado);
             entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
             entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
@@ -331,19 +323,50 @@ public class MotivoReclamacionView implements Serializable {
             entity.setFechaUltimaModificacion(new Date());
            
             businessDelegatorView.updateMotivoReclamacion(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+            FacesUtils.addInfoMessage("El motivo de reclamación se modifico exitosamente");
             
-            action_clear();
-            }else{
-            	throw new Exception("Ya existe motivo");
-            }
-        } catch (Exception e) {
-            data = null;
-            FacesUtils.addErrorMessage(e.getMessage());
-        }
-
-        return "";
+           
+		} catch (Exception e) {
+			 data = null;
+	            FacesUtils.addErrorMessage(e.getMessage());
+		}
     }
+
+	public String action_modify() {
+		try {
+
+			String descripcionMotRecl = txtDescripcionMotRecl.getValue().toString();
+			MotivoReclamacion motReclamacion = ObtenerMotReclamacion(descripcionMotRecl);
+
+			if (motReclamacion == null) {
+
+				if (!revizarCampos(descripcionMotRecl)) {
+					return "";
+				}
+				actualizar();
+				action_clear();
+
+			} else {
+				String descripcionTemp = motReclamacion.getDescripcionMotRecl();
+				String estadoTemp = motReclamacion.getEstadoRegistro();
+
+				if ((descripcionTemp.equals(descripcionMotRecl) && 
+						!estadoTemp.equals(estadoRegistroSeleccionado))) {
+					if (!revizarCampos(descripcionMotRecl)) {
+						return "";
+					}
+					actualizar();
+					action_clear();
+				} else {
+					throw new Exception("El motivo de reclamación no se ha modificado");
+				}
+			}
+		} catch (Exception e) {
+			data = null;
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+		return "";
+	}
 
     public String action_delete_datatable(ActionEvent evt) {
         try {

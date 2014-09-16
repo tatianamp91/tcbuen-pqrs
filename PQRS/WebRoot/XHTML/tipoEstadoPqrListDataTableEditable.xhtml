@@ -23,7 +23,7 @@
 
 				<h:form id="form">
 					<p:panel id="msgProjectClientesTitle" header="Tipo Estados">
-						<p:messages id="msg" showDetail="true" />
+						<p:messages id="msg" showDetail="false" />
 						<p:dataTable id="tabla" value="#{tipoEstadoPqrView.data}"
 							var="tipoEstadoPqr" paginator="true" rows="5" editable="true">
 
@@ -81,7 +81,7 @@
 					visible="#{tipoEstadoPqrView.showDialog}" resizable="false"
 					modal="true" width="500">
 					<h:form id="formDialog">
-						<p:messages id="msg" showDetail="true"></p:messages>
+						<p:messages id="msg" showDetail="false"></p:messages>
 						<p:panel id="panelTipoEstadoPqr" header="Nuevo Estado">
 							<h:panelGrid columns="2" id="panelGrid">
 								<h:outputText id="msgDescripcionEstado" value="*Descripción:"></h:outputText>

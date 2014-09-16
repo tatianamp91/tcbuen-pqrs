@@ -258,7 +258,7 @@ public class AreasInvolucradasView implements Serializable {
 			
 			if (area == null) {								
 				
-				if (revizarCampos(nombreArea)) {
+				if (!revizarCampos(nombreArea)) {
 					return "";
 				}
 				entity = new AreasInvolucradas();
@@ -273,7 +273,7 @@ public class AreasInvolucradasView implements Serializable {
 				entity.setUsuarioUltimaModificacion(null);
 				entity.setFechaUltimaModificacion(null);
 				businessDelegatorView.saveAreasInvolucradas(entity);
-				FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);			
+				FacesUtils.addInfoMessage("El área se guardo exitosamente");			
 
 				action_clear();
 			} else {
@@ -314,45 +314,69 @@ public class AreasInvolucradasView implements Serializable {
 		}
 		return entity;
 	}
-
-    public String action_modify() {
-        try {
-        	
-        	String nombreArea = txtNombreArea.getValue().toString();
+	
+	
+	public void actualizar(){
+		try {
 			
-			AreasInvolucradas area= ObtenerArea(nombreArea);
-            if (area == null) {
-            /*    Long idAreaInvolucrada = new Long(selectedAreasInvolucradas.getIdAreaInvolucrada());
-                entity = businessDelegatorView.getAreasInvolucradas(idAreaInvolucrada);*/
-            	
-            	
-            	if (!revizarCampos(nombreArea)) {
+			  entity.setNombreArea(FacesUtils.checkString(txtNombreArea));
+		         entity.setEstadoRegistro(estadoRegistroSeleccionado);
+		         entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
+		         entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
+		         //Falta agregar usuario de sesion
+		         entity.setUsuarioUltimaModificacion("Facturación");
+		         entity.setFechaUltimaModificacion(new Date());           
+		       
+		         
+		         businessDelegatorView.updateAreasInvolucradas(entity);
+		         FacesUtils.addInfoMessage("El área se guardo exitosamente");
+		} catch (Exception e) {
+			
+			data = null;
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+	   
+		
+	}
+
+	public String action_modify() {
+		try {
+
+			String nombreArea = txtNombreArea.getValue().toString();
+			AreasInvolucradas area = ObtenerArea(nombreArea);
+
+			if (area == null) {
+				
+				if (!revizarCampos(nombreArea)) {
 					return "";
 				}
 
-            entity.setNombreArea(FacesUtils.checkString(txtNombreArea));
-            entity.setEstadoRegistro(estadoRegistroSeleccionado);
-            entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
-            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-            //Falta agregar usuario de sesion
-            entity.setUsuarioUltimaModificacion("Facturación");
-            entity.setFechaUltimaModificacion(new Date());           
-          
-            
-            businessDelegatorView.updateAreasInvolucradas(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
-            
-            action_clear();
-        }else{
-        	throw new Exception("El nombre "+nombreArea+" ya existe");
-        }
-        } catch (Exception e) {
-            data = null;
-            FacesUtils.addErrorMessage(e.getMessage());
-        }
+				actualizar();
+				action_clear();
+			} else {
+				String nombreTemp = area.getNombreArea();
+				String estadoTemp = area.getEstadoRegistro();
+				
+				if((nombreTemp.equals(nombreArea) && 
+						!estadoTemp.equals(estadoRegistroSeleccionado))){
+					
+					if (!revizarCampos(nombreArea)) {
+						return "";
+					}
+					
+					actualizar();
+					action_clear();
+				}else{
+					throw new Exception("El Rol NO ha sido modificado");
+				}
+			}
+		} catch (Exception e) {
+			data = null;
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
 
-        return "";
-    }
+		return "";
+	}
 
     public String action_delete_datatable(ActionEvent evt) {
         try {

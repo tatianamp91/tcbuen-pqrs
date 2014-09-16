@@ -294,7 +294,7 @@ public class ParametrosPqrView implements Serializable {
 				entity.setValorParam(FacesUtils.checkString(txtValorParam));
 
 				businessDelegatorView.saveParametrosPqr(entity);
-				FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+				FacesUtils.addInfoMessage("El parametro se guardo exitosamente");
 
 				action_clear();
 
@@ -353,6 +353,30 @@ public class ParametrosPqrView implements Serializable {
 		return true;
 
 	}
+	
+	private void actualizar(){
+		try {
+			
+			entity.setDescripcionParam(FacesUtils
+					.checkString(txtDescripcionParam));
+			String estado = (estadoRegistroSeleccionado.equals("Activo")) ? "A"
+					: "I";
+			entity.setEstadoRegistro(estado);
+			entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
+			entity.setFechaUltimaModificacion(new Date());
+			entity.setUsuarioCreador(FacesUtils
+					.checkString(txtUsuarioCreador));
+			entity.setUsuarioUltimaModificacion("Admin-1");
+			entity.setValorParam(FacesUtils.checkString(txtValorParam));
+			businessDelegatorView.updateParametrosPqr(entity);
+			FacesUtils
+					.addInfoMessage("El parametro se modifico exitosamente");
+		} catch (Exception e) {
+			data = null;
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+		
+	}
 
 	public String action_modify() {
 		try {
@@ -367,32 +391,31 @@ public class ParametrosPqrView implements Serializable {
 
 				if (!revizarCampos(descripcionParam, valorParam)) {
 					return "";
-
 				}
-
-				entity.setDescripcionParam(FacesUtils
-						.checkString(txtDescripcionParam));
-				String estado = (estadoRegistroSeleccionado.equals("Activo")) ? "A"
-						: "I";
-				entity.setEstadoRegistro(estado);
-				entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-				entity.setFechaUltimaModificacion(new Date());
-				entity.setUsuarioCreador(FacesUtils
-						.checkString(txtUsuarioCreador));
-				entity.setUsuarioUltimaModificacion("Admin-1");
-				entity.setValorParam(FacesUtils.checkString(txtValorParam));
-				businessDelegatorView.updateParametrosPqr(entity);
-				FacesUtils
-						.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+				actualizar();
 				action_clear();
 			} else {
-				throw new Exception("Ya existe parametro o descripcion");
+				
+				String descripcionTemp = descrpcion.getDescripcionParam();
+				String valorTemp=valor.getEstadoRegistro();
+				String estadoTemp = descrpcion.getEstadoRegistro();
+				
+				if((descripcionTemp.equals(descripcionParam) && 
+						!estadoTemp.equals(estadoRegistroSeleccionado)) && !(valorTemp).equals(valorParam)){
+				
+					if (!revizarCampos(descripcionParam, valorParam)) {
+						return "";
+					}
+					actualizar();
+					action_clear();
+				}else{
+					throw new Exception("Parametro no ha sido modificado, parametro ya existe");
+				}				
 			}
 		} catch (Exception e) {
 			data = null;
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
-
 		return "";
 	}
 

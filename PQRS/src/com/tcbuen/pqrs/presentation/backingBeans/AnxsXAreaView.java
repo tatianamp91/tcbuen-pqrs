@@ -219,7 +219,7 @@ public class AnxsXAreaView implements Serializable {
                 ? businessDelegatorView.getAreasInvolucradas((idAreaInvolucrada)): null);
             
             businessDelegatorView.saveAnxsXArea(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+            FacesUtils.addInfoMessage("El anexo se guardo exitosamente");
             
             action_clear();
         } catch (Exception e) {
@@ -244,7 +244,7 @@ public class AnxsXAreaView implements Serializable {
                 ? businessDelegatorView.getAreasInvolucradas((idAreaInvolucrada)): null);
             
             businessDelegatorView.updateAnxsXArea(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+            FacesUtils.addInfoMessage("El anexo se modifico exitosamente");
             
             action_clear();
         } catch (Exception e) {

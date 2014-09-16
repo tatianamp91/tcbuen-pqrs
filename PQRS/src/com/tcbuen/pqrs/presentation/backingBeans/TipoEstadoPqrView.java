@@ -275,7 +275,7 @@ public class TipoEstadoPqrView implements Serializable {
 			entity.setFechaUltimaModificacion(null);
      
 			businessDelegatorView.saveTipoEstadoPqr(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+            FacesUtils.addInfoMessage("El tipo de estado se guardo exitosamente");
             action_clear();
             
         	} else {
@@ -317,40 +317,64 @@ public class TipoEstadoPqrView implements Serializable {
 	}
     
 
-    public String action_modify() {
-        try {
-        	String descripcionEstado=txtDescripcionEstado.getValue().toString();
-        	TipoEstadoPqr tipoEstadoPqr= ObtenerDesTipoEstado(descripcionEstado);
-        	
-        	if(tipoEstadoPqr == null){
-        		
-        		if(!revizarCampos(descripcionEstado)){
-        			return "";
-        			
-        		}
-
-            entity.setDescripcionEstado(FacesUtils.checkString(txtDescripcionEstado));
-            String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
-            entity.setEstadoRegistro(estado);
-            entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-            entity.setFechaUltimaModificacion(new Date());
-            entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
-            entity.setUsuarioUltimaModificacion("Admin-1");
-            businessDelegatorView.updateTipoEstadoPqr(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
-            action_clear();
-            
-            
-        	} else {
-        		throw new Exception("Ya existe estado");
-        	}
-        } catch (Exception e) {
-            data = null;
-            FacesUtils.addErrorMessage(e.getMessage());
-        }
-
-        return "";
+    private void actualizar(){
+    	try {
+    		
+    		 entity.setDescripcionEstado(FacesUtils.checkString(txtDescripcionEstado));
+             String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
+             entity.setEstadoRegistro(estado);
+             entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
+             entity.setFechaUltimaModificacion(new Date());
+             entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
+             entity.setUsuarioUltimaModificacion("Admin-1");
+             businessDelegatorView.updateTipoEstadoPqr(entity);
+             FacesUtils.addInfoMessage("El tipo de estado se modifico exitosamente");
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
     }
+    
+	public String action_modify() {
+		try {
+
+			String descripcionEstado = txtDescripcionEstado.getValue().toString();
+			TipoEstadoPqr tipoEstadoPqr = ObtenerDesTipoEstado(descripcionEstado);
+
+			if (tipoEstadoPqr == null) {
+
+				if (!revizarCampos(descripcionEstado)) {
+					return "";
+
+				}
+				actualizar();
+				action_clear();
+
+			} else {
+
+				String descripcionTemp = tipoEstadoPqr.getDescripcionEstado();
+				String estadoTemp = tipoEstadoPqr.getEstadoRegistro();
+
+				if ((descripcionTemp.equals(descripcionEstado) && !estadoTemp
+						.equals(estadoRegistroSeleccionado))) {
+
+					if (!revizarCampos(descripcionEstado)) {
+						return "";
+
+					}
+					actualizar();
+					action_clear();
+				} else {
+					throw new Exception("El estado no ha sido modificado, ya existe estado");
+				}
+			}
+		} catch (Exception e) {
+			data = null;
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+
+		return "";
+	}
 
     public String action_delete_datatable(ActionEvent evt) {
         try {

@@ -265,10 +265,10 @@ public class TipoDocumentoView implements Serializable {
                 entity.setUsuarioCreador("Admin");
                 entity.setUsuarioUltimaModificacion(null);
                 businessDelegatorView.saveTipoDocumento(entity);
-                FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+                FacesUtils.addInfoMessage("El tipo de documento se guardo exitosamente");
                 action_clear();
             }else{
-            	throw new Exception("Ya existe Tipo de documento");
+            	throw new Exception("Ya existe tipo de documento");
             }
         	
         	
@@ -296,49 +296,75 @@ public class TipoDocumentoView implements Serializable {
     public boolean revizarCampos(String descripcionTpDoc) throws Exception {
 
 		if (descripcionTpDoc.equals("") || descripcionTpDoc.trim().equals("")) {
-			throw new Exception("Debe de ingresar una Descripcion");
+			throw new Exception("Debe de ingresar una descripción");
 		}
 
 		if (!Utilities.isOnlyLetters2(descripcionTpDoc)) {
 			throw new Exception(
-					"La descripcion ingresada solo debe de contener letras");
+					"La descripción ingresada solo debe de contener letras");
 		}
 		return true;
 
 	}
     
-    public String action_modify() {
-        try {
-        	String descripcionTpDoc =txtDescripcionTpDoc.getValue().toString();
-        	TipoDocumento tipoDocumento= ObtenerDocDescripcion(descripcionTpDoc);
-        	
-            if(tipoDocumento == null){
-            	if(!revizarCampos(descripcionTpDoc)){
-            		return "";
-            	}
-
-            entity.setDescripcionTpDoc(FacesUtils.checkString(txtDescripcionTpDoc));
+    private void actualizar(){
+    	
+    	try {
+    		
+    		entity.setDescripcionTpDoc(FacesUtils.checkString(txtDescripcionTpDoc));
             String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
-			entity.setEstadoRegistro(estado);
+    		entity.setEstadoRegistro(estado);
             entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
             entity.setFechaUltimaModificacion(new Date());
             entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
             entity.setUsuarioUltimaModificacion("Admin-1");
             businessDelegatorView.updateTipoDocumento(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
-            action_clear();
-            
-            }else{
-            	throw new Exception("Ya existe Tipo de documento");
-            }
-        	
-        } catch (Exception e) {
-            data = null;
-            FacesUtils.addErrorMessage(e.getMessage());
-        }
-
-        return "";
+            FacesUtils.addInfoMessage("El tipo de documento se modifico exitosamente");
+			
+		} catch (Exception e) {
+			data = null;
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+        
     }
+    
+	public String action_modify() {
+		try {
+			
+			String descripcionTpDoc = txtDescripcionTpDoc.getValue().toString();
+			TipoDocumento tipoDocumento = ObtenerDocDescripcion(descripcionTpDoc);
+
+			if (tipoDocumento == null) {
+				if (!revizarCampos(descripcionTpDoc)) {
+					return "";
+				}
+				actualizar();
+				action_clear();
+				
+				}else{
+					
+					String descripcionTemp= tipoDocumento.getDescripcionTpDoc();
+					String estadoTemp= tipoDocumento.getEstadoRegistro();
+					
+					if((descripcionTemp.equals(descripcionTpDoc) && 
+							!estadoTemp.equals(estadoRegistroSeleccionado))){
+						
+						if(!revizarCampos(descripcionTpDoc)){
+							return "";
+						}
+						actualizar();
+						action_clear();
+						
+					}else{
+						throw new Exception("El tipo de documento no ha sido modifaco, tipo de documento ya exite");
+					}
+				}		
+			} catch (Exception e) {
+				data = null;
+				FacesUtils.addErrorMessage(e.getMessage());
+		}
+		return "";
+	}
 
     public String action_delete_datatable(ActionEvent evt) {
         try {

@@ -19,7 +19,7 @@
 				</p:dialog>
 				<h:form id="form">
 					<p:panel id="msgProjectClientesTitle" header="Motivos de Reclamación por Tipo de Solicitud">
-						<p:messages id="msg" showDetail="true" />
+						<p:messages id="msg" showDetail="false" />
 						<p:dataTable id="tabla" value="#{motReclXTpSolView.data}"
 							var="Motivos de Reclamación por Tipo de Solicitud"
 							paginator="true" rows="5" editable="true">
@@ -84,7 +84,7 @@
 					visible="#{motReclXTpSolView.showDialog}" resizable="false"
 					modal="true" width="500">
 					<h:form id="formDialog">
-						<p:messages id="msg" showDetail="true" />
+						<p:messages id="msg" showDetail="false" />
 						<p:panel id="panelMotReclXTpSol" header="Nuevo Motivo de Reclamación por Tipo de Solicitud">
 							<h:panelGrid columns="2" id="panelGrid">
 
