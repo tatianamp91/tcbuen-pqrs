@@ -266,8 +266,7 @@ public class TipoEstadoPqrView implements Serializable {
 
             //entity.setIdTpEstPqr(idTpEstPqr);
             entity.setDescripcionEstado(FacesUtils.checkString(txtDescripcionEstado));
-            String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
-            entity.setEstadoRegistro(estado);
+            entity.setEstadoRegistro(estadoRegistroSeleccionado);
             //Falta agregar usuarios sesion
             entity.setUsuarioCreador("Admin");
 			entity.setFechaCreacion(new Date());
@@ -321,8 +320,7 @@ public class TipoEstadoPqrView implements Serializable {
     	try {
     		
     		 entity.setDescripcionEstado(FacesUtils.checkString(txtDescripcionEstado));
-             String estado = (estadoRegistroSeleccionado.equals("Activo"))?"A":"I";
-             entity.setEstadoRegistro(estado);
+    		 entity.setEstadoRegistro(estadoRegistroSeleccionado);
              entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
              entity.setFechaUltimaModificacion(new Date());
              entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));

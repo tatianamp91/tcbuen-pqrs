@@ -302,10 +302,10 @@ public class MotivoReclamacionView implements Serializable {
 			throw new Exception("Debe de ingresar una Descripcion");
 		}
 
-		if (!Utilities.isOnlyLetters2(descripcionMotRecl)) {
+	/*	if (!Utilities.isOnlyLetters2(descripcionMotRecl)) {
 			throw new Exception(
 					"La descripcion ingresada solo debe de contener letras");
-		}
+		}*/
 		return true;
 
 	}
