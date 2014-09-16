@@ -19,7 +19,7 @@
 				</p:dialog>
 				<h:form id="form">
 					<p:panel id="msgProjectClientesTitle" header="Motivos de Solicitud">
-						<p:messages id="msg" showDetail="true" />
+						<p:messages id="msg" showDetail="false" />
 						<p:dataTable id="tabla" value="#{motivoSolicitudView.data}"
 							var="motivoSolicitud" paginator="true" rows="5" editable="true">
 
@@ -76,7 +76,7 @@
 					visible="#{motivoSolicitudView.showDialog}" resizable="false"
 					modal="true" width="500">
 					<h:form id="formDialog">
-						<p:messages id="msg" showDetail="true" />
+						<p:messages id="msg" showDetail="false" />
 						<p:panel id="panelMotivoSolicitud" header="Nuevo Motivo de Solicitud">
 							<h:panelGrid columns="2" id="panelGrid">
 

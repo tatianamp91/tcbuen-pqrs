@@ -20,7 +20,7 @@
 				</p:dialog>
 				<h:form id="form">
 					<p:panel id="msgProjectClientesTitle" header="Tipo de Solicitud">
-						<p:messages id="msg" showDetail="true" />
+						<p:messages id="msg" showDetail="false" />
 						<p:dataTable id="tabla" value="#{tipoSolicitudPqrView.data}"
 							var="tipoSolicitudPqr" paginator="true" rows="5" editable="true">
 
@@ -61,7 +61,7 @@
 					visible="#{tipoSolicitudPqrView.showDialog}" resizable="false"
 					modal="true" width="1200">
 					<h:form id="formDialog">
-						<p:messages id="msg" showDetail="true" />
+						<p:messages id="msg" showDetail="false" />
 						<p:panel id="panelTipoSolicitudPqr"
 							header="Tipo de Solicitud">
 							<h:panelGrid columns="4" id="panelGrid">

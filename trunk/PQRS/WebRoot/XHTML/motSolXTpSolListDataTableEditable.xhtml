@@ -20,7 +20,7 @@
 				<h:form id="form">
 					<p:panel id="msgProjectClientesTitle"
 						header="Motivos de Solicitud por Tipo de Solicitud">
-						<p:messages id="msg" showDetail="true" />
+						<p:messages id="msg" showDetail="false" />
 						<p:dataTable id="tabla" value="#{motSolXTpSolView.data}"
 							var="motSolXTpSol" paginator="true" rows="5" editable="true">
 
@@ -84,7 +84,7 @@
 					visible="#{motSolXTpSolView.showDialog}" resizable="false"
 					modal="true" width="500">
 					<h:form id="formDialog">
-						<p:messages id="msg" showDetail="true" />
+						<p:messages id="msg" showDetail="false" />
 						<p:panel id="panelMotSolXTpSol"
 							header="Nuevo Motivo de Solicitud por Tipo de Solicitud">
 							<h:panelGrid columns="2" id="panelGrid">

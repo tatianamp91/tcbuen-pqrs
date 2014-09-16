@@ -254,7 +254,7 @@ public class AnexosPqrView implements Serializable {
             entity.setFechaUltimaModificacion(null);   
             
             businessDelegatorView.saveAnexosPqr(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+            FacesUtils.addInfoMessage("El anexo se guardo exitosamente");
             
             action_clear();
         } catch (Exception e) {
@@ -281,7 +281,7 @@ public class AnexosPqrView implements Serializable {
             entity.setUsuarioUltimaModificacion("Facturación");
             businessDelegatorView.updateAnexosPqr(entity);
             
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+            FacesUtils.addInfoMessage("El anexo se modifico exitosamente");
             
             action_clear();
         } catch (Exception e) {

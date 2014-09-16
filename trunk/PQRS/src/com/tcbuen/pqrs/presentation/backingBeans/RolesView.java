@@ -257,7 +257,7 @@ public class RolesView implements Serializable {
 				entity.setUsuarioUltimaModificacion(null);
 
 				businessDelegatorView.saveRoles(entity);
-				FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+				FacesUtils.addInfoMessage("El rol se guardo exitosamente");
 
 				action_clear();
 
@@ -287,7 +287,7 @@ public class RolesView implements Serializable {
 	public boolean revizarCampos(String nombreRol) throws Exception {
 
 		if (nombreRol.equals("") || nombreRol.trim().equals("")) {
-			throw new Exception("Debe de ingresar una Descripcion");
+			throw new Exception("Debe de ingresar una descripción");
 		}
 
 		if (!Utilities.isOnlyLetters2(nombreRol)) {
@@ -311,7 +311,7 @@ public class RolesView implements Serializable {
 
 			businessDelegatorView.updateRoles(entity);
 			FacesUtils
-					.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+					.addInfoMessage("El rol se modifico exitosamente");
 
 		} catch (Exception e) {
 			data = null;
@@ -342,7 +342,7 @@ public class RolesView implements Serializable {
 					actualizar();
 					action_clear();
 				}else{
-					throw new Exception("El Rol no ha sido modificado, porque no ha cambiado nada");
+					throw new Exception("El Rol no ha sido modificado, ya exite rol");
 				}
 			}
 		} catch (Exception e) {

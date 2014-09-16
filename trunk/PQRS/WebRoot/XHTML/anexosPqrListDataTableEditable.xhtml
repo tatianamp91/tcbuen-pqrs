@@ -20,7 +20,7 @@
 				</p:dialog>
 				<h:form id="form">
 					<p:panel id="msgProjectClientesTitle" header="Anexos">
-						<p:messages id="msg" showDetail="true" />
+						<p:messages id="msg" showDetail="false" />
 						<p:dataTable id="tabla" value="#{anexosPqrView.data}"
 							var="anexosPqr" paginator="true" rows="5" editable="true">
 
@@ -74,7 +74,7 @@
 					closable="false" visible="#{anexosPqrView.showDialog}"
 					resizable="false" modal="true" width="500">
 					<h:form id="formDialog">
-						<p:messages id="msg" showDetail="true" />
+						<p:messages id="msg" showDetail="false" />
 						<p:panel id="panelAnexosPqr" header="Nuevo Anexo">
 							<h:panelGrid columns="2" id="panelGrid">
 
