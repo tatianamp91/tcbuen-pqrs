@@ -137,7 +137,7 @@ public class AnexosPqrLogic implements IAnexosPqrLogic {
 
             anexosPqrDAO.save(entity);
         } catch (Exception e) {
-            throw e;
+        	throw new Exception("Error Guardando Anexo");
         } finally {
         }
     }
@@ -186,7 +186,7 @@ public class AnexosPqrLogic implements IAnexosPqrLogic {
 
             anexosPqrDAO.delete(entity);
         } catch (Exception e) {
-            throw e;
+        	throw new Exception("Error Eliminando Anexo");
         } finally {
         }
     }
@@ -239,7 +239,7 @@ public class AnexosPqrLogic implements IAnexosPqrLogic {
 
             anexosPqrDAO.update(entity);
         } catch (Exception e) {
-            throw e;
+        	throw new Exception("Error Modificando Anexo");
         } finally {
         }
     }
@@ -270,7 +270,7 @@ public class AnexosPqrLogic implements IAnexosPqrLogic {
 
             return anexosPqrDTO;
         } catch (Exception e) {
-            throw e;
+        	throw new Exception("Error Consultando Anexo");
         }
     }
 
@@ -298,7 +298,7 @@ public class AnexosPqrLogic implements IAnexosPqrLogic {
             entity = anexosPqrDAO.findPage(sortColumnName, sortAscending,
                     startRow, maxResults);
         } catch (Exception e) {
-            throw new ZMessManager().new FindingException("AnexosPqr Count");
+            throw new ZMessManager().new FindingException("Cuenta AnexosPqr");
         } finally {
         }
 
@@ -312,7 +312,7 @@ public class AnexosPqrLogic implements IAnexosPqrLogic {
         try {
             entity = anexosPqrDAO.count();
         } catch (Exception e) {
-            throw new ZMessManager().new FindingException("AnexosPqr Count");
+            throw new ZMessManager().new FindingException("Cuenta AnexosPqr");
         } finally {
         }
 
@@ -456,7 +456,7 @@ public class AnexosPqrLogic implements IAnexosPqrLogic {
                         value2 = Utilities.formatDateWithoutTimeInAStringForBetweenWhere(date2);
                     } catch (Exception e) {
                         list = null;
-                        throw e;
+                        throw new Exception(e.getMessage());
                     }
 
                     tempWhere = (tempWhere.length() == 0)

@@ -150,7 +150,7 @@ public class MotivoReclamacionLogic implements IMotivoReclamacionLogic {
 
             motivoReclamacionDAO.save(entity);
         } catch (Exception e) {
-            throw e;
+        	throw new Exception("Error Guardando Motivo de Reclamación");
         } finally {
         }
     }
@@ -187,7 +187,7 @@ public class MotivoReclamacionLogic implements IMotivoReclamacionLogic {
 
             motivoReclamacionDAO.delete(entity);
         } catch (Exception e) {
-            throw e;
+        	throw new Exception("Error Eliminando Motivo de Reclamación");
         } finally {
         }
     }
@@ -252,7 +252,7 @@ public class MotivoReclamacionLogic implements IMotivoReclamacionLogic {
 
             motivoReclamacionDAO.update(entity);
         } catch (Exception e) {
-            throw e;
+        	throw new Exception("Error Modificando Motivo de Reclamación");
         } finally {
         }
     }
@@ -284,7 +284,7 @@ public class MotivoReclamacionLogic implements IMotivoReclamacionLogic {
 
             return motivoReclamacionDTO;
         } catch (Exception e) {
-            throw e;
+        	throw new Exception("Error Consultando Motivo de Reclamación");
         }
     }
 
@@ -473,7 +473,7 @@ public class MotivoReclamacionLogic implements IMotivoReclamacionLogic {
                         value2 = Utilities.formatDateWithoutTimeInAStringForBetweenWhere(date2);
                     } catch (Exception e) {
                         list = null;
-                        throw e;
+                        throw new Exception(e.getMessage());
                     }
 
                     tempWhere = (tempWhere.length() == 0)

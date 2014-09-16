@@ -147,7 +147,7 @@ public class MotivoSolicitudLogic implements IMotivoSolicitudLogic {
 
             motivoSolicitudDAO.save(entity);
         } catch (Exception e) {
-            throw e;
+        	throw new Exception("Error Guardando Motivo de Solicitud");
         } finally {
         }
     }
@@ -183,7 +183,7 @@ public class MotivoSolicitudLogic implements IMotivoSolicitudLogic {
 
             motivoSolicitudDAO.delete(entity);
         } catch (Exception e) {
-            throw e;
+        	throw new Exception("Error Eliminando Motivo de Solicitud");
         } finally {
         }
     }
@@ -247,7 +247,7 @@ public class MotivoSolicitudLogic implements IMotivoSolicitudLogic {
 
             motivoSolicitudDAO.update(entity);
         } catch (Exception e) {
-            throw e;
+        	throw new Exception("Error Modificando Motivo de Solicitud");
         } finally {
         }
     }
@@ -279,7 +279,7 @@ public class MotivoSolicitudLogic implements IMotivoSolicitudLogic {
 
             return motivoSolicitudDTO;
         } catch (Exception e) {
-            throw e;
+        	throw new Exception("Error Consultando Motivo de Solicitud");
         }
     }
 
@@ -468,7 +468,7 @@ public class MotivoSolicitudLogic implements IMotivoSolicitudLogic {
                         value2 = Utilities.formatDateWithoutTimeInAStringForBetweenWhere(date2);
                     } catch (Exception e) {
                         list = null;
-                        throw e;
+                        throw new Exception(e.getMessage());
                     }
 
                     tempWhere = (tempWhere.length() == 0)
