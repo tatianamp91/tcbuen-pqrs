@@ -274,6 +274,7 @@ public class TipoSolicitudPqrView implements Serializable {
 			entity = (idTpSolPqr != null) ? businessDelegatorView
 					.getTipoSolicitudPqr(idTpSolPqr) : null;
 		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
 			entity = null;
 		}
 
@@ -530,7 +531,7 @@ public class TipoSolicitudPqrView implements Serializable {
 			action_clear();
 			data = null;
 		} catch (Exception e) {
-			throw e;
+			FacesUtils.addErrorMessage(e.getMessage());
 		}
 	}
 
@@ -648,7 +649,7 @@ public class TipoSolicitudPqrView implements Serializable {
 				data = businessDelegatorView.getDataTipoSolicitudPqr();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			FacesUtils.addErrorMessage(e.getMessage());
 		}
 
 		return data;

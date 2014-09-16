@@ -7,16 +7,12 @@ import com.tcbuen.pqrs.modelo.dto.AnxsXTpSolDTO;
 import com.tcbuen.pqrs.utilities.Utilities;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.context.annotation.Scope;
-
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -133,7 +129,7 @@ public class AnxsXTpSolLogic implements IAnxsXTpSolLogic {
 
             anxsXTpSolDAO.save(entity);
         } catch (Exception e) {
-            throw e;
+        	throw new Exception("Error Guardando Anexo por Tipo de Solicitud");
         } finally {
         }
     }
@@ -151,7 +147,7 @@ public class AnxsXTpSolLogic implements IAnxsXTpSolLogic {
         try {
             anxsXTpSolDAO.delete(entity);
         } catch (Exception e) {
-            throw e;
+        	throw new Exception("Error Eliminando Anexo por Tipo de Solicitud");
         } finally {
         }
     }
@@ -222,7 +218,7 @@ public class AnxsXTpSolLogic implements IAnxsXTpSolLogic {
 
             anxsXTpSolDAO.update(entity);
         } catch (Exception e) {
-            throw e;
+        	throw new Exception("Error Modificando Anexo por Tipo de Solicitud");
         } finally {
         }
     }
@@ -251,7 +247,7 @@ public class AnxsXTpSolLogic implements IAnxsXTpSolLogic {
 
             return anxsXTpSolDTO;
         } catch (Exception e) {
-            throw e;
+        	throw new Exception("Error Consultando Anexo por Tipo de Solicitud");
         }
     }
 
@@ -280,7 +276,7 @@ public class AnxsXTpSolLogic implements IAnxsXTpSolLogic {
             entity = anxsXTpSolDAO.findPage(sortColumnName, sortAscending,
                     startRow, maxResults);
         } catch (Exception e) {
-            throw new ZMessManager().new FindingException("AnxsXTpSol Count");
+            throw new ZMessManager().new FindingException("Cuenta AnxsXTpSol");
         } finally {
         }
 
@@ -294,7 +290,7 @@ public class AnxsXTpSolLogic implements IAnxsXTpSolLogic {
         try {
             entity = anxsXTpSolDAO.count();
         } catch (Exception e) {
-            throw new ZMessManager().new FindingException("AnxsXTpSol Count");
+            throw new ZMessManager().new FindingException("Cuenta AnxsXTpSol");
         } finally {
         }
 
@@ -438,7 +434,7 @@ public class AnxsXTpSolLogic implements IAnxsXTpSolLogic {
                         value2 = Utilities.formatDateWithoutTimeInAStringForBetweenWhere(date2);
                     } catch (Exception e) {
                         list = null;
-                        throw e;
+                        throw new Exception(e.getMessage());
                     }
 
                     tempWhere = (tempWhere.length() == 0)

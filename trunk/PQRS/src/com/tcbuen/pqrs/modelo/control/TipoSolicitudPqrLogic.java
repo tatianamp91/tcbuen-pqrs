@@ -140,7 +140,7 @@ public class TipoSolicitudPqrLogic implements ITipoSolicitudPqrLogic {
 
             tipoSolicitudPqrDAO.save(entity);
         } catch (Exception e) {
-            throw e;
+        	throw new Exception("Error Guardando Tipo de Solicitud");
         } finally {
         }
     }
@@ -192,7 +192,7 @@ public class TipoSolicitudPqrLogic implements ITipoSolicitudPqrLogic {
 
             tipoSolicitudPqrDAO.delete(entity);
         } catch (Exception e) {
-            throw e;
+        	throw new Exception("Error eliminando Tipo de Solicitud");
         } finally {
         }
     }
@@ -256,7 +256,7 @@ public class TipoSolicitudPqrLogic implements ITipoSolicitudPqrLogic {
 
             tipoSolicitudPqrDAO.update(entity);
         } catch (Exception e) {
-            throw e;
+        	throw new Exception("Error Modificando Tipo de Solicitud");
         } finally {
         }
     }
@@ -288,7 +288,7 @@ public class TipoSolicitudPqrLogic implements ITipoSolicitudPqrLogic {
 
             return tipoSolicitudPqrDTO;
         } catch (Exception e) {
-            throw e;
+        	throw new Exception("Error Consultando Tipo de Soliciud");
         }
     }
 
@@ -300,7 +300,7 @@ public class TipoSolicitudPqrLogic implements ITipoSolicitudPqrLogic {
         try {
             entity = tipoSolicitudPqrDAO.findById(idTpSolPqr);
         } catch (Exception e) {
-            throw new ZMessManager().new FindingException("TipoSolicitudPqr");
+            throw new ZMessManager().new FindingException("Tipo de Solicitud");
         } finally {
         }
 
@@ -318,7 +318,7 @@ public class TipoSolicitudPqrLogic implements ITipoSolicitudPqrLogic {
                     sortAscending, startRow, maxResults);
         } catch (Exception e) {
             throw new ZMessManager().new FindingException(
-                "TipoSolicitudPqr Count");
+                "Cuenta Tipo Solicitud");
         } finally {
         }
 
@@ -333,7 +333,7 @@ public class TipoSolicitudPqrLogic implements ITipoSolicitudPqrLogic {
             entity = tipoSolicitudPqrDAO.count();
         } catch (Exception e) {
             throw new ZMessManager().new FindingException(
-                "TipoSolicitudPqr Count");
+                "Cuenta Tipo de Solicitud");
         } finally {
         }
 
@@ -477,7 +477,7 @@ public class TipoSolicitudPqrLogic implements ITipoSolicitudPqrLogic {
                         value2 = Utilities.formatDateWithoutTimeInAStringForBetweenWhere(date2);
                     } catch (Exception e) {
                         list = null;
-                        throw e;
+                        throw new Exception(e.getMessage());
                     }
 
                     tempWhere = (tempWhere.length() == 0)

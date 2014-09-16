@@ -7,16 +7,12 @@ import com.tcbuen.pqrs.modelo.dto.MotSolXTpSolDTO;
 import com.tcbuen.pqrs.utilities.Utilities;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.context.annotation.Scope;
-
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -122,7 +118,7 @@ public class MotSolXTpSolLogic implements IMotSolXTpSolLogic {
 
             motSolXTpSolDAO.save(entity);
         } catch (Exception e) {
-            throw e;
+        	throw new Exception("Error Guardando Motivo de Solicitud por Tipo de Solicitud");
         } finally {
         }
     }
@@ -141,7 +137,7 @@ public class MotSolXTpSolLogic implements IMotSolXTpSolLogic {
         try {
             motSolXTpSolDAO.delete(entity);
         } catch (Exception e) {
-            throw e;
+        	throw new Exception("Error Eliminando Motivo de Solicitud por Tipo de Solicitud");
         } finally {
         }
     }
@@ -201,7 +197,7 @@ public class MotSolXTpSolLogic implements IMotSolXTpSolLogic {
 
             motSolXTpSolDAO.update(entity);
         } catch (Exception e) {
-            throw e;
+        	throw new Exception("Error Modificando Motivo de Solicitud por Tipo de Solicitud");
         } finally {
         }
     }
@@ -229,7 +225,7 @@ public class MotSolXTpSolLogic implements IMotSolXTpSolLogic {
 
             return motSolXTpSolDTO;
         } catch (Exception e) {
-            throw e;
+        	throw new Exception("Error Consultando Motivo de Solicitud por Tipo de Solicitud");
         }
     }
 
@@ -416,7 +412,7 @@ public class MotSolXTpSolLogic implements IMotSolXTpSolLogic {
                         value2 = Utilities.formatDateWithoutTimeInAStringForBetweenWhere(date2);
                     } catch (Exception e) {
                         list = null;
-                        throw e;
+                        throw new Exception(e.getMessage());
                     }
 
                     tempWhere = (tempWhere.length() == 0)
