@@ -333,16 +333,16 @@ public class RolesView implements Serializable {
 				action_clear();
 			}else{
 				String nombreTemp = nombre.getNombreRol();
-				String estadoTemp = nombre.getEstadoRegistro();
+				Long idTemp = nombre.getIdRol();
 				
-				if ((nombreTemp.equals(nombreRol) && !estadoTemp.equals(estadoRegistroSeleccionado))){
+				if ((nombreTemp.equals(nombreRol) && idTemp == entity.getIdRol().longValue())){
 					if (!revizarCampos(nombreRol)) {
 						return "";
 					}
 					actualizar();
 					action_clear();
 				}else{
-					throw new Exception("El Rol no ha sido modificado, ya exite rol");
+					throw new Exception("El Rol no ha sido modificado, ya existe el rol");
 				}
 			}
 		} catch (Exception e) {

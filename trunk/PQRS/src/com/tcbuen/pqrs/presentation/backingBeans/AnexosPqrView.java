@@ -342,10 +342,9 @@ public class AnexosPqrView implements Serializable {
 			} else {
 
 				String descripcionTemp = anexos.getDescripcionAnexo();
-				String estadoTemp = anexos.getEstadoRegistro();
+				Long idTemp = anexos.getIdAnexoPqr();
 
-				if ((descripcionTemp.equals(descripcionAnexo) && !estadoTemp
-						.equals(estadoRegistroSeleccionado))) {
+				if (descripcionTemp.equals(descripcionAnexo) && idTemp == entity.getIdAnexoPqr().longValue()) {
 
 					if (!revizarCampos(descripcionAnexo)) {
 						return "";

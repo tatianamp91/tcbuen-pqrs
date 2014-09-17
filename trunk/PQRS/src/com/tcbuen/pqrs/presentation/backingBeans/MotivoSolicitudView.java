@@ -343,10 +343,9 @@ public class MotivoSolicitudView implements Serializable {
             
         	}else{
         		String motivoTemp = motivoSolicitud.getDescripcionMotSol();
-        		String estadoTemp = motivoSolicitud.getEstadoRegistro();
+        		Long idTemp = motivoSolicitud.getIdMotSol();
         		
-        		if((motivoTemp.equals(descripcionMotSol) && 
-        				!estadoTemp.equals(estadoRegistroSeleccionado))){
+        		if((motivoTemp.equals(descripcionMotSol) && idTemp == entity.getIdMotSol().longValue())){
         			
         			if(!revizarCampos(descripcionMotSol)){
         				return "";        				
@@ -354,7 +353,7 @@ public class MotivoSolicitudView implements Serializable {
         			actualizar();
             		action_clear();
         		}else{
-        			throw new Exception("El motivo solicitud no ha sido modificado");
+        			throw new Exception("El motivo solicitud no ha sido modificado, ya existe el motivo de solicitud");
         		}
         	}
         } catch (Exception e) {

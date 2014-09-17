@@ -333,35 +333,33 @@ public class TipoDocumentoView implements Serializable {
 			TipoDocumento tipoDocumento = ObtenerDocDescripcion(descripcionTpDoc);
 
 			if (tipoDocumento == null) {
-				
 				if (!revizarCampos(descripcionTpDoc)) {
 					return "";
 				}
-
 				actualizar();
 				action_clear();
-			} else {
-				String nombreTemp = tipoDocumento.getDescripcionTpDoc();
-				String estadoTemp = tipoDocumento.getEstadoRegistro();
 				
-				if((nombreTemp.equals(descripcionTpDoc) && 
-						!estadoTemp.equals(estadoRegistroSeleccionado))){
-					
-					if (!revizarCampos(descripcionTpDoc)) {
-						return "";
-					}
-					
-					actualizar();
-					action_clear();
 				}else{
-					throw new Exception("El tipo documento NO ha sido modificado, tipo documento ya exite");
-				}
-			}
-		} catch (Exception e) {
-			data = null;
-			FacesUtils.addErrorMessage(e.getMessage());
+					
+					String descripcionTemp= tipoDocumento.getDescripcionTpDoc();
+					Long idTemp = tipoDocumento.getIdTpDoc();
+					
+					if((descripcionTemp.equals(descripcionTpDoc) && idTemp == entity.getIdTpDoc().longValue())){
+						
+						if(!revizarCampos(descripcionTpDoc)){
+							return "";
+						}
+						actualizar();
+						action_clear();
+						
+					}else{
+						throw new Exception("El tipo de documento no ha sido modifaco, ya existe tipo de documento");
+					}
+				}		
+			} catch (Exception e) {
+				data = null;
+				FacesUtils.addErrorMessage(e.getMessage());
 		}
-
 		return "";
 	}
 
