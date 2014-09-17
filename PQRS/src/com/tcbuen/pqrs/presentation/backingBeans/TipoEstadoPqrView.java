@@ -351,10 +351,9 @@ public class TipoEstadoPqrView implements Serializable {
 			} else {
 
 				String descripcionTemp = tipoEstadoPqr.getDescripcionEstado();
-				String estadoTemp = tipoEstadoPqr.getEstadoRegistro();
+				Long idTemp = tipoEstadoPqr.getIdTpEstPqr();
 
-				if ((descripcionTemp.equals(descripcionEstado) && !estadoTemp
-						.equals(estadoRegistroSeleccionado))) {
+				if ((descripcionTemp.equals(descripcionEstado) && idTemp == entity.getIdTpEstPqr().longValue())) {
 
 					if (!revizarCampos(descripcionEstado)) {
 						return "";

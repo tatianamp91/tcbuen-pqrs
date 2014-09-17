@@ -348,10 +348,9 @@ public class MotivoReclamacionView implements Serializable {
 
 			} else {
 				String descripcionTemp = motReclamacion.getDescripcionMotRecl();
-				String estadoTemp = motReclamacion.getEstadoRegistro();
+				Long idTemp = motReclamacion.getIdMotRecl();
 
-				if ((descripcionTemp.equals(descripcionMotRecl) && 
-						!estadoTemp.equals(estadoRegistroSeleccionado))) {
+				if ((descripcionTemp.equals(descripcionMotRecl) && idTemp == entity.getIdMotRecl().longValue())) {
 					if (!revizarCampos(descripcionMotRecl)) {
 						return "";
 					}

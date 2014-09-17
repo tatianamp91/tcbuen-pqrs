@@ -396,18 +396,23 @@ public class ParametrosPqrView implements Serializable {
 			} else {
 				
 				String descripcionTemp = descrpcion.getDescripcionParam();
-				String valorTemp=valor.getEstadoRegistro();
-				String estadoTemp = descrpcion.getEstadoRegistro();
+				String valorTemp=valor.getValorParam();
+				Long idTemp = descrpcion.getIdParam();
 				
 				if((descripcionTemp.equals(descripcionParam) && 
-						!estadoTemp.equals(estadoRegistroSeleccionado)) && !valorTemp.equals(valorParam)){				
+						idTemp != entity.getIdParam().longValue() && !(valorTemp).equals(valorParam))
+						|| (!descripcionTemp.equals(descripcionParam) && 
+						idTemp != entity.getIdParam().longValue() && (valorTemp).equals(valorParam))
+						|| (descripcionTemp.equals(descripcionParam) && 
+						idTemp == entity.getIdParam().longValue() && (valorTemp).equals(valorParam))){
+				
 					if (!revizarCampos(descripcionParam, valorParam)) {
 						return "";
 					}
 					actualizar();
 					action_clear();
 				}else{
-					throw new Exception("Parametro no ha sido modificado, parametro ya existe");
+					throw new Exception("Parametro no ha sido modificado, ya existe el parametro");
 				}				
 			}
 		} catch (Exception e) {

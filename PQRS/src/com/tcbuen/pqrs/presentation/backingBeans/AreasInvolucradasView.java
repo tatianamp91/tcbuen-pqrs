@@ -332,33 +332,27 @@ public class AreasInvolucradasView implements Serializable {
 
 	public String action_modify() {
 		try {
-
 			String nombreArea = txtNombreArea.getValue().toString();
 			AreasInvolucradas area = ObtenerArea(nombreArea);
 
-			if (area == null) {
-				
+			if (area == null) {				
 				if (!revizarCampos(nombreArea)) {
 					return "";
 				}
-
 				actualizar();
 				action_clear();
 			} else {
 				String nombreTemp = area.getNombreArea();
-				String estadoTemp = area.getEstadoRegistro();
+				Long idTemp = area.getIdAreaInvolucrada();
 				
-				if((nombreTemp.equals(nombreArea) && 
-						!estadoTemp.equals(estadoRegistroSeleccionado))){
-					
+				if((nombreTemp.equals(nombreArea) && idTemp == entity.getIdAreaInvolucrada().longValue())){					
 					if (!revizarCampos(nombreArea)) {
 						return "";
-					}
-					
+					}					
 					actualizar();
 					action_clear();
 				}else{
-					throw new Exception("El área NO ha sido modificado, área ya exite");
+					throw new Exception("El Area No ha sido modificado, ya existe el area");
 				}
 			}
 		} catch (Exception e) {
