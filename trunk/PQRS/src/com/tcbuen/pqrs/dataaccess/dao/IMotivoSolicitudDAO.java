@@ -13,6 +13,8 @@ import com.tcbuen.pqrs.modelo.TipoSolicitudPqr;
 */
 public interface IMotivoSolicitudDAO extends Dao<MotivoSolicitud, Long> {
 	
+	public List<MotivoSolicitud> consultarMotivosSolicitud() throws Exception;
+	
 	public List<MotivoSolicitud> consultarMotSolXTipoPqr(TipoSolicitudPqr tipoSolicitudPqr) throws Exception;
 	
 	public List<MotivoSolicitud> consultarMotSolNoTipoPqr(TipoSolicitudPqr tipoSolicitudPqr) throws Exception;

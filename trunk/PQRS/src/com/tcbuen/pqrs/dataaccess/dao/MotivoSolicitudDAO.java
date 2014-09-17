@@ -47,6 +47,18 @@ public class MotivoSolicitudDAO extends HibernateDaoImpl<MotivoSolicitud, Long>
         return (IMotivoSolicitudDAO) ctx.getBean("MotivoSolicitudDAO");
     }
     
+    @Override
+	public List<MotivoSolicitud> consultarMotivosSolicitud() throws Exception {
+    	
+		String hql = "Select motivoSolicitud from MotivoSolicitud motivoSolicitud "
+					+ "where motivoSolicitud.estadoRegistro = 'A' ";
+		
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		List<MotivoSolicitud> motivoSolicitud = query.list();
+		
+		return motivoSolicitud;
+	}
+    
 	@Override
 	public List<MotivoSolicitud> consultarMotSolXTipoPqr(TipoSolicitudPqr tipoSolicitudPqr) throws Exception {
 		

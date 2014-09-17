@@ -78,6 +78,18 @@ public class AnexosPqrLogic implements IAnexosPqrLogic {
     }
     
     @Transactional(readOnly = true)
+    public List<AnexosPqr> consultarAnexos() throws Exception{
+    	List<AnexosPqr> anexosPqrs = new ArrayList<AnexosPqr>();
+    	try{
+    		anexosPqrs = anexosPqrDAO.consultarAnexos();
+    	}catch(Exception e){
+    		throw new ZMessManager().new GettingException(ZMessManager.ALL + 
+    				"Anexos por estado");
+    	}
+    	return anexosPqrs;
+    }
+    
+    @Transactional(readOnly = true)
     public List<AnexosPqr> consultarAnxsXTipoPqr(TipoSolicitudPqr tipoSolicitudPqr)
         	throws Exception{
     	List<AnexosPqr> anexosPqrs = new ArrayList<AnexosPqr>();

@@ -63,6 +63,18 @@ public class MotivoReclamacionLogic implements IMotivoReclamacionLogic {
 
         return list;
     }
+    
+    @Transactional(readOnly = true)
+    public List<MotivoReclamacion> consultarMotivosReclamacion() throws Exception{
+    	List<MotivoReclamacion> motivoReclamacion = new ArrayList<MotivoReclamacion>();
+    	try{
+    		motivoReclamacion = motivoReclamacionDAO.consultarMotivosReclamacion();
+    	}catch(Exception e){
+    		throw new ZMessManager().new GettingException(ZMessManager.ALL + 
+    				"Motivos de Reclamación por Estado");
+    	}
+    	return motivoReclamacion;
+    }
 
     @Transactional(readOnly = true)
     public List<MotivoReclamacion> consultarMotReclXTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)

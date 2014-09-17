@@ -48,6 +48,18 @@ public class AnexosPqrDAO extends HibernateDaoImpl<AnexosPqr, Long>
     }
     
     @Override
+	public List<AnexosPqr> consultarAnexos() throws Exception {
+			
+		String hql = "Select anexosPqr from AnexosPqr anexosPqr "
+					+ "where anexosPqr.estadoRegistro = 'A' ";
+		
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		List<AnexosPqr> anexosPqr = query.list();
+		
+		return anexosPqr;
+	}
+    
+    @Override
 	public List<AnexosPqr> consultarAnxsXTipoPqr(TipoSolicitudPqr tipoSolicitudPqr) throws Exception {
 			
 		String hql = "Select anexosPqr from AnxsXTpSol anxsXTpSol, AnexosPqr anexosPqr "
