@@ -1,14 +1,13 @@
 package com.tcbuen.pqrs.modelo.control;
 
+import com.tcbuen.pqrs.modelo.AnexosPqr;
+import com.tcbuen.pqrs.modelo.MotivoReclamacion;
+import com.tcbuen.pqrs.modelo.MotivoSolicitud;
 import com.tcbuen.pqrs.modelo.TipoSolicitudPqr;
 import com.tcbuen.pqrs.modelo.dto.TipoSolicitudPqrDTO;
 
 import java.math.BigDecimal;
-
 import java.util.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -43,6 +42,12 @@ public interface ITipoSolicitudPqrLogic {
          * Load an existing TipoSolicitudPqr entity
          *
          */
+    
+    public void save_mot_recl_mot_sol_anxs_x_tipo(TipoSolicitudPqr tipoSol, List<MotivoReclamacion> motivosReclamacionTargetCopia,
+    		List<MotivoReclamacion> motivosReclamacionTarget, List<MotivoSolicitud> motivosSolicitudTargetCopia,
+			List<MotivoSolicitud> motivosSolicitudTarget, List<AnexosPqr> anexosPqrTargetCopia,
+			List<AnexosPqr> anexosPqrTarget) throws Exception;
+			
     public TipoSolicitudPqr getTipoSolicitudPqr(Long idTpSolPqr)
         throws Exception;
 

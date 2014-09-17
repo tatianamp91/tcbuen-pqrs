@@ -658,6 +658,14 @@ public interface IBusinessDelegatorView {
 
     public TipoSolicitudPqr getTipoSolicitudPqr(Long idTpSolPqr)
         throws Exception;
+    
+    public void save_mot_recl_mot_sol_anxs_x_tipo(TipoSolicitudPqr tipoSol,
+    		List<MotivoReclamacion> motivosReclamacionTargetCopia,
+    		List<MotivoReclamacion> motivosReclamacionTarget,
+    		List<MotivoSolicitud> motivosSolicitudTargetCopia,
+			List<MotivoSolicitud> motivosSolicitudTarget,
+			List<AnexosPqr> anexosPqrTargetCopia,
+			List<AnexosPqr> anexosPqrTarget) throws Exception;
 
     public List<TipoSolicitudPqr> findByCriteriaInTipoSolicitudPqr(
         Object[] variables, Object[] variablesBetween,
