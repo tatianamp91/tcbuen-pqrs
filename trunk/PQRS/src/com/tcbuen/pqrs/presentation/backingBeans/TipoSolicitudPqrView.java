@@ -367,10 +367,15 @@ public class TipoSolicitudPqrView implements Serializable {
 
 			businessDelegatorView.saveTipoSolicitudPqr(entity);
 			TipoSolicitudPqr tipoSol = businessDelegatorView.getTipoSolicitudPqr(entity.getIdTpSolPqr());
-			action_create_mot_recl(tipoSol);
-			action_create_mot_sol(tipoSol);
-			action_create_anexos(tipoSol);
-
+			motivosReclamacionTarget = motivosReclamacion.getTarget();
+			motivosSolicitudTarget = motivosSolicitud.getTarget();
+			anexosPqrTarget = anexosPqr.getTarget();
+			
+			businessDelegatorView.save_mot_recl_mot_sol_anxs_x_tipo( tipoSol, motivosReclamacionTargetCopia,
+		    		motivosReclamacionTarget, motivosSolicitudTargetCopia,
+					motivosSolicitudTarget, anexosPqrTargetCopia,
+					anexosPqrTarget);
+			
 			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
 			action_clear();
 		} catch (Exception e) {
@@ -395,102 +400,19 @@ public class TipoSolicitudPqrView implements Serializable {
 
 			businessDelegatorView.updateTipoSolicitudPqr(entity);
 			TipoSolicitudPqr tipoSol = businessDelegatorView.getTipoSolicitudPqr(entity.getIdTpSolPqr());
-			action_create_mot_recl(tipoSol);
-			action_create_mot_sol(tipoSol);
-			action_create_anexos(tipoSol);
+			motivosReclamacionTarget = motivosReclamacion.getTarget();
+			motivosSolicitudTarget = motivosSolicitud.getTarget();
+			anexosPqrTarget = anexosPqr.getTarget();
+			
+			businessDelegatorView.save_mot_recl_mot_sol_anxs_x_tipo( tipoSol, motivosReclamacionTargetCopia,
+		    		motivosReclamacionTarget, motivosSolicitudTargetCopia,
+					motivosSolicitudTarget, anexosPqrTargetCopia,
+					anexosPqrTarget);
 
 			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
 			action_clear();
 		} catch (Exception e) {
 			data = null;
-			FacesUtils.addErrorMessage(e.getMessage());
-		}
-		return "";
-	}
-
-	public String action_create_mot_recl(TipoSolicitudPqr tipoSol) {
-		try {
-			if (motivosReclamacionTargetCopia != null) {
-				List<MotReclXTpSol> motReclXTpSol = businessDelegatorView.getMotReclXTpSol();
-				for (MotivoReclamacion mtrc : motivosReclamacionTargetCopia) {
-					for (MotReclXTpSol motRecl : motReclXTpSol) {
-						if (mtrc.getIdMotRecl() == motRecl.getMotivoReclamacion().getIdMotRecl()
-								&& motRecl.getTipoSolicitudPqr().getIdTpSolPqr() == tipoSol.getIdTpSolPqr()) {
-							businessDelegatorView.deleteMotReclXTpSol(motRecl);
-						}
-					}
-				}
-			}
-			motivosReclamacionTarget = motivosReclamacion.getTarget();
-			for (Object object : motivosReclamacionTarget) {
-				String value = (String) object;
-				MotivoReclamacion motRecl = businessDelegatorView.getMotivoReclamacion(Long.parseLong(value));
-				MotReclXTpSol motReclXTpSol = new MotReclXTpSol();
-				motReclXTpSol.setMotivoReclamacion(motRecl);
-				motReclXTpSol.setTipoSolicitudPqr(tipoSol);
-
-				businessDelegatorView.saveMotReclXTpSol(motReclXTpSol);
-			}
-		} catch (Exception e) {
-			FacesUtils.addErrorMessage(e.getMessage());
-		}
-		return "";
-	}
-
-	public String action_create_mot_sol(TipoSolicitudPqr tipoSol) {
-		try {
-			if (motivosSolicitudTargetCopia != null) {
-				List<MotSolXTpSol> motSolXTpSol = businessDelegatorView.getMotSolXTpSol();
-				for (MotivoSolicitud mtsc : motivosSolicitudTargetCopia) {
-					for (MotSolXTpSol motSol : motSolXTpSol) {
-						if (mtsc.getIdMotSol() == motSol.getMotivoSolicitud().getIdMotSol()
-								&& motSol.getTipoSolicitudPqr().getIdTpSolPqr() == tipoSol.getIdTpSolPqr()) {
-							businessDelegatorView.deleteMotSolXTpSol(motSol);
-						}
-					}
-				}
-			}
-			motivosSolicitudTarget = motivosSolicitud.getTarget();
-			for (Object object : motivosSolicitudTarget) {
-				String value = (String) object;
-				MotivoSolicitud motSol = businessDelegatorView.getMotivoSolicitud(Long.parseLong(value));
-				MotSolXTpSol motSolxTpSol = new MotSolXTpSol();
-				motSolxTpSol.setMotivoSolicitud(motSol);
-				motSolxTpSol.setTipoSolicitudPqr(tipoSol);
-
-				businessDelegatorView.saveMotSolXTpSol(motSolxTpSol);
-			}
-		} catch (Exception e) {
-			FacesUtils.addErrorMessage(e.getMessage());
-		}
-		return "";
-	}
-
-	public String action_create_anexos(TipoSolicitudPqr tipoSol) {
-		try {
-			if (anexosPqrTargetCopia != null) {
-				List<AnxsXTpSol> anxsXTpSol = businessDelegatorView.getAnxsXTpSol();
-				for (AnexosPqr anxc : anexosPqrTargetCopia) {
-					for (AnxsXTpSol anxs : anxsXTpSol) {
-						if (anxc.getIdAnexoPqr() == anxs.getAnexosPqr().getIdAnexoPqr()
-								&& anxs.getTipoSolicitudPqr().getIdTpSolPqr() == tipoSol.getIdTpSolPqr()) {
-							businessDelegatorView.deleteAnxsXTpSol(anxs);
-						}
-					}
-				}
-			}
-			anexosPqrTarget = anexosPqr.getTarget();
-			for (Object object : anexosPqrTarget) {
-				String value = (String) object;
-				AnexosPqr anexPqr = businessDelegatorView.getAnexosPqr(Long.parseLong(value));
-				AnxsXTpSol anxsXTpSol = new AnxsXTpSol();
-				anxsXTpSol.setEsObligatorio("S");
-				anxsXTpSol.setAnexosPqr(anexPqr);
-				anxsXTpSol.setTipoSolicitudPqr(tipoSol);
-
-				businessDelegatorView.saveAnxsXTpSol(anxsXTpSol);
-			}
-		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
 		return "";

@@ -4,19 +4,17 @@ import com.tcbuen.pqrs.dataaccess.dao.*;
 import com.tcbuen.pqrs.exceptions.*;
 import com.tcbuen.pqrs.modelo.*;
 import com.tcbuen.pqrs.modelo.dto.TipoSolicitudPqrDTO;
+import com.tcbuen.pqrs.presentation.businessDelegate.BusinessDelegatorView;
+import com.tcbuen.pqrs.utilities.FacesUtils;
 import com.tcbuen.pqrs.utilities.Utilities;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.context.annotation.Scope;
-
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -64,6 +62,24 @@ public class TipoSolicitudPqrLogic implements ITipoSolicitudPqrLogic {
     */
     @Autowired
     private ISolicitudPqrDAO solicitudPqrDAO;
+    
+    @Autowired
+    private IMotReclXTpSolLogic motReclXTpSolLogic;
+    
+    @Autowired
+    private IMotivoReclamacionLogic motivoReclamacionLogic;
+    
+    @Autowired
+    private IMotSolXTpSolLogic motSolXTpSolLogic;
+    
+    @Autowired
+    private IMotivoSolicitudLogic motivoSolicitudLogic;
+    
+    @Autowired
+    private IAnxsXTpSolLogic anxsXTpSolLogic;
+    
+    @Autowired
+    private IAnexosPqrLogic anexosPqrLogic;
 
     @Transactional(readOnly = true)
     public List<TipoSolicitudPqr> getTipoSolicitudPqr()
@@ -260,6 +276,91 @@ public class TipoSolicitudPqrLogic implements ITipoSolicitudPqrLogic {
         } finally {
         }
     }
+    
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void save_mot_recl_mot_sol_anxs_x_tipo(TipoSolicitudPqr tipoSol, List<MotivoReclamacion> motivosReclamacionTargetCopia,
+    		List<MotivoReclamacion> motivosReclamacionTarget, List<MotivoSolicitud> motivosSolicitudTargetCopia,
+			List<MotivoSolicitud> motivosSolicitudTarget, List<AnexosPqr> anexosPqrTargetCopia,
+			List<AnexosPqr> anexosPqrTarget) throws Exception {
+		try {
+			
+			//Elimina Motivos de Reaclamacion x Tipo de Solicitud
+			if (motivosReclamacionTargetCopia != null) {
+				List<MotReclXTpSol> motReclXTpSol = motReclXTpSolLogic.getMotReclXTpSol();
+				for (MotivoReclamacion mtrc : motivosReclamacionTargetCopia) {
+					for (MotReclXTpSol motRecl : motReclXTpSol) {
+						if (mtrc.getIdMotRecl() == motRecl.getMotivoReclamacion().getIdMotRecl()
+								&& motRecl.getTipoSolicitudPqr().getIdTpSolPqr() == tipoSol.getIdTpSolPqr()) {
+							motReclXTpSolLogic.deleteMotReclXTpSol(motRecl);
+						}
+					}
+				}
+			}
+			
+			//Guarda Motivos de Reclamacion x Tipo de Solicitud
+			for (Object object : motivosReclamacionTarget) {
+				String value = (String) object;
+				MotivoReclamacion motRecl = motivoReclamacionLogic.getMotivoReclamacion(Long.parseLong(value)); 
+				MotReclXTpSol motReclXTpSol = new MotReclXTpSol();
+				motReclXTpSol.setMotivoReclamacion(motRecl);
+				motReclXTpSol.setTipoSolicitudPqr(tipoSol);
+
+				motReclXTpSolLogic.saveMotReclXTpSol(motReclXTpSol);
+			}
+			
+			//Elimina Moivos de Solicitud x Tipo de Solicitud
+			if (motivosSolicitudTargetCopia != null) {
+				List<MotSolXTpSol> motSolXTpSol = motSolXTpSolLogic.getMotSolXTpSol();
+				for (MotivoSolicitud mtsc : motivosSolicitudTargetCopia) {
+					for (MotSolXTpSol motSol : motSolXTpSol) {
+						if (mtsc.getIdMotSol() == motSol.getMotivoSolicitud().getIdMotSol()
+								&& motSol.getTipoSolicitudPqr().getIdTpSolPqr() == tipoSol.getIdTpSolPqr()) {
+							motSolXTpSolLogic.deleteMotSolXTpSol(motSol);
+						}
+					}
+				}
+			}
+			
+			//Guarda Motivos de Solicitud x Tipo de Solicitud
+			for (Object object : motivosSolicitudTarget) {
+				String value = (String) object;
+				MotivoSolicitud motSol = motivoSolicitudLogic.getMotivoSolicitud(Long.parseLong(value));
+				MotSolXTpSol motSolxTpSol = new MotSolXTpSol();
+				motSolxTpSol.setMotivoSolicitud(motSol);
+				motSolxTpSol.setTipoSolicitudPqr(tipoSol);
+
+				motSolXTpSolLogic.saveMotSolXTpSol(motSolxTpSol);
+			}
+			
+			//Elimina Anexos x Tipo de Solicitud
+			if (anexosPqrTargetCopia != null) {
+				List<AnxsXTpSol> anxsXTpSol = anxsXTpSolLogic.getAnxsXTpSol();
+				for (AnexosPqr anxc : anexosPqrTargetCopia) {
+					for (AnxsXTpSol anxs : anxsXTpSol) {
+						if (anxc.getIdAnexoPqr() == anxs.getAnexosPqr().getIdAnexoPqr()
+								&& anxs.getTipoSolicitudPqr().getIdTpSolPqr() == tipoSol.getIdTpSolPqr()) {
+							anxsXTpSolLogic.deleteAnxsXTpSol(anxs);
+						}
+					}
+				}
+			}
+			
+			//Guarda Anexos x Tipo de Solicitud
+			for (Object object : anexosPqrTarget) {
+				String value = (String) object;
+				AnexosPqr anexPqr = anexosPqrLogic.getAnexosPqr(Long.parseLong(value));
+				AnxsXTpSol anxsXTpSol = new AnxsXTpSol();
+				anxsXTpSol.setEsObligatorio("S");
+				anxsXTpSol.setAnexosPqr(anexPqr);
+				anxsXTpSol.setTipoSolicitudPqr(tipoSol);
+
+				anxsXTpSolLogic.saveAnxsXTpSol(anxsXTpSol);
+			}
+		} catch (Exception e) {
+        	throw new Exception("Error Modificando Tipo de Solicitud");
+        } finally {
+        }
+	}
 
     @Transactional(readOnly = true)
     public List<TipoSolicitudPqrDTO> getDataTipoSolicitudPqr()

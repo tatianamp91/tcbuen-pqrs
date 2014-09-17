@@ -1341,6 +1341,19 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
         throws Exception {
         return tipoSolicitudPqrLogic.getTipoSolicitudPqr();
     }
+    
+    public void save_mot_recl_mot_sol_anxs_x_tipo(TipoSolicitudPqr tipoSol,
+    		List<MotivoReclamacion> motivosReclamacionTargetCopia,
+    		List<MotivoReclamacion> motivosReclamacionTarget,
+    		List<MotivoSolicitud> motivosSolicitudTargetCopia,
+			List<MotivoSolicitud> motivosSolicitudTarget,
+			List<AnexosPqr> anexosPqrTargetCopia,
+			List<AnexosPqr> anexosPqrTarget) 
+            throws Exception {
+            tipoSolicitudPqrLogic.save_mot_recl_mot_sol_anxs_x_tipo(tipoSol,
+            		motivosReclamacionTargetCopia, motivosReclamacionTarget, motivosSolicitudTargetCopia,
+        			motivosSolicitudTarget, anexosPqrTargetCopia, anexosPqrTarget);
+    }
 
     public void saveTipoSolicitudPqr(TipoSolicitudPqr entity)
         throws Exception {
