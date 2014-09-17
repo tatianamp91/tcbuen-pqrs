@@ -13,6 +13,8 @@ import com.tcbuen.pqrs.modelo.TipoSolicitudPqr;
 */
 public interface IAnexosPqrDAO extends Dao<AnexosPqr, Long> {
 	
+	public List<AnexosPqr> consultarAnexos() throws Exception;
+	
 	public List<AnexosPqr> consultarAnxsXTipoPqr(TipoSolicitudPqr tipoSolicitudPqr) 
 			throws Exception;
 	

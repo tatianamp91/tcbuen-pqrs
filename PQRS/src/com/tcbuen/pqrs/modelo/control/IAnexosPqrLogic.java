@@ -15,6 +15,8 @@ import java.util.*;
 public interface IAnexosPqrLogic {
     public List<AnexosPqr> getAnexosPqr() throws Exception;
     
+    public List<AnexosPqr> consultarAnexos() throws Exception;
+    
 	public List<AnexosPqr> consultarAnxsXTipoPqr(TipoSolicitudPqr tipoSolicitudPqr) 
 			throws Exception;
 	

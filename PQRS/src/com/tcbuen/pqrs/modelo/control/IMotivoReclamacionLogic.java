@@ -17,6 +17,8 @@ public interface IMotivoReclamacionLogic {
     public List<MotivoReclamacion> getMotivoReclamacion()
         throws Exception;
     
+    public List<MotivoReclamacion> consultarMotivosReclamacion() throws Exception;
+    
     public List<MotivoReclamacion> consultarMotReclXTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)
         	throws Exception;
 

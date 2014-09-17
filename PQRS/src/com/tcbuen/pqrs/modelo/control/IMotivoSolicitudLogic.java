@@ -3,6 +3,7 @@ package com.tcbuen.pqrs.modelo.control;
 import com.tcbuen.pqrs.modelo.MotivoSolicitud;
 import com.tcbuen.pqrs.modelo.TipoSolicitudPqr;
 import com.tcbuen.pqrs.modelo.dto.MotivoSolicitudDTO;
+
 import java.util.*;
 
 
@@ -12,6 +13,8 @@ import java.util.*;
 */
 public interface IMotivoSolicitudLogic {
     public List<MotivoSolicitud> getMotivoSolicitud() throws Exception;
+    
+    public List<MotivoSolicitud> consultarMotivosSolicitud() throws Exception;
     
     public List<MotivoSolicitud> consultarMotSolXTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)
         	throws Exception;

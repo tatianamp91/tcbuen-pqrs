@@ -1,6 +1,7 @@
 package com.tcbuen.pqrs.dataaccess.dao;
 
 import com.tcbuen.pqrs.dataaccess.api.HibernateDaoImpl;
+import com.tcbuen.pqrs.modelo.AnexosPqr;
 import com.tcbuen.pqrs.modelo.MotReclXTpSol;
 import com.tcbuen.pqrs.modelo.MotivoReclamacion;
 import com.tcbuen.pqrs.modelo.TipoSolicitudPqr;
@@ -46,6 +47,18 @@ public class MotivoReclamacionDAO extends HibernateDaoImpl<MotivoReclamacion, Lo
         ApplicationContext ctx) {
         return (IMotivoReclamacionDAO) ctx.getBean("MotivoReclamacionDAO");
     }
+    
+    @Override
+	public List<MotivoReclamacion> consultarMotivosReclamacion() throws Exception {
+    	
+		String hql = "Select motivoReclamacion from MotivoReclamacion motivoReclamacion "
+					+ "where motivoReclamacion.estadoRegistro = 'A' ";
+		
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		List<MotivoReclamacion> motivoReclamacion = query.list();
+		
+		return motivoReclamacion;
+	}    
     
 	@Override
 	public List<MotivoReclamacion> consultarMotReclXTipoPqr(TipoSolicitudPqr tipoSolicitudPqr) throws Exception {

@@ -64,6 +64,18 @@ public class MotivoSolicitudLogic implements IMotivoSolicitudLogic {
     }
     
     @Transactional(readOnly = true)
+    public List<MotivoSolicitud> consultarMotivosSolicitud() throws Exception{
+    	List<MotivoSolicitud> motivoSolicitud = new ArrayList<MotivoSolicitud>();
+    	try{
+    		motivoSolicitud = motivoSolicitudDAO.consultarMotivosSolicitud();
+    	}catch(Exception e){
+    		throw new ZMessManager().new GettingException(ZMessManager.ALL + 
+    				"Motivos de Solcitud por Estado");
+    	}
+    	return motivoSolicitud;
+    }
+    
+    @Transactional(readOnly = true)
     public List<MotivoSolicitud> consultarMotSolXTipoPqr(TipoSolicitudPqr tipoSolicitudPqr)
         	throws Exception{
     	List<MotivoSolicitud> motivoSolicitud = new ArrayList<MotivoSolicitud>();

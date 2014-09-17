@@ -143,34 +143,19 @@ public class TipoSolicitudPqrView implements Serializable {
 		try {
 			motivosReclamacionSource = new ArrayList<MotivoReclamacion>();
 			motivosReclamacionTarget = new ArrayList<MotivoReclamacion>();
-			List<MotivoReclamacion> mrs = businessDelegatorView.getMotivoReclamacion();
-			for (MotivoReclamacion motRecl : mrs) {
-				if (motRecl.getEstadoRegistro().equals("A")) {
-					motivosReclamacionSource.add(motRecl);
-				}
-			}
+			motivosReclamacionSource = businessDelegatorView.consultarMotivosReclamacion();
 			motivosReclamacionTargetCopia = null;
 			motivosReclamacion = new DualListModel<MotivoReclamacion>(motivosReclamacionSource, motivosReclamacionTarget);
 
 			motivosSolicitudSource = new ArrayList<MotivoSolicitud>();
 			motivosSolicitudTarget = new ArrayList<MotivoSolicitud>();
-			List<MotivoSolicitud> mss = businessDelegatorView.getMotivoSolicitud();
-			for (MotivoSolicitud motSol : mss) {
-				if (motSol.getEstadoRegistro().equals("A")) {
-					motivosSolicitudSource.add(motSol);
-				}
-			}
+			motivosSolicitudSource = businessDelegatorView.consultarMotivosSolicitud();
 			motivosSolicitudTargetCopia = null;
 			motivosSolicitud = new DualListModel<MotivoSolicitud>(motivosSolicitudSource, motivosSolicitudTarget);
 
 			anexosPqrSource = new ArrayList<AnexosPqr>();
 			anexosPqrTarget = new ArrayList<AnexosPqr>();
-			List<AnexosPqr> aps = businessDelegatorView.getAnexosPqr();
-			for (AnexosPqr anexo : aps) {
-				if (anexo.getEstadoRegistro().equals("A")) {
-					anexosPqrSource.add(anexo);
-				}
-			}
+			anexosPqrSource = businessDelegatorView.consultarAnexos();
 			anexosPqrTargetCopia = null;
 			anexosPqr = new DualListModel<AnexosPqr>(anexosPqrSource, anexosPqrTarget);
 		} catch (Exception e) {

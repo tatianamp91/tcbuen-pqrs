@@ -456,6 +456,16 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
         return areasInvolucradasLogic.getAreasInvolucradas();
     }
     
+    public List<AnexosPqr> consultarAnexos() throws Exception {
+        List<AnexosPqr> anexosPqr = null;
+        try{
+        	anexosPqr = anexosPqrLogic.consultarAnexos();		
+        }catch(Exception e){
+        	throw e;
+        }
+        return anexosPqr;
+    }
+    
     public List<AnexosPqr> consultarAnxsXTipoPqr(TipoSolicitudPqr tipoSolicitudPqr)
         throws Exception{
         List<AnexosPqr> anexosPqr = null;
@@ -589,6 +599,16 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
         return motivoReclamacionLogic.getMotivoReclamacion();
     }
     
+    public List<MotivoReclamacion> consultarMotivosReclamacion() throws Exception {
+    	List<MotivoReclamacion> motivoReclamacion = null;
+    	try{
+    		motivoReclamacion = motivoReclamacionLogic.consultarMotivosReclamacion(); 		
+    	}catch(Exception e){
+    		throw e;
+    	}
+    	return motivoReclamacion;
+    }
+    
     public List<MotivoReclamacion> consultarMotReclXTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)
         throws Exception{
     	List<MotivoReclamacion> motivoReclamacion = null;
@@ -666,6 +686,16 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
         return motivoSolicitudLogic.getMotivoSolicitud();
     }
     
+    public List<MotivoSolicitud> consultarMotivosSolicitud() throws Exception{
+    	List<MotivoSolicitud> motivoSolicitud = null;
+    	try{
+    		motivoSolicitud = motivoSolicitudLogic.consultarMotivosSolicitud();		
+    	}catch(Exception e){
+    		throw e;
+    	}
+    	return motivoSolicitud;
+    }
+    
     public List<MotivoSolicitud> consultarMotSolXTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)
             throws Exception{
         	List<MotivoSolicitud> motivoSolicitud = null;
@@ -675,9 +705,9 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
         		throw e;
         	}
         	return motivoSolicitud;
-        }
+    }
         
-        public List<MotivoSolicitud> consultarMotSolNoTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)
+    public List<MotivoSolicitud> consultarMotSolNoTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)
             	throws Exception{
         	List<MotivoSolicitud> motivoSolicitud = null;
         	try{
@@ -686,7 +716,7 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
         		throw e;
         	}
         	return motivoSolicitud;
-        }
+    }
 
     public void saveMotivoSolicitud(MotivoSolicitud entity)
         throws Exception {
