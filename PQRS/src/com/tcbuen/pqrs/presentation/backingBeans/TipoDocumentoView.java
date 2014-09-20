@@ -297,10 +297,10 @@ public class TipoDocumentoView implements Serializable {
 			throw new Exception("Debe de ingresar una descripción");
 		}
 
-		if (!Utilities.isOnlyLetters2(descripcionTpDoc)) {
+/*		if (!Utilities.isOnlyLetters2(descripcionTpDoc)) {
 			throw new Exception(
 					"La descripción ingresada solo debe de contener letras");
-		}
+		}*/
 		return true;
 
 	}

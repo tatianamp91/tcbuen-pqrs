@@ -111,6 +111,7 @@ public class AnexosPqrView implements Serializable {
 
             action_modify();
         } catch (Exception ex) {
+			FacesUtils.addErrorMessage(ex.getMessage());
         }
     }
 
@@ -230,52 +231,46 @@ public class AnexosPqrView implements Serializable {
             } else {
                 action_modify();
             }
-
             data = null;
         } catch (Exception e) {
             FacesUtils.addErrorMessage(e.getMessage());
         }
-
         return "";
     }
 
 	public String action_create() {
 		try {
-
 			String descripcionAnexo = txtDescripcionAnexo.getValue().toString();
 			AnexosPqr anexos = ObtenerAnexo(descripcionAnexo);
 
 			if (anexos == null) {
-
 				if (!revizarCampos(descripcionAnexo)) {
 					return "";
-
 				}
+				entity = new AnexosPqr();
 
+				// Long idAnexoPqr = FacesUtils.checkLong(txtIdAnexoPqr);
+				// entity.setIdAnexoPqr(idAnexoPqr);
+				entity.setDescripcionAnexo(FacesUtils
+						.checkString(txtDescripcionAnexo));
+				entity.setEstadoRegistro(estadoRegistroSeleccionado);
+				// Falta agregar usuario de sesion
+				entity.setUsuarioCreador("Admin");
+				entity.setFechaCreacion(new Date());
+				entity.setUsuarioUltimaModificacion(null);
+				entity.setFechaUltimaModificacion(null);
+
+				businessDelegatorView.saveAnexosPqr(entity);
+				FacesUtils.addInfoMessage("El anexo se guardo exitosamente");
+				action_clear();
+			}else {
+				throw new Exception("La descripción del Anexo ya existe");
 			}
-
-			entity = new AnexosPqr();
-
-			// Long idAnexoPqr = FacesUtils.checkLong(txtIdAnexoPqr);
-			// entity.setIdAnexoPqr(idAnexoPqr);
-			entity.setDescripcionAnexo(FacesUtils
-					.checkString(txtDescripcionAnexo));
-			entity.setEstadoRegistro(estadoRegistroSeleccionado);
-			// Falta agregar usuario de sesion
-			entity.setUsuarioCreador("Admin");
-			entity.setFechaCreacion(new Date());
-			entity.setUsuarioUltimaModificacion(null);
-			entity.setFechaUltimaModificacion(null);
-
-			businessDelegatorView.saveAnexosPqr(entity);
-			FacesUtils.addInfoMessage("El anexo se guardo exitosamente");
-
-			action_clear();
+		
 		} catch (Exception e) {
 			entity = null;
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
-
 		return "";
 	}
 
@@ -292,17 +287,13 @@ public class AnexosPqrView implements Serializable {
 	}
 
 	public boolean revizarCampos(String descripcionAnexo) throws Exception {
-
 		if (descripcionAnexo.equals("") || descripcionAnexo.trim().equals("")) {
-			throw new Exception("Debe de ingresar un Nombre");
+			throw new Exception("Debe de ingresar una Descripción");
 		}
-
-		if (!Utilities.isOnlyLetters2(descripcionAnexo)) {
-			throw new Exception(
-					"El Nombre ingresado solo debe de contener letras");
-		}
+/*		if (!Utilities.isOnlyLetters2(descripcionAnexo)) {
+			throw new Exception("La Descripción ingresada solo debe de contener letras");
+		}*/
 		return true;
-
 	}
 
 	private void actulizar() {
@@ -328,41 +319,31 @@ public class AnexosPqrView implements Serializable {
 
 	public String action_modify() {
 		try {
-
 			String descripcionAnexo = txtDescripcionAnexo.getValue().toString();
 			AnexosPqr anexos = ObtenerAnexo(descripcionAnexo);
-
 			if (anexos == null) {
 				if (!revizarCampos(descripcionAnexo)) {
 					return "";
-
 				}
 				actulizar();
 				action_clear();
 			} else {
-
 				String descripcionTemp = anexos.getDescripcionAnexo();
 				Long idTemp = anexos.getIdAnexoPqr();
-
 				if (descripcionTemp.equals(descripcionAnexo) && idTemp == entity.getIdAnexoPqr().longValue()) {
-
 					if (!revizarCampos(descripcionAnexo)) {
 						return "";
-
 					}
 					actulizar();
 					action_clear();
 				} else {
-					throw new Exception(
-							"El anexo no ha sido modificado, anexo ya existe");
+					throw new Exception("El anexo no ha sido modificado, anexo ya existe");
 				}
 			}
-
 		} catch (Exception e) {
 			data = null;
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
-
 		return "";
 	}
 

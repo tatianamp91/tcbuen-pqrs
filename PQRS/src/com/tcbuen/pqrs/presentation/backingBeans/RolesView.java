@@ -286,13 +286,13 @@ public class RolesView implements Serializable {
 
 	public boolean revizarCampos(String nombreRol) throws Exception {
 
-		if (nombreRol.equals("") || nombreRol.trim().equals("")) {
+/*		if (nombreRol.equals("") || nombreRol.trim().equals("")) {
 			throw new Exception("Debe de ingresar una descripción");
 		}
 
 		if (!Utilities.isOnlyLetters2(nombreRol)) {
 			throw new Exception("El Rol ingresado solo debe de contener letras");
-		}
+		}*/
 		return true;
 
 	}

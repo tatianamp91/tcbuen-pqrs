@@ -79,7 +79,6 @@ public class TipoSolicitudPqrView implements Serializable {
 	public void init() {
 		try {
 			consultarElementosNuevo();
-			btnModify.setDisabled(false);
 			motivosReclamacionTargetCopia = null;
 			motivosSolicitudTargetCopia = null;
 			anexosPqrTargetCopia = null;
@@ -208,7 +207,7 @@ public class TipoSolicitudPqrView implements Serializable {
 			tipoSolicitudPqr = businessDelegatorView.getTipoSolicitudPqr(idTpSolPqr);
 			consultarElementosModificar(tipoSolicitudPqr);
 			txtDescTpSol.setValue(tipoSolicitudPqr.getDescTpSol());
-			txtEstadoRegistro.setValue(tipoSolicitudPqr.getEstadoRegistro());
+			estadoRegistroSeleccionado = tipoSolicitudPqr.getEstadoRegistro();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
@@ -222,11 +221,9 @@ public class TipoSolicitudPqrView implements Serializable {
 		if (txtDescTpSol != null) {
 			txtDescTpSol.setValue(null);
 		}
-
 		if (estadoRegistroSeleccionado != null) {
 			estadoRegistroSeleccionado = null;
 		}
-
 		data = null;
 		data = getData();
 		setBoton(false);
@@ -234,7 +231,7 @@ public class TipoSolicitudPqrView implements Serializable {
 
 		return "";
 	}
-
+	
 	public void listener_txtFechaCreacion() {
 		Date inputDate = (Date) txtFechaCreacion.getValue();
 		DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -340,37 +337,100 @@ public class TipoSolicitudPqrView implements Serializable {
 
 	public String action_create() {
 		try {
-			entity = new TipoSolicitudPqr();
+			String descTpSol = txtDescTpSol.getValue().toString();
+			TipoSolicitudPqr tipoSolicitudPqr = ObtenerTipoSolicitudPqr(descTpSol);
+			if (tipoSolicitudPqr == null) {
+				if (!revizarCampos(descTpSol)) {
+					return "";
+				}
+				entity = new TipoSolicitudPqr();
 
-			entity.setDescTpSol(FacesUtils.checkString(txtDescTpSol));
-			entity.setEstadoRegistro(estadoRegistroSeleccionado);
-			// Falta agregar usuario de sesion
-			entity.setUsuarioCreador("Admin");
-			entity.setFechaCreacion(new Date());
-			entity.setUsuarioUltimaModificacion(null);
-			entity.setFechaUltimaModificacion(null);
+				entity.setDescTpSol(FacesUtils.checkString(txtDescTpSol));
+				entity.setEstadoRegistro(estadoRegistroSeleccionado);
+				// Falta agregar usuario de sesion
+				entity.setUsuarioCreador("Admin");
+				entity.setFechaCreacion(new Date());
+				entity.setUsuarioUltimaModificacion(null);
+				entity.setFechaUltimaModificacion(null);
 
-			businessDelegatorView.saveTipoSolicitudPqr(entity);
-			TipoSolicitudPqr tipoSol = businessDelegatorView.getTipoSolicitudPqr(entity.getIdTpSolPqr());
-			motivosReclamacionTarget = motivosReclamacion.getTarget();
-			motivosSolicitudTarget = motivosSolicitud.getTarget();
-			anexosPqrTarget = anexosPqr.getTarget();
+				businessDelegatorView.saveTipoSolicitudPqr(entity);
+				TipoSolicitudPqr tipoSol = businessDelegatorView.getTipoSolicitudPqr(entity.getIdTpSolPqr());
+				motivosReclamacionTarget = motivosReclamacion.getTarget();
+				motivosSolicitudTarget = motivosSolicitud.getTarget();
+				anexosPqrTarget = anexosPqr.getTarget();
+				
+				businessDelegatorView.save_mot_recl_mot_sol_anxs_x_tipo( tipoSol, motivosReclamacionTargetCopia,
+			    		motivosReclamacionTarget, motivosSolicitudTargetCopia,
+						motivosSolicitudTarget, anexosPqrTargetCopia,
+						anexosPqrTarget);
+				
+				FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+				action_clear();
+			}else {
+				throw new Exception("La descripción de el Tipo de Solicitud ya existe");
+			}
 			
-			businessDelegatorView.save_mot_recl_mot_sol_anxs_x_tipo( tipoSol, motivosReclamacionTargetCopia,
-		    		motivosReclamacionTarget, motivosSolicitudTargetCopia,
-					motivosSolicitudTarget, anexosPqrTargetCopia,
-					anexosPqrTarget);
-			
-			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
-			action_clear();
 		} catch (Exception e) {
 			entity = null;
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
 		return "";
 	}
+	
+	private TipoSolicitudPqr ObtenerTipoSolicitudPqr(String descTpSol) throws Exception {
+		TipoSolicitudPqr entity = null;
+		Object[] variables = { "descTpSol", true, descTpSol, "=" };
+		List<TipoSolicitudPqr> tipoSolicitudPqr = businessDelegatorView
+				.findByCriteriaInTipoSolicitudPqr(variables, null, null);
+		if (Utilities.validationsList(tipoSolicitudPqr)) {
+			entity = tipoSolicitudPqr.get(0);
+		}
+		return entity;
+	}
 
+	public boolean revizarCampos(String descTpSol) throws Exception {
+		if (descTpSol.equals("") || descTpSol.trim().equals("")) {
+			throw new Exception("Debe de ingresar una Descripción");
+		}
+/*		if (!Utilities.isOnlyLetters2(descTpSol)) {
+			throw new Exception("La descripción ingresado solo debe de contener letras");
+		}*/
+		return true;
+	}
+	
 	public String action_modify() {
+		try {
+			entity = businessDelegatorView.getTipoSolicitudPqr(idTpSolPqr);
+			String descTpSol = txtDescTpSol.getValue().toString();
+			TipoSolicitudPqr tipoSolicitudPqr = ObtenerTipoSolicitudPqr(descTpSol);
+			if (tipoSolicitudPqr == null) {
+				if (!revizarCampos(descTpSol)) {
+					return "";
+				}
+				actulizar();
+				action_clear();
+			} else {
+				String descripcionTemp = tipoSolicitudPqr.getDescTpSol();
+				Long idTemp = tipoSolicitudPqr.getIdTpSolPqr();
+				if (descripcionTemp.equals(descTpSol) && idTemp == entity.getIdTpSolPqr().longValue()) {
+					if (!revizarCampos(descTpSol)) {
+						return "";
+					}
+					actulizar();
+					action_clear();
+				} else {
+					consultarElementosNuevo();
+					throw new Exception("El Tipo de Solicitud no ha sido modificado, tipo ya existe");
+				}
+			}
+		} catch (Exception e) {
+			data = null;
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+		return "";
+	}
+	
+	public String actulizar() {
 		try {
 			if (entity == null) {
 				entity = businessDelegatorView.getTipoSolicitudPqr(idTpSolPqr);
