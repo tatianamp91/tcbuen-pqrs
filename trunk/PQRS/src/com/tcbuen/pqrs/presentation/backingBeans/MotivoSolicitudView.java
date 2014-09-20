@@ -321,10 +321,10 @@ public class MotivoSolicitudView implements Serializable {
 			throw new Exception("Debe de ingresar una Descripcion");
 		}
 
-		if (!Utilities.isOnlyLetters2(descripcionMotSol)) {
+/*		if (!Utilities.isOnlyLetters2(descripcionMotSol)) {
 			throw new Exception(
 					"La descripcion ingresada solo debe de contener letras");
-		}
+		}*/
 		return true;
 	}
 

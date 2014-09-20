@@ -307,10 +307,10 @@ public class TipoEstadoPqrView implements Serializable {
 			throw new Exception("Debe de ingresar una Descripcion");
 		}
 
-		if (!Utilities.isOnlyLetters2(descripcionEstado)) {
+/*		if (!Utilities.isOnlyLetters2(descripcionEstado)) {
 			throw new Exception(
 					"La descripcion ingresada solo debe de contener letras");
-		}
+		}*/
 		return true;
 
 	}
@@ -329,7 +329,8 @@ public class TipoEstadoPqrView implements Serializable {
              FacesUtils.addInfoMessage("El tipo de estado se modifico exitosamente");
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			data = null;
+			FacesUtils.addErrorMessage(e.getMessage());
 		}
     }
     

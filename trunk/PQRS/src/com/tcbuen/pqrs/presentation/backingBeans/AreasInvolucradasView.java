@@ -286,10 +286,10 @@ public class AreasInvolucradasView implements Serializable {
 			throw new Exception("Debe de ingresar un Nombre");
 		}
 
-		if (!Utilities.isOnlyLetters2(nombreArea)) {
+/*		if (!Utilities.isOnlyLetters2(nombreArea)) {
 			throw new Exception(
 					"El Nombre ingresado solo debe de contener letras");
-		}
+		}*/
 		return true;
 
 	}
