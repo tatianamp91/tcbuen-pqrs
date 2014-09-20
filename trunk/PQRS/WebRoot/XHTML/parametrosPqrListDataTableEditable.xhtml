@@ -29,28 +29,28 @@
 							<p:ajax event="rowEdit" update=":form:msg,:form:tabla"
 								listener="#{parametrosPqrView.rowEventListener}" />
 							
-							<p:column filterBy="#{parametrosPqr.valorParam}"
-								sortBy="#{parametrosPqr.valorParam}"
-								headerText="Parametro">
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="#{parametrosPqr.valorParam}" />
-									</f:facet>
-									<f:facet name="input">
-										<p:inputText value="#{parametrosPqr.valorParam}" />
-									</f:facet>
-								</p:cellEditor>
-							</p:column>
-
 							<p:column filterBy="#{parametrosPqr.descripcionParam}"
 								sortBy="#{parametrosPqr.descripcionParam}"
-								headerText="Descripcion">
+								headerText="Parametro">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{parametrosPqr.descripcionParam}" />
 									</f:facet>
 									<f:facet name="input">
 										<p:inputText value="#{parametrosPqr.descripcionParam}" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column filterBy="#{parametrosPqr.valorParam}"
+								sortBy="#{parametrosPqr.valorParam}"
+								headerText="Descripcion">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{parametrosPqr.valorParam}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{parametrosPqr.valorParam}" />
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
@@ -94,12 +94,12 @@
 						<p:messages id="msg" showDetail="false"></p:messages>
 						<p:panel id="panelParametrosPqr" header="Nuevo Parametro">
 							<h:panelGrid columns="2" id="panelGrid">
-								<h:outputText id="msgValorParametro" value="*Parametro:"></h:outputText>
-								<p:inputText id="txtValorParam"
-											binding="#{parametrosPqrView.txtValorParam}"></p:inputText>
-								<h:outputText id="msgDescripcionParametro" value="*Descripción:"></h:outputText>
+								<h:outputText id="msgDescripcionParametro" value="*Parametro:"></h:outputText>
 								<p:inputText id="txtDescripcionParam" 
 										binding="#{parametrosPqrView.txtDescripcionParam}" />
+								<h:outputText id="msgValorParametro" value="*Descripcion"></h:outputText>
+								<p:inputText id="txtValorParam"
+											binding="#{parametrosPqrView.txtValorParam}"></p:inputText>		
 								<h:outputText id="msgEstadoRegistro" value="*Estado:"></h:outputText> 
 								<p:selectOneMenu id="estadoRegistro"
 											value="#{parametrosPqrView.estadoRegistroSeleccionado}"
