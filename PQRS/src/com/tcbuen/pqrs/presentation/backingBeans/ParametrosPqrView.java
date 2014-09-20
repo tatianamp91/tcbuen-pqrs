@@ -264,13 +264,12 @@ public class ParametrosPqrView implements Serializable {
 	public String action_create() {
 		try {
 
+			
 			String descripcionParam = txtDescripcionParam.getValue().toString();
 			ParametrosPqr descrpcion = ObtenerParamDescripcion(descripcionParam);
-
 			String valorParam = txtValorParam.getValue().toString();
-			ParametrosPqr valor = ObtenerParamValor(valorParam);
-
-			if (descrpcion == null && valor == null) {
+			
+			if (descrpcion == null) {
 
 				if (!revizarCampos(descripcionParam, valorParam)) {
 					return "";
@@ -336,11 +335,11 @@ public class ParametrosPqrView implements Serializable {
 			throws Exception {
 
 		if (valorParam.equals("") || valorParam.trim().equals("")) {
-			throw new Exception("Debe de ingresar un Parametro");
+			throw new Exception("Debe de ingresar una Descripcion");
 		}
 
 		if (descripcionParam.equals("") || descripcionParam.trim().equals("")) {
-			throw new Exception("Debe de ingresar una Descripcion");
+			throw new Exception("Debe de ingresar un Parametro");
 		}
 
 		/*
@@ -380,40 +379,34 @@ public class ParametrosPqrView implements Serializable {
 	public String action_modify() {
 		try {
 
-			String descripcionParam = txtDescripcionParam.getValue().toString();
-			ParametrosPqr descrpcion = ObtenerParamDescripcion(descripcionParam);
+			String nombreParametro = txtDescripcionParam.getValue().toString();
+			ParametrosPqr nombreParam = ObtenerParamDescripcion(nombreParametro);
+			String descripcionParametro = txtValorParam.getValue().toString();
+			Long id = entity.getIdParam().longValue();
 
-			String valorParam = txtValorParam.getValue().toString();
-			ParametrosPqr valor = ObtenerParamValor(valorParam);
-
-			if (descrpcion == null || valor == null) {
-
-				if (!revizarCampos(descripcionParam, valorParam)) {
+			if (nombreParam == null) {
+				if (!revizarCampos(nombreParametro, descripcionParametro)) {
 					return "";
 				}
 				actualizar();
 				action_clear();
 			} else {
-				
-				String descripcionTemp = descrpcion.getDescripcionParam();
-				String valorTemp=valor.getValorParam();
-				Long idTemp = descrpcion.getIdParam();
-				
-				if((descripcionTemp.equals(descripcionParam) && 
-						idTemp != entity.getIdParam().longValue() && !(valorTemp).equals(valorParam))
-						|| (!descripcionTemp.equals(descripcionParam) && 
-						idTemp != entity.getIdParam().longValue() && (valorTemp).equals(valorParam))
-						|| (descripcionTemp.equals(descripcionParam) && 
-						idTemp == entity.getIdParam().longValue() && (valorTemp).equals(valorParam))){
-				
-					if (!revizarCampos(descripcionParam, valorParam)) {
+				String nombreParametroBD = nombreParam.getDescripcionParam();
+				String descripcionParametroBD = nombreParam.getValorParam();
+				Long idBD = nombreParam.getIdParam();
+
+				if (nombreParametroBD.equals(nombreParametro) && idBD == id) {
+
+					if (!revizarCampos(nombreParametro, descripcionParametro)) {
 						return "";
 					}
 					actualizar();
 					action_clear();
+
 				}else{
 					throw new Exception("Parametro no ha sido modificado, ya existe el parametro");
-				}				
+				}
+
 			}
 		} catch (Exception e) {
 			data = null;
