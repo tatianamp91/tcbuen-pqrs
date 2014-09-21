@@ -489,35 +489,197 @@ public class UsuariosInternosView implements Serializable {
 		}
 		return entity;
 	}
+	
+	private UsuariosInternos obtenerIdUsuario(Long id) throws Exception {
+		UsuariosInternos entity = null;
+		Object[] variables = { "idUsuInterno", true, id, "=" };
+		List<UsuariosInternos> usuarioConsultadas = businessDelegatorView.findByCriteriaInUsuariosInternos(variables, null, null);
+		if (Utilities.validationsList(usuarioConsultadas)) {
+			entity = usuarioConsultadas.get(0);
+		}
+		return entity;
+	}
 
-    public String action_modify() {
+	public String action_modify() {
 		try {
-						
+
 			String numeroIdentificacion = txtNumeroIdentificacion.getValue().toString();
-			String login = txtLogin.getValue().toString();
+			String nombres = txtNombres.getValue().toString();
+			String apellidos = txtApellidos.getValue().toString();
+			Long id = entity.getIdUsuInterno().longValue();
 			String email = txtCorreoElectronico.getValue().toString();
+			String login = txtLogin.getValue().toString();
 			AreasInvolucradas area = businessDelegatorView.getAreasInvolucradas((idAreaInvolucrada));
 			String areaInvolucrada = area.getNombreArea();
 			Roles roles = businessDelegatorView.getRoles(idRol);
 			String rol = roles.getNombreRol();
-			String nombres = txtNombres.getValue().toString();
-			String apellidos = txtApellidos.getValue().toString();	
-			String contrasena = txtContrasena.getValue().toString();
-			String estados = getEstadoRegistroSeleccionado();
-			
-			UsuariosInternos usuario = ObtenerNumeroIdentificacionUsuarios(numeroIdentificacion);
-			
-			String nombresTemp = usuario.getNombres();
-			String apellidosTemp = usuario.getApellidos();
-			String numeroIdentificacionTemp = usuario.getNumeroIdentificacion();
-			
+			String estado = getEstadoRegistroSeleccionado();
 
-			if (!revizarCampos(nombres, apellidos, numeroIdentificacion, login,
-					email, contrasena, areaInvolucrada, rol, estados)) {
-				return "";
+			UsuariosInternos usuarioPorId = obtenerIdUsuario(id);
+
+			if (usuarioPorId != null) {
+
+				String contrasena = usuarioPorId.getContrasena();
+
+				if (!revizarCampos(nombres, apellidos, numeroIdentificacion,
+						login, email, contrasena, areaInvolucrada, rol, estado)) {
+					return "";
+				}
+
+				UsuariosInternos usuario = ObtenerNumeroIdentificacionUsuarios(numeroIdentificacion);
+				if (usuario != null) {
+					Long idUsuarioPorCedula = usuario.getIdUsuInterno()
+							.longValue();
+					if (idUsuarioPorCedula != id) {
+						throw new Exception(
+								"El número de Identificacion ya existe, ingrese uno nuevo");
+					}
+				}
+
+				UsuariosInternos usuarioPorLogin = ObtenerCuentaUsuarios(login);
+				if (usuarioPorLogin != null) {
+					Long idUsuarioPorLogin = usuarioPorLogin.getIdUsuInterno()
+							.longValue();
+					if (idUsuarioPorLogin != id) {
+						throw new Exception(
+								"El Login del usuario ya existe, ingrese uno nuevo");
+					}
+				}
+
+				UsuariosInternos usuarioPorEmail = ObtenerEmailUsuarios(email);
+				if (usuarioPorEmail != null) {
+					Long idUsuarioPorEmail = usuarioPorEmail.getIdUsuInterno()
+							.longValue();
+					if (idUsuarioPorEmail != id) {
+						throw new Exception(
+								"El Email del usuario ya existe, ingrese uno nuevo");
+					}
+				}
+
+				actualizar();
+				action_clear();
+			} else {
+				throw new Exception("NO SE PQ PUTAS ENTRO AQUI");
 			}
 
-			entity.setNumeroIdentificacion(FacesUtils
+		} catch (Exception e) {
+			action_clear();
+			entity = null;
+			FacesUtils.addErrorMessage(e.getMessage());
+			
+		}
+		return "";
+	}
+	
+	/*String numeroIdentificacion = txtNumeroIdentificacion.getValue().toString();
+	String login = txtLogin.getValue().toString();
+	String email = txtCorreoElectronico.getValue().toString();
+	AreasInvolucradas area = businessDelegatorView.getAreasInvolucradas((idAreaInvolucrada));
+	String areaInvolucrada = area.getNombreArea();
+	Roles roles = businessDelegatorView.getRoles(idRol);
+	String rol = roles.getNombreRol();
+	String nombres = txtNombres.getValue().toString();
+	String apellidos = txtApellidos.getValue().toString();	
+	String contrasena = txtContrasena.getValue().toString();
+	String estados = getEstadoRegistroSeleccionado();
+	
+	UsuariosInternos usuario = ObtenerNumeroIdentificacionUsuarios(numeroIdentificacion);
+	UsuariosInternos usuarioPorLogin = ObtenerCuentaUsuarios(login);
+	UsuariosInternos usuarioPorEmail = ObtenerEmailUsuarios(email);
+	
+	
+	if (usuario == null ) {
+		System.out.println(" No hay usuario con esa cedula");
+		if (usuarioPorLogin == null) {
+			System.out.println("No hay usuario con ese logn");
+			if (usuarioPorEmail == null) {
+				System.out.println("No hay usuario con ese email.. Yuhuuuuuuuuuuu fuck u");
+				if (!revizarCampos(nombres, apellidos, numeroIdentificacion, login,
+						email, contrasena, areaInvolucrada, rol, estados)) {
+					return "";
+				}
+				actualizar();
+				action_clear();
+			}else {
+				throw new Exception("Ya existe un usuario con el email ingresado, por favor ingresar un email diferente");
+			}
+		}else {
+			throw new Exception("Ya existe un usuario con el Login ingresado, por favor ingresar un Login diferente");
+		}
+	}else{
+		Long idTemp = usuario.getIdUsuInterno();
+		String nombresTemp = usuario.getNombres();
+		String apellidosTemp = usuario.getApellidos();
+		String numeroIdentificacionTemp = usuario.getNumeroIdentificacion();
+		String loginTemp = usuario.getLogin();
+		String correoTemp = usuario.getCorreoElectronico();
+		String contrasenaTemp = usuario.getContrasena();
+		Long areaInvolucradaTemp = usuario.getAreasInvolucradas().getIdAreaInvolucrada();
+		Long rolTemp = usuario.getRoles().getIdRol();
+		String estadoTemp = usuario.getEstadoRegistro();
+		
+		if (!numeroIdentificacionTemp.equals(numeroIdentificacion) && !correoTemp.equals(email) && !loginTemp.equals(login)) {
+			System.out.println("cc, correo y login diferentes");
+		}
+		
+		if (!numeroIdentificacionTemp.equals(numeroIdentificacion) && !correoTemp.equals(email) && loginTemp.equals(login)) {
+			System.out.println("cc y correo diferentes, login igual");
+		}
+		
+		if (!numeroIdentificacionTemp.equals(numeroIdentificacion) && correoTemp.equals(email) && loginTemp.equals(login)) {
+			System.out.println("cc diferente, correo y login igual");
+		}
+		
+		if (numeroIdentificacionTemp.equals(numeroIdentificacion) && !correoTemp.equals(email) && !loginTemp.equals(login)) {
+			System.out.println("cc igual, correo y login diferente");
+		}
+		
+		if (numeroIdentificacionTemp.equals(numeroIdentificacion) && correoTemp.equals(email) && !loginTemp.equals(login)) {
+			System.out.println("cc y correo igual, login diferente");
+		}
+		
+		if (numeroIdentificacionTemp.equals(numeroIdentificacion) && !correoTemp.equals(email) && loginTemp.equals(login) ) {
+			System.out.println("cc y login igual. Correo diferente");
+		}
+		
+		if (!numeroIdentificacionTemp.equals(numeroIdentificacion) && correoTemp.equals(email) && !loginTemp.equals(login)) {
+			System.out.println("cc y login diferente. Correo igual");
+		}
+		
+		if(numeroIdentificacionTemp.equals(numeroIdentificacion) && correoTemp.equals(email) && loginTemp.equals(login)){
+			System.out.println("FUUUUUCK");
+		}
+		
+		
+		
+//		if ((!numeroIdentificacionTemp.equals(numeroIdentificacion) && !correoTemp.equals(email) && !loginTemp.equals(login))
+//			|| (!numeroIdentificacionTemp.equals(numeroIdentificacion) && !correoTemp.equals(email) && loginTemp.equals(login))
+//			|| (!numeroIdentificacionTemp.equals(numeroIdentificacion) && correoTemp.equals(email) && loginTemp.equals(login))) {
+//			
+//			if (!revizarCampos(nombres, apellidos, numeroIdentificacion, login,
+//					email, contrasena, areaInvolucrada, rol, estados)) {
+//				return "";
+//			}
+//			
+//		}
+		
+	}
+	
+
+	
+
+	
+	action_clear();
+//	}else{
+//		throw new Exception("El Numero de Identificacion y/o el Login y/o el Email ya existen. Por "
+//							+ "favor ingreselos nuevamente");
+//	}
+*/
+
+    
+    public void actualizar(){
+    	try {
+    		entity.setNumeroIdentificacion(FacesUtils
 					.checkString(txtNumeroIdentificacion));
 			entity.setNombres(FacesUtils.checkString(txtNombres));
 			entity.setApellidos(FacesUtils.checkString(txtApellidos));
@@ -534,26 +696,14 @@ public class UsuariosInternosView implements Serializable {
 			entity.setRoles((idRol != null) ? businessDelegatorView
 					.getRoles(idRol) : null);
 
-			businessDelegatorView.saveUsuariosInternos(entity);
-			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
-
-			action_clear();
-			/*}else{
-				throw new Exception("El Numero de Identificacion y/o el Login y/o el Email ya existen. Por "
-									+ "favor ingreselos nuevamente");
-			}*/
+			businessDelegatorView.updateUsuariosInternos(entity);
+			FacesUtils.addInfoMessage("");
 
 		} catch (Exception e) {
 			entity = null;
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
-
-		
-		return "";
-
-	}
-    
-    
+    }
     
     
     
