@@ -389,10 +389,8 @@ public class UsuariosInternosView implements Serializable {
     }
 
 	public String action_create() {
-		try {
-			
+		try {			
 			if (idAreaInvolucrada != null && idRol != null) {
-
 				AreasInvolucradas area = businessDelegatorView.getAreasInvolucradas((idAreaInvolucrada));
 				Roles roles = businessDelegatorView.getRoles(idRol);
 				String nombres = txtNombres.getValue().toString();
@@ -439,8 +437,7 @@ public class UsuariosInternosView implements Serializable {
 					FacesUtils
 							.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
 
-					action_clear();
-					
+										
 				} else {
 
 					throw new Exception(

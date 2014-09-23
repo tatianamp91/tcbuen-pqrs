@@ -328,7 +328,6 @@ public class TipoSolicitudPqrView implements Serializable {
 			} else {
 				action_modify();
 			}
-			action_clear();
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
@@ -367,9 +366,9 @@ public class TipoSolicitudPqrView implements Serializable {
 				FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
 				action_clear();
 			}else {
+				consultarElementosNuevo();
 				throw new Exception("La descripción de el Tipo de Solicitud ya existe");
-			}
-			
+			}			
 		} catch (Exception e) {
 			entity = null;
 			FacesUtils.addErrorMessage(e.getMessage());
@@ -408,7 +407,6 @@ public class TipoSolicitudPqrView implements Serializable {
 					return "";
 				}
 				actulizar();
-				action_clear();
 			} else {
 				String descripcionTemp = tipoSolicitudPqr.getDescTpSol();
 				Long idTemp = tipoSolicitudPqr.getIdTpSolPqr();
@@ -417,9 +415,9 @@ public class TipoSolicitudPqrView implements Serializable {
 						return "";
 					}
 					actulizar();
-					action_clear();
 				} else {
-					consultarElementosNuevo();
+					tipoSolicitudPqr = businessDelegatorView.getTipoSolicitudPqr(entity.getIdTpSolPqr().longValue());
+					consultarElementosModificar(tipoSolicitudPqr);
 					throw new Exception("El Tipo de Solicitud no ha sido modificado, tipo ya existe");
 				}
 			}
