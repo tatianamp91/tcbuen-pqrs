@@ -1,0 +1,67 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+<h:body> 
+	<ui:composition template="/WEB-INF/facelets/template.xhtml">
+		<ui:define name="body">
+			<f:view>
+				<p:ajaxStatus onstart="statusDialog.show();"
+					onsuccess="statusDialog.hide();" />
+				<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+					draggable="false" closable="false">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+				<h:form id="formDialog">
+					<p:messages id="msg" showDetail="true" />
+					<p:growl id="men" />
+					<p:panel id="panelInfoSolicitante" header="Información del Solicitante">
+						<h:panelGrid columns="6" id="panelGrid">
+						<h:outputText id="msgIdTpDoc_TipoDocumento"
+								value="*Tipo de Documento:" />
+							<p:inputText id="txtIdTpDoc_TipoDocumento"
+								binding="#{infoSolicitanteView.txtIdTpDoc_TipoDocumento}" />
+							<h:outputText id="msgNumeroIdentificacion"
+								value="*Número de Identificación:" />
+							<p:inputText id="txtNumeroIdentificacion"
+								binding="#{infoSolicitanteView.txtNumeroIdentificacion}" />
+							<h:outputText id="msgNombreEmpresa" value="Nombre de la Empresa:" />
+							<p:inputText id="txtNombreEmpresa"
+								binding="#{infoSolicitanteView.txtNombreEmpresa}" />
+							<h:outputText id="msgNombreContacto" value="*Nombre de Contacto:" />
+							<p:inputText id="txtNombreContacto"
+								binding="#{infoSolicitanteView.txtNombreContacto}" />									
+							<h:outputText id="msgCorreoElectronico"
+								value="*Correo Electronico:" />
+							<p:inputText id="txtCorreoElectronico"
+								binding="#{infoSolicitanteView.txtCorreoElectronico}" />
+							<h:outputText id="msgNumeroCelular" value="*Numero Celular:" />
+							<p:inputText id="txtNumeroCelular"
+								binding="#{infoSolicitanteView.txtNumeroCelular}" />							
+							<h:outputText id="msgTelefonoFijo" value="*Telefono Fijo:" />
+							<p:inputText id="txtTelefonoFijo"
+								binding="#{infoSolicitanteView.txtTelefonoFijo}" />						
+						</h:panelGrid>
+					</p:panel>
+					<p:panel id="panelBotones">
+						<div align="center">
+							<p:commandButton id="btnSave"
+								binding="#{infoSolicitanteView.btnSave}"
+								value="Guardar" action="#{infoSolicitanteView.action_save()}"
+								update="panelInfoSolicitante,msg,panelBotones" />
+							<p:commandButton id="btnClear" value="Limpiar"
+								action="#{infoSolicitanteView.action_clear()}"
+								update="panelInfoSolicitante,msg,panelBotones" />
+						</div>
+					</p:panel>
+				</h:form>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

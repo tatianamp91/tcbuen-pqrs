@@ -85,18 +85,20 @@ public class InfoSolicitanteLogic implements IInfoSolicitanteLogic {
                 throw new ZMessManager().new NotValidFormatException(
                     "correoElectronico");
             }
-
+            
+            /*
             if (entity.getIdInfoSolicitante() == null) {
                 throw new ZMessManager().new EmptyFieldException(
                     "idInfoSolicitante");
             }
 
+            
             if ((entity.getIdInfoSolicitante() != null) &&
                     (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
                         entity.getIdInfoSolicitante(), 10, 0) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "idInfoSolicitante");
-            }
+            }*/
 
             if (entity.getNombreContacto() == null) {
                 throw new ZMessManager().new EmptyFieldException(
@@ -154,10 +156,11 @@ public class InfoSolicitanteLogic implements IInfoSolicitanteLogic {
                 throw new ZMessManager().new NotValidFormatException(
                     "idTpDoc_TipoDocumento");
             }
-
+            
+            /*
             if (getInfoSolicitante(entity.getIdInfoSolicitante()) != null) {
                 throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
-            }
+            }*/
 
             infoSolicitanteDAO.save(entity);
         } catch (Exception e) {

@@ -138,50 +138,30 @@ public class InfoSolicitanteView implements Serializable {
 
         if (txtCorreoElectronico != null) {
             txtCorreoElectronico.setValue(null);
-            txtCorreoElectronico.setDisabled(true);
         }
 
         if (txtNombreContacto != null) {
             txtNombreContacto.setValue(null);
-            txtNombreContacto.setDisabled(true);
         }
 
         if (txtNombreEmpresa != null) {
             txtNombreEmpresa.setValue(null);
-            txtNombreEmpresa.setDisabled(true);
         }
 
         if (txtNumeroCelular != null) {
             txtNumeroCelular.setValue(null);
-            txtNumeroCelular.setDisabled(true);
         }
 
         if (txtNumeroIdentificacion != null) {
             txtNumeroIdentificacion.setValue(null);
-            txtNumeroIdentificacion.setDisabled(true);
         }
 
         if (txtTelefonoFijo != null) {
             txtTelefonoFijo.setValue(null);
-            txtTelefonoFijo.setDisabled(true);
         }
 
         if (txtIdTpDoc_TipoDocumento != null) {
             txtIdTpDoc_TipoDocumento.setValue(null);
-            txtIdTpDoc_TipoDocumento.setDisabled(true);
-        }
-
-        if (txtIdInfoSolicitante != null) {
-            txtIdInfoSolicitante.setValue(null);
-            txtIdInfoSolicitante.setDisabled(false);
-        }
-
-        if (btnSave != null) {
-            btnSave.setDisabled(true);
-        }
-
-        if (btnDelete != null) {
-            btnDelete.setDisabled(true);
         }
 
         return "";
@@ -278,22 +258,17 @@ public class InfoSolicitanteView implements Serializable {
     public String action_create() {
         try {
             entity = new InfoSolicitante();
-
-            Long idInfoSolicitante = FacesUtils.checkLong(txtIdInfoSolicitante);
-
-            entity.setCorreoElectronico(FacesUtils.checkString(
-                    txtCorreoElectronico));
-            entity.setIdInfoSolicitante(idInfoSolicitante);
-            entity.setNombreContacto(FacesUtils.checkString(txtNombreContacto));
-            entity.setNombreEmpresa(FacesUtils.checkString(txtNombreEmpresa));
-            entity.setNumeroCelular(FacesUtils.checkString(txtNumeroCelular));
-            entity.setNumeroIdentificacion(FacesUtils.checkString(
-                    txtNumeroIdentificacion));
-            entity.setTelefonoFijo(FacesUtils.checkString(txtTelefonoFijo));
             entity.setTipoDocumento((FacesUtils.checkLong(
                     txtIdTpDoc_TipoDocumento) != null)
                 ? businessDelegatorView.getTipoDocumento(FacesUtils.checkLong(
                         txtIdTpDoc_TipoDocumento)) : null);
+            entity.setNumeroIdentificacion(FacesUtils.checkString(
+                    txtNumeroIdentificacion));
+            entity.setNombreEmpresa(FacesUtils.checkString(txtNombreEmpresa));
+            entity.setNombreContacto(FacesUtils.checkString(txtNombreContacto));
+            entity.setCorreoElectronico(FacesUtils.checkString(txtCorreoElectronico));         
+            entity.setNumeroCelular(FacesUtils.checkString(txtNumeroCelular));
+            entity.setTelefonoFijo(FacesUtils.checkString(txtTelefonoFijo));
             businessDelegatorView.saveInfoSolicitante(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
             action_clear();
