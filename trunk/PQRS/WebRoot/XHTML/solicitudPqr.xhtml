@@ -1,0 +1,92 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template.xhtml">
+		<ui:define name="body">
+			<f:view>
+				<p:ajaxStatus onstart="statusDialog.show();"
+					onsuccess="statusDialog.hide();" />
+				<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+					draggable="false" closable="false">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+				<h:form id="formDialog">
+					<p:messages id="msg" showDetail="true" />
+					<p:growl id="men" />
+					<p:panel id="panelSolicitudPqr" header="Nombre del Formulario">
+						<h:panelGrid columns="1" id="panelGrid">
+							<h:panelGrid columns="2" id="panelGrid2">
+								<h:outputText id="msgNombreCliente" value="Solicitante:" />
+								<p:inputText id="txtNombreCliente"
+									binding="#{solicitudPqrView.txtNombreCliente}" disabled="true"
+									size="96" />
+								<h:outputText id="msgNombreAgenciaAduana"
+									value="*Nombre de Agencia de Aduana:" />
+								<p:inputText id="txtNombreAgenciaAduana"
+									binding="#{solicitudPqrView.txtNombreAgenciaAduana}" size="96" />
+								<h:panelGrid columns="1" id="panelGrid3">
+									<h:outputText id="msgMotSol" value="*Motivos de Soliciud:" />
+									<p:selectOneRadio id="motSol" value="">
+										<f:selectItem itemLabel="Uno" itemValue="Uno" />
+										<f:selectItem itemLabel="Dos" itemValue="Dos" />
+										<f:selectItem itemLabel="Tres" itemValue="Tres" />
+									</p:selectOneRadio>
+								</h:panelGrid>
+								<h:panelGrid columns="1" id="panelGrid4">
+									<h:outputText id="msgMotRecl" value="*Motivos de Reclamación:" />
+									<p:selectOneRadio id="motRecl" value="">
+										<f:selectItem itemLabel="Uno" itemValue="Uno" />
+										<f:selectItem itemLabel="Dos" itemValue="Dos" />
+										<f:selectItem itemLabel="Tres" itemValue="Tres" />
+									</p:selectOneRadio>
+								</h:panelGrid>
+							</h:panelGrid>
+							<h:outputText id="msgDescripcionCaso"
+								value="*Descripcion del Caso:" />
+							<p:inputTextarea id="txtDescripcionCaso" rows="10" cols="130" />
+							<h:outputText id="msgSolicitudARealizar"
+								value="*Solicitud a Realizar:" />
+							<p:inputTextarea id="txtSolicitudARealizar" rows="10" cols="130" />
+							<h:outputText id="msgAnexos" value="*Anexos:" />
+							<p:dataTable id="tabla" value="" var="" paginator="false"
+								rows="5">
+								<p:column headerText="Anexo">									
+										<h:outputText id="msgAnexo" value="Anexo" />
+								</p:column>
+								<p:column headerText="Archivo">
+									<p:growl id="messages" showDetail="true" />
+									<p:fileUpload value="Seleccionar Archivo" mode="simple" />
+									<p:commandButton value="Submit" ajax="false" />
+								</p:column>
+								<p:column headerText="Adjuntado">
+									<h:outputText id="msgAdjuntado" value="Adjuntado" />
+								</p:column>
+							</p:dataTable>
+						</h:panelGrid>
+					</p:panel>
+					<p:panel id="panelBotones">
+						<div align="center">
+							<p:commandButton id="btnSave"
+								binding="#{solicitudPqrView.btnSave}" value="Enviar Solicitud"
+								action="#{solicitudPqrView.action_save()}"
+								update="panelSolicitudPqr,msg,panelBotones" />
+							<p:commandButton id="btnClear" value="Limpiar Formulario"
+								action="#{solicitudPqrView.action_clear()}"
+								update="panelSolicitudPqr,msg,panelBotones" />
+						</div>
+					</p:panel>
+				</h:form>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

@@ -40,6 +40,16 @@
 							</p:submenu>
 						</p:column>
 					</p:submenu>
+					<p:submenu label="Menu de Solicitud" icon="ui-icon-contact" style="width:250px">
+						<p:column style="width:250px">
+							<p:submenu style="width:240px">
+								<p:menuitem value="Informacion Soliciante" style="width:240px"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/infoSolicitante.xhtml" />
+								<p:menuitem value="Solicitud PQR" style="width:240px"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/solicitudPqr.xhtml" />
+								</p:submenu>
+						</p:column>
+					</p:submenu>
 					<p:menuitem value="Salir"
 						url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/index.jsp"
 						icon="ui-icon-close" />
