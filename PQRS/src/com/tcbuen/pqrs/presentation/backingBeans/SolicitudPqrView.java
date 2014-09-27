@@ -411,7 +411,7 @@ public class SolicitudPqrView implements Serializable {
                 ? businessDelegatorView.getTipoSolicitudPqr(
                     FacesUtils.checkLong(txtIdTpSolPqr_TipoSolicitudPqr)) : null);
             businessDelegatorView.saveSolicitudPqr(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+            FacesUtils.addInfoMessage("Se guardo la solicitud exitosamente");
             action_clear();
         } catch (Exception e) {
             entity = null;
@@ -455,7 +455,7 @@ public class SolicitudPqrView implements Serializable {
                 ? businessDelegatorView.getTipoSolicitudPqr(
                     FacesUtils.checkLong(txtIdTpSolPqr_TipoSolicitudPqr)) : null);
             businessDelegatorView.updateSolicitudPqr(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+            FacesUtils.addInfoMessage("Se modifico la solicitud exitosamente");
         } catch (Exception e) {
             data = null;
             FacesUtils.addErrorMessage(e.getMessage());
