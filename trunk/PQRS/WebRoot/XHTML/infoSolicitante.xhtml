@@ -3,11 +3,14 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
+
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </h:head>
-<h:body> 
+
+<h:body>
 	<ui:composition template="/WEB-INF/facelets/template.xhtml">
+
 		<ui:define name="body">
 			<f:view>
 				<p:ajaxStatus onstart="statusDialog.show();"
@@ -17,49 +20,127 @@
 					<p:graphicImage
 						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
 				</p:dialog>
-				<h:form id="formDialog">
+				<h:form id="frm">
 					<p:messages id="msg" showDetail="true" />
 					<p:growl id="men" />
-					<p:panel id="panelInfoSolicitante" header="Información del Solicitante">
+
+					<p:panel id="panelInfoSolicitante"
+						header="Información del Solicitante">
 						<h:panelGrid columns="6" id="panelGrid">
-						<h:outputText id="msgIdTpDoc_TipoDocumento"
+							<h:outputText id="msgIdTpDoc_TipoDocumento"
 								value="*Tipo de Documento:" />
-							<p:inputText id="txtIdTpDoc_TipoDocumento"
-								binding="#{infoSolicitanteView.txtIdTpDoc_TipoDocumento}" />
+							<p:selectOneMenu id="TipoDocumento"
+								value="#{infoSolicitanteView.idTipoDocumento}"
+								style="height:20px;width:150px">
+								<f:selectItem itemLabel="Seleccione" itemValue="" />
+								<f:selectItems value="#{infoSolicitanteView.tipoDocumento}" />
+							</p:selectOneMenu>
+
 							<h:outputText id="msgNumeroIdentificacion"
 								value="*Número de Identificación:" />
 							<p:inputText id="txtNumeroIdentificacion"
 								binding="#{infoSolicitanteView.txtNumeroIdentificacion}" />
+
 							<h:outputText id="msgNombreEmpresa" value="Nombre de la Empresa:" />
 							<p:inputText id="txtNombreEmpresa"
 								binding="#{infoSolicitanteView.txtNombreEmpresa}" />
+
 							<h:outputText id="msgNombreContacto" value="*Nombre de Contacto:" />
 							<p:inputText id="txtNombreContacto"
-								binding="#{infoSolicitanteView.txtNombreContacto}" />									
+								binding="#{infoSolicitanteView.txtNombreContacto}" />
+
 							<h:outputText id="msgCorreoElectronico"
 								value="*Correo Electronico:" />
 							<p:inputText id="txtCorreoElectronico"
 								binding="#{infoSolicitanteView.txtCorreoElectronico}" />
+
 							<h:outputText id="msgNumeroCelular" value="*Numero Celular:" />
 							<p:inputText id="txtNumeroCelular"
-								binding="#{infoSolicitanteView.txtNumeroCelular}" />							
+								binding="#{infoSolicitanteView.txtNumeroCelular}" />
+
 							<h:outputText id="msgTelefonoFijo" value="*Telefono Fijo:" />
 							<p:inputText id="txtTelefonoFijo"
-								binding="#{infoSolicitanteView.txtTelefonoFijo}" />						
+								binding="#{infoSolicitanteView.txtTelefonoFijo}" />
 						</h:panelGrid>
 					</p:panel>
-					<p:panel id="panelBotones">
+					<p:panel id="panelBoton">
 						<div align="center">
 							<p:commandButton id="btnSave"
-								binding="#{infoSolicitanteView.btnSave}"
-								value="Guardar" action="#{infoSolicitanteView.action_save()}"
-								update="panelInfoSolicitante,msg,panelBotones" />
+								binding="#{infoSolicitanteView.btnSave}" value="Guardar"
+								action="#{infoSolicitanteView.action_save()}"
+								update="panelInfoSolicitante,msg,panelBoton" />
 							<p:commandButton id="btnClear" value="Limpiar"
 								action="#{infoSolicitanteView.action_clear()}"
-								update="panelInfoSolicitante,msg,panelBotones" />
+								update="panelInfoSolicitante,msg,panelBoton" />
+							<p:commandButton id="btnInstructivo" value="Instructivo"
+								action="#{infoSolicitanteView.action_instructivo()}"
+								update=":dialogInstructivo" />
+							<p:commandButton id="btnSiguiente" value="Siguiente"
+								action="#{infoSolicitanteView.action_solicitud()}"
+								update=":dialogInfoSolicitante" />
 						</div>
 					</p:panel>
 				</h:form>
+				<p:dialog id="dialogInfoSolicitante" appendToBody="true"
+					draggable="true" closable="false"
+					visible="#{infoSolicitanteView.solicitud}" resizable="false"
+					modal="true" width="800">
+					<h:form id="formDialog">
+						<p:messages id="msg" showDetail="true" />
+						<p:panel id="panelInfoSolicitante"
+							header="Seleccione un Tipo de Solicitud PQR">
+							<h:panelGrid columns="1" id="panelGrid">
+								<p:selectOneRadio id="tipoSolicitud"
+									value="#{infoSolicitanteView.idTipoSolicitud}" layout="grid"
+									columns="5">
+									<f:selectItems value="#{infoSolicitanteView.tipoSolicitud}"
+										var="tipoSol" itemLabel="#{tipoSol.descTpSol}"
+										itemValue="#{tipoSol.idTpSolPqr}" />
+								</p:selectOneRadio>
+							</h:panelGrid>
+						</p:panel>
+						<p:panel id="panelBotones">
+							<div align="center">
+								<p:commandButton id="btnExit" value="Salir"
+									action="#{infoSolicitanteView.action_closeDialog()}"
+									update=":dialogInfoSolicitante" />
+							</div>
+						</p:panel>
+					</h:form>
+				</p:dialog>
+				<p:dialog id="dialogInstructivo" appendToBody="true"
+					draggable="true" closable="false"
+					visible="#{infoSolicitanteView.instructivo}" resizable="false"
+					modal="true" width="800">
+					<h:form id="formDialogInstructivo">
+						<p:messages id="msg" showDetail="true" />
+						<p:panel id="panelInstructivo" header="Instructivo">
+							<h:panelGrid columns="1" id="panelGrid">
+								<p:accordionPanel value="#{infoSolicitanteView.tipoSolicitud}"
+									var="tipoSol">
+									<p:tab title="#{tipoSol.descTpSol}">
+										<h:panelGrid columns="2" cellpadding="5">
+											<p:dataTable id="tablaTipoSolicitud"
+												value="#{infoSolicitanteView.tipoSolicitud}"
+												var="tipoSolicitudPqr">
+												<p:column>
+													<h:outputText value="#{tipoSolicitudPqr.descTpSol}" />
+												</p:column>
+											</p:dataTable>
+										</h:panelGrid>
+									</p:tab>
+								</p:accordionPanel>
+							</h:panelGrid>
+						</p:panel>
+						<p:panel id="panelBotones">
+							<div align="center">
+								<p:commandButton id="btnExit" value="Salir"
+									action="#{infoSolicitanteView.action_closeDialog()}"
+									update=":dialogInstructivo" />
+							</div>
+						</p:panel>
+					</h:form>
+				</p:dialog>
 			</f:view>
 		</ui:define>
 	</ui:composition>

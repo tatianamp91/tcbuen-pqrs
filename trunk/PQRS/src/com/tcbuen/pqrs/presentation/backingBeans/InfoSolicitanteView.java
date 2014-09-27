@@ -9,18 +9,16 @@ import com.tcbuen.pqrs.utilities.*;
 import org.primefaces.component.calendar.*;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
-
+import org.primefaces.event.FlowEvent;
 import org.primefaces.event.RowEditEvent;
 
 import java.io.Serializable;
-
 import java.sql.*;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TimeZone;
@@ -31,6 +29,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.model.SelectItem;
 
 
 /**
@@ -57,6 +56,13 @@ public class InfoSolicitanteView implements Serializable {
     private InfoSolicitanteDTO selectedInfoSolicitante;
     private InfoSolicitante entity;
     private boolean showDialog;
+    private boolean instructivo;
+    private boolean solicitud;
+    private Long idTipoDocumento;
+    private List<SelectItem> tipoDocumento;
+    private Long idTipoSolicitud;
+    private List<TipoSolicitudPqr> tipoSolicitud;
+    private List<AnexosPqr> anexosPqrs;    
     @ManagedProperty(value = "#{BusinessDelegatorView}")
     private IBusinessDelegatorView businessDelegatorView;
 
@@ -128,10 +134,23 @@ public class InfoSolicitanteView implements Serializable {
         action_clear();
         selectedInfoSolicitante = null;
         setShowDialog(true);
+        setInstructivo(true);
 
         return "";
     }
+    
+    public String action_instructivo() {
+        setInstructivo(true);
 
+        return "";
+    }
+    
+    public String action_solicitud() {
+        setSolicitud(true);
+
+        return "";
+    }
+    
     public String action_clear() {
         entity = null;
         selectedInfoSolicitante = null;
@@ -163,6 +182,22 @@ public class InfoSolicitanteView implements Serializable {
         if (txtIdTpDoc_TipoDocumento != null) {
             txtIdTpDoc_TipoDocumento.setValue(null);
         }
+        
+        if (idTipoDocumento != null) {
+        	idTipoDocumento = null;
+        }
+        
+        tipoDocumento = null;
+        tipoDocumento = getTipoDocumento();
+        
+        tipoSolicitud = null;
+        tipoSolicitud = getTipoSolicitud();
+        /*
+        anexosPqrs = null;
+        for (TipoSolicitudPqr tipoSol : tipoSolicitud) {
+        	long tSol = tipoSol.getIdTpSolPqr(); 
+        	anexosPqrs = getAnexosPqrs(tSol);
+		}*/
 
         return "";
     }
@@ -246,8 +281,6 @@ public class InfoSolicitanteView implements Serializable {
             } else {
                 action_modify();
             }
-
-            data = null;
         } catch (Exception e) {
             FacesUtils.addErrorMessage(e.getMessage());
         }
@@ -258,10 +291,8 @@ public class InfoSolicitanteView implements Serializable {
     public String action_create() {
         try {
             entity = new InfoSolicitante();
-            entity.setTipoDocumento((FacesUtils.checkLong(
-                    txtIdTpDoc_TipoDocumento) != null)
-                ? businessDelegatorView.getTipoDocumento(FacesUtils.checkLong(
-                        txtIdTpDoc_TipoDocumento)) : null);
+            entity.setTipoDocumento((idTipoDocumento != null)
+                ? businessDelegatorView.getTipoDocumento(idTipoDocumento) : null);
             entity.setNumeroIdentificacion(FacesUtils.checkString(
                     txtNumeroIdentificacion));
             entity.setNombreEmpresa(FacesUtils.checkString(txtNombreEmpresa));
@@ -271,7 +302,7 @@ public class InfoSolicitanteView implements Serializable {
             entity.setTelefonoFijo(FacesUtils.checkString(txtTelefonoFijo));
             businessDelegatorView.saveInfoSolicitante(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
-            action_clear();
+            //action_clear();
         } catch (Exception e) {
             entity = null;
             FacesUtils.addErrorMessage(e.getMessage());
@@ -295,10 +326,8 @@ public class InfoSolicitanteView implements Serializable {
             entity.setNumeroIdentificacion(FacesUtils.checkString(
                     txtNumeroIdentificacion));
             entity.setTelefonoFijo(FacesUtils.checkString(txtTelefonoFijo));
-            entity.setTipoDocumento((FacesUtils.checkLong(
-                    txtIdTpDoc_TipoDocumento) != null)
-                ? businessDelegatorView.getTipoDocumento(FacesUtils.checkLong(
-                        txtIdTpDoc_TipoDocumento)) : null);
+            entity.setTipoDocumento((idTipoDocumento != null)
+                    ? businessDelegatorView.getTipoDocumento(idTipoDocumento) : null);
             businessDelegatorView.updateInfoSolicitante(entity);
             FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
         } catch (Exception e) {
@@ -350,6 +379,8 @@ public class InfoSolicitanteView implements Serializable {
 
     public String action_closeDialog() {
         setShowDialog(false);
+        setInstructivo(false);
+        setSolicitud(false);
         action_clear();
 
         return "";
@@ -538,4 +569,82 @@ public class InfoSolicitanteView implements Serializable {
     public void setShowDialog(boolean showDialog) {
         this.showDialog = showDialog;
     }
+
+	public Long getIdTipoDocumento() {
+		return idTipoDocumento;
+	}
+
+	public void setIdTipoDocumento(Long idTipoDocumento) {
+		this.idTipoDocumento = idTipoDocumento;
+	}
+
+	public List<SelectItem> getTipoDocumento() {
+		try {
+		       	tipoDocumento = new ArrayList<SelectItem>();
+				List<TipoDocumento> tiposDocumentos = businessDelegatorView.getTipoDocumento();
+		       	for (TipoDocumento tDoc : tiposDocumentos) {
+					tipoDocumento.add(new SelectItem(tDoc.getIdTpDoc(), tDoc.getDescripcionTpDoc()));
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return tipoDocumento;	
+	}
+
+	public void setTipoDocumento(List<SelectItem> tipoDocumento) {
+		this.tipoDocumento = tipoDocumento;
+	}
+
+	public Long getIdTipoSolicitud() {
+		return idTipoSolicitud;
+	}
+
+	public void setIdTipoSolicitud(Long idTipoSolicitud) {
+		this.idTipoSolicitud = idTipoSolicitud;
+	}
+
+	public List<TipoSolicitudPqr> getTipoSolicitud() {
+		try {
+	       	tipoSolicitud = new ArrayList<TipoSolicitudPqr>();
+			tipoSolicitud = businessDelegatorView.getTipoSolicitudPqr();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return tipoSolicitud;
+	}
+
+	public void setTipoSolicitud(List<TipoSolicitudPqr> tipoSolicitud) {
+		this.tipoSolicitud = tipoSolicitud;
+	}
+
+	public List<AnexosPqr> getAnexosPqrs(long idTipoSolicitud) {
+		try {
+			TipoSolicitudPqr tSolPqr = businessDelegatorView.getTipoSolicitudPqr(idTipoSolicitud);
+	       	anexosPqrs = new ArrayList<AnexosPqr>();
+			anexosPqrs = businessDelegatorView.consultarAnxsXTipoPqr(tSolPqr);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return anexosPqrs;
+	}
+
+	public void setAnexosPqrs(List<AnexosPqr> anexosPqrs) {
+		this.anexosPqrs = anexosPqrs;
+	}
+
+	public boolean isInstructivo() {
+		return instructivo;
+	}
+
+	public void setInstructivo(boolean instructivo) {
+		this.instructivo = instructivo;
+	}
+
+	public boolean isSolicitud() {
+		return solicitud;
+	}
+
+	public void setSolicitud(boolean solicitud) {
+		this.solicitud = solicitud;
+	}	
 }
