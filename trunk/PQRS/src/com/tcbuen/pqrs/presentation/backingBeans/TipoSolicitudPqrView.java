@@ -363,7 +363,7 @@ public class TipoSolicitudPqrView implements Serializable {
 						motivosSolicitudTarget, anexosPqrTargetCopia,
 						anexosPqrTarget);
 				
-				FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+				FacesUtils.addInfoMessage("El tipo de solicitud se guardo exitosamente");
 				action_clear();
 			}else {
 				consultarElementosNuevo();
@@ -452,7 +452,7 @@ public class TipoSolicitudPqrView implements Serializable {
 					motivosSolicitudTarget, anexosPqrTargetCopia,
 					anexosPqrTarget);
 
-			FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+			FacesUtils.addInfoMessage("El tipo de solicitud se modifico exitosamente");
 			action_clear();
 		} catch (Exception e) {
 			data = null;
