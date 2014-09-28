@@ -72,9 +72,6 @@
 							<p:commandButton id="btnClear" value="Limpiar"
 								action="#{infoSolicitanteView.action_clear()}"
 								update="panelInfoSolicitante,msg,panelBoton" />
-							<p:commandButton id="btnInstructivo" value="Instructivo"
-								action="#{infoSolicitanteView.action_instructivo()}"
-								update=":dialogInstructivo" />
 							<p:commandButton id="btnSiguiente" value="Siguiente"
 								action="#{infoSolicitanteView.action_solicitud()}"
 								update=":dialogInfoSolicitante" />
@@ -84,7 +81,7 @@
 				<p:dialog id="dialogInfoSolicitante" appendToBody="true"
 					draggable="true" closable="false"
 					visible="#{infoSolicitanteView.solicitud}" resizable="false"
-					modal="true" width="800">
+					modal="true" width="500">
 					<h:form id="formDialog">
 						<p:messages id="msg" showDetail="true" />
 						<p:panel id="panelInfoSolicitante"
@@ -101,9 +98,12 @@
 						</p:panel>
 						<p:panel id="panelBotones">
 							<div align="center">
-								<p:commandButton id="btnExit" value="Salir"
+								<p:commandButton id="btnExit" value="Atras"
 									action="#{infoSolicitanteView.action_closeDialog()}"
 									update=":dialogInfoSolicitante" />
+								<p:commandButton id="btnInstructivo" value="Instructivo"
+									action="#{infoSolicitanteView.action_instructivo()}"
+									update=":dialogInstructivo" />
 							</div>
 						</p:panel>
 					</h:form>
@@ -111,32 +111,30 @@
 				<p:dialog id="dialogInstructivo" appendToBody="true"
 					draggable="true" closable="false"
 					visible="#{infoSolicitanteView.instructivo}" resizable="false"
-					modal="true" width="800">
+					modal="true" width="500">
 					<h:form id="formDialogInstructivo">
 						<p:messages id="msg" showDetail="true" />
-						<p:panel id="panelInstructivo" header="Instructivo">
+						<p:panel id="panelInstructivo" header="#{infoSolicitanteView.descTpSol}">
 							<h:panelGrid columns="1" id="panelGrid">
-								<p:accordionPanel value="#{infoSolicitanteView.tipoSolicitud}"
-									var="tipoSol">
-									<p:tab title="#{tipoSol.descTpSol}">
-										<h:panelGrid columns="2" cellpadding="5">
-											<p:dataTable id="tablaTipoSolicitud"
-												value="#{infoSolicitanteView.tipoSolicitud}"
-												var="tipoSolicitudPqr">
-												<p:column>
-													<h:outputText value="#{tipoSolicitudPqr.descTpSol}" />
-												</p:column>
-											</p:dataTable>
-										</h:panelGrid>
-									</p:tab>
-								</p:accordionPanel>
+								<h:outputText value="Para este tipo de solicitud debe incluir los siguientes anexos:" />
+								<h:panelGrid columns="2" cellpadding="5">
+									<p:dataTable id="tablaAnexosXTipoSol"
+										value="#{infoSolicitanteView.anexosPqrs}"
+										var="anexosPqr">
+										<p:column>
+											<h:outputText value="#{anexosPqr.descripcionAnexo}" />
+										</p:column>
+									</p:dataTable>
+								</h:panelGrid>
 							</h:panelGrid>
 						</p:panel>
 						<p:panel id="panelBotones">
 							<div align="center">
-								<p:commandButton id="btnExit" value="Salir"
+								<p:commandButton id="btnExit" value="Atras"
 									action="#{infoSolicitanteView.action_closeDialog()}"
 									update=":dialogInstructivo" />
+								<p:commandButton value="Siguiente" 
+								url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/solicitudPqr.xhtml" />
 							</div>
 						</p:panel>
 					</h:form>
