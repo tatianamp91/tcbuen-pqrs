@@ -11,6 +11,8 @@ import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.model.DefaultTreeNode;
+import org.primefaces.model.TreeNode;
 
 import java.io.Serializable;
 import java.sql.*;
@@ -61,8 +63,9 @@ public class InfoSolicitanteView implements Serializable {
     private Long idTipoDocumento;
     private List<SelectItem> tipoDocumento;
     private Long idTipoSolicitud;
+    private String descTpSol;
     private List<TipoSolicitudPqr> tipoSolicitud;
-    private List<AnexosPqr> anexosPqrs;    
+    private List<AnexosPqr> anexosPqrs;
     @ManagedProperty(value = "#{BusinessDelegatorView}")
     private IBusinessDelegatorView businessDelegatorView;
 
@@ -129,7 +132,7 @@ public class InfoSolicitanteView implements Serializable {
         } catch (Exception ex) {
         }
     }
-
+    
     public String action_new() {
         action_clear();
         selectedInfoSolicitante = null;
@@ -140,7 +143,18 @@ public class InfoSolicitanteView implements Serializable {
     }
     
     public String action_instructivo() {
-        setInstructivo(true);
+    	try{
+    		if(idTipoSolicitud != null){
+		    	TipoSolicitudPqr tSol = businessDelegatorView.getTipoSolicitudPqr(idTipoSolicitud);
+		    	descTpSol = tSol.getDescTpSol();
+		    	anexosPqrs = getAnexosPqrs(idTipoSolicitud);
+		        setInstructivo(true);
+    		}else{
+    			FacesUtils.addErrorMessage("Debe Seleccionar un Tipo de Solicitud");
+    		}
+    	}catch (Exception e){
+    		FacesUtils.addErrorMessage(e.getMessage());
+    	}
 
         return "";
     }
@@ -191,13 +205,8 @@ public class InfoSolicitanteView implements Serializable {
         tipoDocumento = getTipoDocumento();
         
         tipoSolicitud = null;
-        tipoSolicitud = getTipoSolicitud();
-        /*
+        idTipoSolicitud = null;
         anexosPqrs = null;
-        for (TipoSolicitudPqr tipoSol : tipoSolicitud) {
-        	long tSol = tipoSol.getIdTpSolPqr(); 
-        	anexosPqrs = getAnexosPqrs(tSol);
-		}*/
 
         return "";
     }
@@ -646,5 +655,17 @@ public class InfoSolicitanteView implements Serializable {
 
 	public void setSolicitud(boolean solicitud) {
 		this.solicitud = solicitud;
-	}	
+	}
+
+	public List<AnexosPqr> getAnexosPqrs() {
+		return anexosPqrs;
+	}
+
+	public String getDescTpSol() {
+		return descTpSol;
+	}
+
+	public void setDescTpSol(String descTpSol) {
+		this.descTpSol = descTpSol;
+	}
 }
