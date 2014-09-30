@@ -54,6 +54,7 @@ public class InfoSolicitanteView implements Serializable {
     private CommandButton btnModify;
     private CommandButton btnDelete;
     private CommandButton btnClear;
+    private CommandButton btnSiguiente;
     private List<InfoSolicitanteDTO> data;
     private InfoSolicitanteDTO selectedInfoSolicitante;
     private InfoSolicitante entity;
@@ -207,6 +208,8 @@ public class InfoSolicitanteView implements Serializable {
         tipoSolicitud = null;
         idTipoSolicitud = null;
         anexosPqrs = null;
+        
+        btnSiguiente.setDisabled(true);
 
         return "";
     }
@@ -231,6 +234,7 @@ public class InfoSolicitanteView implements Serializable {
             txtIdTpDoc_TipoDocumento.setDisabled(false);
             txtIdInfoSolicitante.setDisabled(false);
             btnSave.setDisabled(false);
+            btnSiguiente.setDisabled(true);
         } else {
             txtCorreoElectronico.setValue(entity.getCorreoElectronico());
             txtCorreoElectronico.setDisabled(false);
@@ -323,7 +327,10 @@ public class InfoSolicitanteView implements Serializable {
             entity.setTelefonoFijo(FacesUtils.checkString(txtTelefonoFijo));
             businessDelegatorView.saveInfoSolicitante(entity);
             FacesUtils.addInfoMessage("La información ha sido guardada exitosamente");
-            action_clear();
+            btnClear.setDisabled(true);
+            btnSave.setDisabled(true);
+            btnSiguiente.setDisabled(false);
+            //action_clear();
         } catch (Exception e) {
             entity = null;
             FacesUtils.addErrorMessage(e.getMessage());
@@ -735,5 +742,13 @@ public class InfoSolicitanteView implements Serializable {
 
 	public void setDescTpSol(String descTpSol) {
 		this.descTpSol = descTpSol;
+	}
+
+	public CommandButton getBtnSiguiente() {
+		return btnSiguiente;
+	}
+
+	public void setBtnSiguiente(CommandButton btnSiguiente) {
+		this.btnSiguiente = btnSiguiente;
 	}
 }
