@@ -21,7 +21,7 @@
 						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
 				</p:dialog>
 				<h:form id="frm">
-					<p:messages id="msg" showDetail="true" />
+					<p:messages id="msg" showDetail="false" />
 					<p:growl id="men" />
 
 					<p:panel id="panelInfoSolicitante"
@@ -83,7 +83,7 @@
 					visible="#{infoSolicitanteView.solicitud}" resizable="false"
 					modal="true" width="500">
 					<h:form id="formDialog">
-						<p:messages id="msg" showDetail="true" />
+						<p:messages id="msg" showDetail="false" />
 						<p:panel id="panelInfoSolicitante"
 							header="Seleccione un Tipo de Solicitud PQR">
 							<h:panelGrid columns="1" id="panelGrid">
@@ -113,7 +113,7 @@
 					visible="#{infoSolicitanteView.instructivo}" resizable="false"
 					modal="true" width="500">
 					<h:form id="formDialogInstructivo">
-						<p:messages id="msg" showDetail="true" />
+						<p:messages id="msg" showDetail="false" />
 						<p:panel id="panelInstructivo" header="#{infoSolicitanteView.descTpSol}">
 							<h:panelGrid columns="1" id="panelGrid">
 								<h:outputText value="Para este tipo de solicitud debe incluir los siguientes anexos:" />
