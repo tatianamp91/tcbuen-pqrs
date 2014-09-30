@@ -71,7 +71,8 @@ public class InfoSolicitanteLogic implements IInfoSolicitanteLogic {
         throws Exception {
         try {
             if (entity.getTipoDocumento() == null) {
-                throw new ZMessManager().new ForeignException("tipoDocumento");
+                throw new Exception ("Debe seleccionar un Tipo de Documento");
+              //ZMessManager().new ForeignException("Tipo de Documento");
             }
 
             if (entity.getCorreoElectronico() == null) {
@@ -549,4 +550,5 @@ public class InfoSolicitanteLogic implements IInfoSolicitanteLogic {
 
         return list;
     }
+    
 }

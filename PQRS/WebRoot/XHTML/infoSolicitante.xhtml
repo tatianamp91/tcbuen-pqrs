@@ -71,8 +71,10 @@
 								update="panelInfoSolicitante,msg,panelBoton" />
 							<p:commandButton id="btnClear" value="Limpiar"
 								action="#{infoSolicitanteView.action_clear()}"
+								binding="#{infoSolicitanteView.btnClear}"
 								update="panelInfoSolicitante,msg,panelBoton" />
 							<p:commandButton id="btnSiguiente" value="Siguiente"
+								binding="#{infoSolicitanteView.btnSiguiente}"
 								action="#{infoSolicitanteView.action_solicitud()}"
 								update=":dialogInfoSolicitante" />
 						</div>
