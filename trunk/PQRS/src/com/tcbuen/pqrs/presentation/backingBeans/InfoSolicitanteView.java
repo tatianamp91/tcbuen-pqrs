@@ -299,6 +299,18 @@ public class InfoSolicitanteView implements Serializable {
 
     public String action_create() {
         try {
+        	
+        	String numeroIdentificacion = txtNumeroIdentificacion.getValue().toString();
+			String nombreContacto= txtNombreContacto.getValue().toString();
+			String nombreEmpresa=txtNombreEmpresa.getValue().toString();
+			String email = txtCorreoElectronico.getValue().toString();
+			String numeroCelular = txtNumeroCelular.getValue().toString();
+			String telefonoFijo = txtTelefonoFijo.getValue().toString();
+
+			if (!revizarCampos(nombreContacto,nombreEmpresa,numeroIdentificacion,numeroCelular, telefonoFijo, email)){
+								
+				return "";
+			}
             entity = new InfoSolicitante();
             entity.setTipoDocumento((idTipoDocumento != null)
                 ? businessDelegatorView.getTipoDocumento(idTipoDocumento) : null);
@@ -310,8 +322,8 @@ public class InfoSolicitanteView implements Serializable {
             entity.setNumeroCelular(FacesUtils.checkString(txtNumeroCelular));
             entity.setTelefonoFijo(FacesUtils.checkString(txtTelefonoFijo));
             businessDelegatorView.saveInfoSolicitante(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
-            //action_clear();
+            FacesUtils.addInfoMessage("La información ha sido guardada exitosamente");
+            action_clear();
         } catch (Exception e) {
             entity = null;
             FacesUtils.addErrorMessage(e.getMessage());
@@ -320,6 +332,62 @@ public class InfoSolicitanteView implements Serializable {
         return "";
     }
 
+    
+    
+	public boolean revizarCampos(String nombreContacto, String nombreEmpresa,
+			String numeroIdentificacion, String numeroCelular,
+			String telefonoFijo, String email) throws Exception{
+		
+		if (numeroIdentificacion.equals("")
+				|| numeroIdentificacion.trim().equals("")) {
+			throw new Exception(
+					"Debe de ingresar un Numero de Identificacion");
+		}
+
+		if (!Utilities.soloNumeros(numeroIdentificacion)) {
+			throw new Exception(
+					"El Numero de Identificacion debe ser totalmente numerico");
+		}
+
+		if (nombreContacto.equals("") || nombreContacto.trim().equals("")) {
+			throw new Exception("Debe de ingresar un Nombre de contacto");
+		}
+
+		if (nombreEmpresa.equals("") || nombreEmpresa.trim().equals("")) {
+			throw new Exception("Debe de ingresar un Nombre de empresa");
+		}
+
+		if (email.equals("") || email.trim().equals("")) {
+			throw new Exception(
+					"El Correo Electronico es de caracter obligatorio");
+		}
+
+		if (!Utilities.correElectronico(email)) {
+			throw new Exception(
+					"El Correo Electronico debe tener el siguiente formato \"xxx@xxx.xxx\"");
+		}
+		
+
+		if (numeroCelular.equals("") || numeroCelular.trim().equals("")) {
+			throw new Exception("Debe de ingresar un Numero celular");
+		}
+
+		if (!Utilities.soloNumeros(numeroCelular)) {
+			throw new Exception(
+					"El Numero celular debe ser totalmente numerico");
+		}
+
+		if (telefonoFijo.equals("") || telefonoFijo.trim().equals("")) {
+			throw new Exception("Debe de ingresar un Numero fijo");
+		}
+
+		if (!Utilities.soloNumeros(telefonoFijo)) {
+			throw new Exception("El Numero fijo debe ser totalmente numerico");
+		}	
+		
+		return true;		
+	}
+	
     public String action_modify() {
         try {
             if (entity == null) {
