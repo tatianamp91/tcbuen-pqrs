@@ -3,14 +3,11 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
-
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </h:head>
-
 <h:body>
 	<ui:composition template="/WEB-INF/facelets/template.xhtml">
-
 		<ui:define name="body">
 			<f:view>
 				<p:ajaxStatus onstart="statusDialog.show();"
@@ -23,45 +20,57 @@
 				<h:form id="frm">
 					<p:messages id="msg" showDetail="false" />
 					<p:growl id="men" />
-
 					<p:panel id="panelInfoSolicitante"
-						header="Información del Solicitante">
-						<h:panelGrid columns="6" id="panelGrid">
-							<h:outputText id="msgIdTpDoc_TipoDocumento"
-								value="*Tipo de Documento:" />
-							<p:selectOneMenu id="TipoDocumento"
-								value="#{infoSolicitanteView.idTipoDocumento}"
-								style="height:20px;width:150px">
-								<f:selectItem itemLabel="Seleccione" itemValue="" />
-								<f:selectItems value="#{infoSolicitanteView.tipoDocumento}" />
-							</p:selectOneMenu>
+						header="Información del Solicitante" style="text-align:center">
+						<div align="center">
+							<h:panelGrid columns="2" id="panelGrid">
+								<h:outputText id="msgIdTpDoc_TipoDocumento"
+									value="*Tipo de Documento:" />
+								<p:selectOneMenu id="TipoDocumento"
+									value="#{infoSolicitanteView.idTipoDocumento}"
+									style="height:20px;width:215px">
+									<f:selectItem itemLabel="Seleccione" itemValue="" />
+									<f:selectItems value="#{infoSolicitanteView.tipoDocumento}" />
+									<p:ajax listener="#{infoSolicitanteView.cambiarMaskNit}"
+										update="txtNumeroIdentificacion" />
+								</p:selectOneMenu>
 
-							<h:outputText id="msgNumeroIdentificacion"
-								value="*Número de Identificación:" />
-							<p:inputText id="txtNumeroIdentificacion"
-								binding="#{infoSolicitanteView.txtNumeroIdentificacion}" />
+								<h:outputText id="msgNumeroIdentificacion"
+									value="*Número de Identificación:" />
+								<p:inputMask id="txtNumeroIdentificacion"
+									value="#{infoSolicitanteView.numeroIdentificacion}"
+									mask="#{infoSolicitanteView.maskNit}" 
+									maxlength="20" size="30" />
 
-							<h:outputText id="msgNombreEmpresa" value="Nombre de la Empresa:" />
-							<p:inputText id="txtNombreEmpresa"
-								binding="#{infoSolicitanteView.txtNombreEmpresa}" />
+								<h:outputText id="msgNombreEmpresa"
+									value="Nombre de la Empresa:" />
+								<p:inputText id="txtNombreEmpresa"
+									binding="#{infoSolicitanteView.txtNombreEmpresa}"
+									maxlength="50" size="30" />
 
-							<h:outputText id="msgNombreContacto" value="*Nombre de Contacto:" />
-							<p:inputText id="txtNombreContacto"
-								binding="#{infoSolicitanteView.txtNombreContacto}" />
+								<h:outputText id="msgNombreContacto"
+									value="*Nombre de Contacto:" />
+								<p:inputText id="txtNombreContacto"
+									binding="#{infoSolicitanteView.txtNombreContacto}"
+									maxlength="50" size="30" />
 
-							<h:outputText id="msgCorreoElectronico"
-								value="*Correo Electronico:" />
-							<p:inputText id="txtCorreoElectronico"
-								binding="#{infoSolicitanteView.txtCorreoElectronico}" />
+								<h:outputText id="msgCorreoElectronico"
+									value="*Correo Electronico:" />
+								<p:inputText id="txtCorreoElectronico"
+									binding="#{infoSolicitanteView.txtCorreoElectronico}"
+									maxlength="50" size="30" />
 
-							<h:outputText id="msgNumeroCelular" value="*Numero Celular:" />
-							<p:inputText id="txtNumeroCelular"
-								binding="#{infoSolicitanteView.txtNumeroCelular}" />
+								<h:outputText id="msgNumeroCelular" value="*Numero Celular:" />
+								<p:inputMask id="txtNumeroCelular"
+									value="#{infoSolicitanteView.numeroCelular}"
+									mask="(999) 999-9999" maxlength="10" size="30" />
 
-							<h:outputText id="msgTelefonoFijo" value="*Telefono Fijo:" />
-							<p:inputText id="txtTelefonoFijo"
-								binding="#{infoSolicitanteView.txtTelefonoFijo}" />
-						</h:panelGrid>
+								<h:outputText id="msgTelefonoFijo" value="*Telefono Fijo:" />
+								<p:inputMask id="txtTelefonoFijo"
+									value="#{infoSolicitanteView.telefonoFijo}" mask="999-99-99"
+									maxlength="7" size="30" />
+							</h:panelGrid>
+						</div>
 					</p:panel>
 					<p:panel id="panelBoton">
 						<div align="center">
@@ -74,13 +83,13 @@
 								binding="#{infoSolicitanteView.btnClear}"
 								update="panelInfoSolicitante,msg,panelBoton" />
 							<p:commandButton id="btnSiguiente" value="Siguiente"
-								binding="#{infoSolicitanteView.btnSiguiente}"
+								disabled="#{infoSolicitanteView.siguiente}"
 								action="#{infoSolicitanteView.action_solicitud()}"
-								update=":dialogInfoSolicitante" />
+								update=":dialogInfoSolicitud" />
 						</div>
 					</p:panel>
 				</h:form>
-				<p:dialog id="dialogInfoSolicitante" appendToBody="true"
+				<p:dialog id="dialogInfoSolicitud" appendToBody="true"
 					draggable="true" closable="false"
 					visible="#{infoSolicitanteView.solicitud}" resizable="false"
 					modal="true" width="500">
@@ -101,11 +110,11 @@
 						<p:panel id="panelBotones">
 							<div align="center">
 								<p:commandButton id="btnExit" value="Atras"
-									action="#{infoSolicitanteView.action_closeDialog()}"
-									update=":dialogInfoSolicitante" />
+									action="#{infoSolicitanteView.action_closeDialog_solicitud()}"
+									update=":dialogInfoSolicitud" />
 								<p:commandButton id="btnInstructivo" value="Instructivo"
 									action="#{infoSolicitanteView.action_instructivo()}"
-									update=":dialogInstructivo" />
+									update=":dialogInstructivo, :dialogInfoSolicitud" />
 							</div>
 						</p:panel>
 					</h:form>
@@ -116,13 +125,14 @@
 					modal="true" width="500">
 					<h:form id="formDialogInstructivo">
 						<p:messages id="msg" showDetail="false" />
-						<p:panel id="panelInstructivo" header="#{infoSolicitanteView.descTpSol}">
+						<p:panel id="panelInstructivo"
+							header="#{infoSolicitanteView.descTpSol}">
 							<h:panelGrid columns="1" id="panelGrid">
-								<h:outputText value="Para este tipo de solicitud debe incluir los siguientes anexos:" />
+								<h:outputText
+									value="Para este tipo de solicitud debe incluir los siguientes anexos:" />
 								<h:panelGrid columns="2" cellpadding="5">
 									<p:dataTable id="tablaAnexosXTipoSol"
-										value="#{infoSolicitanteView.anexosPqrs}"
-										var="anexosPqr">
+										value="#{infoSolicitanteView.anexosPqrs}" var="anexosPqr">
 										<p:column>
 											<h:outputText value="#{anexosPqr.descripcionAnexo}" />
 										</p:column>
@@ -133,10 +143,10 @@
 						<p:panel id="panelBotones">
 							<div align="center">
 								<p:commandButton id="btnExit" value="Atras"
-									action="#{infoSolicitanteView.action_closeDialog()}"
+									action="#{infoSolicitanteView.action_closeDialog_instructivo()}"
 									update=":dialogInstructivo" />
-								<p:commandButton value="Siguiente" 
-								url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/solicitudPqr.xhtml" />
+								<p:commandButton value="Siguiente"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/solicitudPqr.xhtml" />
 							</div>
 						</p:panel>
 					</h:form>
