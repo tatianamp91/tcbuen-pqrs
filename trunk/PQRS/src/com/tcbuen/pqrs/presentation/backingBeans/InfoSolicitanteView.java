@@ -45,8 +45,12 @@ public class InfoSolicitanteView implements Serializable {
     private InputText txtCorreoElectronico;
     private InputText txtNombreContacto;
     private InputText txtNombreEmpresa;
+    private String numeroCelular;
     private InputText txtNumeroCelular;
+    private String maskNit;
+    private String numeroIdentificacion;
     private InputText txtNumeroIdentificacion;
+    private String telefonoFijo;
     private InputText txtTelefonoFijo;
     private InputText txtIdTpDoc_TipoDocumento;
     private InputText txtIdInfoSolicitante;
@@ -61,6 +65,7 @@ public class InfoSolicitanteView implements Serializable {
     private boolean showDialog;
     private boolean instructivo;
     private boolean solicitud;
+    private boolean siguiente;
     private Long idTipoDocumento;
     private List<SelectItem> tipoDocumento;
     private Long idTipoSolicitud;
@@ -131,7 +136,20 @@ public class InfoSolicitanteView implements Serializable {
 
             action_modify();
         } catch (Exception ex) {
+        	FacesUtils.addErrorMessage(ex.getMessage());
         }
+    }
+    
+    public void cambiarMaskNit() {
+    	try{
+	    	TipoDocumento tDoc = businessDelegatorView.getTipoDocumento(idTipoDocumento);
+	    	if(tDoc.getDescripcionTpDoc().equals("nit")||tDoc.getDescripcionTpDoc().equals("Nit")||
+	    			tDoc.getDescripcionTpDoc().equals("NIT")){
+	    		maskNit = "999.999.999-9";
+	    	}
+    	}catch(Exception e){
+    		FacesUtils.addErrorMessage(e.getMessage());
+    	}
     }
     
     public String action_new() {
@@ -151,7 +169,7 @@ public class InfoSolicitanteView implements Serializable {
 		    	anexosPqrs = getAnexosPqrs(idTipoSolicitud);
 		        setInstructivo(true);
     		}else{
-    			FacesUtils.addErrorMessage("Debe Seleccionar un Tipo de Solicitud");
+    			throw new Exception("Debe Seleccionar un Tipo de Solicitud");
     		}
     	}catch (Exception e){
     		FacesUtils.addErrorMessage(e.getMessage());
@@ -162,7 +180,6 @@ public class InfoSolicitanteView implements Serializable {
     
     public String action_solicitud() {
         setSolicitud(true);
-
         return "";
     }
     
@@ -182,16 +199,16 @@ public class InfoSolicitanteView implements Serializable {
             txtNombreEmpresa.setValue(null);
         }
 
-        if (txtNumeroCelular != null) {
-            txtNumeroCelular.setValue(null);
+        if (numeroCelular != null) {
+        	numeroCelular = "";
         }
 
-        if (txtNumeroIdentificacion != null) {
-            txtNumeroIdentificacion.setValue(null);
+        if (numeroIdentificacion != null) {
+            numeroIdentificacion = "";
         }
 
-        if (txtTelefonoFijo != null) {
-            txtTelefonoFijo.setValue(null);
+        if (telefonoFijo != null) {
+            telefonoFijo = "";
         }
 
         if (txtIdTpDoc_TipoDocumento != null) {
@@ -210,6 +227,10 @@ public class InfoSolicitanteView implements Serializable {
         anexosPqrs = null;
         
         btnSiguiente.setDisabled(true);
+        
+        setShowDialog(false);
+        setInstructivo(false);
+        setSolicitud(false);
 
         return "";
     }
@@ -302,34 +323,28 @@ public class InfoSolicitanteView implements Serializable {
     }
 
     public String action_create() {
-        try {
-        	
-        	String numeroIdentificacion = txtNumeroIdentificacion.getValue().toString();
-			String nombreContacto= txtNombreContacto.getValue().toString();
+        try {        	
+        	String nombreContacto= txtNombreContacto.getValue().toString();
 			String nombreEmpresa=txtNombreEmpresa.getValue().toString();
 			String email = txtCorreoElectronico.getValue().toString();
-			String numeroCelular = txtNumeroCelular.getValue().toString();
-			String telefonoFijo = txtTelefonoFijo.getValue().toString();
 
-			if (!revizarCampos(nombreContacto,nombreEmpresa,numeroIdentificacion,numeroCelular, telefonoFijo, email)){
-								
+			if (!revizarCampos(nombreContacto,nombreEmpresa,numeroIdentificacion,numeroCelular, telefonoFijo, email)){								
 				return "";
 			}
             entity = new InfoSolicitante();
             entity.setTipoDocumento((idTipoDocumento != null)
                 ? businessDelegatorView.getTipoDocumento(idTipoDocumento) : null);
-            entity.setNumeroIdentificacion(FacesUtils.checkString(
-                    txtNumeroIdentificacion));
+            entity.setNumeroIdentificacion(numeroIdentificacion);
             entity.setNombreEmpresa(FacesUtils.checkString(txtNombreEmpresa));
             entity.setNombreContacto(FacesUtils.checkString(txtNombreContacto));
             entity.setCorreoElectronico(FacesUtils.checkString(txtCorreoElectronico));         
-            entity.setNumeroCelular(FacesUtils.checkString(txtNumeroCelular));
-            entity.setTelefonoFijo(FacesUtils.checkString(txtTelefonoFijo));
+            entity.setNumeroCelular(numeroCelular);
+            entity.setTelefonoFijo(telefonoFijo);
             businessDelegatorView.saveInfoSolicitante(entity);
             FacesUtils.addInfoMessage("La información ha sido guardada exitosamente");
             btnClear.setDisabled(true);
             btnSave.setDisabled(true);
-            btnSiguiente.setDisabled(false);
+            setSiguiente(true);
             //action_clear();
         } catch (Exception e) {
             entity = null;
@@ -337,9 +352,7 @@ public class InfoSolicitanteView implements Serializable {
         }
 
         return "";
-    }
-
-    
+    }    
     
 	public boolean revizarCampos(String nombreContacto, String nombreEmpresa,
 			String numeroIdentificacion, String numeroCelular,
@@ -348,12 +361,14 @@ public class InfoSolicitanteView implements Serializable {
 		if (numeroIdentificacion.equals("")
 				|| numeroIdentificacion.trim().equals("")) {
 			throw new Exception(
-					"Debe de ingresar un Numero de Identificacion");
+					"Debe de ingresar un Numero de Identificación");
 		}
-
-		if (!Utilities.soloNumeros(numeroIdentificacion)) {
-			throw new Exception(
-					"El Numero de Identificacion debe ser totalmente numerico");
+		
+		if(maskNit != null){
+			if (!Utilities.soloNumeros(numeroIdentificacion)) {
+				throw new Exception(
+						"El Número de Identificaciún debe ser totalmente numerico");
+			}
 		}
 
 		if (nombreContacto.equals("") || nombreContacto.trim().equals("")) {
@@ -374,24 +389,23 @@ public class InfoSolicitanteView implements Serializable {
 					"El Correo Electronico debe tener el siguiente formato \"xxx@xxx.xxx\"");
 		}
 		
-
 		if (numeroCelular.equals("") || numeroCelular.trim().equals("")) {
 			throw new Exception("Debe de ingresar un Numero celular");
 		}
-
+		/*
 		if (!Utilities.soloNumeros(numeroCelular)) {
 			throw new Exception(
 					"El Numero celular debe ser totalmente numerico");
-		}
+		}*/
 
 		if (telefonoFijo.equals("") || telefonoFijo.trim().equals("")) {
 			throw new Exception("Debe de ingresar un Numero fijo");
 		}
-
+		/*
 		if (!Utilities.soloNumeros(telefonoFijo)) {
 			throw new Exception("El Numero fijo debe ser totalmente numerico");
 		}	
-		
+		*/
 		return true;		
 	}
 	
@@ -401,7 +415,6 @@ public class InfoSolicitanteView implements Serializable {
                 Long idInfoSolicitante = new Long(selectedInfoSolicitante.getIdInfoSolicitante());
                 entity = businessDelegatorView.getInfoSolicitante(idInfoSolicitante);
             }
-
             entity.setCorreoElectronico(FacesUtils.checkString(
                     txtCorreoElectronico));
             entity.setNombreContacto(FacesUtils.checkString(txtNombreContacto));
@@ -418,7 +431,6 @@ public class InfoSolicitanteView implements Serializable {
             data = null;
             FacesUtils.addErrorMessage(e.getMessage());
         }
-
         return "";
     }
 
@@ -434,7 +446,6 @@ public class InfoSolicitanteView implements Serializable {
         } catch (Exception e) {
             FacesUtils.addErrorMessage(e.getMessage());
         }
-
         return "";
     }
 
@@ -446,7 +457,6 @@ public class InfoSolicitanteView implements Serializable {
         } catch (Exception e) {
             FacesUtils.addErrorMessage(e.getMessage());
         }
-
         return "";
     }
 
@@ -460,12 +470,26 @@ public class InfoSolicitanteView implements Serializable {
             throw e;
         }
     }
-
+    
     public String action_closeDialog() {
+        setShowDialog(false);
+        idTipoSolicitud = null;
+        return "";
+    }
+
+    public String action_closeDialog_solicitud() {
         setShowDialog(false);
         setInstructivo(false);
         setSolicitud(false);
-        action_clear();
+        idTipoSolicitud = null;
+
+        return "";
+    }
+    
+    public String action_closeDialog_instructivo() {
+        setShowDialog(false);
+        setInstructivo(false);
+        setSolicitud(true);
 
         return "";
     }
@@ -751,4 +775,45 @@ public class InfoSolicitanteView implements Serializable {
 	public void setBtnSiguiente(CommandButton btnSiguiente) {
 		this.btnSiguiente = btnSiguiente;
 	}
+
+	public String getNumeroCelular() {
+		return numeroCelular;
+	}
+
+	public void setNumeroCelular(String numeroCelular) {
+		this.numeroCelular = numeroCelular;
+	}
+
+	public String getTelefonoFijo() {
+		return telefonoFijo;
+	}
+	
+	public void setTelefonoFijo(String telefonoFijo) {
+		this.telefonoFijo = telefonoFijo;
+	}
+
+	public String getMaskNit() {
+		return maskNit;
+	}
+
+	public void setMaskNit(String maskNit) {
+		this.maskNit = maskNit;
+	}
+
+	public String getNumeroIdentificacion() {
+		return numeroIdentificacion;
+	}
+
+	public void setNumeroIdentificacion(String numeroIdentificacion) {
+		this.numeroIdentificacion = numeroIdentificacion;
+	}
+
+	public boolean isSiguiente() {
+		return siguiente;
+	}
+	
+	public void setSiguiente(boolean siguiente) {
+		this.siguiente = siguiente;
+	}
+	
 }
