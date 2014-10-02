@@ -3,7 +3,6 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
-
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </h:head>
@@ -19,7 +18,8 @@
 						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
 				</p:dialog>
 				<h:form id="form">
-					<p:panel id="msgProjectClientesTitle" header="Tipo de Solicitud">
+					<p:panel id="msgProjectClientesTitle" header="Tipo de Solicitud"
+						style="height:300px;width:1070px">
 						<p:messages id="msg" showDetail="false" />
 						<p:dataTable id="tabla" value="#{tipoSolicitudPqrView.data}"
 							var="tipoSolicitudPqr" paginator="true" rows="5" editable="true">
@@ -28,15 +28,17 @@
 								listener="#{tipoSolicitudPqrView.rowEventListener}" />
 
 							<p:column filterBy="#{tipoSolicitudPqr.descTpSol}"
-								sortBy="#{tipoSolicitudPqr.descTpSol}" headerText="Descripción">
+								sortBy="#{tipoSolicitudPqr.descTpSol}" headerText="Descripción"
+								style="height:20px;width:250px">
 								<h:outputText value="#{tipoSolicitudPqr.descTpSol}" />
 							</p:column>
 
 							<p:column filterBy="#{tipoSolicitudPqr.estadoRegistro}"
-								sortBy="#{tipoSolicitudPqr.estadoRegistro}" headerText="Estado">
+								sortBy="#{tipoSolicitudPqr.estadoRegistro}" headerText="Estado"
+								style="height:20px;width:150px">
 								<h:outputText value="#{tipoSolicitudPqr.estadoRegistro}" />
 							</p:column>
-							<p:column headerText="Editar">
+							<p:column headerText="Editar" style="height:20px;width:100px">
 								<p:commandLink update=":dialogTipoSolicitudPqr"
 									action="#{tipoSolicitudPqrView.action_edit()}"
 									title="View Modify">
@@ -48,7 +50,7 @@
 							</p:column>
 						</p:dataTable>
 					</p:panel>
-					<p:panel id="panelBoton">
+					<p:panel id="panelBoton" style="height:40px;width:1070px">
 						<div align="center">
 							<p:commandButton id="btnNew" value="Nuevo"
 								action="#{tipoSolicitudPqrView.action_new()}"
@@ -62,15 +64,17 @@
 					modal="true" width="1200">
 					<h:form id="formDialog">
 						<p:messages id="msg" showDetail="false" />
-						<p:panel id="panelTipoSolicitudPqr"
-							header="Tipo de Solicitud">
+						<p:panel id="panelTipoSolicitudPqr" header="Tipo de Solicitud">
 							<h:panelGrid columns="4" id="panelGrid">
 								<h:outputText id="msgDescTpSol" value="*Descripción:" />
 								<p:inputText id="txtDescTpSol" disabled="false"
-									binding="#{tipoSolicitudPqrView.txtDescTpSol}" size="68" />
+									binding="#{tipoSolicitudPqrView.txtDescTpSol}" size="68"
+									maxlength="100" />
+
 								<h:outputText id="msgEstadoRegistro" value="*Estado:" />
 								<p:selectOneMenu id="estadoRegistro"
-									value="#{tipoSolicitudPqrView.estadoRegistroSeleccionado}">
+									value="#{tipoSolicitudPqrView.estadoRegistroSeleccionado}"
+									style="height:20px;width:80px">
 									<f:selectItem itemValue="A" itemLabel="Activo" />
 									<f:selectItem itemValue="I" itemLabel="Inactivo" />
 								</p:selectOneMenu>

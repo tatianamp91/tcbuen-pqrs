@@ -13,7 +13,7 @@
 					<!-- Beging header -->
 						<div class="jumbotron">
 					      <div class="container">
-					      	<img src="#{request.contextPath}/images/logoTCBuen.png" style="z-index:1" class="background" width="1080"/>				   
+					      	<img src="#{request.contextPath}/images/logoTCBuen.png" style="z-index:1" class="background" width="1075"/>				   
 					      </div>
     					</div>
 					<!-- end header -->

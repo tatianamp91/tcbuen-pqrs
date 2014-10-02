@@ -18,7 +18,8 @@
 						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
 				</p:dialog>
 				<h:form id="form">
-					<p:panel id="msgProjectClientesTitle" header="Motivos de Solicitud">
+					<p:panel id="msgProjectClientesTitle" header="Motivos de Solicitud"
+						style="height:300px;width:1070px">
 						<p:messages id="msg" showDetail="false" />
 						<p:dataTable id="tabla" value="#{motivoSolicitudView.data}"
 							var="motivoSolicitud" paginator="true" rows="5" editable="true">
@@ -28,19 +29,21 @@
 
 							<p:column filterBy="#{motivoSolicitud.descripcionMotSol}"
 								sortBy="#{motivoSolicitud.descripcionMotSol}"
-								headerText="Descripción">
+								headerText="Descripción" style="height:20px;width:250px">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{motivoSolicitud.descripcionMotSol}" />
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText value="#{motivoSolicitud.descripcionMotSol}" />
+										<p:inputText value="#{motivoSolicitud.descripcionMotSol}"
+											maxlength="50" style="height:20px;width:250px;" />
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
 
 							<p:column filterBy="#{motivoSolicitud.estadoRegistro}"
-								sortBy="#{motivoSolicitud.estadoRegistro}" headerText="Estado">
+								sortBy="#{motivoSolicitud.estadoRegistro}" headerText="Estado"
+								style="height:20px;width:150px">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{motivoSolicitud.estadoRegistro}" />
@@ -48,7 +51,7 @@
 									<f:facet name="input">
 										<p:selectOneMenu id="estadoRegistro"
 											value="#{motivoSolicitudView.estadoRegistroSeleccionado}"
-											style="height:20px;width:75px">
+											style="height:20px;width:80px">
 											<f:selectItem itemValue="A" itemLabel="Activo" />
 											<f:selectItem itemValue="I" itemLabel="Inactivo" />
 										</p:selectOneMenu>
@@ -56,39 +59,41 @@
 								</p:cellEditor>
 							</p:column>
 
-							<p:column headerText="Editar">
+							<p:column headerText="Editar" style="height:20px;width:100px">
 								<p:rowEditor id="row" />
 								<p:tooltip for="row" value="Edit" showEffect="fade"
 									hideEffect="fade" />
 							</p:column>
 						</p:dataTable>
 					</p:panel>
+					<p:panel id="panelBoton" style="height:40px;width:1070px">
+						<div align="center">
+							<p:commandButton id="btnNew" value="Nuevo"
+								action="#{motivoSolicitudView.action_new()}"
+								update=":dialogMotivoSolicitud" />
+						</div>
+					</p:panel>
 				</h:form>
-				<p:panel id="panelBoton">
-					<div align="center">
-						<p:commandButton id="btnNew" value="Nuevo"
-							action="#{motivoSolicitudView.action_new()}"
-							update=":dialogMotivoSolicitud" />
-					</div>
-				</p:panel>
+
 				<p:dialog id="dialogMotivoSolicitud" appendToBody="true"
 					draggable="true" closable="false"
 					visible="#{motivoSolicitudView.showDialog}" resizable="false"
 					modal="true" width="500">
 					<h:form id="formDialog">
 						<p:messages id="msg" showDetail="false" />
-						<p:panel id="panelMotivoSolicitud" header="Nuevo Motivo de Solicitud">
+						<p:panel id="panelMotivoSolicitud"
+							header="Nuevo Motivo de Solicitud">
 							<h:panelGrid columns="2" id="panelGrid">
 
-
-								<h:outputText id="msgDescripcionMotSol"
-									value="*Descripción:" />
+								<h:outputText id="msgDescripcionMotSol" value="*Descripción:" />
 								<p:inputText id="txtDescripcionMotSol" disabled="false"
-									binding="#{motivoSolicitudView.txtDescripcionMotSol}" />
+									binding="#{motivoSolicitudView.txtDescripcionMotSol}"
+									maxlength="50" style="height:20px;width:250px" />
 
 								<h:outputText id="msgEstadoRegistro" value="*Estado:" />
 								<p:selectOneMenu id="estadoRegistro"
-									value="#{motivoSolicitudView.estadoRegistroSeleccionado}">
+									value="#{motivoSolicitudView.estadoRegistroSeleccionado}"
+									style="height:20px;width:80px">
 									<f:selectItem itemValue="A" itemLabel="Activo" />
 									<f:selectItem itemValue="I" itemLabel="Inactivo" />
 								</p:selectOneMenu>

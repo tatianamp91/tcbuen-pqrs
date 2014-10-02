@@ -3,14 +3,11 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
-
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </h:head>
-
 <h:body>
 	<ui:composition template="/WEB-INF/facelets/template.xhtml">
-
 		<ui:define name="body">
 			<f:view>
 				<p:ajaxStatus onstart="statusDialog.show();"
@@ -20,9 +17,9 @@
 					<p:graphicImage
 						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
 				</p:dialog>
-
 				<h:form id="form">
-					<p:panel id="msgProjectClientesTitle" header="Roles">
+					<p:panel id="msgProjectClientesTitle" header="Roles"
+						style="height:300px;width:1070px">
 						<p:messages id="msg" showDetail="false" />
 						<p:dataTable id="tabla" value="#{rolesView.data}" var="roles"
 							paginator="true" rows="5" editable="true">
@@ -31,26 +28,30 @@
 								listener="#{rolesView.rowEventListener}" />
 
 							<p:column filterBy="#{roles.nombreRol}"
-								sortBy="#{roles.nombreRol}" headerText="Nombre">
+								sortBy="#{roles.nombreRol}" headerText="Nombre"
+								style="height:20px;width:250px">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{roles.nombreRol}" />
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText value="#{roles.nombreRol}" />
+										<p:inputText value="#{roles.nombreRol}" maxlength="50"
+											style="height:20px;width:250px;" />
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
 
 							<p:column filterBy="#{roles.estadoRegistro}"
-								sortBy="#{roles.estadoRegistro}" headerText="Estado">
+								sortBy="#{roles.estadoRegistro}" headerText="Estado"
+								style="height:20px;width:150px">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{roles.estadoRegistro}" />
 									</f:facet>
 									<f:facet name="input">
 										<p:selectOneMenu id="estadoRegistro"
-											value="#{rolesView.estadoRegistroSeleccionado}" style="height:20px;width:75px">
+											value="#{rolesView.estadoRegistroSeleccionado}"
+											style="height:20px;width:80px">
 											<f:selectItem itemValue="A" itemLabel="Activo" />
 											<f:selectItem itemValue="I" itemLabel="Inactivo" />
 										</p:selectOneMenu>
@@ -58,24 +59,23 @@
 								</p:cellEditor>
 							</p:column>
 
-							<p:column headerText="Editar">
+							<p:column headerText="Editar" style="height:20px;width:100px">
 								<p:rowEditor id="row" />
 								<p:tooltip for="row" value="Edit" showEffect="fade"
 									hideEffect="fade" />
 							</p:column>
 						</p:dataTable>
-
 					</p:panel>
-					<p:panel id="panelBoton">
+					<p:panel id="panelBoton" style="height:40px;width:1070px">
 						<div align="center">
 							<p:commandButton id="btnNew" value="Nuevo"
-								action="#{rolesView.action_new()}" update=":dialogRoles"/>
+								action="#{rolesView.action_new()}" update=":dialogRoles" />
 						</div>
 					</p:panel>
 				</h:form>
 				<p:dialog id="dialogRoles" appendToBody="true" draggable="true"
-					closable="true" visible="#{rolesView.showDialog}"
-					resizable="false" modal="true" width="500">
+					closable="true" visible="#{rolesView.showDialog}" resizable="false"
+					modal="true" width="500">
 					<h:form id="formDialog">
 						<p:messages id="msg" showDetail="false" />
 						<p:panel id="panelRoles" header="Nuevo Rol">
@@ -83,11 +83,13 @@
 
 								<h:outputText id="msgNombreRol" value="* Nombre: " />
 								<p:inputText id="txtNombreRol" disabled="false"
-									binding="#{rolesView.txtNombreRol}" />
+									binding="#{rolesView.txtNombreRol}" maxlength="50"
+									style="height:20px;width:250px" />
 
 								<h:outputText id="msgEstadoRegistro" value="* Estado:" />
 								<p:selectOneMenu id="estadoRegistro"
-									value="#{rolesView.estadoRegistroSeleccionado}">
+									value="#{rolesView.estadoRegistroSeleccionado}"
+									style="height:20px;width:80px">
 									<f:selectItem itemValue="A" itemLabel="Activo" />
 									<f:selectItem itemValue="I" itemLabel="Inactivo" />
 								</p:selectOneMenu>
@@ -110,7 +112,5 @@
 			</f:view>
 		</ui:define>
 	</ui:composition>
-
 </h:body>
-
 </html>

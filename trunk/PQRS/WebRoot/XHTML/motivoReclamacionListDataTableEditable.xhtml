@@ -19,7 +19,7 @@
 				</p:dialog>
 				<h:form id="form">
 					<p:panel id="msgProjectClientesTitle"
-						header="Motivos de Reclamación">
+						header="Motivos de Reclamación" style="height:300px;width:1070px">
 						<p:messages id="msg" showDetail="false" />
 						<p:dataTable id="tabla" value="#{motivoReclamacionView.data}"
 							var="motivoReclamacion" paginator="true" rows="5" editable="true">
@@ -29,19 +29,21 @@
 
 							<p:column filterBy="#{motivoReclamacion.descripcionMotRecl}"
 								sortBy="#{motivoReclamacion.descripcionMotRecl}"
-								headerText="Descripción">
+								headerText="Descripción" style="height:20px;width:250px">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{motivoReclamacion.descripcionMotRecl}" />
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText value="#{motivoReclamacion.descripcionMotRecl}" />
+										<p:inputText value="#{motivoReclamacion.descripcionMotRecl}"
+											maxlength="50" style="height:20px;width:250px;" />
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
 
 							<p:column filterBy="#{motivoReclamacion.estadoRegistro}"
-								sortBy="#{motivoReclamacion.estadoRegistro}" headerText="Estado">
+								sortBy="#{motivoReclamacion.estadoRegistro}" headerText="Estado"
+								style="height:20px;width:150px">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{motivoReclamacion.estadoRegistro}" />
@@ -49,7 +51,7 @@
 									<f:facet name="input">
 										<p:selectOneMenu id="estadoRegistro"
 											value="#{motivoReclamacionView.estadoRegistroSeleccionado}"
-											style="height:20px;width:75px">
+											style="height:20px;width:80px">
 											<f:selectItem itemValue="A" itemLabel="Activo" />
 											<f:selectItem itemValue="I" itemLabel="Inactivo" />
 										</p:selectOneMenu>
@@ -57,21 +59,22 @@
 								</p:cellEditor>
 							</p:column>
 
-							<p:column headerText="Editar">
+							<p:column headerText="Editar" style="height:20px;width:100px">
 								<p:rowEditor id="row" />
 								<p:tooltip for="row" value="Edit" showEffect="fade"
 									hideEffect="fade" />
 							</p:column>
 						</p:dataTable>
 					</p:panel>
+					<p:panel id="panelBoton" style="height:40px;width:1070px">
+						<div align="center">
+							<p:commandButton id="btnNew" value="Nuevo"
+								action="#{motivoReclamacionView.action_new()}"
+								update=":dialogMotivoReclamacion" />
+						</div>
+					</p:panel>
 				</h:form>
-				<p:panel id="panelBoton">
-					<div align="center">
-						<p:commandButton id="btnNew" value="Nuevo"
-							action="#{motivoReclamacionView.action_new()}"
-							update=":dialogMotivoReclamacion" />
-					</div>
-				</p:panel>
+
 				<p:dialog id="dialogMotivoReclamacion" appendToBody="true"
 					draggable="true" closable="false"
 					visible="#{motivoReclamacionView.showDialog}" resizable="false"
@@ -84,11 +87,13 @@
 
 								<h:outputText id="msgDescripcionMotRecl" value="*Descripción:" />
 								<p:inputText id="txtDescripcionMotRecl" disabled="false"
-									binding="#{motivoReclamacionView.txtDescripcionMotRecl}" />
+									binding="#{motivoReclamacionView.txtDescripcionMotRecl}"
+									maxlength="50" style="height:20px;width:250px;" />
 
 								<h:outputText id="msgEstadoRegistro" value="*Estado:" />
 								<p:selectOneMenu id="estadoRegistro"
-									value="#{motivoReclamacionView.estadoRegistroSeleccionado}">
+									value="#{motivoReclamacionView.estadoRegistroSeleccionado}"
+									style="height:20px;width:80px">
 									<f:selectItem itemValue="A" itemLabel="Activo" />
 									<f:selectItem itemValue="I" itemLabel="Inactivo" />
 								</p:selectOneMenu>
