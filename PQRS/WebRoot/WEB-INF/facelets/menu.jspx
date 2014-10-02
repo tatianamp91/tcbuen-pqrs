@@ -11,7 +11,7 @@
 		<ui:composition>
 			<!-- Beging Menu -->
 			<h:form>
-				<p:megaMenu style="width:1080px">
+				<p:megaMenu style="height:30px;width:1045px">
 					<p:submenu label="Menu de Gestion" icon="ui-icon-contact" style="width:250px">
 						<p:column style="width:250px">
 							<p:submenu style="width:240px">

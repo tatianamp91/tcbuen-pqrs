@@ -3,14 +3,11 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
-
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </h:head>
-
 <h:body>
 	<ui:composition template="/WEB-INF/facelets/template.xhtml">
-
 		<ui:define name="body">
 			<f:view>
 				<p:ajaxStatus onstart="statusDialog.show();"
@@ -20,11 +17,9 @@
 					<p:graphicImage
 						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
 				</p:dialog>
-
 				<h:form id="form">
-
-
-					<p:panel id="msgProjectClientesTitle" header="Tipo Documento">
+					<p:panel id="msgProjectClientesTitle" header="Tipo Documento"
+						style="height:300px;width:1070px">
 						<p:messages id="msg" showDetail="false" />
 						<p:dataTable id="tabla" value="#{tipoDocumentoView.data}"
 							var="tipoDocumento" paginator="true" rows="5" editable="true">
@@ -34,19 +29,21 @@
 
 							<p:column filterBy="#{tipoDocumento.descripcionTpDoc}"
 								sortBy="#{tipoDocumento.descripcionTpDoc}"
-								headerText="Tipo Documento">
+								headerText="Tipo Documento" style="height:20px;width:250px">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{tipoDocumento.descripcionTpDoc}" />
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText value="#{tipoDocumento.descripcionTpDoc}" />
+										<p:inputText value="#{tipoDocumento.descripcionTpDoc}"
+											maxlength="50" style="height:20px;width:250px;" />
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
 
 							<p:column filterBy="#{tipoDocumento.estadoRegistro}"
-								sortBy="#{tipoDocumento.estadoRegistro}" headerText="Estado">
+								sortBy="#{tipoDocumento.estadoRegistro}" headerText="Estado"
+								style="height:20px;width:150px">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{tipoDocumento.estadoRegistro}" />
@@ -54,7 +51,7 @@
 									<f:facet name="input">
 										<p:selectOneMenu id="estadoRegistro"
 											value="#{tipoDocumentoView.estadoRegistroSeleccionado}"
-											style="height:20px;width:75px">
+											style="height:20px;width:80px">
 											<f:selectItem itemValue="A" itemLabel="Activo" />
 											<f:selectItem itemValue="I" itemLabel="Inactivo" />
 										</p:selectOneMenu>
@@ -62,18 +59,18 @@
 								</p:cellEditor>
 							</p:column>
 
-							<p:column headerText="Editar">
+							<p:column headerText="Editar" style="height:20px;width:100px">
 								<p:rowEditor id="row" />
 								<p:tooltip for="row" value="Edit" showEffect="fade"
 									hideEffect="fade" />
 							</p:column>
 						</p:dataTable>
 					</p:panel>
-					<p:panel id="panelBoton">
+					<p:panel id="panelBoton" style="height:40px;width:1070px">
 						<div align="center">
-							<p:commandButton id="btnNew" value="Nuevo" 
-										action="#{tipoDocumentoView.action_new()}" update=":dialogTipoDocumento">
-							</p:commandButton>
+							<p:commandButton id="btnNew" value="Nuevo"
+								action="#{tipoDocumentoView.action_new()}"
+								update=":dialogTipoDocumento" />
 						</div>
 					</p:panel>
 				</h:form>
@@ -82,36 +79,35 @@
 					visible="#{tipoDocumentoView.showDialog}" resizable="false"
 					modal="true" width="500">
 					<h:form id="formDialog">
-						<p:messages id="msg" showDetail="false"></p:messages>
+						<p:messages id="msg" showDetail="false" />
 						<p:panel id="tipoDocumento" header="Tipo Documento">
 							<h:panelGrid columns="2" id="panelGrid">
-								<h:outputText id="msgTipoDocumento" value="*Tipo Documento:"></h:outputText>
+								<h:outputText id="msgTipoDocumento" value="*Tipo Documento:" />
 								<p:inputText id="txtDescripcionTpDoc"
-									binding="#{tipoDocumentoView.txtDescripcionTpDoc}"></p:inputText>
-								<h:outputText id="msgEstadoRegistro" value="*Estado:"></h:outputText>
+									binding="#{tipoDocumentoView.txtDescripcionTpDoc}"
+									maxlength="50" style="height:20px;width:250px" />
+
+								<h:outputText id="msgEstadoRegistro" value="*Estado:" />
 								<p:selectOneMenu id="estadoRegistro"
 									value="#{tipoDocumentoView.estadoRegistroSeleccionado}"
-									style="height:20px;width:75px">
-									<f:selectItem itemValue="A" itemLabel="Activo"></f:selectItem>
-									<f:selectItem itemValue="I" itemLabel="Inactivo"></f:selectItem>
+									style="height:20px;width:80px">
+									<f:selectItem itemValue="A" itemLabel="Activo" />
+									<f:selectItem itemValue="I" itemLabel="Inactivo" />
 								</p:selectOneMenu>
 							</h:panelGrid>
 						</p:panel>
 						<p:panel id="panelBotones">
 							<div align="center">
 								<p:commandButton id="btnSave" value="Guardar"
-												binding="#{tipoDocumentoView.btnSave}"
-												action="#{tipoDocumentoView.action_save()}"
-												update=":dialogTipoDocumento :form:msgProjectClientesTitle">
-								</p:commandButton>
+									binding="#{tipoDocumentoView.btnSave}"
+									action="#{tipoDocumentoView.action_save()}"
+									update=":dialogTipoDocumento :form:msgProjectClientesTitle" />
 								<p:commandButton id="btnClear" value="Limpiar"
-												action="#{tipoDocumentoView.action_clear()}"
-												update=":dialogTipoDocumento">
-								</p:commandButton>
+									action="#{tipoDocumentoView.action_clear()}"
+									update=":dialogTipoDocumento" />
 								<p:commandButton id="btnExit" value="Salir"
-												action="#{tipoDocumentoView.action_closeDialog()}"
-												update=":dialogTipoDocumento">
-								</p:commandButton>
+									action="#{tipoDocumentoView.action_closeDialog()}"
+									update=":dialogTipoDocumento" />
 							</div>
 						</p:panel>
 					</h:form>
@@ -119,7 +115,5 @@
 			</f:view>
 		</ui:define>
 	</ui:composition>
-
 </h:body>
-
 </html>

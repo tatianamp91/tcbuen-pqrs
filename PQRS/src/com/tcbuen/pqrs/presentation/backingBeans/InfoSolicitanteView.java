@@ -146,6 +146,8 @@ public class InfoSolicitanteView implements Serializable {
 	    	if(tDoc.getDescripcionTpDoc().equals("nit")||tDoc.getDescripcionTpDoc().equals("Nit")||
 	    			tDoc.getDescripcionTpDoc().equals("NIT")){
 	    		maskNit = "999.999.999-9";
+	    	}else{
+	    		maskNit ="";
 	    	}
     	}catch(Exception e){
     		FacesUtils.addErrorMessage(e.getMessage());
@@ -225,8 +227,8 @@ public class InfoSolicitanteView implements Serializable {
         tipoSolicitud = null;
         idTipoSolicitud = null;
         anexosPqrs = null;
-        
-        btnSiguiente.setDisabled(true);
+        maskNit = "";
+        setSiguiente(false);
         
         setShowDialog(false);
         setInstructivo(false);
@@ -363,11 +365,12 @@ public class InfoSolicitanteView implements Serializable {
 			throw new Exception(
 					"Debe de ingresar un Numero de Identificación");
 		}
-		
-		if(maskNit != null){
-			if (!Utilities.soloNumeros(numeroIdentificacion)) {
-				throw new Exception(
-						"El Número de Identificaciún debe ser totalmente numerico");
+		if(maskNit.equals("")){
+			if(numeroIdentificacion != null){
+				if (!Utilities.soloNumeros(numeroIdentificacion)) {
+					throw new Exception(
+							"El Número de Identificaciún debe ser totalmente numerico");
+				}
 			}
 		}
 

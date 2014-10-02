@@ -21,7 +21,8 @@
 					<p:messages id="msg" showDetail="false" />
 					<p:growl id="men" />
 					<p:panel id="panelInfoSolicitante"
-						header="Información del Solicitante" style="text-align:center">
+						header="Información del Solicitante"
+						style="height:300px;width:1070px; text-align:center">
 						<div align="center">
 							<h:panelGrid columns="2" id="panelGrid">
 								<h:outputText id="msgIdTpDoc_TipoDocumento"
@@ -72,10 +73,10 @@
 							</h:panelGrid>
 						</div>
 					</p:panel>
-					<p:panel id="panelBoton">
+					<p:panel id="panelBoton" style="height:40px;width:1070px">
 						<div align="center">
-							<p:commandButton id="btnSave"
-								binding="#{infoSolicitanteView.btnSave}" value="Guardar"
+							<p:commandButton id="btnSave" value="Guardar"
+								binding="#{infoSolicitanteView.btnSave}"
 								action="#{infoSolicitanteView.action_save()}"
 								update="panelInfoSolicitante,msg,panelBoton" />
 							<p:commandButton id="btnClear" value="Limpiar"
@@ -83,7 +84,7 @@
 								binding="#{infoSolicitanteView.btnClear}"
 								update="panelInfoSolicitante,msg,panelBoton" />
 							<p:commandButton id="btnSiguiente" value="Siguiente"
-								disabled="#{infoSolicitanteView.siguiente}"
+								disabled="#{!infoSolicitanteView.siguiente}"
 								action="#{infoSolicitanteView.action_solicitud()}"
 								update=":dialogInfoSolicitud" />
 						</div>
@@ -112,7 +113,7 @@
 								<p:commandButton id="btnExit" value="Atras"
 									action="#{infoSolicitanteView.action_closeDialog_solicitud()}"
 									update=":dialogInfoSolicitud" />
-								<p:commandButton id="btnInstructivo" value="Instructivo"
+								<p:commandButton id="btnInstructivo" value="Siguiente"
 									action="#{infoSolicitanteView.action_instructivo()}"
 									update=":dialogInstructivo, :dialogInfoSolicitud" />
 							</div>

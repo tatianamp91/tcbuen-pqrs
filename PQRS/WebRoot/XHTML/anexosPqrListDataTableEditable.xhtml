@@ -3,7 +3,6 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
-
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </h:head>
@@ -19,7 +18,8 @@
 						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
 				</p:dialog>
 				<h:form id="form">
-					<p:panel id="msgProjectClientesTitle" header="Anexos">
+					<p:panel id="msgProjectClientesTitle" header="Anexos"
+						style="height:300px;width:1070px">
 						<p:messages id="msg" showDetail="false" />
 						<p:dataTable id="tabla" value="#{anexosPqrView.data}"
 							var="anexosPqr" paginator="true" rows="5" editable="true">
@@ -28,19 +28,21 @@
 								listener="#{anexosPqrView.rowEventListener}" />
 
 							<p:column filterBy="#{anexosPqr.descripcionAnexo}"
-								sortBy="#{anexosPqr.descripcionAnexo}"
-								headerText="Descripción">
+								sortBy="#{anexosPqr.descripcionAnexo}" 
+								headerText="Descripción" style="height:20px;width:250px">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{anexosPqr.descripcionAnexo}" />
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText value="#{anexosPqr.descripcionAnexo}" />
+										<p:inputText value="#{anexosPqr.descripcionAnexo}"
+											maxlength="50" style="height:20px;width:250px;" />
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
 							<p:column filterBy="#{anexosPqr.estadoRegistro}"
-								sortBy="#{anexosPqr.estadoRegistro}" headerText="Estado">
+								sortBy="#{anexosPqr.estadoRegistro}" headerText="Estado"
+								style="height:20px;width:150px">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{anexosPqr.estadoRegistro}" />
@@ -48,25 +50,26 @@
 									<f:facet name="input">
 										<p:selectOneMenu id="estadoRegistro"
 											value="#{anexosPqrView.estadoRegistroSeleccionado}"
-											style="height:20px;width:75px">
-											<f:selectItem itemValue="A" itemLabel="Activo" />
-											<f:selectItem itemValue="I" itemLabel="Inactivo" />
+											style="height:20px;width:80px">
+											<f:selectItem itemValue="A" itemLabel="Activo"/>
+											<f:selectItem itemValue="I" itemLabel="Inactivo"/>
 										</p:selectOneMenu>
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
 
-							<p:column headerText="Editar">
+							<p:column headerText="Editar" style="height:20px;width:100px">
 								<p:rowEditor id="row" />
 								<p:tooltip for="row" value="Edit" showEffect="fade"
 									hideEffect="fade" />
 							</p:column>
 						</p:dataTable>
 					</p:panel>
-					<p:panel id="panelBoton">
+					<p:panel id="panelBoton" style="height:40px;width:1070px">
 						<div align="center">
 							<p:commandButton id="btnNew" value="Nuevo"
-								action="#{anexosPqrView.action_new()}" update=":dialogAnexosPqr" />
+								action="#{anexosPqrView.action_new()}" 
+								update=":dialogAnexosPqr" />
 						</div>
 					</p:panel>
 				</h:form>
@@ -80,11 +83,13 @@
 
 								<h:outputText id="msgDescripcionAnexo" value="*Descripción:" />
 								<p:inputText id="txtDescripcionAnexo" disabled="false"
-									binding="#{anexosPqrView.txtDescripcionAnexo}" />
+									binding="#{anexosPqrView.txtDescripcionAnexo}" maxlength="50"
+									style="height:20px;width:250px" />
+									
 								<h:outputText id="msgEstadoRegistro" value="*Estado:" />
 								<p:selectOneMenu id="estadoRegistro"
 									value="#{anexosPqrView.estadoRegistroSeleccionado}"
-									style="height:20px;width:75px">
+									style="height:20px;width:80px">
 									<f:selectItem itemValue="A" itemLabel="Activo" />
 									<f:selectItem itemValue="I" itemLabel="Inactivo" />
 								</p:selectOneMenu>
@@ -108,7 +113,5 @@
 			</f:view>
 		</ui:define>
 	</ui:composition>
-
 </h:body>
-
 </html>

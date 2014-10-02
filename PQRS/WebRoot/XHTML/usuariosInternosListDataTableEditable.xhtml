@@ -19,79 +19,89 @@
 						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
 				</p:dialog>
 				<h:form id="form">
-					<p:panel id="msgProjectClientesTitle" header="Usuarios Internos">
+					<p:panel id="msgProjectClientesTitle" header="Usuarios Internos"
+						style="height:300px;width:1070px">
 						<p:messages id="msg" showDetail="false" />
 						<p:dataTable id="tabla" value="#{usuariosInternosView.data}"
 							var="usuariosInternos" paginator="true" rows="5" editable="true">
 							<p:ajax event="rowEdit" update=":form:msg,:form:tabla"
 								listener="#{usuariosInternosView.rowEventListener}" />
-							
+
 							<p:column filterBy="#{usuariosInternos.nombres}"
-								sortBy="#{usuariosInternos.nombres}" headerText="Nombres">
+								sortBy="#{usuariosInternos.nombres}" headerText="Nombres"
+								style="height:20px;width:250px">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{usuariosInternos.nombres}" />
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText value="#{usuariosInternos.nombres}" />
+										<p:inputText value="#{usuariosInternos.nombres}"
+											maxlength="50" style="height:20px;width:250px" />
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
-								
+
 							<p:column filterBy="#{usuariosInternos.apellidos}"
-								sortBy="#{usuariosInternos.apellidos}" headerText="Apellidos">
+								sortBy="#{usuariosInternos.apellidos}" headerText="Apellidos"
+								style="height:20px;width:250px">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{usuariosInternos.apellidos}" />
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText value="#{usuariosInternos.apellidos}" />
+										<p:inputText value="#{usuariosInternos.apellidos}"
+											maxlength="50" style="height:20px;width:250px" />
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
-							
+
 							<p:column filterBy="#{usuariosInternos.numeroIdentificacion}"
 								sortBy="#{usuariosInternos.numeroIdentificacion}"
-								headerText="Numero de Identificacion">
+								headerText="Numero de Identificacion"
+								style="height:20px;width:250px">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{usuariosInternos.numeroIdentificacion}" />
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText value="#{usuariosInternos.numeroIdentificacion}" />
+										<p:inputText value="#{usuariosInternos.numeroIdentificacion}"
+											maxlength="50" style="height:20px;width:250px" />
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
-							
+
 							<p:column filterBy="#{usuariosInternos.correoElectronico}"
 								sortBy="#{usuariosInternos.correoElectronico}"
-								headerText="Email">
+								headerText="Email" style="height:20px;width:250px">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{usuariosInternos.correoElectronico}" />
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText value="#{usuariosInternos.correoElectronico}" />
+										<p:inputText value="#{usuariosInternos.correoElectronico}"
+											maxlength="50" style="height:20px;width:250px" />
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
-							
+
 							<p:column filterBy="#{usuariosInternos.login}"
-								sortBy="#{usuariosInternos.login}" headerText="Login">
+								sortBy="#{usuariosInternos.login}" headerText="Login"
+								style="height:20px;width:250px">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{usuariosInternos.login}" />
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText value="#{usuariosInternos.login}" />
+										<p:inputText value="#{usuariosInternos.login}" maxlength="50"
+											style="height:20px;width:250px" />
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
-							
+
 							<p:column
 								filterBy="#{usuariosInternos.idAreaInvolucrada_AreasInvolucradas}"
 								sortBy="#{usuariosInternos.idAreaInvolucrada_AreasInvolucradas}"
-								headerText="Area Involucrada">
+								headerText="Area Involucrada" style="height:20px;width:250px">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText
@@ -99,32 +109,35 @@
 									</f:facet>
 									<f:facet name="input">
 										<p:selectOneMenu id="AreaInvolucrada2"
-											value="#{usuariosInternosView.idAreaInvolucrada}" style="height:20px;width:150px">
-											<f:selectItems value="#{usuariosInternosView.areasInvolucradas}" />
+											value="#{usuariosInternosView.idAreaInvolucrada}"
+											style="height:20px;width:150px">
+											<f:selectItems
+												value="#{usuariosInternosView.areasInvolucradas}" />
 										</p:selectOneMenu>
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
-							
+
 							<p:column filterBy="#{usuariosInternos.idRol_Roles}"
 								sortBy="#{usuariosInternos.idRol_Roles}"
-								headerText="Rol Usuario">
+								headerText="Rol Usuario" style="height:20px;width:250px">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{usuariosInternos.idRol_Roles}" />
 									</f:facet>
 									<f:facet name="input">
 										<p:selectOneMenu id="Rol2"
-											value="#{usuariosInternosView.idRol}" style="height:20px;width:150px">
+											value="#{usuariosInternosView.idRol}"
+											style="height:20px;width:150px">
 											<f:selectItems value="#{usuariosInternosView.idRoles}" />
 										</p:selectOneMenu>
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
-							
+
 							<p:column filterBy="#{usuariosInternos.estadoRegistro}"
-								sortBy="#{usuariosInternos.estadoRegistro}"
-								headerText="Estado">
+								sortBy="#{usuariosInternos.estadoRegistro}" headerText="Estado"
+								style="height:20px;width:250px">
 								<p:cellEditor>
 									<f:facet name="output">
 										<h:outputText value="#{usuariosInternos.estadoRegistro}" />
@@ -140,89 +153,103 @@
 								</p:cellEditor>
 							</p:column>
 
-							<p:column headerText="Editar">
+							<p:column headerText="Editar" style="height:20px;width:250px">
 								<p:rowEditor id="row" />
 								<p:tooltip for="row" value="Edit" showEffect="fade"
 									hideEffect="fade" />
 							</p:column>
 						</p:dataTable>
 					</p:panel>
-					<p:panel id="panelBoton">
+					<p:panel id="panelBoton" style="height:40px;width:1070px">
 						<div align="center">
 							<p:commandButton id="btnNew" value="Nuevo"
-										action="#{usuariosInternosView.action_new()}" update=":dialogUsuariosInternos">
-							</p:commandButton>
+								action="#{usuariosInternosView.action_new()}"
+								update=":dialogUsuariosInternos" />
 						</div>
 					</p:panel>
 				</h:form>
-				<p:dialog id="dialogUsuariosInternos" appendToBody="true" draggable="true"
-						closable="false" visible="#{usuariosInternosView.showDialog}"
-						resizable="false" modal="true" width="500">
+				<p:dialog id="dialogUsuariosInternos" appendToBody="true"
+					draggable="true" closable="false"
+					visible="#{usuariosInternosView.showDialog}" resizable="false"
+					modal="true" width="500">
 					<h:form id="formDialog">
-						<p:messages id="msg" showDetail="false"></p:messages>
+						<p:messages id="msg" showDetail="false" />
 						<p:panel id="panelUsuariosInternos" header="Nuevo Usuario">
 							<h:panelGrid columns="2" id="panelGrid">
-								<h:outputText id="msgNombres" value="*Nombres:"></h:outputText>
-								<p:inputText id="txtNombres" binding="#{usuariosInternosView.txtNombres}"></p:inputText>
-								<h:outputText id="msgApellidos" value="*Apellidos:"></h:outputText>
-								<p:inputText id="txtApellidos" binding="#{usuariosInternosView.txtApellidos}"></p:inputText>
-								<h:outputText id="msgNumeroIdentificacion" value="*Numero de Identificacion:"></h:outputText>
-								<p:inputText id="txtNumeroIdentificacion" 
-											binding="#{usuariosInternosView.txtNumeroIdentificacion}"></p:inputText>
-								<h:outputText id="msgLogin" value="*Login:"></h:outputText>
-								<p:inputText id="txtLogin" binding="#{usuariosInternosView.txtLogin}"></p:inputText>
-								<h:outputText id="msgCorreoElectronico" value="*Email:"></h:outputText>
-								<p:inputText id="txtCorreoElectronico" 
-											binding="#{usuariosInternosView.txtCorreoElectronico}"></p:inputText>
-								<h:outputText id="msgContrasena" value="*Contraseña:"></h:outputText>
-								<p:inputText id="txtContrasena" binding="#{usuariosInternosView.txtContrasena}"></p:inputText>
-								<h:outputText id="msgAreaInvolucrada" value="*Area Involucrada:"></h:outputText>
+								<h:outputText id="msgNombres" value="*Nombres:" />
+								<p:inputText id="txtNombres"
+									binding="#{usuariosInternosView.txtNombres}" 
+									maxlength="50" style="height:20px;width:250px"/>
+									
+								<h:outputText id="msgApellidos" value="*Apellidos:" />
+								<p:inputText id="txtApellidos"
+									binding="#{usuariosInternosView.txtApellidos}"
+									maxlength="50" style="height:20px;width:250px" />
+									
+								<h:outputText id="msgNumeroIdentificacion"
+									value="*Numero de Identificacion:" />
+								<p:inputText id="txtNumeroIdentificacion"
+									binding="#{usuariosInternosView.txtNumeroIdentificacion}" 
+									maxlength="50" style="height:20px;width:250px" />
+									
+								<h:outputText id="msgLogin" value="*Login:" />
+								<p:inputText id="txtLogin"
+									binding="#{usuariosInternosView.txtLogin}"
+									maxlength="50" style="height:20px;width:250px" />
+									
+								<h:outputText id="msgCorreoElectronico" value="*Email:" />
+								<p:inputText id="txtCorreoElectronico"
+									binding="#{usuariosInternosView.txtCorreoElectronico}" 
+									maxlength="50" style="height:20px;width:250px" />
+									
+								<h:outputText id="msgContrasena" value="*Contraseña:" />
+								<p:inputText id="txtContrasena"
+									binding="#{usuariosInternosView.txtContrasena}" 
+									maxlength="50" style="height:20px;width:250px"/>
+									
+								<h:outputText id="msgAreaInvolucrada" value="*Area Involucrada:" />
 								<p:selectOneMenu id="UsuariosInternos"
 									value="#{usuariosInternosView.idAreaInvolucrada}"
-									style="height:20px;width:150px">
+									style="height:20px;width:250px">
 									<f:selectItem itemLabel="Seleccione" itemValue="" />
-									<f:selectItems value="#{usuariosInternosView.areasInvolucradas}" />
+									<f:selectItems
+										value="#{usuariosInternosView.areasInvolucradas}" />
 								</p:selectOneMenu>
-								<h:outputText id="msgRol" value="*Rol:"></h:outputText>
+								<h:outputText id="msgRol" value="*Rol:" />
 								<p:selectOneMenu id="UsuariosInternos2"
 									value="#{usuariosInternosView.idRol}"
-									style="height:20px;width:150px">
+									style="height:20px;width:250px">
 									<f:selectItem itemLabel="Seleccione" itemValue="" />
 									<f:selectItems value="#{usuariosInternosView.idRoles}" />
 								</p:selectOneMenu>
-								
-								<h:outputText id="msgEstadoRegistro" value="*Estado:"></h:outputText> 
+
+								<h:outputText id="msgEstadoRegistro" value="*Estado:" />
 								<p:selectOneMenu id="estadoRegistro"
-											value="#{usuariosInternosView.estadoRegistroSeleccionado}"
-											style="height:20px;width:75px">
-									<f:selectItem itemValue="A" itemLabel="Activo"></f:selectItem>
-									<f:selectItem itemValue="I" itemLabel="Inactivo"></f:selectItem>
+									value="#{usuariosInternosView.estadoRegistroSeleccionado}"
+									style="height:20px;width:75px">
+									<f:selectItem itemValue="A" itemLabel="Activo" />
+									<f:selectItem itemValue="I" itemLabel="Inactivo" />
 								</p:selectOneMenu>
 							</h:panelGrid>
 						</p:panel>
 						<p:panel id="panelBotones">
 							<div align="center">
 								<p:commandButton id="btnSave" value="Guardar"
-												binding="#{usuariosInternosView.btnSave}"
-												action="#{usuariosInternosView.action_save()}"
-												update=":dialogUsuariosInternos :form:msgProjectClientesTitle">
-								</p:commandButton>
+									binding="#{usuariosInternosView.btnSave}"
+									action="#{usuariosInternosView.action_save()}"
+									update=":dialogUsuariosInternos :form:msgProjectClientesTitle" />
 								<p:commandButton id="btnClear" value="Limpiar"
-												action="#{usuariosInternosView.action_clear()}"
-												update=":dialogUsuariosInternos">
-								</p:commandButton>
+									action="#{usuariosInternosView.action_clear()}"
+									update=":dialogUsuariosInternos" />
 								<p:commandButton id="btnExit" value="Salir"
-												action="#{usuariosInternosView.action_closeDialog()}"
-												update=":dialogUsuariosInternos">
-								</p:commandButton>
+									action="#{usuariosInternosView.action_closeDialog()}"
+									update=":dialogUsuariosInternos" />
 							</div>
 						</p:panel>
-					</h:form>	
+					</h:form>
 				</p:dialog>
 			</f:view>
 		</ui:define>
 	</ui:composition>
-
 </h:body>
-
 </html>
