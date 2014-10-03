@@ -114,7 +114,33 @@ public class AnexosPqrLogic implements IAnexosPqrLogic {
     	}
     	return anexosPqrs;
     }
-
+    
+    @Transactional(readOnly = true)
+    public List<AnexosPqr> consultarAnxsXArea(AreasInvolucradas areasInvolucradas)
+        	throws Exception{
+    	List<AnexosPqr> anexosPqrs = new ArrayList<AnexosPqr>();
+    	try{
+    		anexosPqrs = anexosPqrDAO.consultarAnxsXArea(areasInvolucradas);
+    	}catch(Exception e){
+    		throw new ZMessManager().new GettingException(ZMessManager.ALL + 
+    				"Anexos por Area");
+    	}
+    	return anexosPqrs;
+    }
+    
+    @Transactional(readOnly = true)
+    public List<AnexosPqr> consultarAnxsNoArea(AreasInvolucradas areasInvolucradas)
+        	throws Exception{
+    	List<AnexosPqr> anexosPqrs = new ArrayList<AnexosPqr>();
+    	try{
+    		anexosPqrs = anexosPqrDAO.consultarAnxsNoArea(areasInvolucradas);
+    	}catch(Exception e){
+    		throw new ZMessManager().new GettingException(ZMessManager.ALL + 
+    				"Anexos por Area");
+    	}
+    	return anexosPqrs;
+    }
+    
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void saveAnexosPqr(AnexosPqr entity) throws Exception {
         try {

@@ -236,6 +236,14 @@ public interface IBusinessDelegatorView {
     
     public List<AnexosPqr> consultarAnxsNoTipoPqr (TipoSolicitudPqr tipoSolicitudPqr)
         	throws Exception;
+    
+	public List<AnexosPqr> consultarAnxsXArea(AreasInvolucradas areasInvolucradas)
+			throws Exception;
+	
+	public List<AnexosPqr> consultarAnxsNoArea(AreasInvolucradas areasInvolucradas)
+			throws Exception;
+	
+	public List<AreasInvolucradas> consultarTodasAreaXAnxs() throws Exception;
 
     public void saveAreasInvolucradas(AreasInvolucradas entity)
         throws Exception;
@@ -671,7 +679,11 @@ public interface IBusinessDelegatorView {
     		List<MotivoSolicitud> motivosSolicitudTargetCopia,
 			List<MotivoSolicitud> motivosSolicitudTarget,
 			List<AnexosPqr> anexosPqrTargetCopia,
-			List<AnexosPqr> anexosPqrTarget) throws Exception;
+			List<AnexosPqr> anexosPqrTarget, String esObligatorioSeleccionado) throws Exception;
+    
+    public void save_anxs_x_area(AreasInvolucradas areasInvolucradas,
+			List<AnexosPqr> anexosPqrTargetCopia,
+			List<AnexosPqr> anexosPqrTarget, String esObligatorioSeleccionado) throws Exception;
 
     public List<TipoSolicitudPqr> findByCriteriaInTipoSolicitudPqr(
         Object[] variables, Object[] variablesBetween,

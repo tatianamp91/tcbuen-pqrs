@@ -1,14 +1,12 @@
 package com.tcbuen.pqrs.modelo.control;
 
+import com.tcbuen.pqrs.modelo.AnexosPqr;
 import com.tcbuen.pqrs.modelo.AnxsXArea;
+import com.tcbuen.pqrs.modelo.AreasInvolucradas;
 import com.tcbuen.pqrs.modelo.dto.AnxsXAreaDTO;
 
 import java.math.BigDecimal;
-
 import java.util.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -35,6 +33,10 @@ public interface IAnxsXAreaLogic {
         */
     public void updateAnxsXArea(AnxsXArea entity) throws Exception;
 
+    public void save_anxs_x_area(AreasInvolucradas areasInvolucradas,
+			List<AnexosPqr> anexosPqrTargetCopia, List<AnexosPqr> anexosPqrTarget, 
+			String esObligatorioSeleccionado)  throws Exception;
+    
     /**
          * Load an existing AnxsXArea entity
          *

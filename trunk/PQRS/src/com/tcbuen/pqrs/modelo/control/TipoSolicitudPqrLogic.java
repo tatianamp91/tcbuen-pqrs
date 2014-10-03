@@ -281,7 +281,7 @@ public class TipoSolicitudPqrLogic implements ITipoSolicitudPqrLogic {
     public void save_mot_recl_mot_sol_anxs_x_tipo(TipoSolicitudPqr tipoSol, List<MotivoReclamacion> motivosReclamacionTargetCopia,
     		List<MotivoReclamacion> motivosReclamacionTarget, List<MotivoSolicitud> motivosSolicitudTargetCopia,
 			List<MotivoSolicitud> motivosSolicitudTarget, List<AnexosPqr> anexosPqrTargetCopia,
-			List<AnexosPqr> anexosPqrTarget) throws Exception {
+			List<AnexosPqr> anexosPqrTarget, String esObligatorioSeleccionado) throws Exception {
 		try {
 			
 			//Elimina Motivos de Reaclamacion x Tipo de Solicitud
@@ -350,16 +350,15 @@ public class TipoSolicitudPqrLogic implements ITipoSolicitudPqrLogic {
 				String value = (String) object;
 				AnexosPqr anexPqr = anexosPqrLogic.getAnexosPqr(Long.parseLong(value));
 				AnxsXTpSol anxsXTpSol = new AnxsXTpSol();
-				anxsXTpSol.setEsObligatorio("S");
+				anxsXTpSol.setEsObligatorio(esObligatorioSeleccionado);
 				anxsXTpSol.setAnexosPqr(anexPqr);
 				anxsXTpSol.setTipoSolicitudPqr(tipoSol);
 
 				anxsXTpSolLogic.saveAnxsXTpSol(anxsXTpSol);
 			}
 		} catch (Exception e) {
-        	throw new Exception("Error Modificando Tipo de Solicitud");
-        } finally {
-        }
+        	throw new Exception("Error Creando - Modificando Tipo de Solicitud");
+        } 
 	}
 
     @Transactional(readOnly = true)

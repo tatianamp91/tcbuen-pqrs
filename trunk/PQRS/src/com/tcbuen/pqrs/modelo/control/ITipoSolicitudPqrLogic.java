@@ -37,17 +37,16 @@ public interface ITipoSolicitudPqrLogic {
         */
     public void updateTipoSolicitudPqr(TipoSolicitudPqr entity)
         throws Exception;
-
-    /**
-         * Load an existing TipoSolicitudPqr entity
-         *
-         */
     
     public void save_mot_recl_mot_sol_anxs_x_tipo(TipoSolicitudPqr tipoSol, List<MotivoReclamacion> motivosReclamacionTargetCopia,
     		List<MotivoReclamacion> motivosReclamacionTarget, List<MotivoSolicitud> motivosSolicitudTargetCopia,
 			List<MotivoSolicitud> motivosSolicitudTarget, List<AnexosPqr> anexosPqrTargetCopia,
-			List<AnexosPqr> anexosPqrTarget) throws Exception;
-			
+			List<AnexosPqr> anexosPqrTarget, String esObligatorioSeleccionado) throws Exception;
+	
+    /**
+     * Load an existing TipoSolicitudPqr entity
+     *
+     */
     public TipoSolicitudPqr getTipoSolicitudPqr(Long idTpSolPqr)
         throws Exception;
 

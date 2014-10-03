@@ -52,6 +52,7 @@ public class TipoSolicitudPqrView implements Serializable {
 	private TipoSolicitudPqrDTO selectedTipoSolicitudPqr;
 	private TipoSolicitudPqr entity;
 	private boolean showDialog;
+	private String esObligatorioSeleccionado;
 	private DualListModel<MotivoReclamacion> motivosReclamacion;
 	private List<MotivoReclamacion> motivosReclamacionSource;
 	private List<MotivoReclamacion> motivosReclamacionTarget;
@@ -357,11 +358,12 @@ public class TipoSolicitudPqrView implements Serializable {
 				motivosReclamacionTarget = motivosReclamacion.getTarget();
 				motivosSolicitudTarget = motivosSolicitud.getTarget();
 				anexosPqrTarget = anexosPqr.getTarget();
+				esObligatorioSeleccionado = "S";
 				
 				businessDelegatorView.save_mot_recl_mot_sol_anxs_x_tipo( tipoSol, motivosReclamacionTargetCopia,
 			    		motivosReclamacionTarget, motivosSolicitudTargetCopia,
 						motivosSolicitudTarget, anexosPqrTargetCopia,
-						anexosPqrTarget);
+						anexosPqrTarget, esObligatorioSeleccionado);
 				
 				FacesUtils.addInfoMessage("El tipo de solicitud se guardo exitosamente");
 				action_clear();
@@ -446,11 +448,12 @@ public class TipoSolicitudPqrView implements Serializable {
 			motivosReclamacionTarget = motivosReclamacion.getTarget();
 			motivosSolicitudTarget = motivosSolicitud.getTarget();
 			anexosPqrTarget = anexosPqr.getTarget();
+			esObligatorioSeleccionado = "S";
 			
 			businessDelegatorView.save_mot_recl_mot_sol_anxs_x_tipo( tipoSol, motivosReclamacionTargetCopia,
 		    		motivosReclamacionTarget, motivosSolicitudTargetCopia,
 					motivosSolicitudTarget, anexosPqrTargetCopia,
-					anexosPqrTarget);
+					anexosPqrTarget, esObligatorioSeleccionado);
 
 			FacesUtils.addInfoMessage("El tipo de solicitud se modifico exitosamente");
 			action_clear();
