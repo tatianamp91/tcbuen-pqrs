@@ -2,6 +2,7 @@ package com.tcbuen.pqrs.dataaccess.dao;
 
 import com.tcbuen.pqrs.dataaccess.api.HibernateDaoImpl;
 import com.tcbuen.pqrs.modelo.AnexosPqr;
+import com.tcbuen.pqrs.modelo.AreasInvolucradas;
 import com.tcbuen.pqrs.modelo.MotivoReclamacion;
 import com.tcbuen.pqrs.modelo.TipoSolicitudPqr;
 
@@ -79,6 +80,33 @@ public class AnexosPqrDAO extends HibernateDaoImpl<AnexosPqr, Long>
 					+ "where anexosPqr.idAnexoPqr not in (Select anexosPqr from AnxsXTpSol anxsXTpSol, AnexosPqr anexosPqr "
 					+ "where anexosPqr.idAnexoPqr = anxsXTpSol.anexosPqr.idAnexoPqr "
 					+ "and anxsXTpSol.tipoSolicitudPqr.idTpSolPqr =" + tipoSolicitudPqr.getIdTpSolPqr() + ")"
+					+ "and estadoRegistro = 'A'";
+		
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		List<AnexosPqr> anexosPqr = query.list();	
+		return anexosPqr;
+	}
+	
+    @Override
+	public List<AnexosPqr> consultarAnxsXArea(AreasInvolucradas areasInvolucradas) throws Exception {
+			
+		String hql = "Select anexosPqr from AnxsXArea anxsXArea, AnexosPqr anexosPqr "
+					+ "where anexosPqr.idAnexoPqr = anxsXArea.anexosPqr.idAnexoPqr "
+					+ "and anxsXArea.areasInvolucradas.idAreaInvolucrada ="+ areasInvolucradas.getIdAreaInvolucrada();
+		
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		List<AnexosPqr> anexosPqr = query.list();
+		
+		return anexosPqr;
+	}
+    
+	@Override
+	public List<AnexosPqr> consultarAnxsNoArea(AreasInvolucradas areasInvolucradas) throws Exception {
+		
+		String hql = "Select anexosPqr from AnexosPqr anexosPqr "
+					+ "where anexosPqr.idAnexoPqr not in (Select anexosPqr from AnxsXArea anxsXArea, AnexosPqr anexosPqr "
+					+ "where anexosPqr.idAnexoPqr = anxsXArea.anexosPqr.idAnexoPqr "
+					+ "and anxsXArea.areasInvolucradas.idAreaInvolucrada ="+ areasInvolucradas.getIdAreaInvolucrada() + ")"
 					+ "and estadoRegistro = 'A'";
 		
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);

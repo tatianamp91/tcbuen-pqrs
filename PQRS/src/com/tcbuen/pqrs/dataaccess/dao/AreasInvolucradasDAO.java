@@ -5,23 +5,16 @@ import com.tcbuen.pqrs.modelo.AreasInvolucradas;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-
 import org.hibernate.criterion.Example;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
-
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -51,4 +44,17 @@ public class AreasInvolucradasDAO extends HibernateDaoImpl<AreasInvolucradas, Lo
         ApplicationContext ctx) {
         return (IAreasInvolucradasDAO) ctx.getBean("AreasInvolucradasDAO");
     }
+    
+	@Override
+	public List<AreasInvolucradas> consultarTodasAreaXAnxs() throws Exception {
+		   
+			String hql = "Select areasInvolucradas from AnxsXArea anxsXArea, AreasInvolucradas areasInvolucradas "
+						+ "where areasInvolucradas.idAreaInvolucrada = anxsXArea.areasInvolucradas.idAreaInvolucrada "
+						+ "group by areasInvolucradas";
+			
+			Query query = sessionFactory.getCurrentSession().createQuery(hql);
+			List<AreasInvolucradas> areasInvolucradas = query.list();
+			
+			return areasInvolucradas;
+		}
 }

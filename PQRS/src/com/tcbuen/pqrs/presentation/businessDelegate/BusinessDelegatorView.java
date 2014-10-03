@@ -486,7 +486,39 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
         	throw e;
         }
         	return anexosPqr;
-        }
+    }
+    
+    public List<AnexosPqr> consultarAnxsXArea(AreasInvolucradas areasInvolucradas)
+            throws Exception{
+            List<AnexosPqr> anexosPqr = null;
+            try{
+            	anexosPqr = anexosPqrLogic.consultarAnxsXArea(areasInvolucradas); 		
+            }catch(Exception e){
+            	throw e;
+            }
+            return anexosPqr;
+    }
+    
+    public List<AnexosPqr> consultarAnxsNoArea(AreasInvolucradas areasInvolucradas)
+        	throws Exception{
+            List<AnexosPqr> anexosPqr = null;
+            try{
+            	anexosPqr = anexosPqrLogic.consultarAnxsNoArea(areasInvolucradas); 		
+            }catch(Exception e){
+            	throw e;
+            }
+            return anexosPqr;
+    }
+    
+    public List<AreasInvolucradas> consultarTodasAreaXAnxs() throws Exception{
+            List<AreasInvolucradas> areasInvolucradas = null;
+            try{
+            	areasInvolucradas = areasInvolucradasLogic.consultarTodasAreaXAnxs();
+            }catch(Exception e){
+            	throw e;
+            }
+            return areasInvolucradas;
+    }
 
     public void saveAreasInvolucradas(AreasInvolucradas entity)
         throws Exception {
@@ -1378,11 +1410,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
     		List<MotivoSolicitud> motivosSolicitudTargetCopia,
 			List<MotivoSolicitud> motivosSolicitudTarget,
 			List<AnexosPqr> anexosPqrTargetCopia,
-			List<AnexosPqr> anexosPqrTarget) 
+			List<AnexosPqr> anexosPqrTarget, String esObligatorioSeleccionado) 
             throws Exception {
             tipoSolicitudPqrLogic.save_mot_recl_mot_sol_anxs_x_tipo(tipoSol,
             		motivosReclamacionTargetCopia, motivosReclamacionTarget, motivosSolicitudTargetCopia,
-        			motivosSolicitudTarget, anexosPqrTargetCopia, anexosPqrTarget);
+        			motivosSolicitudTarget, anexosPqrTargetCopia, anexosPqrTarget, esObligatorioSeleccionado);
+    }
+    
+    public void save_anxs_x_area(AreasInvolucradas areasInvolucradas,
+			List<AnexosPqr> anexosPqrTargetCopia,
+			List<AnexosPqr> anexosPqrTarget, String esObligatorioSeleccionado) throws Exception{
+        	anxsXAreaLogic.save_anxs_x_area(areasInvolucradas,
+        			anexosPqrTargetCopia, anexosPqrTarget, esObligatorioSeleccionado);
     }
 
     public void saveTipoSolicitudPqr(TipoSolicitudPqr entity)

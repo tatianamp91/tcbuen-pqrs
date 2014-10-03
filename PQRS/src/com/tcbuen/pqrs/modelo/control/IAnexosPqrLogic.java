@@ -1,6 +1,7 @@
 package com.tcbuen.pqrs.modelo.control;
 
 import com.tcbuen.pqrs.modelo.AnexosPqr;
+import com.tcbuen.pqrs.modelo.AreasInvolucradas;
 import com.tcbuen.pqrs.modelo.TipoSolicitudPqr;
 import com.tcbuen.pqrs.modelo.dto.AnexosPqrDTO;
 
@@ -22,6 +23,12 @@ public interface IAnexosPqrLogic {
 	
 	public List<AnexosPqr> consultarAnxsNoTipoPqr(TipoSolicitudPqr tipoSolicitudPqr) 
 			throws Exception;
+	
+	public List<AnexosPqr> consultarAnxsXArea(AreasInvolucradas areasInvolucradas)
+			throws Exception;
+	
+	public List<AnexosPqr> consultarAnxsNoArea(AreasInvolucradas areasInvolucradas)
+			throws Exception;	
 
     /**
          * Save an new AnexosPqr entity

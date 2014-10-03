@@ -4,11 +4,7 @@ import com.tcbuen.pqrs.modelo.AreasInvolucradas;
 import com.tcbuen.pqrs.modelo.dto.AreasInvolucradasDTO;
 
 import java.math.BigDecimal;
-
 import java.util.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -38,6 +34,8 @@ public interface IAreasInvolucradasLogic {
         */
     public void updateAreasInvolucradas(AreasInvolucradas entity)
         throws Exception;
+    
+    public List<AreasInvolucradas> consultarTodasAreaXAnxs() throws Exception;
 
     /**
          * Load an existing AreasInvolucradas entity

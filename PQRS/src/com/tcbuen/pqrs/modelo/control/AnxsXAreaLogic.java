@@ -7,16 +7,12 @@ import com.tcbuen.pqrs.modelo.dto.AnxsXAreaDTO;
 import com.tcbuen.pqrs.utilities.Utilities;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.context.annotation.Scope;
-
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,6 +46,9 @@ public class AnxsXAreaLogic implements IAnxsXAreaLogic {
     */
     @Autowired
     IAreasInvolucradasLogic logicAreasInvolucradas2;
+    
+    @Autowired
+    IAnexosPqrLogic anexosPqrLogic;
 
     @Transactional(readOnly = true)
     public List<AnxsXArea> getAnxsXArea() throws Exception {
@@ -224,6 +223,42 @@ public class AnxsXAreaLogic implements IAnxsXAreaLogic {
         } finally {
         }
     }
+    
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void save_anxs_x_area(AreasInvolucradas areasInvolucradas,
+			List<AnexosPqr> anexosPqrTargetCopia, List<AnexosPqr> anexosPqrTarget,
+			String esObligatorioSeleccionado) throws Exception {
+		try {
+			
+			//Elimina Anexos x Area
+			if (anexosPqrTargetCopia != null) {
+				List<AnxsXArea> anxsXArea = getAnxsXArea();
+				for (AnexosPqr anxc : anexosPqrTargetCopia) {
+					for (AnxsXArea anxs : anxsXArea) {
+						if (anxc.getIdAnexoPqr() == anxs.getAnexosPqr().getIdAnexoPqr()
+								&& anxs.getAreasInvolucradas().getIdAreaInvolucrada() == areasInvolucradas.getIdAreaInvolucrada()) {
+							deleteAnxsXArea(anxs);
+						}
+					}
+				}
+			}
+			
+			//Guarda Anexos x Area
+			for (Object object : anexosPqrTarget) {
+				String value = (String) object;
+				AnexosPqr anexPqr = anexosPqrLogic.getAnexosPqr(Long.parseLong(value));
+				AnxsXArea anxsXArea = new AnxsXArea();
+				anxsXArea.setEsObligatorio(esObligatorioSeleccionado);
+				anxsXArea.setAnexosPqr(anexPqr);
+				anxsXArea.setAreasInvolucradas(areasInvolucradas);
+
+				saveAnxsXArea(anxsXArea);
+			}
+		} catch (Exception e) {
+        	throw new Exception("Error Creando - Modificando Area - Anexo");
+        } finally {
+        }
+	}
 
     @Transactional(readOnly = true)
     public List<AnxsXAreaDTO> getDataAnxsXArea() throws Exception {
