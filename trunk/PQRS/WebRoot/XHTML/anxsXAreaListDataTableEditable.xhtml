@@ -21,15 +21,16 @@
 					<p:panel id="msgProjectClientesTitle" header="Anexos por Areas"
 						style="height:300px;width:1070px">
 						<p:messages id="msg" showDetail="false" />
-						<p:dataTable id="tabla" value="#{anxsXAreaView.data}" var="areas"
+						<p:dataTable id="tabla" value="#{anxsXAreaView.areas}" var="area"
 							paginator="true" rows="5" editable="true">
 
 							<p:ajax event="rowEdit" update=":form:msg,:form:tabla"
 								listener="#{anxsXAreaView.rowEventListener}" />
-							<p:column filterBy="#{areas.idAreaInvolucrada}"
-								sortBy="#{areas.idAreaInvolucrada}" headerText="Area"
+								
+							<p:column filterBy="#{area.idAreaInvolucrada}"
+								sortBy="#{area.idAreaInvolucrada}" headerText="Area"
 								style="height:20px;width:250px">
-								<h:outputText value="#{areas.nombreArea}" />
+								<h:outputText value="#{area.nombreArea}" />
 							</p:column>
 
 							<p:column headerText="Editar" style="height:20px;width:100px">
@@ -38,28 +39,23 @@
 									title="View Modify">
 									<p:rowEditor id="editar" />
 									<f:setPropertyActionListener
-										value="#{areas.idAreaInvolucrada}"
-										target="#{areas.idAreaInvolucrada}" />
+										value="#{area.idAreaInvolucrada}"
+										target="#{anxsXAreaView.idAreaInvolucrada}" />
 								</p:commandLink>
-							</p:column>
-
-							<p:column headerText="Editar" style="height:20px;width:50px">
-								<p:rowEditor id="row" />
-								<p:tooltip for="row" value="Edit" showEffect="fade"
-									hideEffect="fade" />
 							</p:column>
 						</p:dataTable>
 					</p:panel>
 					<p:panel id="panelBoton" style="height:40px;width:1070px">
 						<div align="center">
 							<p:commandButton id="btnNew" value="Nuevo"
-								action="#{anxsXAreaView.action_new()}" update=":dialogAnxsXArea" />
+								action="#{anxsXAreaView.action_new()}" 
+								update=":dialogAnxsXArea :form:msgProjectClientesTitle" />
 						</div>
 					</p:panel>
 				</h:form>
 				<p:dialog id="dialogAnxsXArea" appendToBody="true" draggable="true"
 					closable="false" visible="#{anxsXAreaView.showDialog}"
-					resizable="false" modal="true" width="600">
+					resizable="false" modal="true" width="800">
 					<h:form id="formDialog">
 						<p:messages id="msg" showDetail="false" />
 						<p:panel id="panelAnxsXArea" header="Nuevo Anexo por Area">
@@ -69,11 +65,11 @@
 									value="*Area:" />
 								<p:selectOneMenu id="AreasPqr"
 									value="#{anxsXAreaView.idAreaInvolucrada}"
-									style="height:20px;width:150px">
+									style="height:20px;width:150px" disabled="#{anxsXAreaView.boton}">
 									<f:selectItem itemLabel="Seleccione" itemValue="" />
 									<f:selectItems value="#{anxsXAreaView.areasInvolucradas}" />
 								</p:selectOneMenu>
-
+								
 								<h:outputText id="msgAnexosPqr" value="*Anexo:" />
 								<p:pickList id="AnexosPqrPickList"
 									value="#{anxsXAreaView.anexosPqr}" var="anexoPqr"
@@ -91,7 +87,7 @@
 								<p:commandButton id="btnModify"
 									binding="#{anxsXAreaView.btnModify}" value="Modificar"
 									disabled="#{!anxsXAreaView.boton}"
-									action="#{anxsXAreaView.action_modify()}"
+									action="#{anxsXAreaView.action_save()}"
 									update=":dialogAnxsXArea :form:msgProjectClientesTitle" />
 								<p:commandButton id="btnClear" value="Limpiar"
 									disabled="#{anxsXAreaView.boton}"

@@ -519,6 +519,16 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
             }
             return areasInvolucradas;
     }
+    
+    public List<AreasInvolucradas> consultarNoAreaXAnxs() throws Exception{
+        List<AreasInvolucradas> areasInvolucradas = null;
+        try{
+        	areasInvolucradas = areasInvolucradasLogic.consultarNoAreaXAnxs();
+        }catch(Exception e){
+        	throw e;
+        }
+        return areasInvolucradas;
+    }
 
     public void saveAreasInvolucradas(AreasInvolucradas entity)
         throws Exception {

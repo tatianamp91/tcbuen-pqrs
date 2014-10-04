@@ -48,8 +48,8 @@ public class AnxsXAreaView implements Serializable {
     private CommandButton btnModify;
     private CommandButton btnDelete;
     private CommandButton btnClear;
-    //private List<AnxsXAreaDTO> data;
-    private List<AreasInvolucradas> data;
+    private List<AnxsXAreaDTO> data;
+    private List<AreasInvolucradas> areas;
     private AnxsXAreaDTO selectedAnxsXArea;
     private AnxsXArea entity;
     private boolean showDialog;
@@ -76,6 +76,8 @@ public class AnxsXAreaView implements Serializable {
 		try {
 			consultarElementosNuevo();
 			anexosPqrTargetCopia = null;
+			data = getData();
+			setBoton(false);
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
@@ -131,12 +133,12 @@ public class AnxsXAreaView implements Serializable {
 		return "";
 	}
 	
-	public String consultarElementosModificar(AreasInvolucradas areas) {
+	public String consultarElementosModificar(AreasInvolucradas area) {
 		try {
 			anexosPqrSource = new ArrayList<AnexosPqr>();
 			anexosPqrTarget = new ArrayList<AnexosPqr>();
-			anexosPqrSource = businessDelegatorView.consultarAnxsNoArea(areas);
-			anexosPqrTarget = businessDelegatorView.consultarAnxsXArea(areas);
+			anexosPqrSource = businessDelegatorView.consultarAnxsNoArea(area);
+			anexosPqrTarget = businessDelegatorView.consultarAnxsXArea(area);
 			anexosPqrTargetCopia = anexosPqrTarget;
 			anexosPqr = new DualListModel<AnexosPqr>(anexosPqrSource, anexosPqrTarget);
 		} catch (Exception e) {
@@ -146,10 +148,13 @@ public class AnxsXAreaView implements Serializable {
 	}
 
     public String action_new() {
-        action_clear();
-        selectedAnxsXArea = null;
-        setShowDialog(true);
-
+    	action_clear();
+	    selectedAnxsXArea = null;	        
+	    if(areasInvolucradas.size() > 0){
+	    	setShowDialog(true);
+	    }else{
+	    	FacesUtils.addInfoMessage("No hay areas pendientes por configurar");
+    	}
         return "";
     }
     
@@ -168,16 +173,15 @@ public class AnxsXAreaView implements Serializable {
     public String action_clear() {
         entity = null;
         selectedAnxsXArea = null;
-
-        if (idAreaInvolucrada != null) {
-            idAreaInvolucrada = null;
-        }
               
         data = null;
-        data = getData();
-        areasInvolucradas = null;
-        areasInvolucradas = getAreasInvolucradas();
-		setBoton(false);
+	    data = getData();
+	    areas = null;
+	    areas = getAreas();
+	    areasInvolucradas = null;
+	    idAreaInvolucrada = null;
+	    setBoton(false);
+	    areasInvolucradas = getAreasInvolucradas();	
 		consultarElementosNuevo();
 
         return "";
@@ -236,16 +240,23 @@ public class AnxsXAreaView implements Serializable {
 
     public String action_save() {
         try {
-            if ((selectedAnxsXArea == null) && (entity == null)) {
-                action_crear();
+            if (!boton) {
+            	if(idAreaInvolucrada != null && anexosPqr.getTarget().size() > 0){
+	                action_crear();
+	                FacesUtils.addInfoMessage("Los anexos del area se guardaron exitosamente");
+	                setShowDialog(false);
+            	}else{
+            		consultarElementosNuevo();
+            		FacesUtils.addInfoMessage("Debe seleccionar area y por lo menos un anexo");
+            	}
             } else {
-                action_modify();
+            	action_crear();
+            	FacesUtils.addInfoMessage("Los anexos del area se modificaron exitosamente");
+            	setShowDialog(false);
             }
-            action_clear();
         } catch (Exception e) {
             FacesUtils.addErrorMessage(e.getMessage());
         }
-
         return "";
     }
     
@@ -256,8 +267,7 @@ public class AnxsXAreaView implements Serializable {
 			esObligatorioSeleccionado = "S";
 			
 			businessDelegatorView.save_anxs_x_area(areas, anexosPqrTargetCopia,
-					anexosPqrTarget, esObligatorioSeleccionado);
-			FacesUtils.addInfoMessage("Los Anexos se guardaron exitosamente");            
+					anexosPqrTarget, esObligatorioSeleccionado);            
 	        action_clear();
 	    } catch (Exception e) {
 	        entity = null;
@@ -425,23 +435,21 @@ public class AnxsXAreaView implements Serializable {
     public void setTxtIdAnxXArea(InputText txtIdAnxXArea) {
         this.txtIdAnxXArea = txtIdAnxXArea;
     }
-    /*
+    
     public List<AnxsXAreaDTO> getData() {
         try {
             if (data == null) {
-                data = businessDelegatorView.getDataAnxsXArea();
-            	
+                data = businessDelegatorView.getDataAnxsXArea();        	
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return data;
     }
 
     public void setData(List<AnxsXAreaDTO> anxsXAreaDTO) {
         this.data = anxsXAreaDTO;
-    }*/
+    }
 
     public AnxsXAreaDTO getSelectedAnxsXArea() {
         return selectedAnxsXArea;
@@ -512,8 +520,7 @@ public class AnxsXAreaView implements Serializable {
 		this.idAnexoPqr = idAnexoPqr;
 	}
 
-	public Long getIdAreaInvolucrada() {
-		
+	public Long getIdAreaInvolucrada() {		
 		return idAreaInvolucrada;
 	}
 
@@ -524,11 +531,15 @@ public class AnxsXAreaView implements Serializable {
 	public List<SelectItem> getAreasInvolucradas() {
 		try {
 	       	areasInvolucradas = new ArrayList<SelectItem>();
-			List<AreasInvolucradas> areas = businessDelegatorView.getAreasInvolucradas();
+	       	List<AreasInvolucradas> areas = new ArrayList<AreasInvolucradas>();
+	       	if(!boton){
+				areas = businessDelegatorView.consultarNoAreaXAnxs();
+	       	}else{
+	       		areas = businessDelegatorView.getAreasInvolucradas();
+	       	}
 	       	for (AreasInvolucradas area : areas) {
 				areasInvolucradas.add(new SelectItem(area.getIdAreaInvolucrada(), area.getNombreArea()));
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -586,20 +597,17 @@ public class AnxsXAreaView implements Serializable {
 		this.boton = boton;
 	}
 
-	public List<AreasInvolucradas> getData() {
-        try {
-            if (data == null) {
-                data = businessDelegatorView.consultarTodasAreaXAnxs(); 
-                //data.get(0).getIdAreaInvolucrada();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-		return data;
+	public List<AreasInvolucradas> getAreas() {
+		try{
+		areas = businessDelegatorView.consultarTodasAreaXAnxs();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return areas;
 	}
 
-	public void setData(List<AreasInvolucradas> data) {
-		this.data = data;
+	public void setAreas(List<AreasInvolucradas> areas) {
+		this.areas = areas;
 	}
 
 	public AreasInvolucradas getAreaInvolucrada() {
@@ -608,7 +616,5 @@ public class AnxsXAreaView implements Serializable {
 
 	public void setAreaInvolucrada(AreasInvolucradas areaInvolucrada) {
 		this.areaInvolucrada = areaInvolucrada;
-	}	
-	
-	
+	}		
 }

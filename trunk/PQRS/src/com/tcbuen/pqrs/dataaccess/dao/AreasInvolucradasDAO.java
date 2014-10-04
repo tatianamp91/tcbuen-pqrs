@@ -48,13 +48,27 @@ public class AreasInvolucradasDAO extends HibernateDaoImpl<AreasInvolucradas, Lo
 	@Override
 	public List<AreasInvolucradas> consultarTodasAreaXAnxs() throws Exception {
 		   
-			String hql = "Select areasInvolucradas from AnxsXArea anxsXArea, AreasInvolucradas areasInvolucradas "
-						+ "where areasInvolucradas.idAreaInvolucrada = anxsXArea.areasInvolucradas.idAreaInvolucrada "
-						+ "group by areasInvolucradas";
+			String hql = "Select distinct(areasInvolucradas) from AnxsXArea anxsXArea, AreasInvolucradas areasInvolucradas "
+						+ "where areasInvolucradas.idAreaInvolucrada = anxsXArea.areasInvolucradas.idAreaInvolucrada ";
 			
 			Query query = sessionFactory.getCurrentSession().createQuery(hql);
 			List<AreasInvolucradas> areasInvolucradas = query.list();
 			
 			return areasInvolucradas;
-		}
+	}
+	
+	@Override
+	public List<AreasInvolucradas> consultarNoAreaXAnxs() throws Exception {
+		   
+			String hql = "Select areasInvolucrada from AreasInvolucradas areasInvolucrada "
+						+ "where areasInvolucrada.idAreaInvolucrada not in (Select distinct(areasInvolucradas) "
+						+ "from AnxsXArea anxsXArea, AreasInvolucradas areasInvolucradas "
+						+ "where areasInvolucradas.idAreaInvolucrada = anxsXArea.areasInvolucradas.idAreaInvolucrada) "
+						+ "and estadoRegistro = 'A'";
+			
+			Query query = sessionFactory.getCurrentSession().createQuery(hql);
+			List<AreasInvolucradas> areasInvolucradas = query.list();
+			
+			return areasInvolucradas;
+	}
 }
