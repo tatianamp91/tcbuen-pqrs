@@ -244,6 +244,8 @@ public interface IBusinessDelegatorView {
 			throws Exception;
 	
 	public List<AreasInvolucradas> consultarTodasAreaXAnxs() throws Exception;
+	
+	public List<AreasInvolucradas> consultarNoAreaXAnxs() throws Exception;
 
     public void saveAreasInvolucradas(AreasInvolucradas entity)
         throws Exception;

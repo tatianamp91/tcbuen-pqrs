@@ -36,6 +36,8 @@ public interface IAreasInvolucradasLogic {
         throws Exception;
     
     public List<AreasInvolucradas> consultarTodasAreaXAnxs() throws Exception;
+    
+    public List<AreasInvolucradas> consultarNoAreaXAnxs() throws Exception;
 
     /**
          * Load an existing AreasInvolucradas entity

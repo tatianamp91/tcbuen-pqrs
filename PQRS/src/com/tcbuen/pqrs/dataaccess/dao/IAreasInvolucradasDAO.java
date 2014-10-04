@@ -13,4 +13,6 @@ import com.tcbuen.pqrs.modelo.AreasInvolucradas;
 public interface IAreasInvolucradasDAO extends Dao<AreasInvolucradas, Long> {
 	
 	public List<AreasInvolucradas> consultarTodasAreaXAnxs() throws Exception;
+	
+	public List<AreasInvolucradas> consultarNoAreaXAnxs() throws Exception;
 }

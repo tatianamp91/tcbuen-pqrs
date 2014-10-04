@@ -83,6 +83,18 @@ public class AreasInvolucradasLogic implements IAreasInvolucradasLogic {
     	return areasInvolucradas;
     }
     
+    @Transactional(readOnly = true)
+    public List<AreasInvolucradas> consultarNoAreaXAnxs() throws Exception {
+    	List<AreasInvolucradas> areasInvolucradas = new ArrayList<AreasInvolucradas>();
+    	try{
+    		areasInvolucradas = areasInvolucradasDAO.consultarNoAreaXAnxs();
+    	}catch(Exception e){
+    		throw new ZMessManager().new GettingException(ZMessManager.ALL + 
+    				"Areas sin Anexos");
+    	}
+    	return areasInvolucradas;
+    }
+    
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void saveAreasInvolucradas(AreasInvolucradas entity)
         throws Exception {
