@@ -13,6 +13,7 @@ import com.tcbuen.pqrs.utilities.*;
 import org.primefaces.component.calendar.*;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
+import org.primefaces.component.password.Password;
 import org.primefaces.event.RowEditEvent;
 
 import java.io.Serializable;
@@ -43,6 +44,8 @@ public class UsuariosInternosView implements Serializable {
     private static final long serialVersionUID = 1L;
     private InputText txtApellidos;
     private InputText txtContrasena;
+	private Password passContrasena;
+    private Password passContrasena2;
     private InputText txtCorreoElectronico;
     private String estadoRegistro;
     private InputText txtEstadoRegistro;
@@ -61,6 +64,7 @@ public class UsuariosInternosView implements Serializable {
     private UsuariosInternosDTO selectedUsuariosInternos;
     private UsuariosInternos entity;
     private boolean showDialog;
+    private boolean showDialog2;
     @ManagedProperty(value = "#{BusinessDelegatorView}")
     private IBusinessDelegatorView businessDelegatorView;
     private String estadoRegistroSeleccionado;
@@ -68,12 +72,14 @@ public class UsuariosInternosView implements Serializable {
     private List<SelectItem> areasInvolucradas;
     private Long idRol;
     private List<SelectItem> idRoles;
-    
     private List<Roles> roles;
     private String rol;
     private List<AreasInvolucradas> areas;
     private String area;
-    
+    private UsuariosInternos usuInternos;
+    private Long idUsuInterno;
+    private String password;
+    //private String passContrasena;
 
     public UsuariosInternosView() {
         super();
@@ -88,11 +94,16 @@ public class UsuariosInternosView implements Serializable {
             }
             txtApellidos.setValue(usuariosInternosDTO.getApellidos());
 
-            if (txtContrasena == null) {
+          /*  if (txtContrasena == null) {
                 txtContrasena = new InputText();
             }
             txtContrasena.setValue(usuariosInternosDTO.getContrasena());
-
+            
+            if (passContrasena == null) {
+                passContrasena = new Password();
+            }*/
+//            passContrasena.setValue(usuariosInternosDTO.getContrasena());
+            
             if (txtCorreoElectronico == null) {
                 txtCorreoElectronico = new InputText();
             }
@@ -153,7 +164,30 @@ public class UsuariosInternosView implements Serializable {
 
         return "";
     }
+    
+    public String action_edit() {
+		try {
+						
+			Long id = idUsuInterno;
+			UsuariosInternos usuarioPorId = obtenerIdUsuario(id);
+			
+			txtNombres.setValue(usuarioPorId.getNombres());
+			txtApellidos.setValue(usuarioPorId.getApellidos());
+			txtCorreoElectronico.setValue(usuarioPorId.getCorreoElectronico());
+			setEstadoRegistroSeleccionado(usuarioPorId.getEstadoRegistro());
+			txtNumeroIdentificacion.setValue(usuarioPorId.getNumeroIdentificacion());
+			txtLogin.setValue(usuarioPorId.getLogin());
+			idAreaInvolucrada = usuarioPorId.getAreasInvolucradas().getIdAreaInvolucrada();
+			idRol = usuarioPorId.getRoles().getIdRol();
+			
+			setShowDialog2(true);		
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+		return "";
+	}
 
+    
     public String action_clear() {
         entity = null;
         selectedUsuariosInternos = null;
@@ -162,8 +196,12 @@ public class UsuariosInternosView implements Serializable {
             txtApellidos.setValue(null);
         }
 
-        if (txtContrasena != null) {
+        /*if (txtContrasena != null) {
             txtContrasena.setValue(null);
+        }*/
+        
+        if (passContrasena != null) {
+            passContrasena.setValue(null);
         }
 
         if (txtCorreoElectronico != null) {
@@ -204,7 +242,7 @@ public class UsuariosInternosView implements Serializable {
         areasInvolucradas = getAreasInvolucradas();
         idRoles = null;
         idRoles = getIdRoles();
-
+        
         return "";
     }
 
@@ -227,7 +265,8 @@ public class UsuariosInternosView implements Serializable {
 
         if (entity == null) {
             txtApellidos.setDisabled(false);
-            txtContrasena.setDisabled(false);
+         //   txtContrasena.setDisabled(false);
+            passContrasena.setDisabled(false);
             txtCorreoElectronico.setDisabled(false);
             txtEstadoRegistro.setDisabled(false);
             txtLogin.setDisabled(false);
@@ -241,8 +280,10 @@ public class UsuariosInternosView implements Serializable {
         } else {
             txtApellidos.setValue(entity.getApellidos());
             txtApellidos.setDisabled(false);
-            txtContrasena.setValue(entity.getContrasena());
-            txtContrasena.setDisabled(false);
+         //   txtContrasena.setValue(entity.getContrasena());
+         //   txtContrasena.setDisabled(false);
+            passContrasena.setValue(entity.getContrasena());
+            passContrasena.setDisabled(false);
             txtCorreoElectronico.setValue(entity.getCorreoElectronico());
             txtCorreoElectronico.setDisabled(false);
             txtEstadoRegistro.setValue(entity.getEstadoRegistro());
@@ -256,9 +297,9 @@ public class UsuariosInternosView implements Serializable {
             txtNumeroIdentificacion.setValue(entity.getNumeroIdentificacion());
             txtNumeroIdentificacion.setDisabled(false);
             txtIdAreaInvolucrada_AreasInvolucradas.setValue(entity.getAreasInvolucradas()
-                                                                  .getIdAreaInvolucrada());
+                                                                  .getNombreArea());
             txtIdAreaInvolucrada_AreasInvolucradas.setDisabled(false);
-            txtIdRol_Roles.setValue(entity.getRoles().getIdRol());
+            txtIdRol_Roles.setValue(entity.getRoles().getNombreRol());
             txtIdRol_Roles.setDisabled(false);
             txtIdUsuInterno.setValue(entity.getIdUsuInterno());
             txtIdUsuInterno.setDisabled(true);
@@ -271,13 +312,16 @@ public class UsuariosInternosView implements Serializable {
     }
 
     public String action_edit(ActionEvent evt) {
+    	
         selectedUsuariosInternos = (UsuariosInternosDTO) (evt.getComponent()
                                                              .getAttributes()
                                                              .get("selectedUsuariosInternos"));
         txtApellidos.setValue(selectedUsuariosInternos.getApellidos());
         txtApellidos.setDisabled(false);
-        txtContrasena.setValue(selectedUsuariosInternos.getContrasena());
-        txtContrasena.setDisabled(false);
+       /* txtContrasena.setValue(selectedUsuariosInternos.getContrasena());
+        txtContrasena.setDisabled(false);*/
+        passContrasena.setValue(selectedUsuariosInternos.getContrasena());
+        passContrasena.setDisabled(false);
         txtCorreoElectronico.setValue(selectedUsuariosInternos.getCorreoElectronico());
         txtCorreoElectronico.setDisabled(false);
         txtEstadoRegistro.setValue(selectedUsuariosInternos.getEstadoRegistro());
@@ -398,7 +442,7 @@ public class UsuariosInternosView implements Serializable {
 				String numeroIdentificacion = txtNumeroIdentificacion.getValue().toString();
 				String login = txtLogin.getValue().toString();
 				String email = txtCorreoElectronico.getValue().toString();
-				String contrasena = txtContrasena.getValue().toString();
+				String contrasena = getPassword();
 				String areaInvolucrada = area.getNombreArea();
 				String rol = roles.getNombreRol();
 				String estados = getEstadoRegistroSeleccionado();
@@ -415,7 +459,6 @@ public class UsuariosInternosView implements Serializable {
 				if (usuarioNumeroIdentifiacion == null && usuarioLogin == null && usuarioEmail == null) {
 					
 					entity = new UsuariosInternos();
-
 					entity.setNumeroIdentificacion(FacesUtils
 							.checkString(txtNumeroIdentificacion));
 					entity.setNombres(FacesUtils.checkString(txtNombres));
@@ -423,10 +466,10 @@ public class UsuariosInternosView implements Serializable {
 					entity.setCorreoElectronico(FacesUtils
 							.checkString(txtCorreoElectronico));
 					entity.setLogin(FacesUtils.checkString(txtLogin));
-					entity.setContrasena(FacesUtils.checkString(txtContrasena));
+					entity.setContrasena(contrasena);
+					System.out.println(contrasena);
 					entity.setEstadoRegistro(estadoRegistroSeleccionado);
 					entity.setFechaCreacion(new Date());
-
 					entity.setAreasInvolucradas((idAreaInvolucrada != null) ? businessDelegatorView
 							.getAreasInvolucradas((idAreaInvolucrada)) : null);
 
@@ -435,9 +478,7 @@ public class UsuariosInternosView implements Serializable {
 
 					businessDelegatorView.saveUsuariosInternos(entity);
 					FacesUtils
-							.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
-
-										
+							.addInfoMessage("La información se guardó exitosamente");
 				} else {
 
 					throw new Exception(
@@ -516,7 +557,7 @@ public class UsuariosInternosView implements Serializable {
 
 			if (usuarioPorId != null) {
 
-				String contrasena = usuarioPorId.getContrasena();
+				String contrasena = usuarioPorId.getContrasena().toString();
 
 				if (!revizarCampos(nombres, apellidos, numeroIdentificacion,
 						login, email, contrasena, areaInvolucrada, rol, estado)) {
@@ -556,7 +597,7 @@ public class UsuariosInternosView implements Serializable {
 				actualizar();
 				action_clear();
 			} else {
-				throw new Exception("NO SE PQ PUTAS ENTRO AQUI");
+				throw new Exception(" ");
 			}
 
 		} catch (Exception e) {
@@ -568,112 +609,7 @@ public class UsuariosInternosView implements Serializable {
 		return "";
 	}
 	
-	/*String numeroIdentificacion = txtNumeroIdentificacion.getValue().toString();
-	String login = txtLogin.getValue().toString();
-	String email = txtCorreoElectronico.getValue().toString();
-	AreasInvolucradas area = businessDelegatorView.getAreasInvolucradas((idAreaInvolucrada));
-	String areaInvolucrada = area.getNombreArea();
-	Roles roles = businessDelegatorView.getRoles(idRol);
-	String rol = roles.getNombreRol();
-	String nombres = txtNombres.getValue().toString();
-	String apellidos = txtApellidos.getValue().toString();	
-	String contrasena = txtContrasena.getValue().toString();
-	String estados = getEstadoRegistroSeleccionado();
 	
-	UsuariosInternos usuario = ObtenerNumeroIdentificacionUsuarios(numeroIdentificacion);
-	UsuariosInternos usuarioPorLogin = ObtenerCuentaUsuarios(login);
-	UsuariosInternos usuarioPorEmail = ObtenerEmailUsuarios(email);
-	
-	
-	if (usuario == null ) {
-		System.out.println(" No hay usuario con esa cedula");
-		if (usuarioPorLogin == null) {
-			System.out.println("No hay usuario con ese logn");
-			if (usuarioPorEmail == null) {
-				System.out.println("No hay usuario con ese email.. Yuhuuuuuuuuuuu fuck u");
-				if (!revizarCampos(nombres, apellidos, numeroIdentificacion, login,
-						email, contrasena, areaInvolucrada, rol, estados)) {
-					return "";
-				}
-				actualizar();
-				action_clear();
-			}else {
-				throw new Exception("Ya existe un usuario con el email ingresado, por favor ingresar un email diferente");
-			}
-		}else {
-			throw new Exception("Ya existe un usuario con el Login ingresado, por favor ingresar un Login diferente");
-		}
-	}else{
-		Long idTemp = usuario.getIdUsuInterno();
-		String nombresTemp = usuario.getNombres();
-		String apellidosTemp = usuario.getApellidos();
-		String numeroIdentificacionTemp = usuario.getNumeroIdentificacion();
-		String loginTemp = usuario.getLogin();
-		String correoTemp = usuario.getCorreoElectronico();
-		String contrasenaTemp = usuario.getContrasena();
-		Long areaInvolucradaTemp = usuario.getAreasInvolucradas().getIdAreaInvolucrada();
-		Long rolTemp = usuario.getRoles().getIdRol();
-		String estadoTemp = usuario.getEstadoRegistro();
-		
-		if (!numeroIdentificacionTemp.equals(numeroIdentificacion) && !correoTemp.equals(email) && !loginTemp.equals(login)) {
-			System.out.println("cc, correo y login diferentes");
-		}
-		
-		if (!numeroIdentificacionTemp.equals(numeroIdentificacion) && !correoTemp.equals(email) && loginTemp.equals(login)) {
-			System.out.println("cc y correo diferentes, login igual");
-		}
-		
-		if (!numeroIdentificacionTemp.equals(numeroIdentificacion) && correoTemp.equals(email) && loginTemp.equals(login)) {
-			System.out.println("cc diferente, correo y login igual");
-		}
-		
-		if (numeroIdentificacionTemp.equals(numeroIdentificacion) && !correoTemp.equals(email) && !loginTemp.equals(login)) {
-			System.out.println("cc igual, correo y login diferente");
-		}
-		
-		if (numeroIdentificacionTemp.equals(numeroIdentificacion) && correoTemp.equals(email) && !loginTemp.equals(login)) {
-			System.out.println("cc y correo igual, login diferente");
-		}
-		
-		if (numeroIdentificacionTemp.equals(numeroIdentificacion) && !correoTemp.equals(email) && loginTemp.equals(login) ) {
-			System.out.println("cc y login igual. Correo diferente");
-		}
-		
-		if (!numeroIdentificacionTemp.equals(numeroIdentificacion) && correoTemp.equals(email) && !loginTemp.equals(login)) {
-			System.out.println("cc y login diferente. Correo igual");
-		}
-		
-		if(numeroIdentificacionTemp.equals(numeroIdentificacion) && correoTemp.equals(email) && loginTemp.equals(login)){
-			System.out.println("FUUUUUCK");
-		}
-		
-		
-		
-//		if ((!numeroIdentificacionTemp.equals(numeroIdentificacion) && !correoTemp.equals(email) && !loginTemp.equals(login))
-//			|| (!numeroIdentificacionTemp.equals(numeroIdentificacion) && !correoTemp.equals(email) && loginTemp.equals(login))
-//			|| (!numeroIdentificacionTemp.equals(numeroIdentificacion) && correoTemp.equals(email) && loginTemp.equals(login))) {
-//			
-//			if (!revizarCampos(nombres, apellidos, numeroIdentificacion, login,
-//					email, contrasena, areaInvolucrada, rol, estados)) {
-//				return "";
-//			}
-//			
-//		}
-		
-	}
-	
-
-	
-
-	
-	action_clear();
-//	}else{
-//		throw new Exception("El Numero de Identificacion y/o el Login y/o el Email ya existen. Por "
-//							+ "favor ingreselos nuevamente");
-//	}
-*/
-
-    
     public void actualizar(){
     	try {
     		entity.setNumeroIdentificacion(FacesUtils
@@ -683,7 +619,8 @@ public class UsuariosInternosView implements Serializable {
 			entity.setCorreoElectronico(FacesUtils
 					.checkString(txtCorreoElectronico));
 			entity.setLogin(FacesUtils.checkString(txtLogin));
-			entity.setContrasena(FacesUtils.checkString(txtContrasena));
+		//	entity.setContrasena(FacesUtils.checkString(txtContrasena));
+			entity.setContrasena(FacesUtils.checkString(passContrasena));
 			entity.setEstadoRegistro(estadoRegistroSeleccionado);
 			entity.setFechaCreacion(new Date());
 
@@ -701,14 +638,7 @@ public class UsuariosInternosView implements Serializable {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
     }
-    
-    
-    
-    
-    
-    
-    
-
+  
     public String action_delete_datatable(ActionEvent evt) {
         try {
             selectedUsuariosInternos = (UsuariosInternosDTO) (evt.getComponent()
@@ -751,7 +681,12 @@ public class UsuariosInternosView implements Serializable {
     public String action_closeDialog() {
         setShowDialog(false);
         action_clear();
-
+        return "";
+    }
+    
+    public String action_closeDialog2() {
+        setShowDialog2(false);
+        action_clear();
         return "";
     }
 
@@ -963,10 +898,19 @@ public class UsuariosInternosView implements Serializable {
     public boolean isShowDialog() {
         return showDialog;
     }
-
+    
     public void setShowDialog(boolean showDialog) {
         this.showDialog = showDialog;
     }
+       
+
+	public boolean isShowDialog2() {
+		return showDialog2;
+	}
+
+	public void setShowDialog2(boolean showDialog2) {
+		this.showDialog2 = showDialog2;
+	}
 
 	public String getEstadoRegistro() {
 		return estadoRegistro;
@@ -1085,5 +1029,48 @@ public class UsuariosInternosView implements Serializable {
 	public void setIdRoles(List<SelectItem> idRoles) {
 		this.idRoles = idRoles;
 	}
+
+	public Password getPassContrasena() {
+		return passContrasena;
+	}
+
+	public void setPassContrasena(Password passContrasena) {
+		this.passContrasena = passContrasena;
+	}
+
+	public Password getPassContrasena2() {
+		return passContrasena2;
+	}
+
+	public void setPassContrasena2(Password passContrasena2) {
+		this.passContrasena2 = passContrasena2;
+	}
+
+	public UsuariosInternos getUsuInternos() {
+		return usuInternos;
+	}
+
+	public void setUsuInternos(UsuariosInternos usuInternos) {
+		this.usuInternos = usuInternos;
+	}
+
+	public Long getIdUsuInterno() {
+		return idUsuInterno;
+	}
+
+	public void setIdUsuInterno(Long idUsuInterno) {
+		this.idUsuInterno = idUsuInterno;	
+	
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	
 	
 }
