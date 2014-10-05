@@ -193,7 +193,96 @@ public class UsuariosInternosView implements Serializable {
 		}
 		return "";
 	}
+    
+    public String action_modify_edit(){
+    	try {
+    		Long id = idUsuInterno;
+			UsuariosInternos usuarioPorId = obtenerIdUsuario(id);
+			
+    		String nombres = txtNombres2.getValue().toString();
+			String apellidos = txtApellidos2.getValue().toString();
+    		String numeroIdentificacion = txtNumeroIdentificacion2.getValue().toString();
+    		String email = txtCorreoElectronico2.getValue().toString();
+			String login = txtLogin2.getValue().toString();
+			idAreaInvolucrada = usuarioPorId.getAreasInvolucradas().getIdAreaInvolucrada();
+			idRol = usuarioPorId.getRoles().getIdRol();
+			String estado = usuarioPorId.getEstadoRegistro();
+			AreasInvolucradas area = businessDelegatorView.getAreasInvolucradas((idAreaInvolucrada));
+			String areaInvolucrada = area.getNombreArea();
+			Roles roles = businessDelegatorView.getRoles(idRol);
+			String rol = roles.getNombreRol();
+			
+			if (usuarioPorId != null) {
+				String contrasena = usuarioPorId.getContrasena().toString();
 
+				if (!revizarCampos(nombres, apellidos, numeroIdentificacion,
+						login, email, contrasena, areaInvolucrada, rol, estado)) {
+					return "";
+				}
+				
+				UsuariosInternos usuario = ObtenerNumeroIdentificacionUsuarios(numeroIdentificacion);
+				if (usuario != null) {
+					Long idUsuarioPorCedula = usuario.getIdUsuInterno()
+							.longValue();
+					if (idUsuarioPorCedula != id) {
+						throw new Exception(
+								"El número de Identificacion ya existe, ingrese uno nuevo");
+					}
+				}
+				
+				UsuariosInternos usuarioPorLogin = ObtenerCuentaUsuarios(login);
+				if (usuarioPorLogin != null) {
+					Long idUsuarioPorLogin = usuarioPorLogin.getIdUsuInterno()
+							.longValue();
+					if (idUsuarioPorLogin != id) {
+						throw new Exception(
+								"El Login del usuario ya existe, ingrese uno nuevo");
+					}
+				}
+				
+				UsuariosInternos usuarioPorEmail = ObtenerEmailUsuarios(email);
+				if (usuarioPorEmail != null) {
+					Long idUsuarioPorEmail = usuarioPorEmail.getIdUsuInterno()
+							.longValue();
+					if (idUsuarioPorEmail != id) {
+						throw new Exception(
+								"El Email del usuario ya existe, ingrese uno nuevo");
+					}
+				}
+
+				entity.setNumeroIdentificacion(FacesUtils
+						.checkString(txtNumeroIdentificacion2));
+				entity.setNombres(FacesUtils.checkString(txtNombres2));
+				entity.setApellidos(FacesUtils.checkString(txtApellidos2));
+				entity.setCorreoElectronico(FacesUtils
+						.checkString(txtCorreoElectronico2));
+				entity.setLogin(FacesUtils.checkString(txtLogin2));
+			//	entity.setContrasena(FacesUtils.checkString(txtContrasena));
+				entity.setContrasena(FacesUtils.checkString(contrasena));
+				entity.setEstadoRegistro(estado);
+				entity.setFechaCreacion(new Date());
+
+				entity.setAreasInvolucradas((idAreaInvolucrada != null) ? businessDelegatorView
+						.getAreasInvolucradas((idAreaInvolucrada)) : null);
+
+				entity.setRoles((idRol != null) ? businessDelegatorView
+						.getRoles(idRol) : null);
+
+				businessDelegatorView.updateUsuariosInternos(entity);
+				FacesUtils.addInfoMessage("");
+				action_clear();
+			}else {
+				throw new Exception(" ");
+			}
+			
+			
+		} catch (Exception e) {
+			action_clear();
+			entity = null;
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
+    	return "";
+    }
     
     public String action_clear() {
         entity = null;
@@ -568,6 +657,8 @@ public class UsuariosInternosView implements Serializable {
 			String estado = getEstadoRegistroSeleccionado();
 
 			UsuariosInternos usuarioPorId = obtenerIdUsuario(id);
+			
+			
 
 			if (usuarioPorId != null) {
 
