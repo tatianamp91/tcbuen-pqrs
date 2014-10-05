@@ -13,7 +13,7 @@
 			<f:view>
 				<p:ajaxStatus onstart="statusDialog.show();"
 					onsuccess="statusDialog.hide();" />
-				<p:dialog modal="true" widgetVar="statusDialog" header="Loading"
+				<p:dialog modal="true" widgetVar="statusDialog" header="Cargando"
 					draggable="false" closable="false">
 					<p:graphicImage
 						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
@@ -153,11 +153,18 @@
 								</p:cellEditor>
 							</p:column>
 
-							<p:column headerText="Editar" style="height:20px;width:250px">
-								<p:rowEditor id="row" />
-								<p:tooltip for="row" value="Edit" showEffect="fade"
-									hideEffect="fade" />
+							<p:column headerText="Editar" style="height:20px;width:100px">
+								<p:commandLink update=":dialogEditarUsuarios"
+									action="#{usuariosInternosView.action_edit()}"
+									title="View Modify">
+									<p:rowEditor id="editar" />
+									<f:setPropertyActionListener
+										value="#{usuariosInternos.idUsuInterno}"
+										target="#{usuariosInternosView.idUsuInterno}" />
+								</p:commandLink>
 							</p:column>
+
+
 						</p:dataTable>
 					</p:panel>
 					<p:panel id="panelBoton" style="height:40px;width:1070px">
@@ -178,35 +185,44 @@
 							<h:panelGrid columns="2" id="panelGrid">
 								<h:outputText id="msgNombres" value="*Nombres:" />
 								<p:inputText id="txtNombres"
-									binding="#{usuariosInternosView.txtNombres}" 
-									maxlength="50" style="height:20px;width:250px"/>
-									
+									binding="#{usuariosInternosView.txtNombres}" maxlength="50"
+									style="height:20px;width:250px" />
+
 								<h:outputText id="msgApellidos" value="*Apellidos:" />
 								<p:inputText id="txtApellidos"
-									binding="#{usuariosInternosView.txtApellidos}"
-									maxlength="50" style="height:20px;width:250px" />
-									
+									binding="#{usuariosInternosView.txtApellidos}" maxlength="50"
+									style="height:20px;width:250px" />
+
 								<h:outputText id="msgNumeroIdentificacion"
 									value="*Numero de Identificacion:" />
 								<p:inputText id="txtNumeroIdentificacion"
-									binding="#{usuariosInternosView.txtNumeroIdentificacion}" 
+									binding="#{usuariosInternosView.txtNumeroIdentificacion}"
 									maxlength="50" style="height:20px;width:250px" />
-									
+
 								<h:outputText id="msgLogin" value="*Login:" />
 								<p:inputText id="txtLogin"
-									binding="#{usuariosInternosView.txtLogin}"
-									maxlength="50" style="height:20px;width:250px" />
-									
+									binding="#{usuariosInternosView.txtLogin}" maxlength="50"
+									style="height:20px;width:250px" />
+
 								<h:outputText id="msgCorreoElectronico" value="*Email:" />
 								<p:inputText id="txtCorreoElectronico"
-									binding="#{usuariosInternosView.txtCorreoElectronico}" 
+									binding="#{usuariosInternosView.txtCorreoElectronico}"
 									maxlength="50" style="height:20px;width:250px" />
-									
-								<h:outputText id="msgContrasena" value="*Contraseña:" />
-								<p:inputText id="txtContrasena"
-									binding="#{usuariosInternosView.txtContrasena}" 
-									maxlength="50" style="height:20px;width:250px"/>
-									
+								<h:outputText for="passContrasena" id="msgContrasena"
+									value="Password : *:" />
+								<p:password id="passContrasena"
+									value="#{usuariosInternosView.password}"
+									match="passContrasena2" label="Password 1" maxlength="50"
+									style="height:20px;width:250px"
+									validatorMessage="Contraseña no Coincide" feedback="true" />
+
+								<h:outputText for="passContrasena2"
+									value="Confirmacion Password: *" />
+								<p:password id="passContrasena2"
+									value="#{usuariosInternosView.password}" label="Password 2"
+									maxlength="50" style="height:20px;width:250px" />
+
+
 								<h:outputText id="msgAreaInvolucrada" value="*Area Involucrada:" />
 								<p:selectOneMenu id="UsuariosInternos"
 									value="#{usuariosInternosView.idAreaInvolucrada}"
@@ -232,6 +248,7 @@
 								</p:selectOneMenu>
 							</h:panelGrid>
 						</p:panel>
+
 						<p:panel id="panelBotones">
 							<div align="center">
 								<p:commandButton id="btnSave" value="Guardar"
@@ -244,6 +261,82 @@
 								<p:commandButton id="btnExit" value="Salir"
 									action="#{usuariosInternosView.action_closeDialog()}"
 									update=":dialogUsuariosInternos" />
+							</div>
+						</p:panel>
+					</h:form>
+				</p:dialog>
+				
+				
+				
+				<p:dialog id="dialogEditarUsuarios" appendToBody="true"
+					draggable="true" closable="false"
+					visible="#{usuariosInternosView.showDialog2}" resizable="false"
+					modal="true" width="500">
+					<h:form id="formDialogEditar">
+						<p:messages id="msgEditar" showDetail="false" />
+						<p:panel id="panelEditarUsuarios" header="Nuevo Usuario">
+							<h:panelGrid columns="2" id="panelGridEditar">
+								<h:outputText id="msgNombresEditar" value="*Nombres:" />
+								<p:inputText id="txtNombresEditar"
+									binding="#{usuariosInternosView.txtNombres}" maxlength="50"
+									style="height:20px;width:250px" />
+
+								<h:outputText id="msgApellidosEditar" value="*Apellidos:" />
+								<p:inputText id="txtApellidosEditar"
+									binding="#{usuariosInternosView.txtApellidos}" maxlength="50"
+									style="height:20px;width:250px" />
+
+								<h:outputText id="msgNumeroIdentificacionEditar"
+									value="*Numero de Identificacion:" />
+								<p:inputText id="txtNumeroIdentificacionEditar"
+									binding="#{usuariosInternosView.txtNumeroIdentificacion}"
+									maxlength="50" style="height:20px;width:250px" />
+
+								<h:outputText id="msgLoginEditar" value="*Login:" />
+								<p:inputText id="txtLoginEditar"
+									binding="#{usuariosInternosView.txtLogin}" maxlength="50"
+									style="height:20px;width:250px" />
+
+								<h:outputText id="msgCorreoElectronicoEditar" value="*Email:" />
+								<p:inputText id="txtCorreoElectronicoEditar"
+									binding="#{usuariosInternosView.txtCorreoElectronico}"
+									maxlength="50" style="height:20px;width:250px" />
+								
+								<h:outputText id="msgAreaInvolucradaEditar" value="*Area Involucrada:" />
+								<p:selectOneMenu id="UsuariosInternosEditar"
+									value="#{usuariosInternosView.idAreaInvolucrada}"
+									style="height:20px;width:250px">
+									<f:selectItem itemLabel="Seleccione" itemValue="" />
+									<f:selectItems
+										value="#{usuariosInternosView.areasInvolucradas}" />
+								</p:selectOneMenu>
+								<h:outputText id="msgRolEditar" value="*Rol:" />
+								<p:selectOneMenu id="UsuariosInternosEditar2"
+									value="#{usuariosInternosView.idRol}"
+									style="height:20px;width:250px">
+									<f:selectItem itemLabel="Seleccione" itemValue="" />
+									<f:selectItems value="#{usuariosInternosView.idRoles}" />
+								</p:selectOneMenu>
+
+								<h:outputText id="msgEstadoRegistroEditar" value="*Estado:" />
+								<p:selectOneMenu id="estadoRegistroEditar"
+									value="#{usuariosInternosView.estadoRegistroSeleccionado}"
+									style="height:20px;width:75px">
+									<f:selectItem itemValue="A" itemLabel="Activo" />
+									<f:selectItem itemValue="I" itemLabel="Inactivo" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+						</p:panel>
+
+						<p:panel id="panelEditarBotones">
+							<div align="center">
+								<p:commandButton id="btnSaveEditar" value="Guardar"
+									binding="#{usuariosInternosView.btnSave}"
+									action="#{usuariosInternosView.action_save()}"
+									update=":dialogEditarUsuarios :form:msgProjectClientesTitle" />
+								<p:commandButton id="btnExitEditar" value="Salir"
+									action="#{usuariosInternosView.action_closeDialog2()}"
+									update=":dialogEditarUsuarios" />
 							</div>
 						</p:panel>
 					</h:form>
