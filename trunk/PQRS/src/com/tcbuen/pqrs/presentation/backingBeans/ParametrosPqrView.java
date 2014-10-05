@@ -9,6 +9,7 @@ import com.tcbuen.pqrs.utilities.*;
 import org.primefaces.component.calendar.*;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
+import org.primefaces.component.inputtextarea.InputTextarea;
 import org.primefaces.event.RowEditEvent;
 
 import java.io.Serializable;
@@ -37,7 +38,7 @@ public class ParametrosPqrView implements Serializable {
 	private InputText txtEstadoRegistro;
 	private InputText txtUsuarioCreador;
 	private InputText txtUsuarioUltimaModificacion;
-	private InputText txtValorParam;
+	private InputTextarea txtValorParam;
 	private InputText txtIdParam;
 	private Calendar txtFechaCreacion;
 	private Calendar txtFechaUltimaModificacion;
@@ -52,6 +53,8 @@ public class ParametrosPqrView implements Serializable {
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
 	private String estadoRegistroSeleccionado;
+	private Long idParam;
+	private ParametrosPqr parametros;
 
 	public ParametrosPqrView() {
 		super();
@@ -89,7 +92,7 @@ public class ParametrosPqrView implements Serializable {
 					.getUsuarioUltimaModificacion());
 
 			if (txtValorParam == null) {
-				txtValorParam = new InputText();
+				txtValorParam = new InputTextarea();
 			}
 
 			txtValorParam.setValue(parametrosPqrDTO.getValorParam());
@@ -126,6 +129,21 @@ public class ParametrosPqrView implements Serializable {
 		selectedParametrosPqr = null;
 		setShowDialog(true);
 
+		return "";
+	}
+	
+	public String action_edit() {
+		try {
+			
+			Long id= idParam;
+		
+			
+			setShowDialog(true);
+			parametros = businessDelegatorView.getParametrosPqr(idParam);
+			estadoRegistroSeleccionado = parametros.getEstadoRegistro();
+		} catch (Exception e) {
+			FacesUtils.addErrorMessage(e.getMessage());
+		}
 		return "";
 	}
 
@@ -537,11 +555,11 @@ public class ParametrosPqrView implements Serializable {
 		this.txtUsuarioUltimaModificacion = txtUsuarioUltimaModificacion;
 	}
 
-	public InputText getTxtValorParam() {
+	public InputTextarea getTxtValorParam() {
 		return txtValorParam;
 	}
 
-	public void setTxtValorParam(InputText txtValorParam) {
+	public void setTxtValorParam(InputTextarea txtValorParam) {
 		this.txtValorParam = txtValorParam;
 	}
 
@@ -654,4 +672,20 @@ public class ParametrosPqrView implements Serializable {
 	public void setEstadoRegistroSeleccionado(String estadoRegistroSeleccionado) {
 		this.estadoRegistroSeleccionado = estadoRegistroSeleccionado;
 	}
+
+	public Long getIdParam() {
+		return idParam;
+	}
+
+	public void setIdParam(Long idParam) {
+		this.idParam = idParam;
+	}
+
+	public ParametrosPqr getParametros() {
+		return parametros;
+	}
+
+	public void setParametros(ParametrosPqr parametros) {
+		this.parametros = parametros;
+	}		
 }
