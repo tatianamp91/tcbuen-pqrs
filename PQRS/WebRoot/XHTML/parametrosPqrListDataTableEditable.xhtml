@@ -35,7 +35,7 @@
 										<h:outputText value="#{parametrosPqr.descripcionParam}" />
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText value="#{parametrosPqr.descripcionParam}"
+										<p:inputTextarea value="#{parametrosPqr.descripcionParam}"
 											maxlength="50" style="height:20px;width:250px;" />
 									</f:facet>
 								</p:cellEditor>
@@ -49,14 +49,14 @@
 										<h:outputText value="#{parametrosPqr.valorParam}" />
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText value="#{parametrosPqr.valorParam}"
-											maxlength="1000" style="height:20px;width:250px;" />
+										<p:inputTextarea value="#{parametrosPqr.valorParam}"
+											maxlength="1000" style="height:200px;width:2500px;" />
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
 
 							<p:column filterBy="#{parametrosPqr.estadoRegistro}"
-								sortBy="#{parametrosPqr.estadoRegistro}" headerText="Estado"
+								sortBy="#{parametrosPqr.estadoRegistro}" headerText="Estado "
 								style="height:20px;width:250px">
 								<p:cellEditor>
 									<f:facet name="output">
@@ -73,13 +73,20 @@
 								</p:cellEditor>
 							</p:column>
 
+
 							<p:column headerText="Editar" style="height:20px;width:100px">
-								<p:rowEditor id="row" />
-								<p:tooltip for="row" value="Edit" showEffect="fade"
-									hideEffect="fade" />
+								<p:commandLink update=":dialogParametrosPqr"
+								action="#{parametrosPqrView.action_edit()}"
+								title="View Modify">
+								<p:rowEditor id="editar" />
+								<f:setPropertyActionListener
+									value="#{parametrosPqr.idParam}"
+									target="#{parametrosPqrView.idParam}"/>
+									</p:commandLink>								
+									
 							</p:column>
 						</p:dataTable>
-					</p:panel>
+					</p:panel>					
 					<p:panel id="panelBoton" style="height:40px;width:1070px">
 						<div align="center">
 							<p:commandButton id="btnNew" value="Nuevo"
@@ -96,15 +103,15 @@
 						<p:messages id="msg" showDetail="false" />
 						<p:panel id="panelParametrosPqr" header="Nuevo Parametro">
 							<h:panelGrid columns="2" id="panelGrid">
-								<h:outputText id="msgDescripcionParametro" value="*Parametro:" />
+								<h:outputText id="msgDescripcionParametro" value="*Parametro: " />
 								<p:inputText id="txtDescripcionParam"
 									binding="#{parametrosPqrView.txtDescripcionParam}"
-									maxlength="50" style="height:20px;width:250px" />
+									maxlength="50" style="height:20px;width:350px" />
 
-								<h:outputText id="msgValorParametro" value="*Descripcion" />
-								<p:inputText id="txtValorParam"
-									binding="#{parametrosPqrView.txtValorParam}" maxlength="100"
-									style="height:20px;width:250px" />
+								<h:outputText id="msgValorParametro" value="*Descripcion: " />
+								<p:inputTextarea id="txtValorParam"
+									binding="#{parametrosPqrView.txtValorParam}" maxlength="1000"
+									style="height:250px;width:350px" />
 
 								<h:outputText id="msgEstadoRegistro" value="*Estado:" />
 								<p:selectOneMenu id="estadoRegistro"

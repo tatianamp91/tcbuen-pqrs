@@ -45,7 +45,7 @@ public class UsuariosInternosView implements Serializable {
     private InputText txtApellidos;
     private InputText txtContrasena;
 	private Password passContrasena;
-    private Password passContrasena2;
+ //   private Password passContrasena2;
     private InputText txtCorreoElectronico;
     private String estadoRegistro;
     private InputText txtEstadoRegistro;
@@ -80,7 +80,14 @@ public class UsuariosInternosView implements Serializable {
     private Long idUsuInterno;
     private String password;
     //private String passContrasena;
-
+   
+    private InputText txtNombres2;
+    private InputText txtApellidos2;
+    private InputText txtCorreoElectronico2;
+    private InputText txtNumeroIdentificacion2;
+    private InputText txtLogin2;
+    private CommandButton btnModificar;
+    
     public UsuariosInternosView() {
         super();
     }
@@ -103,7 +110,7 @@ public class UsuariosInternosView implements Serializable {
                 passContrasena = new Password();
             }*/
 //            passContrasena.setValue(usuariosInternosDTO.getContrasena());
-            
+
             if (txtCorreoElectronico == null) {
                 txtCorreoElectronico = new InputText();
             }
@@ -163,7 +170,7 @@ public class UsuariosInternosView implements Serializable {
         setShowDialog(true);
 
         return "";
-    }
+    }  
     
     public String action_edit() {
 		try {
@@ -171,12 +178,12 @@ public class UsuariosInternosView implements Serializable {
 			Long id = idUsuInterno;
 			UsuariosInternos usuarioPorId = obtenerIdUsuario(id);
 			
-			txtNombres.setValue(usuarioPorId.getNombres());
-			txtApellidos.setValue(usuarioPorId.getApellidos());
-			txtCorreoElectronico.setValue(usuarioPorId.getCorreoElectronico());
+			txtNombres2.setValue(usuarioPorId.getNombres());
+			txtApellidos2.setValue(usuarioPorId.getApellidos());
+			txtCorreoElectronico2.setValue(usuarioPorId.getCorreoElectronico());
 			setEstadoRegistroSeleccionado(usuarioPorId.getEstadoRegistro());
-			txtNumeroIdentificacion.setValue(usuarioPorId.getNumeroIdentificacion());
-			txtLogin.setValue(usuarioPorId.getLogin());
+			txtNumeroIdentificacion2.setValue(usuarioPorId.getNumeroIdentificacion());
+			txtLogin2.setValue(usuarioPorId.getLogin());
 			idAreaInvolucrada = usuarioPorId.getAreasInvolucradas().getIdAreaInvolucrada();
 			idRol = usuarioPorId.getRoles().getIdRol();
 			
@@ -236,6 +243,10 @@ public class UsuariosInternosView implements Serializable {
             btnSave.setDisabled(false);
         }
         
+        if (btnModificar != null) {
+        	btnModificar.setDisabled(false);
+        }
+        
         data = null;
         data = getData();
         areasInvolucradas = null;
@@ -277,6 +288,7 @@ public class UsuariosInternosView implements Serializable {
             txtFechaCreacion.setDisabled(false);
             txtIdUsuInterno.setDisabled(false);
             btnSave.setDisabled(false);
+            btnModificar.setDisabled(false);
         } else {
             txtApellidos.setValue(entity.getApellidos());
             txtApellidos.setDisabled(false);
@@ -304,7 +316,8 @@ public class UsuariosInternosView implements Serializable {
             txtIdUsuInterno.setValue(entity.getIdUsuInterno());
             txtIdUsuInterno.setDisabled(true);
             btnSave.setDisabled(false);
-
+            btnModificar.setDisabled(false);
+            
             if (btnDelete != null) {
                 btnDelete.setDisabled(false);
             }
@@ -341,6 +354,7 @@ public class UsuariosInternosView implements Serializable {
         txtIdUsuInterno.setValue(selectedUsuariosInternos.getIdUsuInterno());
         txtIdUsuInterno.setDisabled(true);
         btnSave.setDisabled(false);
+        btnModificar.setDisabled(false);
         setShowDialog(true);
 
         return "";
@@ -1030,22 +1044,6 @@ public class UsuariosInternosView implements Serializable {
 		this.idRoles = idRoles;
 	}
 
-	public Password getPassContrasena() {
-		return passContrasena;
-	}
-
-	public void setPassContrasena(Password passContrasena) {
-		this.passContrasena = passContrasena;
-	}
-
-	public Password getPassContrasena2() {
-		return passContrasena2;
-	}
-
-	public void setPassContrasena2(Password passContrasena2) {
-		this.passContrasena2 = passContrasena2;
-	}
-
 	public UsuariosInternos getUsuInternos() {
 		return usuInternos;
 	}
@@ -1060,8 +1058,23 @@ public class UsuariosInternosView implements Serializable {
 
 	public void setIdUsuInterno(Long idUsuInterno) {
 		this.idUsuInterno = idUsuInterno;	
-	
 	}
+
+	public Password getPassContrasena() {
+		return passContrasena;
+	}
+
+	public void setPassContrasena(Password passContrasena) {
+		this.passContrasena = passContrasena;
+	}
+
+//	public Password getPassContrasena2() {
+//		return passContrasena2;
+//	}
+//
+//	public void setPassContrasena2(Password passContrasena2) {
+//		this.passContrasena2 = passContrasena2;
+//	}
 
 	public String getPassword() {
 		return password;
@@ -1071,6 +1084,51 @@ public class UsuariosInternosView implements Serializable {
 		this.password = password;
 	}
 
-	
-	
+	public InputText getTxtNombres2() {
+		return txtNombres2;
+	}
+
+	public void setTxtNombres2(InputText txtNombres2) {
+		this.txtNombres2 = txtNombres2;
+	}
+
+	public InputText getTxtApellidos2() {
+		return txtApellidos2;
+	}
+
+	public void setTxtApellidos2(InputText txtApellidos2) {
+		this.txtApellidos2 = txtApellidos2;
+	}
+
+	public InputText getTxtCorreoElectronico2() {
+		return txtCorreoElectronico2;
+	}
+
+	public void setTxtCorreoElectronico2(InputText txtCorreoElectronico2) {
+		this.txtCorreoElectronico2 = txtCorreoElectronico2;
+	}
+
+	public InputText getTxtNumeroIdentificacion2() {
+		return txtNumeroIdentificacion2;
+	}
+
+	public void setTxtNumeroIdentificacion2(InputText txtNumeroIdentificacion2) {
+		this.txtNumeroIdentificacion2 = txtNumeroIdentificacion2;
+	}
+
+	public InputText getTxtLogin2() {
+		return txtLogin2;
+	}
+
+	public void setTxtLogin2(InputText txtLogin2) {
+		this.txtLogin2 = txtLogin2;
+	}
+
+	public CommandButton getBtnModificar() {
+		return btnModificar;
+	}
+
+	public void setBtnModificar(CommandButton btnModificar) {
+		this.btnModificar = btnModificar;
+	}	
 }

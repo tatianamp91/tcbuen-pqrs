@@ -214,7 +214,7 @@
 									value="#{usuariosInternosView.password}"
 									match="passContrasena2" label="Password 1" maxlength="50"
 									style="height:20px;width:250px"
-									validatorMessage="Contraseña no Coincide" feedback="true" />
+									validatorMessage="ContraseÃ±a no Coincide" feedback="true" />
 
 								<h:outputText for="passContrasena2"
 									value="Confirmacion Password: *" />
@@ -278,28 +278,28 @@
 							<h:panelGrid columns="2" id="panelGridEditar">
 								<h:outputText id="msgNombresEditar" value="*Nombres:" />
 								<p:inputText id="txtNombresEditar"
-									binding="#{usuariosInternosView.txtNombres}" maxlength="50"
+									binding="#{usuariosInternosView.txtNombres2}" maxlength="50"
 									style="height:20px;width:250px" />
 
 								<h:outputText id="msgApellidosEditar" value="*Apellidos:" />
 								<p:inputText id="txtApellidosEditar"
-									binding="#{usuariosInternosView.txtApellidos}" maxlength="50"
+									binding="#{usuariosInternosView.txtApellidos2}" maxlength="50"
 									style="height:20px;width:250px" />
 
 								<h:outputText id="msgNumeroIdentificacionEditar"
 									value="*Numero de Identificacion:" />
 								<p:inputText id="txtNumeroIdentificacionEditar"
-									binding="#{usuariosInternosView.txtNumeroIdentificacion}"
+									binding="#{usuariosInternosView.txtNumeroIdentificacion2}"
 									maxlength="50" style="height:20px;width:250px" />
 
 								<h:outputText id="msgLoginEditar" value="*Login:" />
 								<p:inputText id="txtLoginEditar"
-									binding="#{usuariosInternosView.txtLogin}" maxlength="50"
+									binding="#{usuariosInternosView.txtLogin2}" maxlength="50"
 									style="height:20px;width:250px" />
 
 								<h:outputText id="msgCorreoElectronicoEditar" value="*Email:" />
 								<p:inputText id="txtCorreoElectronicoEditar"
-									binding="#{usuariosInternosView.txtCorreoElectronico}"
+									binding="#{usuariosInternosView.txtCorreoElectronico2}"
 									maxlength="50" style="height:20px;width:250px" />
 								
 								<h:outputText id="msgAreaInvolucradaEditar" value="*Area Involucrada:" />
@@ -331,7 +331,7 @@
 						<p:panel id="panelEditarBotones">
 							<div align="center">
 								<p:commandButton id="btnSaveEditar" value="Guardar"
-									binding="#{usuariosInternosView.btnSave}"
+									binding="#{usuariosInternosView.btnModificar}"
 									action="#{usuariosInternosView.action_save()}"
 									update=":dialogEditarUsuarios :form:msgProjectClientesTitle" />
 								<p:commandButton id="btnExitEditar" value="Salir"
