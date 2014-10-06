@@ -135,12 +135,12 @@ public class ParametrosPqrView implements Serializable {
 	public String action_edit() {
 		try {
 			
-			Long id= idParam;
-		
-			
-			setShowDialog(true);
 			parametros = businessDelegatorView.getParametrosPqr(idParam);
+			txtDescripcionParam.setValue(parametros.getDescripcionParam());
+			txtValorParam.setValue(parametros.getValorParam());
 			estadoRegistroSeleccionado = parametros.getEstadoRegistro();
+			setShowDialog(true);
+		
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
@@ -337,7 +337,7 @@ public class ParametrosPqrView implements Serializable {
 		return entity;
 	}
 
-	private ParametrosPqr ObtenerParamValor(String valorParam) throws Exception {
+	/*private ParametrosPqr ObtenerParamValor(String valorParam) throws Exception {
 		ParametrosPqr entity = null;
 		Object[] variables = { "valorParam", true, valorParam, "=" };
 		List<ParametrosPqr> parametrosPqrs = businessDelegatorView
@@ -347,8 +347,18 @@ public class ParametrosPqrView implements Serializable {
 			entity = parametrosPqrs.get(0);
 		}
 		return entity;
-	}
+	}*/
 
+	private ParametrosPqr ObtenerNumeroIdParametros(Long idParam) throws Exception {
+		ParametrosPqr entity = null;
+		Object[] variables = { "idParam", true, idParam, "=" };
+		List<ParametrosPqr> parametrosConsulta = businessDelegatorView.findByCriteriaInParametrosPqr(variables, null, null);
+		if (Utilities.validationsList(parametrosConsulta)) {
+			entity = parametrosConsulta.get(0);
+		}
+		return entity;
+	}
+	
 	public boolean revizarCampos(String descripcionParam, String valorParam)
 			throws Exception {
 
@@ -410,7 +420,7 @@ public class ParametrosPqrView implements Serializable {
 				action_clear();
 			} else {
 				String nombreParametroBD = nombreParam.getDescripcionParam();
-				String descripcionParametroBD = nombreParam.getValorParam();
+//				String descripcionParametroBD = nombreParam.getValorParam();
 				Long idBD = nombreParam.getIdParam();
 
 				if (nombreParametroBD.equals(nombreParametro) && idBD == id) {
