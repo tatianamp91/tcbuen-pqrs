@@ -196,12 +196,15 @@ public class UsuariosInternosView implements Serializable {
     
     public String action_modify_edit(){
     	try {
+    		
+    		entity = businessDelegatorView.getUsuariosInternos(idUsuInterno);
+    		
     		Long id = idUsuInterno;
 			UsuariosInternos usuarioPorId = obtenerIdUsuario(id);
 			
     		String nombres = txtNombres2.getValue().toString();
 			String apellidos = txtApellidos2.getValue().toString();
-    		String numeroIdentificacion = txtNumeroIdentificacion2.getValue().toString();
+    		String numeroIdentificacion = getTxtNumeroIdentificacion2().getValue().toString();
     		String email = txtCorreoElectronico2.getValue().toString();
 			String login = txtLogin2.getValue().toString();
 			idAreaInvolucrada = usuarioPorId.getAreasInvolucradas().getIdAreaInvolucrada();
@@ -214,6 +217,9 @@ public class UsuariosInternosView implements Serializable {
 			
 			if (usuarioPorId != null) {
 				String contrasena = usuarioPorId.getContrasena().toString();
+				setPassword(contrasena);
+				String contrasenaUsuario = getPassword();
+				System.out.println(contrasenaUsuario);
 
 				if (!revizarCampos(nombres, apellidos, numeroIdentificacion,
 						login, email, contrasena, areaInvolucrada, rol, estado)) {
@@ -249,19 +255,19 @@ public class UsuariosInternosView implements Serializable {
 								"El Email del usuario ya existe, ingrese uno nuevo");
 					}
 				}
-
-				entity.setNumeroIdentificacion(FacesUtils
-						.checkString(txtNumeroIdentificacion2));
+				
+				
+				entity.setNumeroIdentificacion(numeroIdentificacion);
 				entity.setNombres(FacesUtils.checkString(txtNombres2));
 				entity.setApellidos(FacesUtils.checkString(txtApellidos2));
 				entity.setCorreoElectronico(FacesUtils
 						.checkString(txtCorreoElectronico2));
 				entity.setLogin(FacesUtils.checkString(txtLogin2));
 			//	entity.setContrasena(FacesUtils.checkString(txtContrasena));
-				entity.setContrasena(FacesUtils.checkString(contrasena));
+				entity.setContrasena(contrasenaUsuario);
 				entity.setEstadoRegistro(estado);
 				entity.setFechaCreacion(new Date());
-
+				entity.setIdUsuInterno(id);
 				entity.setAreasInvolucradas((idAreaInvolucrada != null) ? businessDelegatorView
 						.getAreasInvolucradas((idAreaInvolucrada)) : null);
 
@@ -269,7 +275,7 @@ public class UsuariosInternosView implements Serializable {
 						.getRoles(idRol) : null);
 
 				businessDelegatorView.updateUsuariosInternos(entity);
-				FacesUtils.addInfoMessage("");
+				FacesUtils.addInfoMessage("Registro Modificado");
 				action_clear();
 			}else {
 				throw new Exception(" ");
@@ -540,15 +546,15 @@ public class UsuariosInternosView implements Serializable {
 			if (idAreaInvolucrada != null && idRol != null) {
 				AreasInvolucradas area = businessDelegatorView.getAreasInvolucradas((idAreaInvolucrada));
 				Roles roles = businessDelegatorView.getRoles(idRol);
-				String nombres = txtNombres.getValue().toString();
-				String apellidos = txtApellidos.getValue().toString();
-				String numeroIdentificacion = txtNumeroIdentificacion.getValue().toString();
-				String login = txtLogin.getValue().toString();
-				String email = txtCorreoElectronico.getValue().toString();
-				String contrasena = getPassword();
-				String areaInvolucrada = area.getNombreArea();
-				String rol = roles.getNombreRol();
-				String estados = getEstadoRegistroSeleccionado();
+				String nombres = txtNombres.getValue().toString().toUpperCase();
+				String apellidos = txtApellidos.getValue().toString().toUpperCase();
+				String numeroIdentificacion = txtNumeroIdentificacion.getValue().toString().toUpperCase();
+				String login = txtLogin.getValue().toString().toUpperCase();
+				String email = txtCorreoElectronico.getValue().toString().toUpperCase();
+				String contrasena = getPassword().toUpperCase();
+				String areaInvolucrada = area.getNombreArea().toUpperCase();
+				String rol = roles.getNombreRol().toUpperCase();
+				String estados = getEstadoRegistroSeleccionado().toUpperCase();
 
 				if (!revizarCampos(nombres, apellidos, numeroIdentificacion,
 						login, email, contrasena, areaInvolucrada, rol, estados)) {
@@ -563,15 +569,15 @@ public class UsuariosInternosView implements Serializable {
 					
 					entity = new UsuariosInternos();
 					entity.setNumeroIdentificacion(FacesUtils
-							.checkString(txtNumeroIdentificacion));
-					entity.setNombres(FacesUtils.checkString(txtNombres));
-					entity.setApellidos(FacesUtils.checkString(txtApellidos));
+							.checkString(txtNumeroIdentificacion).toUpperCase());
+					entity.setNombres(FacesUtils.checkString(txtNombres).toUpperCase());
+					entity.setApellidos(FacesUtils.checkString(txtApellidos).toUpperCase());
 					entity.setCorreoElectronico(FacesUtils
-							.checkString(txtCorreoElectronico));
-					entity.setLogin(FacesUtils.checkString(txtLogin));
+							.checkString(txtCorreoElectronico).toUpperCase());
+					entity.setLogin(FacesUtils.checkString(txtLogin).toUpperCase());
 					entity.setContrasena(contrasena);
 					System.out.println(contrasena);
-					entity.setEstadoRegistro(estadoRegistroSeleccionado);
+					entity.setEstadoRegistro(estadoRegistroSeleccionado.toUpperCase());
 					entity.setFechaCreacion(new Date());
 					entity.setAreasInvolucradas((idAreaInvolucrada != null) ? businessDelegatorView
 							.getAreasInvolucradas((idAreaInvolucrada)) : null);
