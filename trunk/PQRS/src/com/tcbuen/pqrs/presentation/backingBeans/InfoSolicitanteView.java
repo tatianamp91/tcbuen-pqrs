@@ -72,6 +72,7 @@ public class InfoSolicitanteView implements Serializable {
     private String descTpSol;
     private List<TipoSolicitudPqr> tipoSolicitud;
     private List<AnexosPqr> anexosPqrs;
+    private String descripcionParametro;
     @ManagedProperty(value = "#{BusinessDelegatorView}")
     private IBusinessDelegatorView businessDelegatorView;
 
@@ -169,6 +170,8 @@ public class InfoSolicitanteView implements Serializable {
 		    	TipoSolicitudPqr tSol = businessDelegatorView.getTipoSolicitudPqr(idTipoSolicitud);
 		    	descTpSol = tSol.getDescTpSol();
 		    	anexosPqrs = getAnexosPqrs(idTipoSolicitud);
+				ParametrosPqr parametros = ObtenerParametro(descTpSol);				
+				setDescripcionParametro(parametros.getValorParam());
 		        setInstructivo(true);
     		}else{
     			throw new Exception("Debe Seleccionar un Tipo de Solicitud");
@@ -179,6 +182,18 @@ public class InfoSolicitanteView implements Serializable {
 
         return "";
     }
+    
+	private ParametrosPqr ObtenerParametro(String parametro) throws Exception {
+		ParametrosPqr entity = null;
+		Object[] variables = { "descripcionParam", true, parametro, "=" };
+		List<ParametrosPqr> parametrosPqrs = businessDelegatorView
+				.findByCriteriaInParametrosPqr(variables, null, null);
+
+		if (Utilities.validationsList(parametrosPqrs)) {
+			entity = parametrosPqrs.get(0);
+		}
+		return entity;
+	}
     
     public String action_solicitud() {
         setSolicitud(true);
@@ -817,6 +832,14 @@ public class InfoSolicitanteView implements Serializable {
 	
 	public void setSiguiente(boolean siguiente) {
 		this.siguiente = siguiente;
+	}
+
+	public String getDescripcionParametro() {
+		return descripcionParametro;
+	}
+	
+	public void setDescripcionParametro(String descripcionParametro) {
+		this.descripcionParametro = descripcionParametro;
 	}
 	
 }

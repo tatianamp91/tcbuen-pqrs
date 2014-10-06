@@ -129,8 +129,9 @@
 						<p:panel id="panelInstructivo"
 							header="#{infoSolicitanteView.descTpSol}">
 							<h:panelGrid columns="1" id="panelGrid">
-								<h:outputText
-									value="Para este tipo de solicitud debe incluir los siguientes anexos:" />
+								<h:inputTextarea value="#{infoSolicitanteView.descripcionParametro}" 
+									disabled="true" style="height:200px;width:440px;"/>
+								<h:outputText value="Para este tipo de solicitud debe incluir los siguientes anexos:" />
 								<h:panelGrid columns="2" cellpadding="5">
 									<p:dataTable id="tablaAnexosXTipoSol"
 										value="#{infoSolicitanteView.anexosPqrs}" var="anexosPqr">
