@@ -168,10 +168,10 @@ public class InfoSolicitanteView implements Serializable {
     	try{
     		if(idTipoSolicitud != null){
 		    	TipoSolicitudPqr tSol = businessDelegatorView.getTipoSolicitudPqr(idTipoSolicitud);
-		    	descTpSol = tSol.getDescTpSol();
+		    	descTpSol = tSol.getDescTpSol().toLowerCase();
 		    	anexosPqrs = getAnexosPqrs(idTipoSolicitud);
 				ParametrosPqr parametros = ObtenerParametro(descTpSol);				
-				setDescripcionParametro(parametros.getValorParam());
+				setDescripcionParametro(parametros.getValorParam().toLowerCase());
 		        setInstructivo(true);
     		}else{
     			throw new Exception("Debe Seleccionar un Tipo de Solicitud");
@@ -341,9 +341,9 @@ public class InfoSolicitanteView implements Serializable {
 
     public String action_create() {
         try {        	
-        	String nombreContacto= txtNombreContacto.getValue().toString();
-			String nombreEmpresa=txtNombreEmpresa.getValue().toString();
-			String email = txtCorreoElectronico.getValue().toString();
+        	String nombreContacto= txtNombreContacto.getValue().toString().toLowerCase();
+			String nombreEmpresa=txtNombreEmpresa.getValue().toString().toLowerCase();
+			String email = txtCorreoElectronico.getValue().toString().toLowerCase();
 
 			if (!revizarCampos(nombreContacto,nombreEmpresa,numeroIdentificacion,numeroCelular, telefonoFijo, email)){								
 				return "";
@@ -352,9 +352,9 @@ public class InfoSolicitanteView implements Serializable {
             entity.setTipoDocumento((idTipoDocumento != null)
                 ? businessDelegatorView.getTipoDocumento(idTipoDocumento) : null);
             entity.setNumeroIdentificacion(numeroIdentificacion);
-            entity.setNombreEmpresa(FacesUtils.checkString(txtNombreEmpresa));
-            entity.setNombreContacto(FacesUtils.checkString(txtNombreContacto));
-            entity.setCorreoElectronico(FacesUtils.checkString(txtCorreoElectronico));         
+            entity.setNombreEmpresa(FacesUtils.checkString(txtNombreEmpresa).toLowerCase());
+            entity.setNombreContacto(FacesUtils.checkString(txtNombreContacto).toLowerCase());
+            entity.setCorreoElectronico(FacesUtils.checkString(txtCorreoElectronico).toLowerCase());         
             entity.setNumeroCelular(numeroCelular);
             entity.setTelefonoFijo(telefonoFijo);
             businessDelegatorView.saveInfoSolicitante(entity);
@@ -434,9 +434,9 @@ public class InfoSolicitanteView implements Serializable {
                 entity = businessDelegatorView.getInfoSolicitante(idInfoSolicitante);
             }
             entity.setCorreoElectronico(FacesUtils.checkString(
-                    txtCorreoElectronico));
-            entity.setNombreContacto(FacesUtils.checkString(txtNombreContacto));
-            entity.setNombreEmpresa(FacesUtils.checkString(txtNombreEmpresa));
+                    txtCorreoElectronico).toLowerCase());
+            entity.setNombreContacto(FacesUtils.checkString(txtNombreContacto).toLowerCase());
+            entity.setNombreEmpresa(FacesUtils.checkString(txtNombreEmpresa).toLowerCase());
             entity.setNumeroCelular(FacesUtils.checkString(txtNumeroCelular));
             entity.setNumeroIdentificacion(FacesUtils.checkString(
                     txtNumeroIdentificacion));

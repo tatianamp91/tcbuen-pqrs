@@ -250,7 +250,7 @@ public class TipoEstadoPqrView implements Serializable {
     public String action_create() {
         try {
         	
-        	String descripcionEstado=txtDescripcionEstado.getValue().toString();
+        	String descripcionEstado=txtDescripcionEstado.getValue().toString().toLowerCase();
         	TipoEstadoPqr tipoEstadoPqr= ObtenerDesTipoEstado(descripcionEstado);
         	
         	if(tipoEstadoPqr == null){
@@ -265,7 +265,7 @@ public class TipoEstadoPqrView implements Serializable {
             //Long idTpEstPqr = FacesUtils.checkLong(txtIdTpEstPqr);
 
             //entity.setIdTpEstPqr(idTpEstPqr);
-            entity.setDescripcionEstado(FacesUtils.checkString(txtDescripcionEstado));
+            entity.setDescripcionEstado(FacesUtils.checkString(txtDescripcionEstado).toLowerCase());
             entity.setEstadoRegistro(estadoRegistroSeleccionado);
             //Falta agregar usuarios sesion
             entity.setUsuarioCreador("Admin");
@@ -319,7 +319,7 @@ public class TipoEstadoPqrView implements Serializable {
     private void actualizar(){
     	try {
     		
-    		 entity.setDescripcionEstado(FacesUtils.checkString(txtDescripcionEstado));
+    		 entity.setDescripcionEstado(FacesUtils.checkString(txtDescripcionEstado).toLowerCase());
     		 entity.setEstadoRegistro(estadoRegistroSeleccionado);
              entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
              entity.setFechaUltimaModificacion(new Date());
@@ -337,7 +337,7 @@ public class TipoEstadoPqrView implements Serializable {
 	public String action_modify() {
 		try {
 
-			String descripcionEstado = txtDescripcionEstado.getValue().toString();
+			String descripcionEstado = txtDescripcionEstado.getValue().toString().toLowerCase();
 			TipoEstadoPqr tipoEstadoPqr = ObtenerDesTipoEstado(descripcionEstado);
 
 			if (tipoEstadoPqr == null) {
@@ -351,7 +351,7 @@ public class TipoEstadoPqrView implements Serializable {
 
 			} else {
 
-				String descripcionTemp = tipoEstadoPqr.getDescripcionEstado();
+				String descripcionTemp = tipoEstadoPqr.getDescripcionEstado().toLowerCase();
 				Long idTemp = tipoEstadoPqr.getIdTpEstPqr();
 
 				if ((descripcionTemp.equals(descripcionEstado) && idTemp == entity.getIdTpEstPqr().longValue())) {

@@ -246,7 +246,7 @@ public class MotivoReclamacionView implements Serializable {
         try {     	
         	       	
 			String descripcionMotRecl = txtDescripcionMotRecl.getValue()
-					.toString();
+					.toString().toLowerCase();
 			MotivoReclamacion motReclamacion = ObtenerMotReclamacion(descripcionMotRecl);
 
 			if (motReclamacion == null) {
@@ -260,7 +260,7 @@ public class MotivoReclamacionView implements Serializable {
 				// Long idMotRecl = FacesUtils.checkLong(txtIdMotRecl);
 				// entity.setIdMotRecl(idMotRecl);
 				entity.setDescripcionMotRecl(FacesUtils
-						.checkString(txtDescripcionMotRecl));
+						.checkString(txtDescripcionMotRecl).toLowerCase());
 				entity.setEstadoRegistro(estadoRegistroSeleccionado);
 				// Falta agregar usuario de sesion
 				entity.setUsuarioCreador("Admin");
@@ -314,7 +314,7 @@ public class MotivoReclamacionView implements Serializable {
     
     	try {
 			
-    		entity.setDescripcionMotRecl(FacesUtils.checkString(txtDescripcionMotRecl));
+    		entity.setDescripcionMotRecl(FacesUtils.checkString(txtDescripcionMotRecl).toLowerCase());
             entity.setEstadoRegistro(estadoRegistroSeleccionado);
             entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
             entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
@@ -335,7 +335,7 @@ public class MotivoReclamacionView implements Serializable {
 	public String action_modify() {
 		try {
 
-			String descripcionMotRecl = txtDescripcionMotRecl.getValue().toString();
+			String descripcionMotRecl = txtDescripcionMotRecl.getValue().toString().toLowerCase();
 			MotivoReclamacion motReclamacion = ObtenerMotReclamacion(descripcionMotRecl);
 
 			if (motReclamacion == null) {
@@ -347,7 +347,7 @@ public class MotivoReclamacionView implements Serializable {
 				action_clear();
 
 			} else {
-				String descripcionTemp = motReclamacion.getDescripcionMotRecl();
+				String descripcionTemp = motReclamacion.getDescripcionMotRecl().toLowerCase();
 				Long idTemp = motReclamacion.getIdMotRecl();
 
 				if ((descripcionTemp.equals(descripcionMotRecl) && idTemp == entity.getIdMotRecl().longValue())) {

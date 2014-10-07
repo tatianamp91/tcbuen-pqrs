@@ -383,19 +383,19 @@ public class SolicitudPqrView implements Serializable {
 
             Long idSolPqr = FacesUtils.checkLong(txtIdSolPqr);
 
-            entity.setDescripcionCaso(FacesUtils.checkString(txtDescripcionCaso));
+            entity.setDescripcionCaso(FacesUtils.checkString(txtDescripcionCaso).toLowerCase());
             entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
             entity.setFechaUltimaModificacion(FacesUtils.checkDate(
                     txtFechaUltimaModificacion));
             entity.setIdSolPqr(idSolPqr);
             entity.setNombreAgenciaAduana(FacesUtils.checkString(
-                    txtNombreAgenciaAduana));
-            entity.setNombreCliente(FacesUtils.checkString(txtNombreCliente));
+                    txtNombreAgenciaAduana).toLowerCase());
+            entity.setNombreCliente(FacesUtils.checkString(txtNombreCliente).toLowerCase());
             entity.setNumeroRadicacion(FacesUtils.checkString(
                     txtNumeroRadicacion));
             entity.setSolicitudARealizar(FacesUtils.checkString(
                     txtSolicitudARealizar));
-            entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
+            entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador).toLowerCase());
             entity.setUsuarioUltimaModificacion(FacesUtils.checkString(
                     txtUsuarioUltimaModificacion));
             entity.setInfoSolicitante((FacesUtils.checkLong(
@@ -428,13 +428,13 @@ public class SolicitudPqrView implements Serializable {
                 entity = businessDelegatorView.getSolicitudPqr(idSolPqr);
             }
 
-            entity.setDescripcionCaso(FacesUtils.checkString(txtDescripcionCaso));
+            entity.setDescripcionCaso(FacesUtils.checkString(txtDescripcionCaso).toLowerCase());
             entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
             entity.setFechaUltimaModificacion(FacesUtils.checkDate(
                     txtFechaUltimaModificacion));
             entity.setNombreAgenciaAduana(FacesUtils.checkString(
-                    txtNombreAgenciaAduana));
-            entity.setNombreCliente(FacesUtils.checkString(txtNombreCliente));
+                    txtNombreAgenciaAduana).toLowerCase());
+            entity.setNombreCliente(FacesUtils.checkString(txtNombreCliente).toLowerCase());
             entity.setNumeroRadicacion(FacesUtils.checkString(
                     txtNumeroRadicacion));
             entity.setSolicitudARealizar(FacesUtils.checkString(
