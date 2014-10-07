@@ -19,7 +19,7 @@
 				</p:dialog>
 				<h:form id="form">
 					<p:panel id="msgProjectClientesTitle" header="Parametros"
-						style="height:300px;width:1070px">
+						style="height:350px;width:1070px">
 						<p:messages id="msg" showDetail="false" />
 						<p:dataTable id="tabla" value="#{parametrosPqrView.data}"
 							var="parametrosPqr" paginator="true" rows="5" editable="true">
@@ -76,17 +76,15 @@
 
 							<p:column headerText="Editar" style="height:20px;width:100px">
 								<p:commandLink update=":dialogParametrosPqr"
-								action="#{parametrosPqrView.action_edit()}"
-								title="View Modify">
-								<p:rowEditor id="editar" />
-								<f:setPropertyActionListener
-									value="#{parametrosPqr.idParam}"
-									target="#{parametrosPqrView.idParam}"/>
-									</p:commandLink>								
-									
+									action="#{parametrosPqrView.action_edit()}" title="View Modify">
+									<p:rowEditor id="editar" />
+									<f:setPropertyActionListener value="#{parametrosPqr.idParam}"
+										target="#{parametrosPqrView.idParam}" />
+								</p:commandLink>
+
 							</p:column>
 						</p:dataTable>
-					</p:panel>					
+					</p:panel>
 					<p:panel id="panelBoton" style="height:40px;width:1070px">
 						<div align="center">
 							<p:commandButton id="btnNew" value="Nuevo"
@@ -126,9 +124,16 @@
 							<div align="center">
 								<p:commandButton id="btnSave" value="Guardar"
 									binding="#{parametrosPqrView.btnSave}"
+									disabled="#{tipoSolicitudPqrView.boton}"
 									action="#{parametrosPqrView.action_save()}"
 									update=":dialogParametrosPqr :form:msgProjectClientesTitle" />
+								<p:commandButton id="btnModify" value="Modificar"
+									binding="#{parametrosPqrView.btnModify}"
+									disabled="#{!tipoSolicitudPqrView.boton}"
+									action="#{parametrosPqrView.action_modify()}"
+									update=":dialogParametrosPqr :form:msgProjectClientesTitle" />
 								<p:commandButton id="btnClear" value="Limpiar"
+									disabled="#{tipoSolicitudPqrView.boton}"
 									action="#{parametrosPqrView.action_clear()}"
 									update=":dialogParametrosPqr" />
 								<p:commandButton id="btnExit" value="Salir"
