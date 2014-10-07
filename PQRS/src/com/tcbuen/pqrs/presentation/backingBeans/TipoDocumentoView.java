@@ -243,7 +243,7 @@ public class TipoDocumentoView implements Serializable {
     public String action_create() {
         try {
         	
-        	String descripcionTpDoc =txtDescripcionTpDoc.getValue().toString();
+        	String descripcionTpDoc =txtDescripcionTpDoc.getValue().toString().toLowerCase();
         	TipoDocumento tipoDocumento= ObtenerDocDescripcion(descripcionTpDoc);
         	
             if(tipoDocumento == null){
@@ -256,7 +256,7 @@ public class TipoDocumentoView implements Serializable {
                 //Long idTpDoc = FacesUtils.checkLong(txtIdTpDoc);
                 //entity.setIdTpDoc(idTpDoc);
                 
-                entity.setDescripcionTpDoc(FacesUtils.checkString(txtDescripcionTpDoc));
+                entity.setDescripcionTpDoc(FacesUtils.checkString(txtDescripcionTpDoc).toLowerCase());
                 entity.setEstadoRegistro(estadoRegistroSeleccionado);
                 entity.setFechaCreacion(new Date());
                 entity.setFechaUltimaModificacion(null);
@@ -309,7 +309,7 @@ public class TipoDocumentoView implements Serializable {
     	
     	try {
     		
-    		entity.setDescripcionTpDoc(FacesUtils.checkString(txtDescripcionTpDoc));
+    		entity.setDescripcionTpDoc(FacesUtils.checkString(txtDescripcionTpDoc).toLowerCase());
     		entity.setEstadoRegistro(estadoRegistroSeleccionado);
             entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
             entity.setFechaUltimaModificacion(new Date());
@@ -329,7 +329,7 @@ public class TipoDocumentoView implements Serializable {
 	public String action_modify() {
 		try {
 
-			String descripcionTpDoc = txtDescripcionTpDoc.getValue().toString();
+			String descripcionTpDoc = txtDescripcionTpDoc.getValue().toString().toLowerCase();
 			TipoDocumento tipoDocumento = ObtenerDocDescripcion(descripcionTpDoc);
 
 			if (tipoDocumento == null) {
@@ -341,7 +341,7 @@ public class TipoDocumentoView implements Serializable {
 				
 				}else{
 					
-					String descripcionTemp= tipoDocumento.getDescripcionTpDoc();
+					String descripcionTemp= tipoDocumento.getDescripcionTpDoc().toLowerCase();
 					Long idTemp = tipoDocumento.getIdTpDoc();
 					
 					if((descripcionTemp.equals(descripcionTpDoc) && idTemp == entity.getIdTpDoc().longValue())){

@@ -313,7 +313,7 @@ public class RespuestaSolView implements Serializable {
 
             Long idRespSol = FacesUtils.checkLong(txtIdRespSol);
 
-            entity.setDescObservacion(FacesUtils.checkString(txtDescObservacion));
+            entity.setDescObservacion(FacesUtils.checkString(txtDescObservacion).toLowerCase());
             entity.setEstadoRegistro(FacesUtils.checkString(txtEstadoRegistro));
             entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
             entity.setFechaUltimaModificacion(FacesUtils.checkDate(
@@ -330,7 +330,7 @@ public class RespuestaSolView implements Serializable {
                     FacesUtils.checkLong(txtIdSolAsigArea_SolicitudAsignadaArea))
                 : null);
             businessDelegatorView.saveRespuestaSol(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+            FacesUtils.addInfoMessage("Se guardó exitosamente");
             action_clear();
         } catch (Exception e) {
             entity = null;
@@ -347,7 +347,7 @@ public class RespuestaSolView implements Serializable {
                 entity = businessDelegatorView.getRespuestaSol(idRespSol);
             }
 
-            entity.setDescObservacion(FacesUtils.checkString(txtDescObservacion));
+            entity.setDescObservacion(FacesUtils.checkString(txtDescObservacion).toLowerCase());
             entity.setEstadoRegistro(FacesUtils.checkString(txtEstadoRegistro));
             entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
             entity.setFechaUltimaModificacion(FacesUtils.checkDate(
@@ -363,7 +363,7 @@ public class RespuestaSolView implements Serializable {
                     FacesUtils.checkLong(txtIdSolAsigArea_SolicitudAsignadaArea))
                 : null);
             businessDelegatorView.updateRespuestaSol(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+            FacesUtils.addInfoMessage("Se modificó exitosamente");
         } catch (Exception e) {
             data = null;
             FacesUtils.addErrorMessage(e.getMessage());

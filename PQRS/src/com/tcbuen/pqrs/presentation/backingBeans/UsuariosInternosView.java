@@ -258,11 +258,11 @@ public class UsuariosInternosView implements Serializable {
 				
 				
 				entity.setNumeroIdentificacion(numeroIdentificacion);
-				entity.setNombres(FacesUtils.checkString(txtNombres2));
-				entity.setApellidos(FacesUtils.checkString(txtApellidos2));
+				entity.setNombres(FacesUtils.checkString(txtNombres2).toLowerCase());
+				entity.setApellidos(FacesUtils.checkString(txtApellidos2).toLowerCase());
 				entity.setCorreoElectronico(FacesUtils
-						.checkString(txtCorreoElectronico2));
-				entity.setLogin(FacesUtils.checkString(txtLogin2));
+						.checkString(txtCorreoElectronico2).toLowerCase());
+				entity.setLogin(FacesUtils.checkString(txtLogin2).toLowerCase());
 			//	entity.setContrasena(FacesUtils.checkString(txtContrasena));
 				entity.setContrasena(contrasenaUsuario);
 				entity.setEstadoRegistro(estado);
@@ -546,15 +546,15 @@ public class UsuariosInternosView implements Serializable {
 			if (idAreaInvolucrada != null && idRol != null) {
 				AreasInvolucradas area = businessDelegatorView.getAreasInvolucradas((idAreaInvolucrada));
 				Roles roles = businessDelegatorView.getRoles(idRol);
-				String nombres = txtNombres.getValue().toString().toUpperCase();
-				String apellidos = txtApellidos.getValue().toString().toUpperCase();
-				String numeroIdentificacion = txtNumeroIdentificacion.getValue().toString().toUpperCase();
-				String login = txtLogin.getValue().toString().toUpperCase();
-				String email = txtCorreoElectronico.getValue().toString().toUpperCase();
-				String contrasena = getPassword().toUpperCase();
-				String areaInvolucrada = area.getNombreArea().toUpperCase();
-				String rol = roles.getNombreRol().toUpperCase();
-				String estados = getEstadoRegistroSeleccionado().toUpperCase();
+				String nombres = txtNombres.getValue().toString().toLowerCase();
+				String apellidos = txtApellidos.getValue().toString().toLowerCase();
+				String numeroIdentificacion = txtNumeroIdentificacion.getValue().toString().toLowerCase();
+				String login = txtLogin.getValue().toString().toLowerCase();
+				String email = txtCorreoElectronico.getValue().toString().toLowerCase();
+				String contrasena = getPassword().toLowerCase();
+				String areaInvolucrada = area.getNombreArea().toLowerCase();
+				String rol = roles.getNombreRol().toLowerCase();
+				String estados = getEstadoRegistroSeleccionado().toLowerCase();
 
 				if (!revizarCampos(nombres, apellidos, numeroIdentificacion,
 						login, email, contrasena, areaInvolucrada, rol, estados)) {
@@ -569,15 +569,15 @@ public class UsuariosInternosView implements Serializable {
 					
 					entity = new UsuariosInternos();
 					entity.setNumeroIdentificacion(FacesUtils
-							.checkString(txtNumeroIdentificacion).toUpperCase());
-					entity.setNombres(FacesUtils.checkString(txtNombres).toUpperCase());
-					entity.setApellidos(FacesUtils.checkString(txtApellidos).toUpperCase());
+							.checkString(txtNumeroIdentificacion).toLowerCase());
+					entity.setNombres(FacesUtils.checkString(txtNombres).toLowerCase());
+					entity.setApellidos(FacesUtils.checkString(txtApellidos).toLowerCase());
 					entity.setCorreoElectronico(FacesUtils
-							.checkString(txtCorreoElectronico).toUpperCase());
-					entity.setLogin(FacesUtils.checkString(txtLogin).toUpperCase());
+							.checkString(txtCorreoElectronico).toLowerCase());
+					entity.setLogin(FacesUtils.checkString(txtLogin).toLowerCase());
 					entity.setContrasena(contrasena);
 					System.out.println(contrasena);
-					entity.setEstadoRegistro(estadoRegistroSeleccionado.toUpperCase());
+					entity.setEstadoRegistro(estadoRegistroSeleccionado.toLowerCase());
 					entity.setFechaCreacion(new Date());
 					entity.setAreasInvolucradas((idAreaInvolucrada != null) ? businessDelegatorView
 							.getAreasInvolucradas((idAreaInvolucrada)) : null);
@@ -650,17 +650,17 @@ public class UsuariosInternosView implements Serializable {
 	public String action_modify() {
 		try {
 
-			String numeroIdentificacion = txtNumeroIdentificacion.getValue().toString();
-			String nombres = txtNombres.getValue().toString();
-			String apellidos = txtApellidos.getValue().toString();
+			String numeroIdentificacion = txtNumeroIdentificacion.getValue().toString().toLowerCase();
+			String nombres = txtNombres.getValue().toString().toLowerCase();
+			String apellidos = txtApellidos.getValue().toString().toLowerCase();
 			Long id = entity.getIdUsuInterno().longValue();
-			String email = txtCorreoElectronico.getValue().toString();
-			String login = txtLogin.getValue().toString();
+			String email = txtCorreoElectronico.getValue().toString().toLowerCase();
+			String login = txtLogin.getValue().toString().toLowerCase();
 			AreasInvolucradas area = businessDelegatorView.getAreasInvolucradas((idAreaInvolucrada));
-			String areaInvolucrada = area.getNombreArea();
+			String areaInvolucrada = area.getNombreArea().toLowerCase();
 			Roles roles = businessDelegatorView.getRoles(idRol);
-			String rol = roles.getNombreRol();
-			String estado = getEstadoRegistroSeleccionado();
+			String rol = roles.getNombreRol().toLowerCase();
+			String estado = getEstadoRegistroSeleccionado().toLowerCase();
 
 			UsuariosInternos usuarioPorId = obtenerIdUsuario(id);
 			
@@ -724,14 +724,14 @@ public class UsuariosInternosView implements Serializable {
     public void actualizar(){
     	try {
     		entity.setNumeroIdentificacion(FacesUtils
-					.checkString(txtNumeroIdentificacion));
-			entity.setNombres(FacesUtils.checkString(txtNombres));
-			entity.setApellidos(FacesUtils.checkString(txtApellidos));
+					.checkString(txtNumeroIdentificacion).toLowerCase());
+			entity.setNombres(FacesUtils.checkString(txtNombres).toLowerCase());
+			entity.setApellidos(FacesUtils.checkString(txtApellidos).toLowerCase());
 			entity.setCorreoElectronico(FacesUtils
-					.checkString(txtCorreoElectronico));
-			entity.setLogin(FacesUtils.checkString(txtLogin));
+					.checkString(txtCorreoElectronico).toLowerCase());
+			entity.setLogin(FacesUtils.checkString(txtLogin).toLowerCase());
 		//	entity.setContrasena(FacesUtils.checkString(txtContrasena));
-			entity.setContrasena(FacesUtils.checkString(passContrasena));
+			entity.setContrasena(FacesUtils.checkString(passContrasena).toLowerCase());
 			entity.setEstadoRegistro(estadoRegistroSeleccionado);
 			entity.setFechaCreacion(new Date());
 

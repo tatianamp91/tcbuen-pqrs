@@ -247,7 +247,7 @@ public class AreasInvolucradasView implements Serializable {
 	public String action_create() {
 		try {
 		
-			String nombreArea = txtNombreArea.getValue().toString();
+			String nombreArea = txtNombreArea.getValue().toString().toLowerCase();
 			
 			AreasInvolucradas area= ObtenerArea(nombreArea);
 			
@@ -257,7 +257,7 @@ public class AreasInvolucradasView implements Serializable {
 					return "";
 				}
 				entity = new AreasInvolucradas();
-				entity.setNombreArea(FacesUtils.checkString(txtNombreArea));
+				entity.setNombreArea(FacesUtils.checkString(txtNombreArea).toLowerCase());
 				entity.setEstadoRegistro(estadoRegistroSeleccionado);
 				entity.setUsuarioCreador("Admin");
 				entity.setFechaCreacion(new Date());
@@ -310,16 +310,16 @@ public class AreasInvolucradasView implements Serializable {
 	public void actualizar(){
 		try {
 			
-			  entity.setNombreArea(FacesUtils.checkString(txtNombreArea));
+			  entity.setNombreArea(FacesUtils.checkString(txtNombreArea).toLowerCase());
 		         entity.setEstadoRegistro(estadoRegistroSeleccionado);
-		         entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
+		         entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador).toLowerCase());
 		         entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
 		         //Falta agregar usuario de sesion
 		         entity.setUsuarioUltimaModificacion("Facturación");
 		         entity.setFechaUltimaModificacion(new Date());           		       
 		         
 		         businessDelegatorView.updateAreasInvolucradas(entity);
-		         FacesUtils.addInfoMessage("El área se guardo exitosamente");
+		         FacesUtils.addInfoMessage("El área se guardó exitosamente");
 		         
 		} catch (Exception e) {
 			
@@ -332,7 +332,7 @@ public class AreasInvolucradasView implements Serializable {
 
 	public String action_modify() {
 		try {
-			String nombreArea = txtNombreArea.getValue().toString();
+			String nombreArea = txtNombreArea.getValue().toString().toLowerCase();
 			AreasInvolucradas area = ObtenerArea(nombreArea);
 
 			if (area == null) {				
@@ -342,7 +342,7 @@ public class AreasInvolucradasView implements Serializable {
 				actualizar();
 				action_clear();
 			} else {
-				String nombreTemp = area.getNombreArea();
+				String nombreTemp = area.getNombreArea().toLowerCase();
 				Long idTemp = area.getIdAreaInvolucrada();
 				
 				if((nombreTemp.equals(nombreArea) && idTemp == entity.getIdAreaInvolucrada().longValue())){					

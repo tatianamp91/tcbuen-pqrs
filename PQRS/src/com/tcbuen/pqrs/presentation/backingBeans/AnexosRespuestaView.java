@@ -329,9 +329,9 @@ public class AnexosRespuestaView implements Serializable {
             entity.setEstadoRegistro(FacesUtils.checkString(txtEstadoRegistro));
             entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
             entity.setIdAnxResp(idAnxResp);
-            entity.setNombreAnexo(FacesUtils.checkString(txtNombreAnexo));
-            entity.setNombreBusqueda(FacesUtils.checkString(txtNombreBusqueda));
-            entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
+            entity.setNombreAnexo(FacesUtils.checkString(txtNombreAnexo).toLowerCase());
+            entity.setNombreBusqueda(FacesUtils.checkString(txtNombreBusqueda).toLowerCase());
+            entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador).toLowerCase());
             entity.setAnexosPqr((FacesUtils.checkLong(txtIdAnexoPqr_AnexosPqr) != null)
                 ? businessDelegatorView.getAnexosPqr(FacesUtils.checkLong(
                         txtIdAnexoPqr_AnexosPqr)) : null);
@@ -340,7 +340,7 @@ public class AnexosRespuestaView implements Serializable {
                 ? businessDelegatorView.getRespuestaSol(FacesUtils.checkLong(
                         txtIdRespSol_RespuestaSol)) : null);
             businessDelegatorView.saveAnexosRespuesta(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYSAVED);
+            FacesUtils.addInfoMessage("El anexo se guardó exitosamente");
             action_clear();
         } catch (Exception e) {
             entity = null;
@@ -362,9 +362,9 @@ public class AnexosRespuestaView implements Serializable {
             entity.setDocumentoReal(FacesUtils.checkBlob(txtDocumentoReal));
             entity.setEstadoRegistro(FacesUtils.checkString(txtEstadoRegistro));
             entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-            entity.setNombreAnexo(FacesUtils.checkString(txtNombreAnexo));
-            entity.setNombreBusqueda(FacesUtils.checkString(txtNombreBusqueda));
-            entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
+            entity.setNombreAnexo(FacesUtils.checkString(txtNombreAnexo).toLowerCase());
+            entity.setNombreBusqueda(FacesUtils.checkString(txtNombreBusqueda).toLowerCase());
+            entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador).toLowerCase());
             entity.setAnexosPqr((FacesUtils.checkLong(txtIdAnexoPqr_AnexosPqr) != null)
                 ? businessDelegatorView.getAnexosPqr(FacesUtils.checkLong(
                         txtIdAnexoPqr_AnexosPqr)) : null);
@@ -373,7 +373,7 @@ public class AnexosRespuestaView implements Serializable {
                 ? businessDelegatorView.getRespuestaSol(FacesUtils.checkLong(
                         txtIdRespSol_RespuestaSol)) : null);
             businessDelegatorView.updateAnexosRespuesta(entity);
-            FacesUtils.addInfoMessage(ZMessManager.ENTITY_SUCCESFULLYMODIFIED);
+            FacesUtils.addInfoMessage("El anexo se modificó exitosamente");
         } catch (Exception e) {
             data = null;
             FacesUtils.addErrorMessage(e.getMessage());

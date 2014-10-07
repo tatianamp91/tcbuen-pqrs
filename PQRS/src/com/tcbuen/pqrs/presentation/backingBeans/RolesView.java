@@ -235,7 +235,7 @@ public class RolesView implements Serializable {
 	public String action_create() {
 		try {
 
-			String nombreRol = txtNombreRol.getValue().toString();
+			String nombreRol = txtNombreRol.getValue().toString().toLowerCase();
 			Roles nombre = ObtenerRoles(nombreRol);
 
 			if (nombre == null) {
@@ -248,7 +248,7 @@ public class RolesView implements Serializable {
 
 				// Long idRol = FacesUtils.checkLong(txtIdRol);
 				// entity.setIdRol(idRol);
-				entity.setNombreRol(FacesUtils.checkString(txtNombreRol));
+				entity.setNombreRol(FacesUtils.checkString(txtNombreRol).toLowerCase());
 				entity.setEstadoRegistro(estadoRegistroSeleccionado);
 				// Falta agregar usuario de sesion
 				entity.setUsuarioCreador("Admin");
@@ -300,7 +300,7 @@ public class RolesView implements Serializable {
 	public void actualizar(){
 		
 		try {
-			entity.setNombreRol(FacesUtils.checkString(txtNombreRol));
+			entity.setNombreRol(FacesUtils.checkString(txtNombreRol).toLowerCase());
 			entity.setEstadoRegistro(estadoRegistroSeleccionado);
 			entity.setUsuarioCreador(FacesUtils
 					.checkString(txtUsuarioCreador));
@@ -322,7 +322,7 @@ public class RolesView implements Serializable {
 
 	public String action_modify() {
 		try {
-			String nombreRol = txtNombreRol.getValue().toString();
+			String nombreRol = txtNombreRol.getValue().toString().toLowerCase();
 			Roles nombre = ObtenerRoles(nombreRol);
 			
 			if (nombre == null) {
@@ -332,7 +332,7 @@ public class RolesView implements Serializable {
 				actualizar();
 				action_clear();
 			}else{
-				String nombreTemp = nombre.getNombreRol();
+				String nombreTemp = nombre.getNombreRol().toLowerCase();
 				Long idTemp = nombre.getIdRol();
 				
 				if ((nombreTemp.equals(nombreRol) && idTemp == entity.getIdRol().longValue())){

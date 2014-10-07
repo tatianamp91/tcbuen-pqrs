@@ -284,9 +284,9 @@ public class ParametrosPqrView implements Serializable {
 	public String action_create() {
 		try {
 			
-			String descripcionParam = txtDescripcionParam.getValue().toString();
+			String descripcionParam = txtDescripcionParam.getValue().toString().toLowerCase();
 			ParametrosPqr descrpcion = ObtenerParamDescripcion(descripcionParam);
-			String valorParam = txtValorParam.getValue().toString();
+			String valorParam = txtValorParam.getValue().toString().toLowerCase();
 			
 			if (descrpcion == null) {
 
@@ -299,7 +299,7 @@ public class ParametrosPqrView implements Serializable {
 				// Long idParam = FacesUtils.checkLong(txtIdParam);
 				// entity.setIdParam(idParam);
 				entity.setDescripcionParam(FacesUtils
-						.checkString(txtDescripcionParam));
+						.checkString(txtDescripcionParam).toLowerCase());
 				// Falta agregar usuarios sesion
 				entity.setEstadoRegistro(estadoRegistroSeleccionado);
 				entity.setUsuarioCreador("Admin");
@@ -383,7 +383,7 @@ public class ParametrosPqrView implements Serializable {
 		try {
 
 			entity.setDescripcionParam(FacesUtils
-					.checkString(txtDescripcionParam));
+					.checkString(txtDescripcionParam).toLowerCase());
 			/*String estado = (estadoRegistroSeleccionado.equals("Activo")) ? "A"
 					: "I";
 			entity.setEstadoRegistro(estado);*/
@@ -408,9 +408,9 @@ public class ParametrosPqrView implements Serializable {
 	public String action_modify() {
 		try {
 
-			String nombreParametro = txtDescripcionParam.getValue().toString();
+			String nombreParametro = txtDescripcionParam.getValue().toString().toLowerCase();
 			ParametrosPqr nombreParam = ObtenerParamDescripcion(nombreParametro);
-			String descripcionParametro = txtValorParam.getValue().toString();
+			String descripcionParametro = txtValorParam.getValue().toString().toLowerCase();
 			Long id = nombreParam.getIdParam().longValue();
 
 			if (nombreParam == null) {
@@ -420,7 +420,7 @@ public class ParametrosPqrView implements Serializable {
 				actualizar();
 				action_clear();
 			} else {
-				String nombreParametroBD = nombreParam.getDescripcionParam();
+				String nombreParametroBD = nombreParam.getDescripcionParam().toLowerCase();
 				Long idBD = nombreParam.getIdParam();
 				entity = businessDelegatorView.getParametrosPqr(id);
 

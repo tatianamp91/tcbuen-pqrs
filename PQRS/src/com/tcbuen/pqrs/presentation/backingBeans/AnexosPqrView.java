@@ -240,7 +240,7 @@ public class AnexosPqrView implements Serializable {
 
 	public String action_create() {
 		try {
-			String descripcionAnexo = txtDescripcionAnexo.getValue().toString();
+			String descripcionAnexo = txtDescripcionAnexo.getValue().toString().toLowerCase();
 			AnexosPqr anexos = ObtenerAnexo(descripcionAnexo);
 
 			if (anexos == null) {
@@ -252,7 +252,7 @@ public class AnexosPqrView implements Serializable {
 				// Long idAnexoPqr = FacesUtils.checkLong(txtIdAnexoPqr);
 				// entity.setIdAnexoPqr(idAnexoPqr);
 				entity.setDescripcionAnexo(FacesUtils
-						.checkString(txtDescripcionAnexo));
+						.checkString(txtDescripcionAnexo).toLowerCase());
 				entity.setEstadoRegistro(estadoRegistroSeleccionado);
 				// Falta agregar usuario de sesion
 				entity.setUsuarioCreador("Admin");
@@ -261,7 +261,7 @@ public class AnexosPqrView implements Serializable {
 				entity.setFechaUltimaModificacion(null);
 
 				businessDelegatorView.saveAnexosPqr(entity);
-				FacesUtils.addInfoMessage("El anexo se guardo exitosamente");
+				FacesUtils.addInfoMessage("El anexo se guardó exitosamente");
 				action_clear();
 			}else {
 				throw new Exception("La descripción del Anexo ya existe");
@@ -300,7 +300,7 @@ public class AnexosPqrView implements Serializable {
 		try {
 
 			entity.setDescripcionAnexo(FacesUtils
-					.checkString(txtDescripcionAnexo));
+					.checkString(txtDescripcionAnexo).toLowerCase());
 			entity.setEstadoRegistro(estadoRegistroSeleccionado);
 			entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
 			entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
@@ -319,7 +319,7 @@ public class AnexosPqrView implements Serializable {
 
 	public String action_modify() {
 		try {
-			String descripcionAnexo = txtDescripcionAnexo.getValue().toString();
+			String descripcionAnexo = txtDescripcionAnexo.getValue().toString().toLowerCase();
 			AnexosPqr anexos = ObtenerAnexo(descripcionAnexo);
 			if (anexos == null) {
 				if (!revizarCampos(descripcionAnexo)) {
@@ -328,7 +328,7 @@ public class AnexosPqrView implements Serializable {
 				actulizar();
 				action_clear();
 			} else {
-				String descripcionTemp = anexos.getDescripcionAnexo();
+				String descripcionTemp = anexos.getDescripcionAnexo().toLowerCase();
 				Long idTemp = anexos.getIdAnexoPqr();
 				if (descripcionTemp.equals(descripcionAnexo) && idTemp == entity.getIdAnexoPqr().longValue()) {
 					if (!revizarCampos(descripcionAnexo)) {
