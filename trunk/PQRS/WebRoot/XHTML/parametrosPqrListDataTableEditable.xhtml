@@ -124,16 +124,16 @@
 							<div align="center">
 								<p:commandButton id="btnSave" value="Guardar"
 									binding="#{parametrosPqrView.btnSave}"
-									disabled="#{tipoSolicitudPqrView.boton}"
+									disabled="#{parametrosPqrView.boton}"
 									action="#{parametrosPqrView.action_save()}"
 									update=":dialogParametrosPqr :form:msgProjectClientesTitle" />
 								<p:commandButton id="btnModify" value="Modificar"
 									binding="#{parametrosPqrView.btnModify}"
-									disabled="#{!tipoSolicitudPqrView.boton}"
+									disabled="#{!parametrosPqrView.boton}"
 									action="#{parametrosPqrView.action_modify()}"
 									update=":dialogParametrosPqr :form:msgProjectClientesTitle" />
 								<p:commandButton id="btnClear" value="Limpiar"
-									disabled="#{tipoSolicitudPqrView.boton}"
+									disabled="#{parametrosPqrView.boton}"
 									action="#{parametrosPqrView.action_clear()}"
 									update=":dialogParametrosPqr" />
 								<p:commandButton id="btnExit" value="Salir"
