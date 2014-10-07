@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import javax.ejb.NoMoreTimeoutsException;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -55,6 +56,7 @@ public class ParametrosPqrView implements Serializable {
 	private String estadoRegistroSeleccionado;
 	private Long idParam;
 	private ParametrosPqr parametros;
+	private Boolean boton;
 
 	public ParametrosPqrView() {
 		super();
@@ -128,20 +130,23 @@ public class ParametrosPqrView implements Serializable {
 		action_clear();
 		selectedParametrosPqr = null;
 		setShowDialog(true);
+		setBoton(false);
 
 		return "";
 	}
 	
 	public String action_edit() {
 		try {
-			
+
 			parametros = businessDelegatorView.getParametrosPqr(idParam);
 			txtDescripcionParam.setValue(parametros.getDescripcionParam());
 			txtValorParam.setValue(parametros.getValorParam());
 			estadoRegistroSeleccionado = parametros.getEstadoRegistro();
+			setBoton(true);
 			setShowDialog(true);
-		
 		} catch (Exception e) {
+			action_clear();
+			entity = null;
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
 		return "";
@@ -163,11 +168,10 @@ public class ParametrosPqrView implements Serializable {
 			txtValorParam.setValue(null);
 		}
 
-		if (btnSave != null) {
-			btnSave.setDisabled(false);
-		}
 		data = null;
         data = getData();
+        setBoton(false);
+        
         return "";
 	}
 
@@ -207,7 +211,7 @@ public class ParametrosPqrView implements Serializable {
 			txtFechaCreacion.setDisabled(false);
 			txtFechaUltimaModificacion.setDisabled(false);
 			txtIdParam.setDisabled(false);
-			btnSave.setDisabled(false);
+			
 		} else {
 			txtDescripcionParam.setValue(entity.getDescripcionParam());
 			txtDescripcionParam.setDisabled(false);
@@ -227,7 +231,6 @@ public class ParametrosPqrView implements Serializable {
 			txtValorParam.setDisabled(false);
 			txtIdParam.setValue(entity.getIdParam());
 			txtIdParam.setDisabled(true);
-			btnSave.setDisabled(false);
 
 			if (btnDelete != null) {
 				btnDelete.setDisabled(false);
@@ -257,7 +260,6 @@ public class ParametrosPqrView implements Serializable {
 		txtValorParam.setDisabled(false);
 		txtIdParam.setValue(selectedParametrosPqr.getIdParam());
 		txtIdParam.setDisabled(true);
-		btnSave.setDisabled(false);
 		setShowDialog(true);
 
 		return "";
@@ -281,7 +283,6 @@ public class ParametrosPqrView implements Serializable {
 
 	public String action_create() {
 		try {
-
 			
 			String descripcionParam = txtDescripcionParam.getValue().toString();
 			ParametrosPqr descrpcion = ObtenerParamDescripcion(descripcionParam);
@@ -289,9 +290,8 @@ public class ParametrosPqrView implements Serializable {
 			
 			if (descrpcion == null) {
 
-				if (!revizarCampos(descripcionParam, valorParam)) {
+				if (!revizarCampos(descripcionParam)) {
 					return "";
-
 				}
 
 				entity = new ParametrosPqr();
@@ -359,12 +359,12 @@ public class ParametrosPqrView implements Serializable {
 		return entity;
 	}
 	
-	public boolean revizarCampos(String descripcionParam, String valorParam)
+	public boolean revizarCampos(String descripcionParam)
 			throws Exception {
 
-		if (valorParam.equals("") || valorParam.trim().equals("")) {
-			throw new Exception("Debe de ingresar una Descripcion");
-		}
+//		if (valorParam.equals("") || valorParam.trim().equals("")) {
+//			throw new Exception("Debe de ingresar una Descripcion");
+//		}
 
 		if (descripcionParam.equals("") || descripcionParam.trim().equals("")) {
 			throw new Exception("Debe de ingresar un Parametro");
@@ -381,7 +381,7 @@ public class ParametrosPqrView implements Serializable {
 	
 	private void actualizar(){
 		try {
-			
+
 			entity.setDescripcionParam(FacesUtils
 					.checkString(txtDescripcionParam));
 			/*String estado = (estadoRegistroSeleccionado.equals("Activo")) ? "A"
@@ -395,6 +395,7 @@ public class ParametrosPqrView implements Serializable {
 			entity.setUsuarioUltimaModificacion("Admin-1");
 			entity.setValorParam(FacesUtils.checkString(txtValorParam));
 			businessDelegatorView.updateParametrosPqr(entity);
+			setShowDialog(false);
 			FacesUtils
 					.addInfoMessage("El parametro se modifico exitosamente");
 		} catch (Exception e) {
@@ -410,22 +411,22 @@ public class ParametrosPqrView implements Serializable {
 			String nombreParametro = txtDescripcionParam.getValue().toString();
 			ParametrosPqr nombreParam = ObtenerParamDescripcion(nombreParametro);
 			String descripcionParametro = txtValorParam.getValue().toString();
-			Long id = entity.getIdParam().longValue();
+			Long id = nombreParam.getIdParam().longValue();
 
 			if (nombreParam == null) {
-				if (!revizarCampos(nombreParametro, descripcionParametro)) {
+				if (!revizarCampos(nombreParametro)) {
 					return "";
 				}
 				actualizar();
 				action_clear();
 			} else {
 				String nombreParametroBD = nombreParam.getDescripcionParam();
-//				String descripcionParametroBD = nombreParam.getValorParam();
 				Long idBD = nombreParam.getIdParam();
+				entity = businessDelegatorView.getParametrosPqr(id);
 
 				if (nombreParametroBD.equals(nombreParametro) && idBD == id) {
 
-					if (!revizarCampos(nombreParametro, descripcionParametro)) {
+					if (!revizarCampos(nombreParametro)) {
 						return "";
 					}
 					actualizar();
@@ -697,5 +698,14 @@ public class ParametrosPqrView implements Serializable {
 
 	public void setParametros(ParametrosPqr parametros) {
 		this.parametros = parametros;
-	}		
+	}
+
+	public Boolean getBoton() {
+		return boton;
+	}
+
+	public void setBoton(Boolean boton) {
+		this.boton = boton;
+	}	
+	
 }
