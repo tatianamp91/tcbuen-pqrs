@@ -309,7 +309,7 @@ public class ParametrosPqrView implements Serializable {
 				entity.setValorParam(FacesUtils.checkString(txtValorParam));
 
 				businessDelegatorView.saveParametrosPqr(entity);
-				FacesUtils.addInfoMessage("El parametro se guardo exitosamente");
+				FacesUtils.addInfoMessage("El parametro se guardó exitosamente");
 
 				action_clear();
 

@@ -365,7 +365,7 @@ public class TipoSolicitudPqrView implements Serializable {
 						motivosSolicitudTarget, anexosPqrTargetCopia,
 						anexosPqrTarget, esObligatorioSeleccionado);
 				
-				FacesUtils.addInfoMessage("El tipo de solicitud se guardo exitosamente");
+				FacesUtils.addInfoMessage("El tipo de solicitud se guardó exitosamente");
 				action_clear();
 			}else {
 				consultarElementosNuevo();
