@@ -257,7 +257,7 @@ public class RolesView implements Serializable {
 				entity.setUsuarioUltimaModificacion(null);
 
 				businessDelegatorView.saveRoles(entity);
-				FacesUtils.addInfoMessage("El rol se guardo exitosamente");
+				FacesUtils.addInfoMessage("El rol se guardó exitosamente");
 
 				action_clear();
 

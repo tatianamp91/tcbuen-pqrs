@@ -274,7 +274,7 @@ public class TipoEstadoPqrView implements Serializable {
 			entity.setFechaUltimaModificacion(null);
      
 			businessDelegatorView.saveTipoEstadoPqr(entity);
-            FacesUtils.addInfoMessage("El tipo de estado se guardo exitosamente");
+            FacesUtils.addInfoMessage("El tipo de estado se guardó exitosamente");
             action_clear();
             
         	} else {

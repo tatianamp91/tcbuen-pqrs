@@ -263,7 +263,7 @@ public class TipoDocumentoView implements Serializable {
                 entity.setUsuarioCreador("Admin");
                 entity.setUsuarioUltimaModificacion(null);
                 businessDelegatorView.saveTipoDocumento(entity);
-                FacesUtils.addInfoMessage("El tipo de documento se guardo exitosamente");
+                FacesUtils.addInfoMessage("El tipo de documento se guardó exitosamente");
                 action_clear();
             }else{
             	throw new Exception("Ya existe tipo de documento");

@@ -264,7 +264,7 @@ public class AreasInvolucradasView implements Serializable {
 				entity.setUsuarioUltimaModificacion(null);
 				entity.setFechaUltimaModificacion(null);
 				businessDelegatorView.saveAreasInvolucradas(entity);
-				FacesUtils.addInfoMessage("El área se guardo exitosamente");			
+				FacesUtils.addInfoMessage("El área se guardó exitosamente");			
 
 				action_clear();
 			} else {

@@ -269,7 +269,7 @@ public class MotivoReclamacionView implements Serializable {
 				entity.setFechaUltimaModificacion(null);
 
 				businessDelegatorView.saveMotivoReclamacion(entity);
-				FacesUtils.addInfoMessage("El motivo de la reclamación se guardo exitosamente");
+				FacesUtils.addInfoMessage("El motivo de la reclamación se guardó exitosamente");
 				action_clear();
 
 			} else {

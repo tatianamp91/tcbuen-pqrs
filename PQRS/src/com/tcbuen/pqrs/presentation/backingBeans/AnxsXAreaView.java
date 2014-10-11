@@ -287,7 +287,7 @@ public class AnxsXAreaView implements Serializable {
                 ? businessDelegatorView.getAreasInvolucradas((idAreaInvolucrada)): null);
             
             businessDelegatorView.saveAnxsXArea(entity);            
-            FacesUtils.addInfoMessage("El anexo se guardo exitosamente");            
+            FacesUtils.addInfoMessage("El anexo se guardó exitosamente");            
             action_clear();
         } catch (Exception e) {
             entity = null;
