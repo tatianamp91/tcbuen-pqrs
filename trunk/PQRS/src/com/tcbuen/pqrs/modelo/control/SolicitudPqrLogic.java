@@ -134,16 +134,6 @@ public class SolicitudPqrLogic implements ISolicitudPqrLogic {
                     "fechaCreacion");
             }
 
-            if (entity.getIdSolPqr() == null) {
-                throw new ZMessManager().new EmptyFieldException("idSolPqr");
-            }
-
-            if ((entity.getIdSolPqr() != null) &&
-                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
-                        entity.getIdSolPqr(), 10, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException("idSolPqr");
-            }
-
             if ((entity.getNombreAgenciaAduana() != null) &&
                     (Utilities.checkWordAndCheckWithlength(
                         entity.getNombreAgenciaAduana(), 100) == false)) {
@@ -226,10 +216,6 @@ public class SolicitudPqrLogic implements ISolicitudPqrLogic {
                         entity.getTipoSolicitudPqr().getIdTpSolPqr(), 10, 0) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "idTpSolPqr_TipoSolicitudPqr");
-            }
-
-            if (getSolicitudPqr(entity.getIdSolPqr()) != null) {
-                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
             }
 
             solicitudPqrDAO.save(entity);

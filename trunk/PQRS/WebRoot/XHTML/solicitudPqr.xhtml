@@ -3,11 +3,9 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
-
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </h:head>
-
 <h:body>
 	<ui:composition template="/WEB-INF/facelets/template.xhtml">
 		<ui:define name="body">
@@ -23,55 +21,59 @@
 					<p:messages id="msg" showDetail="true" />
 					<p:growl id="men" />
 					<p:panel id="panelSolicitudPqr" header="Nombre del Formulario">
-						<h:panelGrid columns="1" id="panelGrid">
-							<h:panelGrid columns="2" id="panelGrid2">
-								<h:outputText id="msgNombreCliente" value="Solicitante:" />
-								<p:inputText id="txtNombreCliente"
-									binding="#{solicitudPqrView.txtNombreCliente}" disabled="true"
-									size="96" />
-								<h:outputText id="msgNombreAgenciaAduana"
-									value="*Nombre de Agencia de Aduana:" />
-								<p:inputText id="txtNombreAgenciaAduana"
-									binding="#{solicitudPqrView.txtNombreAgenciaAduana}" size="96" />
-								<h:panelGrid columns="1" id="panelGrid3">
-									<h:outputText id="msgMotSol" value="*Motivos de Soliciud:" />
-									<p:selectOneRadio id="motSol" value="">
-										<f:selectItem itemLabel="Uno" itemValue="Uno" />
-										<f:selectItem itemLabel="Dos" itemValue="Dos" />
-										<f:selectItem itemLabel="Tres" itemValue="Tres" />
+						<div align="center">
+							<h:panelGrid columns="1" id="panelGrid">
+								<h:panelGrid columns="2" id="panelGrid2">
+									<h:outputText id="msgNombreCliente" value="Solicitante:" />
+									<p:inputText id="txtNombreCliente"
+										binding="#{solicitudPqrView.txtNombreCliente}" disabled="true"
+										size="98" />
+									<h:outputText id="msgNombreAgenciaAduana"
+										value="*Nombre de Agencia de Aduana:" />
+									<p:inputText id="txtNombreAgenciaAduana"
+										binding="#{solicitudPqrView.txtNombreAgenciaAduana}" size="98" />
+
+									<h:outputText id="msgMotSol" value="*Motivo de Soliciud:" />
+									<p:selectOneRadio id="motSol" layout="grid" columns="5"
+										value="#{solicitudPqrView.motSolicitud}">
+										<f:selectItems value="#{solicitudPqrView.motivoSolicitud}"
+											var="motSol" itemLabel="#{motSolicitud}"
+											itemValue="#{motSolicitud}" />
 									</p:selectOneRadio>
-								</h:panelGrid>
-								<h:panelGrid columns="1" id="panelGrid4">
-									<h:outputText id="msgMotRecl" value="*Motivos de Reclamación:" />
-									<p:selectOneRadio id="motRecl" value="">
-										<f:selectItem itemLabel="Uno" itemValue="Uno" />
-										<f:selectItem itemLabel="Dos" itemValue="Dos" />
-										<f:selectItem itemLabel="Tres" itemValue="Tres" />
+									<p:separator />
+									<p:separator />
+									<h:outputText id="msgMotRecl" value="*Motivo de Reclamación:" />
+									<p:selectOneRadio id="motRecl" layout="grid" columns="5"
+										value="#{solicitudPqrView.motReclamacion}">
+										<f:selectItems value="#{solicitudPqrView.motivoReclamacion}"
+											var="motRecl" itemLabel="#{motReclamacion}"
+											itemValue="#{motReclamacion}" />
 									</p:selectOneRadio>
+
 								</h:panelGrid>
-							</h:panelGrid>
-							<h:outputText id="msgDescripcionCaso"
-								value="*Descripcion del Caso:" />
-							<p:inputTextarea id="txtDescripcionCaso" rows="10" cols="130" />
-							<h:outputText id="msgSolicitudARealizar"
-								value="*Solicitud a Realizar:" />
-							<p:inputTextarea id="txtSolicitudARealizar" rows="10" cols="130" />
-							<h:outputText id="msgAnexos" value="*Anexos:" />
-							<p:dataTable id="tabla" value="" var="" paginator="false"
-								rows="5">
-								<p:column headerText="Anexo">									
+								<h:outputText id="msgDescripcionCaso"
+									value="*Descripcion del Caso:" />
+								<p:inputTextarea id="txtDescripcionCaso" rows="10" cols="130" />
+								<h:outputText id="msgSolicitudARealizar"
+									value="*Solicitud a Realizar:" />
+								<p:inputTextarea id="txtSolicitudARealizar" rows="10" cols="130" />
+								<h:outputText id="msgAnexos" value="*Anexos:" />
+								<p:dataTable id="tabla" value="" var="" paginator="false"
+									rows="5">
+									<p:column headerText="Anexo">
 										<h:outputText id="msgAnexo" value="Anexo" />
-								</p:column>
-								<p:column headerText="Archivo">
-									<p:growl id="messages" showDetail="true" />
-									<p:fileUpload value="Seleccionar Archivo" mode="simple" />
-									<p:commandButton value="Submit" ajax="false" />
-								</p:column>
-								<p:column headerText="Adjuntado">
-									<h:outputText id="msgAdjuntado" value="Adjuntado" />
-								</p:column>
-							</p:dataTable>
-						</h:panelGrid>
+									</p:column>
+									<p:column headerText="Archivo">
+										<p:growl id="messages" showDetail="true" />
+										<p:fileUpload value="Seleccionar Archivo" mode="simple" />
+										<p:commandButton value="Submit" ajax="false" />
+									</p:column>
+									<p:column headerText="Adjuntado">
+										<h:outputText id="msgAdjuntado" value="Adjuntado" />
+									</p:column>
+								</p:dataTable>
+							</h:panelGrid>
+						</div>
 					</p:panel>
 					<p:panel id="panelBotones">
 						<div align="center">

@@ -583,6 +583,10 @@ public interface IBusinessDelegatorView {
     public List<SolicitudPqr> getSolicitudPqr() throws Exception;
 
     public void saveSolicitudPqr(SolicitudPqr entity) throws Exception;
+    
+    public void saveSolicitud(InfoSolicitante infoSol, SolicitudPqr solicitudPqr, 
+    		MotSolSelect motSolSelect, MotReclSelect motReclSelect, 
+    		SolicitudAsignadaArea solicitudAsignadaArea) throws Exception;
 
     public void deleteSolicitudPqr(SolicitudPqr entity)
         throws Exception;

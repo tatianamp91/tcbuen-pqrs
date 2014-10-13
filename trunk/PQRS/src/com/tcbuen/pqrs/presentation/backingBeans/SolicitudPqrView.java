@@ -9,16 +9,12 @@ import com.tcbuen.pqrs.utilities.*;
 import org.primefaces.component.calendar.*;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
-
 import org.primefaces.event.RowEditEvent;
 
 import java.io.Serializable;
-
 import java.sql.*;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +27,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.model.SelectItem;
 
 
 /**
@@ -61,6 +58,11 @@ public class SolicitudPqrView implements Serializable {
     private List<SolicitudPqrDTO> data;
     private SolicitudPqrDTO selectedSolicitudPqr;
     private SolicitudPqr entity;
+    private String motSolicitud;
+    private List<String> motivoSolicitud;
+    private String motReclamacion;
+    private List<String> motivoReclamacion;
+    private TipoSolicitudPqr tipoSolicitudPqr;
     private boolean showDialog;
     @ManagedProperty(value = "#{BusinessDelegatorView}")
     private IBusinessDelegatorView businessDelegatorView;
@@ -746,4 +748,62 @@ public class SolicitudPqrView implements Serializable {
     public void setShowDialog(boolean showDialog) {
         this.showDialog = showDialog;
     }
+
+	public String getMotSolicitud() {
+		return motSolicitud;
+	}
+
+	public void setMotSolicitud(String motSolicitud) {
+		this.motSolicitud = motSolicitud;
+	}
+
+	public List<String> getMotivoSolicitud() {
+		try{
+			motivoSolicitud = new ArrayList<String>();
+			List<MotivoSolicitud> motSol = businessDelegatorView.consultarMotSolXTipoPqr(tipoSolicitudPqr);
+			for (MotivoSolicitud motSolicitud : motSol) {
+				motivoSolicitud.add(motSolicitud.getDescripcionMotSol());
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return motivoSolicitud;
+	}
+
+	public void setMotivoSolicitud(List<String> motivoSolicitud) {
+		this.motivoSolicitud = motivoSolicitud;
+	}
+
+	public String getMotReclamacion() {
+		return motReclamacion;
+	}
+
+	public void setMotReclamacion(String motReclamacion) {
+		this.motReclamacion = motReclamacion;
+	}
+
+	public List<String> getMotivoReclamacion() {
+		try{
+			motivoReclamacion = new ArrayList<String>();
+			List<MotivoReclamacion> motRecl = businessDelegatorView.consultarMotReclXTipoPqr(tipoSolicitudPqr);
+			for (MotivoReclamacion motReclamacion : motRecl) {
+				motivoReclamacion.add(motReclamacion.getDescripcionMotRecl());
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		return motivoReclamacion;
+	}
+
+	public void setMotivoReclamacion(List<String> motivoReclamacion) {
+		this.motivoReclamacion = motivoReclamacion;
+	}
+
+	public TipoSolicitudPqr getTipoSolicitudPqr() {
+		return tipoSolicitudPqr;
+	}
+
+	public void setTipoSolicitudPqr(TipoSolicitudPqr tipoSolicitudPqr) {
+		this.tipoSolicitudPqr = tipoSolicitudPqr;
+	}
 }

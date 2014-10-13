@@ -1,0 +1,267 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/templateSolicitante.xhtml">
+		<ui:define name="body">
+			<f:view>
+				<p:ajaxStatus onstart="statusDialog.show();"
+					onsuccess="statusDialog.hide();" />
+				<p:dialog modal="true" widgetVar="statusDialog" header="Cargando"
+					draggable="false" closable="false">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+				<h:form id="frm">
+					<p:tabView id="tabView" dynamic="true"
+						activeIndex="#{solicitudView.index}">
+						<p:tab id="tab1" title="Informacion Solicitante">
+							<p:messages id="msg" showDetail="false" />
+							<p:growl id="men" />
+							<p:panel id="panelInfoSolicitante"
+								style="height:300px;width:1050px">
+								<div align="center">
+									<h:panelGrid columns="3" id="panelGrid">
+										<h:outputText id="msgIdTpDoc_TipoDocumento"
+											value="*Tipo de Documento:" />
+										<p:selectOneMenu id="TipoDocumento"
+											value="#{solicitudView.idTipoDocumento}"
+											style="height:20px;width:215px">
+											<f:selectItem itemLabel="Seleccione" itemValue="" />
+											<f:selectItems value="#{solicitudView.tipoDocumento}" />
+											<p:ajax listener="#{solicitudView.cambiarMaskNit}"
+												update="txtNumeroIdentificacion" />
+										</p:selectOneMenu>
+										<p:tooltip id="tooltipSelNumDoc" for="TipoDocumento"
+											value="Seleccionar un tipo de documento de la lista." />
+
+										<h:outputText id="msgNumeroIdentificacion"
+											value="*Número de Identificación:" />
+										<p:inputMask id="txtNumeroIdentificacion"
+											value="#{solicitudView.numeroIdentificacion}"
+											mask="#{solicitudView.maskNit}" maxlength="20" size="30" />
+										<p:tooltip id="tooltiptxtNumDoc2"
+											for="txtNumeroIdentificacion"
+											value="Ingresar un número de identificación." />
+
+										<h:outputText id="msgNombreEmpresa"
+											value="Nombre de la Empresa:" />
+										<p:inputText id="txtNombreEmpresa"
+											binding="#{solicitudView.txtNombreEmpresa}" maxlength="50"
+											size="30" />
+										<p:tooltip id="tooltiptxtNomEmpresa" for="txtNombreEmpresa"
+											value="Ingresar el nombre de la empresa a la cual pertenece." />
+
+										<h:outputText id="msgNombreContacto"
+											value="*Nombre de Contacto:" />
+										<p:inputText id="txtNombreContacto"
+											binding="#{solicitudView.txtNombreContacto}" maxlength="50"
+											size="30" />
+										<p:tooltip id="tooltipNomContacto" for="txtNombreContacto"
+											value="Ingrese un Nombre de contacto." />
+
+										<h:outputText id="msgCorreoElectronico"
+											value="*Correo Electronico:" />
+										<p:inputText id="txtCorreoElectronico"
+											binding="#{solicitudView.txtCorreoElectronico}"
+											maxlength="50" size="30" />
+										<p:tooltip id="tooltiptxtCorreo" for="txtCorreoElectronico"
+											value="Ingrese un Correo electronico. xxxx@xxx.xx" />
+
+										<h:outputText id="msgNumeroCelular" value="*Numero Celular:" />
+										<p:inputMask id="txtNumeroCelular"
+											value="#{solicitudView.numeroCelular}" mask="(999) 999-9999"
+											maxlength="10" size="30" />
+										<p:tooltip id="tooltiptxtCelular" for="txtNumeroCelular"
+											value="Ingrese Número de celular." />
+
+										<h:outputText id="msgTelefonoFijo" value="*Telefono Fijo:" />
+										<p:inputMask id="txtTelefonoFijo"
+											value="#{solicitudView.telefonoFijo}" mask="999-99-99"
+											maxlength="7" size="30" />
+										<p:tooltip id="tooltiptxtFijo" for="txtTelefonoFijo"
+											value="Ingrese un Teléfono fijo." />
+									</h:panelGrid>
+								</div>
+							</p:panel>
+							<p:panel id="panelBoton" style="height:40px;width:1050px">
+								<div align="center">
+									<p:commandButton id="btnClear" value="Limpiar"
+										action="#{solicitudView.action_clear_infoSol()}"
+										binding="#{solicitudView.limpiarInfosol}"
+										update="panelInfoSolicitante,msg,panelBoton" />
+									<p:commandButton id="btnSiguiente" value="Siguiente"
+										binding="#{solicitudView.siguienteInfoSol}" update="msg"
+										action="#{solicitudView.action_sig_atras(1)}" />
+								</div>
+							</p:panel>
+						</p:tab>
+						<p:tab id="tab2" title="Tipo de Solicitud">
+							<p:messages id="msgTipoSol" showDetail="false" />
+							<p:panel id="panelTipoSol" style="height:300px;width:1050px">
+								<div align="center">
+									<h:panelGrid columns="1" id="panelGridTipoSol">
+										<p:selectOneRadio id="tipoSolicitud"
+											value="#{solicitudView.idTipoSolicitud}" layout="grid"
+											columns="5">
+											<f:selectItems value="#{solicitudView.tipoSolicitud}"
+												var="tipoSol" itemLabel="#{tipoSol.descTpSol}"
+												itemValue="#{tipoSol.idTpSolPqr}" />
+										</p:selectOneRadio>
+									</h:panelGrid>
+								</div>
+							</p:panel>
+							<p:panel id="panelBotonesTipoSol"
+								style="height:40px;width:1050px">
+								<div align="center">
+									<p:commandButton id="btnAtrasTipoSol" value="Atras"
+										binding="#{solicitudView.atrasTipoSol}"
+										update="panelTipoSol,msgTipoSol,panelBotonesTipoSol"
+										action="#{solicitudView.action_sig_atras(0)}" />
+
+									<p:commandButton id="btnInstructivo" value="Siguiente"
+										binding="#{solicitudView.siguienteTipoSol}"
+										update="panelTipoSol,msgTipoSol"
+										action="#{solicitudView.action_sig_atras(2)}" />
+
+								</div>
+							</p:panel>
+						</p:tab>
+						<p:tab id="tab3" title="Información">
+							<div align="center">
+								<p:messages id="msgInstructivo" showDetail="false" />
+								<p:panel id="panelInstructivo" style="height:300px;width:1050px">
+									<h:panelGrid columns="1" id="panelGridInstructivo">
+										<h:outputText value="#{solicitudView.descripcionParametro}" />
+										<h:outputText
+											value="Para este tipo de solicitud debe incluir los siguientes anexos:" />
+										<h:panelGrid columns="2" cellpadding="5">
+											<p:dataTable id="tablaAnexosXTipoSol"
+												value="#{solicitudView.anexosPqrs}" var="anexosPqr">
+												<p:column>
+													<h:outputText value="#{anexosPqr.descripcionAnexo}" />
+												</p:column>
+											</p:dataTable>
+										</h:panelGrid>
+									</h:panelGrid>
+								</p:panel>
+							</div>
+							<p:panel id="panelBotonesInstructivo"
+								style="height:40px;width:1050px">
+								<div align="center">
+									<p:commandButton id="btnAtrasInstructivo" value="Atras"
+										binding="#{solicitudView.atrasInstructivo}"
+										update="panelInstructivo,msgInstructivo,panelBotonesInstructivo">
+										<p:ajax listener="#{solicitudView.action_sig_atras(1)}"
+											update="tab2, tab3" />
+									</p:commandButton>
+									<p:commandButton id="btnSiguinte" value="Siguiente"
+										binding="#{solicitudView.siguienteInstructivo}"
+										update="panelInstructivo,msgInstructivo,panelBotonesInstructivo"
+										action="#{solicitudView.action_sig_atras(3)}" />
+								</div>
+							</p:panel>
+						</p:tab>
+						<p:tab id="tab4" title="Solicitud">
+							<p:messages id="msg2" showDetail="false" />
+							<p:growl id="men2" />
+							<p:panel id="panelSolicitudPqr" style="height:800px;width:1050px">
+								<div align="center">
+									<h:panelGrid columns="1" id="panelGrid12">
+										<h:panelGrid columns="3" id="panelGrid2">
+											<h:outputText id="msgNombreCliente" value="Solicitante:" />
+											<p:inputText id="txtNombreCliente"
+												binding="#{solicitudView.txtNombreCliente}" disabled="true"
+												size="98" />
+											<p:tooltip id="toolCliente" for="txtNombreCliente"
+												value="Nombre de Contcto ingresado." />
+												
+											<h:outputText id="msgNombreAgenciaAduana"
+												value="*Nombre de Agencia de Aduana:" />
+											<p:inputText id="txtNombreAgenciaAduana"
+												binding="#{solicitudView.txtNombreAgenciaAduana}" size="98" />
+											<p:tooltip id="toolAgencia" for="txtNombreAgenciaAduana"
+												value="Ingrese nombre de Agencia de Aduana." />
+
+											<h:outputText id="msgMotSol" value="*Motivo de Soliciud:" />
+											<p:selectOneRadio id="motSol" layout="grid" columns="5"
+												value="#{solicitudView.motSolicitud}">
+												<f:selectItems value="#{solicitudView.motivoSolicitud}"
+													var="motSol" itemLabel="#{motSolicitud}"
+													itemValue="#{motSolicitud}" />
+											</p:selectOneRadio>
+											<p:tooltip id="toolMotSol" for="motSol"
+												value="Seleccione un Motivo de Solicitud." />
+											<p:separator />
+											<p:separator />
+											<p:separator />
+											<h:outputText id="msgMotRecl" value="*Motivo de Reclamación:" />
+											<p:selectOneRadio id="motRecl" layout="grid" columns="5"
+												value="#{solicitudView.motReclamacion}">
+												<f:selectItems value="#{solicitudView.motivoReclamacion}"
+													var="motRecl" itemLabel="#{motReclamacion}"
+													itemValue="#{motReclamacion}" />
+											</p:selectOneRadio>
+											<p:tooltip id="toolMotRecl" for="motRecl"
+												value="Seleccione un Motivo de Reclamación." />
+												
+										</h:panelGrid>
+										<h:outputText id="msgDescripcionCaso"
+											value="*Descripcion del Caso:" />
+										<p:inputTextarea id="txtDescripcionCaso"
+											value="#{solicitudView.descripcionCaso}" rows="10" cols="130" />
+											<p:tooltip id="toolDescripcion" for="txtDescripcionCaso"
+												value="Ingrese un descripción del caso." />
+												
+										<h:outputText id="msgSolicitudARealizar"
+											value="*Solicitud a Realizar:" />
+										<p:inputTextarea id="txtSolicitudARealizar"
+											value="#{solicitudView.solicitudARealizar}" rows="10"
+											cols="130" />
+											<p:tooltip id="toolSolicitud" for="txtSolicitudARealizar"
+												value="Ingrese la solicitud a realizar." />
+												
+										<h:outputText id="msgAnexos" value="*Anexos:" />
+										<p:dataTable id="tablaAnexosXTipoSolDoc" paginator="true"
+											rows="2" value="#{solicitudView.anexosPqrs}" var="anexosPqr">
+											<p:column>
+												<h:outputText value="#{anexosPqr.descripcionAnexo}" />
+											</p:column>
+											<p:column headerText="Archivo">
+												<p:growl id="messages" showDetail="false" />
+												<p:fileUpload uploadlabel="Subir al archivo"
+													fileuploadlistener="#{solicitudView.subirArchivo}" />
+											</p:column>
+											<p:column headerText="Adjuntado">
+												<h:outputText id="msgAdjuntado" value="Adjuntado" />
+											</p:column>
+										</p:dataTable>
+										<p:tooltip id="toolAnexos" for="tablaAnexosXTipoSolDoc"
+												value="Adjunte los anexos requeridos." />
+									</h:panelGrid>
+								</div>
+							</p:panel>
+							<p:panel id="panelBotones" style="height:40px;width:1050px">
+								<div align="center">
+									<p:commandButton id="btnClear2" value="Limpiar Formulario"
+										binding="#{solicitudView.limpiarSolicitud}"
+										action="#{solicitudView.action_clear_formulario()}"
+										update="panelSolicitudPqr,msg2,panelBotones" />
+									<p:commandButton id="btnSave2" value="Enviar Solicitud"
+										action="#{solicitudView.action_save()}"
+										update="panelSolicitudPqr,msg2,panelBotones" />
+								</div>
+							</p:panel>
+						</p:tab>
+					</p:tabView>
+				</h:form>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

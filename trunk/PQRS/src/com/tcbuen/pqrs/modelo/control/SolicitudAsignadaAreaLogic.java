@@ -92,18 +92,6 @@ public class SolicitudAsignadaAreaLogic implements ISolicitudAsignadaAreaLogic {
                     "fechaAsignacion");
             }
 
-            if (entity.getIdSolAsigArea() == null) {
-                throw new ZMessManager().new EmptyFieldException(
-                    "idSolAsigArea");
-            }
-
-            if ((entity.getIdSolAsigArea() != null) &&
-                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
-                        entity.getIdSolAsigArea(), 10, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException(
-                    "idSolAsigArea");
-            }
-
             if (entity.getAreasInvolucradas().getIdAreaInvolucrada() == null) {
                 throw new ZMessManager().new EmptyFieldException(
                     "idAreaInvolucrada_AreasInvolucradas");
@@ -127,10 +115,6 @@ public class SolicitudAsignadaAreaLogic implements ISolicitudAsignadaAreaLogic {
                         entity.getSolicitudPqr().getIdSolPqr(), 10, 0) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "idSolPqr_SolicitudPqr");
-            }
-
-            if (getSolicitudAsignadaArea(entity.getIdSolAsigArea()) != null) {
-                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
             }
 
             solicitudAsignadaAreaDAO.save(entity);
