@@ -170,8 +170,10 @@ public class InfoSolicitanteView implements Serializable {
 		    	TipoSolicitudPqr tSol = businessDelegatorView.getTipoSolicitudPqr(idTipoSolicitud);
 		    	descTpSol = tSol.getDescTpSol().toLowerCase();
 		    	anexosPqrs = getAnexosPqrs(idTipoSolicitud);
-				ParametrosPqr parametros = ObtenerParametro(descTpSol);				
-				setDescripcionParametro(parametros.getValorParam().toLowerCase());
+				ParametrosPqr parametros = ObtenerParametro(descTpSol);
+				if(parametros != null){
+					setDescripcionParametro(parametros.getValorParam().toLowerCase());
+				}
 		        setInstructivo(true);
     		}else{
     			throw new Exception("Debe Seleccionar un Tipo de Solicitud");

@@ -79,18 +79,6 @@ public class MotReclSelectLogic implements IMotReclSelectLogic {
                 throw new ZMessManager().new ForeignException("solicitudPqr");
             }
 
-            if (entity.getIdMotReclSelect() == null) {
-                throw new ZMessManager().new EmptyFieldException(
-                    "idMotReclSelect");
-            }
-
-            if ((entity.getIdMotReclSelect() != null) &&
-                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
-                        entity.getIdMotReclSelect(), 10, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException(
-                    "idMotReclSelect");
-            }
-
             if (entity.getMotivoReclamacion().getIdMotRecl() == null) {
                 throw new ZMessManager().new EmptyFieldException(
                     "idMotRecl_MotivoReclamacion");
@@ -113,10 +101,6 @@ public class MotReclSelectLogic implements IMotReclSelectLogic {
                         entity.getSolicitudPqr().getIdSolPqr(), 10, 0) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "idSolPqr_SolicitudPqr");
-            }
-
-            if (getMotReclSelect(entity.getIdMotReclSelect()) != null) {
-                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
             }
 
             motReclSelectDAO.save(entity);

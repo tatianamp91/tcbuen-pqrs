@@ -43,10 +43,8 @@
 					<p:submenu label="Menu de Solicitud" icon="ui-icon-contact" style="width:250px">
 						<p:column style="width:250px">
 							<p:submenu style="width:240px">
-								<p:menuitem value="Informacion Soliciante" style="width:240px"
-									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/infoSolicitante.xhtml" />
 								<p:menuitem value="Solicitud PQR" style="width:240px"
-									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/solicitudPqr.xhtml" />
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/solicitud.xhtml" />
 								</p:submenu>
 						</p:column>
 					</p:submenu>

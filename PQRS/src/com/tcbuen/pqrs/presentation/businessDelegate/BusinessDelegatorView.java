@@ -45,6 +45,7 @@ import com.tcbuen.pqrs.modelo.control.IParametrosPqrLogic;
 import com.tcbuen.pqrs.modelo.control.IRespuestaSolLogic;
 import com.tcbuen.pqrs.modelo.control.IRolesLogic;
 import com.tcbuen.pqrs.modelo.control.ISolicitudAsignadaAreaLogic;
+import com.tcbuen.pqrs.modelo.control.ISolicitudLogic;
 import com.tcbuen.pqrs.modelo.control.ISolicitudPqrLogic;
 import com.tcbuen.pqrs.modelo.control.ITipoDocumentoLogic;
 import com.tcbuen.pqrs.modelo.control.ITipoEstadoPqrLogic;
@@ -188,6 +189,8 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
     private ITipoSolicitudPqrLogic tipoSolicitudPqrLogic;
     @Autowired
     private IUsuariosInternosLogic usuariosInternosLogic;
+    @Autowired
+    private ISolicitudLogic solicitudLogic;
 
     public List<AnexosPqr> getAnexosPqr() throws Exception {
         return anexosPqrLogic.getAnexosPqr();
@@ -1251,6 +1254,12 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 
     public void saveSolicitudPqr(SolicitudPqr entity) throws Exception {
         solicitudPqrLogic.saveSolicitudPqr(entity);
+    }
+    public void saveSolicitud(InfoSolicitante infoSol, SolicitudPqr solicitudPqr, 
+    		MotSolSelect motSolSelect, MotReclSelect motReclSelect, 
+    		SolicitudAsignadaArea solicitudAsignadaArea) throws Exception{
+    	solicitudLogic.saveSolicitudPqr(infoSol, solicitudPqr, motSolSelect, 
+    		motReclSelect, solicitudAsignadaArea);
     }
 
     public void deleteSolicitudPqr(SolicitudPqr entity)
