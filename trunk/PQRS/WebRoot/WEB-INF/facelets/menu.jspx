@@ -37,6 +37,8 @@
 									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/tipoSolicitudPqrListDataTableEditable.xhtml" />
 								<p:menuitem value="Usuarios" style="width:240px"
 									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/usuariosInternosListDataTableEditable.xhtml" />
+								<p:menuitem value="Consulta Estadistica de Casos" style="width:240px"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/consultaEstadisticaCasos.xhtml" />
 							</p:submenu>
 						</p:column>
 					</p:submenu>
