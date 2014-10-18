@@ -27,6 +27,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.model.SelectItem;
 
 
 /**
@@ -55,7 +56,18 @@ public class MotivoSolicitudView implements Serializable {
     private boolean showDialog;
     @ManagedProperty(value = "#{BusinessDelegatorView}")
     private IBusinessDelegatorView businessDelegatorView;
-
+    private Date fechaRadicacionDesde;
+    private Date fechaRadicacionHasta;
+    private InputText txtNumeroRadicacion;
+    private InputText txtFechaRadicacion;
+    private InputText txtAreaConCaso;
+    private InputText txtFechaRespuestaCliente;
+    private InputText txtEstadoSolicitud;
+    private Long idMotivoSolicitud;
+    private List<SelectItem> motivosSolicitudes;
+    private Long idEstado;
+    private List<SelectItem> estadoSolicitudes;
+    
     public MotivoSolicitudView() {
         super();
     }
@@ -315,6 +327,17 @@ public class MotivoSolicitudView implements Serializable {
 		return entity;
 	}
     
+    private MotSolSelect ObtenerMotivoSolicitudPorId(Long idMotivoSolicitud) throws Exception {
+		MotSolSelect entity = null;
+		Object[] variables = { "motivoSolicitud", true, idMotivoSolicitud, "=" };
+		List<MotSolSelect> motivoSolicituds = businessDelegatorView.findByCriteriaInMotSolSelect(variables, null, null);
+		
+		if (Utilities.validationsList(motivoSolicituds)) {
+			entity = motivoSolicituds.get(0);
+		}
+		return entity;
+	}
+    
     public boolean revizarCampos(String descripcionMotSol) throws Exception {
 
 		if (descripcionMotSol.equals("") || descripcionMotSol.trim().equals("")) {
@@ -363,6 +386,32 @@ public class MotivoSolicitudView implements Serializable {
         return "";
     }
 
+    public String action_consultar(){
+    	
+    	try {
+    		Long idMotivoSolicitudConsultado = getIdMotivoSolicitud();
+        	Long idEstadoSolicitudSeleccionado = getIdEstado();
+        	Date fechaDesde = getFechaRadicacionDesde();
+        	Date fechaHasta = getFechaRadicacionHasta();
+        	String numeroRadicacion = txtNumeroRadicacion.getValue().toString();
+        	
+        	if (idMotivoSolicitudConsultado != null) {
+    			MotSolSelect motivoSolicitudSeleccionado = ObtenerMotivoSolicitudPorId(idMotivoSolicitudConsultado);
+    			if (motivoSolicitudSeleccionado != null) {
+					Long idMotivoSolicitud = motivoSolicitudSeleccionado.getIdMotSolSelected();
+				}
+    			
+    			
+    		}
+        	
+        	
+		} catch (Exception e) {
+			e.getMessage();
+		}
+    	
+    	return "";
+    }
+    
     public String action_delete_datatable(ActionEvent evt) {
         try {
             selectedMotivoSolicitud = (MotivoSolicitudDTO) (evt.getComponent()
@@ -595,4 +644,118 @@ public class MotivoSolicitudView implements Serializable {
 	public void setEstadoRegistroSeleccionado(String estadoRegistroSeleccionado) {
 		this.estadoRegistroSeleccionado = estadoRegistroSeleccionado;
 	}
+
+	public Date getFechaRadicacionDesde() {
+		return fechaRadicacionDesde;
+	}
+
+	public void setFechaRadicacionDesde(Date fechaRadicacionDesde) {
+		this.fechaRadicacionDesde = fechaRadicacionDesde;
+	}
+
+	public Date getFechaRadicacionHasta() {
+		return fechaRadicacionHasta;
+	}
+
+	public void setFechaRadicacionHasta(Date fechaRadicacionHasta) {
+		this.fechaRadicacionHasta = fechaRadicacionHasta;
+	}
+
+	public InputText getTxtNumeroRadicacion() {
+		return txtNumeroRadicacion;
+	}
+
+	public void setTxtNumeroRadicacion(InputText txtNumeroRadicacion) {
+		this.txtNumeroRadicacion = txtNumeroRadicacion;
+	}
+
+	public InputText getTxtFechaRadicacion() {
+		return txtFechaRadicacion;
+	}
+
+	public void setTxtFechaRadicacion(InputText txtFechaRadicacion) {
+		this.txtFechaRadicacion = txtFechaRadicacion;
+	}
+
+	public InputText getTxtAreaConCaso() {
+		return txtAreaConCaso;
+	}
+
+	public void setTxtAreaConCaso(InputText txtAreaConCaso) {
+		this.txtAreaConCaso = txtAreaConCaso;
+	}
+
+	public InputText getTxtFechaRespuestaCliente() {
+		return txtFechaRespuestaCliente;
+	}
+
+	public void setTxtFechaRespuestaCliente(InputText txtFechaRespuestaCliente) {
+		this.txtFechaRespuestaCliente = txtFechaRespuestaCliente;
+	}
+
+	public InputText getTxtEstadoSolicitud() {
+		return txtEstadoSolicitud;
+	}
+
+	public void setTxtEstadoSolicitud(InputText txtEstadoSolicitud) {
+		this.txtEstadoSolicitud = txtEstadoSolicitud;
+	}
+
+	public Long getIdMotivoSolicitud() {
+		return idMotivoSolicitud;
+	}
+
+	public void setIdMotivoSolicitud(Long idMotivoSolicitud) {
+		this.idMotivoSolicitud = idMotivoSolicitud;
+	}
+
+	public List<SelectItem> getMotivosSolicitudes() {
+		
+		try {
+			motivosSolicitudes = new ArrayList<SelectItem>();
+			List<MotivoSolicitud> motivosSolicitud = businessDelegatorView.getMotivoSolicitud();
+			for (MotivoSolicitud motivo : motivosSolicitud) {
+				motivosSolicitudes.add(new SelectItem(motivo.getIdMotSol(),motivo.getDescripcionMotSol()));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return motivosSolicitudes;
+	}
+
+	public void setMotivosSolicitudes(List<SelectItem> motivosSolicitudes) {
+		this.motivosSolicitudes = motivosSolicitudes;
+	}
+
+	public Long getIdEstado() {
+		return idEstado;
+	}
+
+	public void setIdEstado(Long idEstado) {
+		this.idEstado = idEstado;
+	}
+
+	public List<SelectItem> getEstadoSolicitudes() {
+		try {
+			estadoSolicitudes = new ArrayList<SelectItem>();
+			List<TipoEstadoPqr> tipoEstados = businessDelegatorView.getTipoEstadoPqr();
+			for (TipoEstadoPqr tipoEstadoPqr : tipoEstados) {
+				
+				if (tipoEstadoPqr.getDescripcionEstado().contains("abierto") ||
+						tipoEstadoPqr.getDescripcionEstado().contains("pendiente") ||
+						tipoEstadoPqr.getDescripcionEstado().contains("respondido")) {
+					estadoSolicitudes.add(new SelectItem(tipoEstadoPqr.getIdTpEstPqr(), tipoEstadoPqr.getDescripcionEstado()));
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return estadoSolicitudes;
+	}
+
+	public void setEstadoSolicitudes(List<SelectItem> estadoSolicitudes) {
+		this.estadoSolicitudes = estadoSolicitudes;
+	}
+	
+	
 }

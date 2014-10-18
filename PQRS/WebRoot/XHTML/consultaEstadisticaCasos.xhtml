@@ -1,0 +1,156 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template.xhtml">
+		<ui:define name="body">
+			<f:view>
+				<p:ajaxStatus onstart="statusDialog.show();"
+					onsuccess="statusDialog.hide();" />
+				<p:dialog modal="true" widgetVar="statusDialog" header="Cargando"
+					draggable="false" closable="false">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+				<h:form id="form">
+					<p:panel id="msgProjectClientesTitle" header="Consulta de Estadistica de Casos"
+						style="height:350px;width:1070px">
+						
+						<div align="center">
+						
+							<h3 align="center">Criterios de Busqueda</h3>
+							<h:panelGrid columns="4" id="panelDatos">
+								<h:outputText id="motivosSolicitudes" value="Motivos de Solicitud:"></h:outputText>
+								<p:selectOneMenu id="motivosSolicitudesConsultadas"
+									value="#{motivoSolicitudView.idMotivoSolicitud}"
+									style="height:20px;width:160px">
+									<f:selectItem itemLabel="Seleccione" itemValue="" />
+									<f:selectItems
+										value="#{motivoSolicitudView.motivosSolicitudes}" />
+								</p:selectOneMenu>
+								<h:outputText id ="estado" value="Estado"></h:outputText>
+								<p:selectOneMenu id="EstadoSolicitudConsultada"
+									value="#{motivoSolicitudView.idEstado}"
+									style="height:20px;width:160px">
+									<f:selectItem itemLabel="Seleccione" itemValue="" />
+									<f:selectItems
+										value="#{motivoSolicitudView.estadoSolicitudes}" />
+								</p:selectOneMenu>
+								<p:outputLabel for="button" value="Fecha Radicacion Desde"></p:outputLabel>
+								<p:calendar id="button" value="#{motivoSolicitudView.fechaRadicacionDesde}"
+											showOn="button"></p:calendar>
+								<p:outputLabel for="button" value="Fecha Radicacion Hasta"></p:outputLabel>
+								<p:calendar id="button2" value="#{motivoSolicitudView.fechaRadicacionHasta}"
+											showOn="button"></p:calendar>
+								<h:outputText id="numeroRadicacion" value="Número de Radicación"></h:outputText>
+								<p:inputText id="txtNumeroRadicacion"
+									binding="#{motivoSolicitudView.txtNumeroRadicacion}"
+									maxlength="100" style="height:20px;width:250px" />
+							</h:panelGrid>
+						</div>
+						<br/>
+						<div align="center">
+							<h:panelGrid columns="2" id="botones">
+								<p:commandButton id="btnConsultar" value="Consultar"
+												action="#{motivoSolicitudView.action_consultar()}"></p:commandButton>
+								<p:commandButton id="btnClear" value="Limpiar"></p:commandButton>
+							</h:panelGrid>
+						</div>
+						<br/>
+						<h3 align="center">Estadisticas de Casos</h3>
+						<br/>
+						<p:messages id="msg" showDetail="false" />
+						<p:dataTable id="tabla" value="#{motivoSolicitudView.data}"
+							var="motivoSolicitud" paginator="true" rows="5" editable="true">
+
+							<p:ajax event="rowEdit" update=":form:msg,:form:tabla"
+								listener="#{motivoSolicitudView.rowEventListener}" />
+							
+							<p:column headerText="# Radicacion" style="height:20px;width:250px">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="# Radicacion" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{motivoSolicitudView.txtNumeroRadicacion}"
+											maxlength="50" style="height:20px;width:250px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							
+							<p:column headerText="Motivos Solicitudes" style="height:20px;width:250px">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{motivoSolicitud.descripcionMotSol}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{motivoSolicitud.descripcionMotSol}"
+											maxlength="50" style="height:20px;width:250px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							
+							<p:column headerText="Fecha Radicacion" style="height:20px;width:250px">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="Fecha Radicacion" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{motivoSolicitudView.txtFechaRadicacion}"
+											maxlength="50" style="height:20px;width:250px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column headerText="Estado"
+								style="height:20px;width:150px">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="Estado" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{motivoSolicitudView.txtEstadoSolicitud}"
+											maxlength="50" style="height:20px;width:250px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column headerText="Area con Caso"
+								style="height:20px;width:150px">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="Area con Caso" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{motivoSolicitudView.txtAreaConCaso}"
+											maxlength="50" style="height:20px;width:250px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							
+							<p:column headerText="Fecha Respuesta al Cliente"
+								style="height:20px;width:150px">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="Fecha Respuesta al Cliente" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{motivoSolicitudView.txtFechaRespuestaCliente}"
+											maxlength="50" style="height:20px;width:250px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+					
+				</h:form>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
