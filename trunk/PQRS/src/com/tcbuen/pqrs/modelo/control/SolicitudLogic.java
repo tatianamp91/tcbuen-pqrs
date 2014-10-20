@@ -47,28 +47,44 @@ public class SolicitudLogic implements ISolicitudLogic {
     IMotReclSelectLogic logicMotReclSelect;
     @Autowired
     ISolicitudAsignadaAreaLogic logicSolicitudAsignadaArea;
+    @Autowired
+    IAnexosSolicitanteLogic logicAnexosSolicitante;
+    
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void saveSolicitudPqr(InfoSolicitante infoSol, SolicitudPqr solicitudPqr, 
     		MotSolSelect motSolSelect, MotReclSelect motReclSelect, 
-    		SolicitudAsignadaArea solicitudAsignadaArea) throws Exception {
+    		SolicitudAsignadaArea solicitudAsignadaArea, 
+    		List<AnexosSolicitante> anexosSolicitantes) throws Exception {
         try {
+        	
             logicInfoSolicitante.saveInfoSolicitante(infoSol);
             
             solicitudPqr.setInfoSolicitante(infoSol);
             logicSolicitudPqr.saveSolicitudPqr(solicitudPqr);
             
-            motSolSelect.setSolicitudPqr(solicitudPqr);
-            logicMotSolSelect.saveMotSolSelect(motSolSelect);
+            if(motSolSelect != null){
+            	motSolSelect.setSolicitudPqr(solicitudPqr);
+            	logicMotSolSelect.saveMotSolSelect(motSolSelect);
+            }
             
         	motReclSelect.setSolicitudPqr(solicitudPqr);
         	logicMotReclSelect.saveMotReclSelect(motReclSelect);
         	
-        	solicitudAsignadaArea.setSolicitudPqr(solicitudPqr);
-        	logicSolicitudAsignadaArea.saveSolicitudAsignadaArea(solicitudAsignadaArea);
+        	if(solicitudAsignadaArea != null){
+	        	solicitudAsignadaArea.setSolicitudPqr(solicitudPqr);
+	        	logicSolicitudAsignadaArea.saveSolicitudAsignadaArea(solicitudAsignadaArea);
+        	}
+        	
+        	if(anexosSolicitantes != null){
+	        	for (AnexosSolicitante anexoSolicitante : anexosSolicitantes) {
+					anexoSolicitante.setSolicitudPqr(solicitudPqr);
+					logicAnexosSolicitante.saveAnexosSolicitante(anexoSolicitante);
+				}
+        	}
         	
         } catch (Exception e) {
-            throw e;
+            throw new Exception (e);
         } 
     }
 }

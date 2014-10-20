@@ -17,21 +17,22 @@
 					<p:graphicImage
 						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
 				</p:dialog>
-				<h:form id="frm">
-					<p:tabView id="tabView" dynamic="true"
-						activeIndex="#{solicitudView.index}">
+				<h:form id="frm" enctype="multipart/form-data">
+					<p:wizard flowListener="#{solicitudView.onFlowProcess}"
+						backLabel="Atras" nextLabel="Siguiente">
 						<p:tab id="tab1" title="Informacion Solicitante">
 							<p:messages id="msg" showDetail="false" />
 							<p:growl id="men" />
 							<p:panel id="panelInfoSolicitante"
-								style="height:300px;width:1050px">
+								style="height:300px;width:1068px">
 								<div align="center">
 									<h:panelGrid columns="3" id="panelGrid">
 										<h:outputText id="msgIdTpDoc_TipoDocumento"
 											value="*Tipo de Documento:" />
 										<p:selectOneMenu id="TipoDocumento"
 											value="#{solicitudView.idTipoDocumento}"
-											style="height:20px;width:215px">
+											style="height:20px;width:215px" required="true"
+											requiredMessage="Debe ingresar el Tipo de Identificación">
 											<f:selectItem itemLabel="Seleccione" itemValue="" />
 											<f:selectItems value="#{solicitudView.tipoDocumento}" />
 											<p:ajax listener="#{solicitudView.cambiarMaskNit}"
@@ -44,7 +45,9 @@
 											value="*Número de Identificación:" />
 										<p:inputMask id="txtNumeroIdentificacion"
 											value="#{solicitudView.numeroIdentificacion}"
-											mask="#{solicitudView.maskNit}" maxlength="20" size="30" />
+											mask="#{solicitudView.maskNit}" maxlength="20" size="30"
+											required="true"
+											requiredMessage="Debe ingresar el número de identificación" />
 										<p:tooltip id="tooltiptxtNumDoc2"
 											for="txtNumeroIdentificacion"
 											value="Ingresar un número de identificación." />
@@ -53,7 +56,8 @@
 											value="Nombre de la Empresa:" />
 										<p:inputText id="txtNombreEmpresa"
 											binding="#{solicitudView.txtNombreEmpresa}" maxlength="50"
-											size="30" />
+											size="30" required="true"
+											requiredMessage="Debe ingresar el nombre de la empresa" />
 										<p:tooltip id="tooltiptxtNomEmpresa" for="txtNombreEmpresa"
 											value="Ingresar el nombre de la empresa a la cual pertenece." />
 
@@ -61,7 +65,8 @@
 											value="*Nombre de Contacto:" />
 										<p:inputText id="txtNombreContacto"
 											binding="#{solicitudView.txtNombreContacto}" maxlength="50"
-											size="30" />
+											size="30" required="true"
+											requiredMessage="Debe ingresar el nombre del contacto" />
 										<p:tooltip id="tooltipNomContacto" for="txtNombreContacto"
 											value="Ingrese un Nombre de contacto." />
 
@@ -69,46 +74,51 @@
 											value="*Correo Electronico:" />
 										<p:inputText id="txtCorreoElectronico"
 											binding="#{solicitudView.txtCorreoElectronico}"
-											maxlength="50" size="30" />
+											maxlength="50" size="30" required="true"
+											requiredMessage="Debe ingresar el correo electronico"
+											validatorMessage="Ingrese un Email Valido">
+											<f:validateRegex
+												pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+										</p:inputText>
 										<p:tooltip id="tooltiptxtCorreo" for="txtCorreoElectronico"
-											value="Ingrese un Correo electronico. xxxx@xxx.xx" />
+											value="Ingrese un Correo electronico. xxxx@xxx.xxx.xx ó xxxx@xxx.xxx" />
 
 										<h:outputText id="msgNumeroCelular" value="*Numero Celular:" />
 										<p:inputMask id="txtNumeroCelular"
 											value="#{solicitudView.numeroCelular}" mask="(999) 999-9999"
-											maxlength="10" size="30" />
+											maxlength="10" size="30" required="true"
+											requiredMessage="Debe ingresar un número de celular" />
 										<p:tooltip id="tooltiptxtCelular" for="txtNumeroCelular"
 											value="Ingrese Número de celular." />
 
 										<h:outputText id="msgTelefonoFijo" value="*Telefono Fijo:" />
 										<p:inputMask id="txtTelefonoFijo"
 											value="#{solicitudView.telefonoFijo}" mask="999-99-99"
-											maxlength="7" size="30" />
+											maxlength="7" size="30" required="true"
+											requiredMessage="Debe ingresar un número fijo" />
 										<p:tooltip id="tooltiptxtFijo" for="txtTelefonoFijo"
 											value="Ingrese un Teléfono fijo." />
 									</h:panelGrid>
 								</div>
 							</p:panel>
-							<p:panel id="panelBoton" style="height:40px;width:1050px">
+							<p:panel id="panelBoton" style="height:40px;width:1068px">
 								<div align="center">
 									<p:commandButton id="btnClear" value="Limpiar"
 										action="#{solicitudView.action_clear_infoSol()}"
 										binding="#{solicitudView.limpiarInfosol}"
 										update="panelInfoSolicitante,msg,panelBoton" />
-									<p:commandButton id="btnSiguiente" value="Siguiente"
-										binding="#{solicitudView.siguienteInfoSol}" update="msg"
-										action="#{solicitudView.action_sig_atras(1)}" />
 								</div>
 							</p:panel>
 						</p:tab>
 						<p:tab id="tab2" title="Tipo de Solicitud">
 							<p:messages id="msgTipoSol" showDetail="false" />
-							<p:panel id="panelTipoSol" style="height:300px;width:1050px">
+							<p:panel id="panelTipoSol" style="height:300px;width:1068px">
 								<div align="center">
 									<h:panelGrid columns="1" id="panelGridTipoSol">
 										<p:selectOneRadio id="tipoSolicitud"
 											value="#{solicitudView.idTipoSolicitud}" layout="grid"
-											columns="5">
+											columns="5" required="true"
+											requiredMessage="Debe seleccionar un tipo de PQR">
 											<f:selectItems value="#{solicitudView.tipoSolicitud}"
 												var="tipoSol" itemLabel="#{tipoSol.descTpSol}"
 												itemValue="#{tipoSol.idTpSolPqr}" />
@@ -116,34 +126,19 @@
 									</h:panelGrid>
 								</div>
 							</p:panel>
-							<p:panel id="panelBotonesTipoSol"
-								style="height:40px;width:1050px">
-								<div align="center">
-									<p:commandButton id="btnAtrasTipoSol" value="Atras"
-										binding="#{solicitudView.atrasTipoSol}"
-										update="panelTipoSol,msgTipoSol,panelBotonesTipoSol"
-										action="#{solicitudView.action_sig_atras(0)}" />
-
-									<p:commandButton id="btnInstructivo" value="Siguiente"
-										binding="#{solicitudView.siguienteTipoSol}"
-										update="panelTipoSol,msgTipoSol"
-										action="#{solicitudView.action_sig_atras(2)}" />
-
-								</div>
-							</p:panel>
 						</p:tab>
 						<p:tab id="tab3" title="Información">
 							<div align="center">
 								<p:messages id="msgInstructivo" showDetail="false" />
-								<p:panel id="panelInstructivo" style="height:300px;width:1050px">
+								<p:panel id="panelInstructivo" style="height:300px;width:1068px">
 									<h:panelGrid columns="1" id="panelGridInstructivo">
 										<h:outputText value="#{solicitudView.descripcionParametro}" />
-										<h:outputText
-											value="Para este tipo de solicitud debe incluir los siguientes anexos:" />
 										<h:panelGrid columns="2" cellpadding="5">
 											<p:dataTable id="tablaAnexosXTipoSol"
+												rendered="#{solicitudView.anexos}"
 												value="#{solicitudView.anexosPqrs}" var="anexosPqr">
-												<p:column>
+												<p:column
+													headerText="Para este tipo de solicitud debe incluir los siguientes anexos:">
 													<h:outputText value="#{anexosPqr.descripcionAnexo}" />
 												</p:column>
 											</p:dataTable>
@@ -151,26 +146,11 @@
 									</h:panelGrid>
 								</p:panel>
 							</div>
-							<p:panel id="panelBotonesInstructivo"
-								style="height:40px;width:1050px">
-								<div align="center">
-									<p:commandButton id="btnAtrasInstructivo" value="Atras"
-										binding="#{solicitudView.atrasInstructivo}"
-										update="panelInstructivo,msgInstructivo,panelBotonesInstructivo">
-										<p:ajax listener="#{solicitudView.action_sig_atras(1)}"
-											update="tab2, tab3" />
-									</p:commandButton>
-									<p:commandButton id="btnSiguinte" value="Siguiente"
-										binding="#{solicitudView.siguienteInstructivo}"
-										update="panelInstructivo,msgInstructivo,panelBotonesInstructivo"
-										action="#{solicitudView.action_sig_atras(3)}" />
-								</div>
-							</p:panel>
 						</p:tab>
 						<p:tab id="tab4" title="Solicitud">
 							<p:messages id="msg2" showDetail="false" />
 							<p:growl id="men2" />
-							<p:panel id="panelSolicitudPqr" style="height:800px;width:1050px">
+							<p:panel id="panelSolicitudPqr" style="height:800px;width:1068px">
 								<div align="center">
 									<h:panelGrid columns="1" id="panelGrid12">
 										<h:panelGrid columns="3" id="panelGrid2">
@@ -180,7 +160,7 @@
 												size="98" />
 											<p:tooltip id="toolCliente" for="txtNombreCliente"
 												value="Nombre de Contcto ingresado." />
-												
+
 											<h:outputText id="msgNombreAgenciaAduana"
 												value="*Nombre de Agencia de Aduana:" />
 											<p:inputText id="txtNombreAgenciaAduana"
@@ -188,77 +168,91 @@
 											<p:tooltip id="toolAgencia" for="txtNombreAgenciaAduana"
 												value="Ingrese nombre de Agencia de Aduana." />
 
-											<h:outputText id="msgMotSol" value="*Motivo de Soliciud:" />
+											<h:outputText id="msgMotSol" value="*Motivo de Soliciud:"
+												rendered="#{solicitudView.sol}" />
 											<p:selectOneRadio id="motSol" layout="grid" columns="5"
-												value="#{solicitudView.motSolicitud}">
+												value="#{solicitudView.motSolicitud}"
+												rendered="#{solicitudView.sol}">
 												<f:selectItems value="#{solicitudView.motivoSolicitud}"
 													var="motSol" itemLabel="#{motSolicitud}"
 													itemValue="#{motSolicitud}" />
 											</p:selectOneRadio>
 											<p:tooltip id="toolMotSol" for="motSol"
-												value="Seleccione un Motivo de Solicitud." />
-											<p:separator />
-											<p:separator />
-											<p:separator />
-											<h:outputText id="msgMotRecl" value="*Motivo de Reclamación:" />
+												value="Seleccione un Motivo de Solicitud."
+												rendered="#{solicitudView.sol}" />
+												
+											<p:separator rendered="#{solicitudView.sol}" />
+											<p:separator rendered="#{solicitudView.sol}" />
+											<p:separator rendered="#{solicitudView.sol}" />
+											
+											<h:outputText id="msgMotRecl" value="*Motivo de Reclamación:"
+												rendered="#{solicitudView.recl}" />
 											<p:selectOneRadio id="motRecl" layout="grid" columns="5"
-												value="#{solicitudView.motReclamacion}">
+												value="#{solicitudView.motReclamacion}"
+												rendered="#{solicitudView.recl}">
 												<f:selectItems value="#{solicitudView.motivoReclamacion}"
 													var="motRecl" itemLabel="#{motReclamacion}"
 													itemValue="#{motReclamacion}" />
 											</p:selectOneRadio>
 											<p:tooltip id="toolMotRecl" for="motRecl"
-												value="Seleccione un Motivo de Reclamación." />
-												
+												value="Seleccione un Motivo de Reclamación."
+												rendered="#{solicitudView.recl}" />
+
 										</h:panelGrid>
 										<h:outputText id="msgDescripcionCaso"
 											value="*Descripcion del Caso:" />
 										<p:inputTextarea id="txtDescripcionCaso"
 											value="#{solicitudView.descripcionCaso}" rows="10" cols="130" />
-											<p:tooltip id="toolDescripcion" for="txtDescripcionCaso"
-												value="Ingrese un descripción del caso." />
-												
+										<p:tooltip id="toolDescripcion" for="txtDescripcionCaso"
+											value="Ingrese un descripción del caso." />
+
 										<h:outputText id="msgSolicitudARealizar"
-											value="*Solicitud a Realizar:" />
+											value="*Solicitud a Realizar:"
+											rendered="#{solicitudView.solRealizar}" />
 										<p:inputTextarea id="txtSolicitudARealizar"
 											value="#{solicitudView.solicitudARealizar}" rows="10"
-											cols="130" />
-											<p:tooltip id="toolSolicitud" for="txtSolicitudARealizar"
-												value="Ingrese la solicitud a realizar." />
-												
-										<h:outputText id="msgAnexos" value="*Anexos:" />
+											cols="130" rendered="#{solicitudView.solRealizar}" />
+										<p:tooltip id="toolSolicitud" for="txtSolicitudARealizar"
+											value="Ingrese la solicitud a realizar." 
+											rendered="#{solicitudView.solRealizar}"/>
+
+										<h:outputText id="msgAnexos" value="*Anexos:"
+											rendered="#{solicitudView.anexos}" />
 										<p:dataTable id="tablaAnexosXTipoSolDoc" paginator="true"
-											rows="2" value="#{solicitudView.anexosPqrs}" var="anexosPqr">
+											rows="2" value="#{solicitudView.anexosPqrs}" var="anexosPqr"
+											rendered="#{solicitudView.anexos}">
 											<p:column>
 												<h:outputText value="#{anexosPqr.descripcionAnexo}" />
 											</p:column>
 											<p:column headerText="Archivo">
-												<p:growl id="messages" showDetail="false" />
-												<p:fileUpload uploadlabel="Subir al archivo"
-													fileuploadlistener="#{solicitudView.subirArchivo}" />
-											</p:column>
-											<p:column headerText="Adjuntado">
-												<h:outputText id="msgAdjuntado" value="Adjuntado" />
+												<p:fileUpload fileUploadListener="#{solicitudView.upload}"
+													mode="advanced" dragDropSupport="false" update="messages"
+													fileLimit="1" uploadLabel="Subir" label="Seleccionar"
+													cancelLabel="cancelar"
+													fileLimitMessage="Solo es permitido Seleccionar un archivo" />
+												<p:growl id="messages" />
 											</p:column>
 										</p:dataTable>
 										<p:tooltip id="toolAnexos" for="tablaAnexosXTipoSolDoc"
-												value="Adjunte los anexos requeridos." />
+											value="Adjunte los anexos requeridos." 
+											rendered="#{solicitudView.anexos}" />
 									</h:panelGrid>
 								</div>
 							</p:panel>
-							<p:panel id="panelBotones" style="height:40px;width:1050px">
+							<p:panel id="panelBotones" style="height:40px;width:1068px">
 								<div align="center">
-									<p:commandButton id="btnClear2" value="Limpiar Formulario"
+									<p:commandButton id="limpiarSolicitud"
+										value="Limpiar Formulario"
 										binding="#{solicitudView.limpiarSolicitud}"
 										action="#{solicitudView.action_clear_formulario()}"
 										update="panelSolicitudPqr,msg2,panelBotones" />
 									<p:commandButton id="btnSave2" value="Enviar Solicitud"
-										action="#{solicitudView.action_save()}"
-										update="panelSolicitudPqr,msg2,panelBotones" />
+										action="#{solicitudView.action_save()}" update="msg2" />
 								</div>
 							</p:panel>
 						</p:tab>
-					</p:tabView>
+					</p:wizard>
+
 				</h:form>
 			</f:view>
 		</ui:define>

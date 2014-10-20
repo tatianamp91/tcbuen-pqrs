@@ -586,7 +586,8 @@ public interface IBusinessDelegatorView {
     
     public void saveSolicitud(InfoSolicitante infoSol, SolicitudPqr solicitudPqr, 
     		MotSolSelect motSolSelect, MotReclSelect motReclSelect, 
-    		SolicitudAsignadaArea solicitudAsignadaArea) throws Exception;
+    		SolicitudAsignadaArea solicitudAsignadaArea,
+    		List<AnexosSolicitante> anexosSolicitantes) throws Exception;
 
     public void deleteSolicitudPqr(SolicitudPqr entity)
         throws Exception;
