@@ -1,38 +1,48 @@
 package com.tcbuen.pqrs.presentation.backingBeans;
 
 import com.tcbuen.pqrs.modelo.*;
-import com.tcbuen.pqrs.modelo.dto.InfoSolicitanteDTO;
-import com.tcbuen.pqrs.modelo.dto.SolicitudPqrDTO;
 import com.tcbuen.pqrs.presentation.businessDelegate.*;
 import com.tcbuen.pqrs.utilities.*;
 
-import org.primefaces.component.calendar.Calendar;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.event.FileUploadEvent;
+import org.primefaces.event.FlowEvent;
 import org.primefaces.model.UploadedFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
+import java.util.Properties;
 
 import javax.annotation.PostConstruct;
+import javax.crypto.AEADBadTagException;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-import javax.servlet.ServletContext;
+import javax.imageio.stream.FileImageOutputStream;
+import javax.sql.rowset.serial.SerialBlob;
+import javax.sql.rowset.serial.SerialException;
 
 @ManagedBean
 @ViewScoped
 public class SolicitudView implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    private boolean anexos;
+    private boolean solRealizar;
+    private boolean sol;
+    private boolean recl;
+	private Blob blob;
     
-    private Integer index = 0;
     //Tab 1
     private Long idTipoDocumento;
     private List<SelectItem> tipoDocumento;
@@ -45,7 +55,6 @@ public class SolicitudView implements Serializable {
     private String telefonoFijo;
     private CommandButton limpiarInfosol;
     private CommandButton siguienteInfoSol;
-    private String updateSiguienteInfo;
     
     //Tab2
     private Long idTipoSolicitud;
@@ -63,8 +72,6 @@ public class SolicitudView implements Serializable {
     
     //Tab 4
     private Long idTipoEstado;
-    private Long idMotSolSelect;
-    private Long idMotReclSelect;
     private InputText txtNombreCliente;
     private InputText txtNombreAgenciaAduana;
     private String descripcionCaso;
@@ -75,6 +82,7 @@ public class SolicitudView implements Serializable {
     private List<String> motivoReclamacion;
     private UploadedFile file;
     private List<UploadedFile> uploadedFiles;
+    private List<AnexosSolicitante> anexosSolicitantes;
     private CommandButton atrasSolicitud;
     private CommandButton limpiarSolicitud;
     private CommandButton guardarSolicitud;   
@@ -85,12 +93,7 @@ public class SolicitudView implements Serializable {
     public SolicitudView() {
         super();
     }
-    
-	@PostConstruct
-	public void init() {
-		updateSiguienteInfo = "msg,";
-	}
-       
+           
     public void cambiarMaskNit() {
     	try{
 	    	TipoDocumento tDoc = businessDelegatorView.getTipoDocumento(idTipoDocumento);
@@ -104,60 +107,59 @@ public class SolicitudView implements Serializable {
     		FacesUtils.addErrorMessage(e.getMessage());
     	}
     }
-
-    public void action_sig_atras(Integer i){
-    	try{
-    		if(i == 1){
-                
-    			String nombreContacto = (txtNombreContacto.getValue()) != null ? txtNombreContacto.getValue().toString() : null;
-    			String nombreEmpresa = (txtNombreEmpresa.getValue()) != null ? txtNombreEmpresa.getValue().toString() : null;
-    			String email = (txtCorreoElectronico.getValue()) != null ? txtCorreoElectronico.getValue().toString() : null;
-
-    			if (revizarCamposInfoSol(idTipoDocumento, nombreContacto,nombreEmpresa,numeroIdentificacion,numeroCelular, telefonoFijo, email)){								
-        			index = 1;
-        			updateSiguienteInfo = updateSiguienteInfo+"tab2";
-    			}
-    		}
-	    	if(i == 2){
-	    		if(idTipoSolicitud != null){
-		    		tipoSolicitudPqr = businessDelegatorView.getTipoSolicitudPqr(idTipoSolicitud);
-		    		action_instructivo();
-		    		index = i;
-	    		}else{
-	    			throw new Exception("Debe Seleccionar un Tipo de Solicitud");
-	    		}
-	    	}if(i == 3){
-	    		txtNombreCliente.setValue(txtNombreContacto.getValue());
-	    		motivoSolicitud = consultarMotivoSolicitud(tipoSolicitudPqr);
-	    		motivoReclamacion = consultarMotivoReclamacion(tipoSolicitudPqr);
-	    		ParametrosPqr parametro = obtenerParametro(("tipo estado inicial pqr").toLowerCase());
-	    		if(parametro != null){
-		    		TipoEstadoPqr tipoEstadoPqr = obtenerEstado(parametro.getValorParam().toLowerCase());
-		    		if(tipoEstadoPqr != null){
-		    			idTipoEstado = tipoEstadoPqr.getIdTpEstPqr();
+    public String onFlowProcess(FlowEvent event) {
+    	try{			
+			if(idTipoSolicitud != null){
+	    		tipoSolicitudPqr = businessDelegatorView.getTipoSolicitudPqr(idTipoSolicitud);
+	    		if(tipoSolicitudPqr != null){
+	    			descTpSol = tipoSolicitudPqr.getDescTpSol().toLowerCase();
+					ParametrosPqr descripcion = obtenerParametro(descTpSol);
+					if(descripcion != null){
+						setDescripcionParametro(descripcion.getValorParam());
+					}else{
+						setDescripcionParametro(null);
+					}
+					anexosPqrs = consultarAnexosPqrs(tipoSolicitudPqr);
+					if(anexosPqrs.size()>0){
+						anexos = true;
+					}else{
+						anexos = false;
+					}
+					ParametrosPqr campo  = obtenerParametro("solicitud a realizar");
+					if(campo != null){
+						if(descTpSol.equals(campo.getValorParam())){
+							solRealizar = true;
+						}else{
+							solRealizar = false;
+						}
+					}
+					txtNombreCliente.setValue(txtNombreContacto.getValue());
+		    		motivoSolicitud = consultarMotivoSolicitud(tipoSolicitudPqr);
+		    		if(motivoSolicitud.size()>0){
+		    			sol = true;
+		    		}else{
+		    			sol = false;
+		    		}
+		    		motivoReclamacion = consultarMotivoReclamacion(tipoSolicitudPqr);
+		    		if(motivoReclamacion.size()>0){
+		    			recl = true;
+		    		}else{
+		    			recl = false;
+		    		}
+		    		ParametrosPqr parametro = obtenerParametro(("tipo estado inicial pqr").toLowerCase());
+		    		if(parametro != null){
+			    		TipoEstadoPqr tipoEstadoPqr = obtenerEstado(parametro.getValorParam().toLowerCase());
+			    		if(tipoEstadoPqr != null){
+			    			idTipoEstado = tipoEstadoPqr.getIdTpEstPqr();
+			    		}
 		    		}
 	    		}
-	    		index = i;
-	    	}	    	
+			}
+		    return event.getNewStep();
     	}catch(Exception e){
     		FacesUtils.addErrorMessage(e.getMessage());
     	}
-    }    
-    
-    public String action_instructivo() {
-    	try{
-    		if(tipoSolicitudPqr != null){
-		    	descTpSol = tipoSolicitudPqr.getDescTpSol().toLowerCase();
-		    	anexosPqrs = consultarAnexosPqrs(tipoSolicitudPqr);
-				ParametrosPqr parametros = obtenerParametro(descTpSol);
-				if(parametros != null){
-					setDescripcionParametro(parametros.getValorParam());
-				}
-    		}
-    	}catch (Exception e){
-    		FacesUtils.addErrorMessage(e.getMessage());
-    	}
-        return "";
+    	return "";
     }
     
     public String action_clear_infoSol(){
@@ -172,50 +174,57 @@ public class SolicitudView implements Serializable {
         numeroCelular = null;    
         telefonoFijo = null;
         
-        idMotSolSelect = null;
-        idMotReclSelect = null;
+        uploadedFiles = null;
+        blob = null;
+        idTipoSolicitud = null;
         idTipoEstado = null;
         txtNombreCliente.setValue(null);
-        idTipoSolicitud = null;
+        txtNombreAgenciaAduana.setValue(null);
         tipoSolicitud = null;
         tipoSolicitud = getTipoSolicitud();
         tipoSolicitudPqr = null;
         descTpSol = null;
         descripcionParametro = null;
         anexosPqrs = null;        
-        idTipoEstado = null;
-        txtNombreAgenciaAduana.setValue(null);
         descripcionCaso = null;
-        solicitudARealizar = null;
+        solicitudARealizar = null;        
         motSolicitud = null;
+        motivoSolicitud = null;
         motReclamacion = null;
+        motivoReclamacion = null;
         
         return "";
     }
    
     public String action_clear_formulario() {
-        idMotSolSelect = null;
-        idMotReclSelect = null;
-        idTipoEstado = null;
+        uploadedFiles = null;
+        blob = null;
         txtNombreAgenciaAduana.setValue(null);
         descripcionCaso = null;
         solicitudARealizar = null;
         motSolicitud = null;
-        motivoSolicitud = consultarMotivoSolicitud(tipoSolicitudPqr);
+        motivoSolicitud = null;
+        motivoSolicitud = consultarMotivoSolicitud(tipoSolicitudPqr);        
         motReclamacion = null;
-        motivoReclamacion = consultarMotivoReclamacion(tipoSolicitudPqr); 
+        motivoReclamacion = null;
+        motivoReclamacion = consultarMotivoReclamacion(tipoSolicitudPqr);
 
         return "";
     }
     
-    public String subirArchivo(FileUploadEvent event){      
-       file = event.getFile();
-       byte[] archivo = event.getFile().getContents();
-       String nomeArquivo = event.getFile().getFileName();
-       FacesContext facesContext = FacesContext.getCurrentInstance();
-       ServletContext scontext = (ServletContext) facesContext.getExternalContext().getContext();
-       String ruta = scontext.getRealPath("/Prueba/" + nomeArquivo); //guardar en ruta basica para luego mover
-    	return "";
+    public void upload(FileUploadEvent event) {
+    	file = event.getFile();
+    	if((uploadedFiles.size()) < (anexosPqrs.size())){		
+	        if(file != null) {
+	        	int index = 0;
+	        	if(uploadedFiles == null){
+		        	uploadedFiles = new ArrayList<UploadedFile>();
+	        	}
+	        	index = uploadedFiles.size();
+	        	uploadedFiles.add(index,file);
+	        	file = null;
+	        }
+    	}
     }
 
     public String action_save() {
@@ -223,15 +232,31 @@ public class SolicitudView implements Serializable {
         	String nombreAgenciaAduana = (txtNombreAgenciaAduana.getValue()) != null ? txtNombreAgenciaAduana.getValue().toString() : null;
         	
         	if(revizarCamposSolicitud(nombreAgenciaAduana, motSolicitud, motReclamacion, descripcionCaso, solicitudARealizar)){
+        		InfoSolicitante infoSol = null;
+        		SolicitudPqr solicitudPqr = null;
+        		MotSolSelect motSolSelect = null;
+        		MotReclSelect motReclSelect = null;
+        		SolicitudAsignadaArea solicitudAsignadaArea = null;
+        		List<AnexosSolicitante> anexosSolicitantes = null;
         		
-	        	InfoSolicitante infoSol = action_create_infoSol();
-	        	SolicitudPqr solicitudPqr = action_create_solicitudPqr();
-	        	MotSolSelect motSolSelect = action_create_motSolSelect();
-	        	MotReclSelect motReclSelect = action_create_motReclSelect();
-	        	SolicitudAsignadaArea solicitudAsignadaArea = action_create_areaAsignada();
-	        	action_create_anexosSolicitante();
+	        	infoSol = action_create_infoSol();
+	        	solicitudPqr = action_create_solicitudPqr();
+	        	if(sol){
+	        		motSolSelect = action_create_motSolSelect();
+	        	}
+	        	motReclSelect = action_create_motReclSelect();
+	        	if(solRealizar){
+	        		solicitudAsignadaArea = action_create_areaAsignada();
+	        	}
+	        	if(anexos){
+	        		if((uploadedFiles.size()) == (anexosPqrs.size())){
+	        			anexosSolicitantes = action_create_anexosSolicitante();
+	        		}else{
+	        			throw new Exception ("Los anexos no estan completos");
+	        		}
+	        	}
 	        	
-	        	businessDelegatorView.saveSolicitud(infoSol, solicitudPqr, motSolSelect, motReclSelect, solicitudAsignadaArea);
+	        	businessDelegatorView.saveSolicitud(infoSol, solicitudPqr, motSolSelect, motReclSelect, solicitudAsignadaArea, anexosSolicitantes);
 	        	FacesUtils.addInfoMessage("La Solicitud fue enviada correctamente");
         	}
         } catch (Exception e) {
@@ -325,14 +350,42 @@ public class SolicitudView implements Serializable {
 		return solicitudAsignadaArea;
     }
     
-    public String action_create_anexosSolicitante() {
-    	try{    
+    public List<AnexosSolicitante> action_create_anexosSolicitante() {
+    	try{
+    		int index = 0;
+    		anexosSolicitantes = new ArrayList<AnexosSolicitante>();
+    		for (UploadedFile uploadedF : uploadedFiles) {
+    			file = uploadedF;
+    		    if (file != null) {
+    		    	byte[] imageInByte = file.getContents();
+    		    	FileImageOutputStream imageOutput;
+    				imageOutput = new FileImageOutputStream(new File(file.getFileName()));
+    				imageOutput.write(imageInByte, 0, imageInByte.length);
+    				imageOutput.close();
     		
-    		
+    				blob = new SerialBlob(imageInByte);
+
+    				AnexosSolicitante anexosSolicitante = new AnexosSolicitante();					
+    				anexosSolicitante.setDocumentoReal(blob);
+    				anexosSolicitante.setNombreAnexo(file.getFileName());
+    				anexosSolicitante.setNombreBusqueda(file.getFileName());
+    				anexosSolicitante.setEstadoRegistro("A");
+    				anexosSolicitante.setAdjuntoDocumento("S");
+    				AnexosPqr anexo = businessDelegatorView.getAnexosPqr(anexosPqrs.get(index).getIdAnexoPqr());
+    				anexosSolicitante.setAnexosPqr(anexo);
+    				anexosSolicitante.setFechaCreacion(new Date());
+    				anexosSolicitante.setUsuarioCreador("Solicitante");
+    				anexosSolicitante.setFechaUltimaModificacion(null);
+    				anexosSolicitante.setUsuarioUltimaModificacion(null);
+    				
+    				anexosSolicitantes.add(anexosSolicitante);
+    				index = index + 1;
+    		    }
+    	    }
 	    } catch (Exception e) {
 	        FacesUtils.addErrorMessage(e.getMessage());
 	    }
-		return "";
+		return anexosSolicitantes;
     }
     
 	private ParametrosPqr obtenerParametro(String parametro) throws Exception {
@@ -476,11 +529,11 @@ public class SolicitudView implements Serializable {
 			throw new Exception("Debe de ingresar el nombre de agencia de aduana");
 		}
 				
-		if (motSolicitud == null || motSolicitud.equals("")) {
+		if (sol && (motSolicitud == null || motSolicitud.equals(""))) {
 			throw new Exception("Debe de seleccionar un motivo de Solicitud");
 		}
 		
-		if (motReclamacion == null || motReclamacion.equals("")) {
+		if (recl && (motReclamacion == null || motReclamacion.equals(""))) {
 			throw new Exception("Debe de seleccionar un motivo de reclamación");
 		}
 		
@@ -488,21 +541,13 @@ public class SolicitudView implements Serializable {
 			throw new Exception("Debe de ingresar la descripción del caso");
 		}
 		
-		if (solicitudARealizar == null || solicitudARealizar.equals("") || solicitudARealizar.trim().equals("")) {
+		if (solRealizar && (solicitudARealizar == null || solicitudARealizar.equals("") || solicitudARealizar.trim().equals(""))) {
 			throw new Exception("Debe de ingresar la solicitud a realizar");
 		}		
 		return true;		
 	}
 	
 	// Get & Set
-	public int getIndex() {
-		return index;
-	}
-
-	public void setIndex(int index) {
-		this.index = index;
-	}
-
 	public Long getIdTipoDocumento() {
 		return idTipoDocumento;
 	}
@@ -513,11 +558,13 @@ public class SolicitudView implements Serializable {
 
 	public List<SelectItem> getTipoDocumento() {
 		try {
-	       	tipoDocumento = new ArrayList<SelectItem>();
-			List<TipoDocumento> tiposDocumentos = businessDelegatorView.getTipoDocumento();
-			if(tiposDocumentos != null){
-		       	for (TipoDocumento tDoc : tiposDocumentos) {
-					tipoDocumento.add(new SelectItem(tDoc.getIdTpDoc(), tDoc.getDescripcionTpDoc()));
+			if(tipoDocumento == null){
+		       	tipoDocumento = new ArrayList<SelectItem>();
+				List<TipoDocumento> tiposDocumentos = businessDelegatorView.getTipoDocumento();
+				if(tiposDocumentos != null){
+			       	for (TipoDocumento tDoc : tiposDocumentos) {
+						tipoDocumento.add(new SelectItem(tDoc.getIdTpDoc(), tDoc.getDescripcionTpDoc()));
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -664,8 +711,10 @@ public class SolicitudView implements Serializable {
 
 	public List<TipoSolicitudPqr> getTipoSolicitud() {
 		try {
-	       	tipoSolicitud = new ArrayList<TipoSolicitudPqr>();
-			tipoSolicitud = businessDelegatorView.getTipoSolicitudPqr();
+			if(tipoSolicitud == null){
+		       	tipoSolicitud = new ArrayList<TipoSolicitudPqr>();
+				tipoSolicitud = businessDelegatorView.getTipoSolicitudPqr();
+			}
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
@@ -776,10 +825,6 @@ public class SolicitudView implements Serializable {
 		this.limpiarSolicitud = limpiarSolicitud;
 	}
 
-	public void setIndex(Integer index) {
-		this.index = index;
-	}
-
 	public Long getIdTipoEstado() {
 		return idTipoEstado;
 	}
@@ -801,30 +846,10 @@ public class SolicitudView implements Serializable {
 		this.businessDelegatorView = businessDelegatorView;
 	}
 
-	public Long getIdMotSolSelect() {
-		return idMotSolSelect;
-	}
-
-	public void setIdMotSolSelect(Long idMotSolSelect) {
-		this.idMotSolSelect = idMotSolSelect;
-	}
-
-	public Long getIdMotReclSelect() {
-		return idMotReclSelect;
-	}
-
-	public void setIdMotReclSelect(Long idMotReclSelect) {
-		this.idMotReclSelect = idMotReclSelect;
-	}
-
 	public List<UploadedFile> getUploadedFiles() {
 		return uploadedFiles;
 	}
-
-	public void setUploadedFiles(List<UploadedFile> uploadedFiles) {
-		this.uploadedFiles = uploadedFiles;
-	}
-
+	
 	public UploadedFile getFile() {
 		return file;
 	}
@@ -833,12 +858,55 @@ public class SolicitudView implements Serializable {
 		this.file = file;
 	}
 
-	public String getUpdateSiguienteInfo() {
-		return updateSiguienteInfo;
+	public void setUploadedFiles(List<UploadedFile> uploadedFiles) {
+		this.uploadedFiles = uploadedFiles;
 	}
 
-	public void setUpdateSiguienteInfo(String updateSiguienteInfo) {
-		this.updateSiguienteInfo = updateSiguienteInfo;
+	public Blob getBlob() {
+		return blob;
 	}
-	
+
+	public void setBlob(Blob blob) {
+		this.blob = blob;
+	}
+
+	public boolean isAnexos() {
+		return anexos;
+	}
+
+	public void setAnexos(boolean anexos) {
+		this.anexos = anexos;
+	}
+
+	public boolean isSolRealizar() {
+		return solRealizar;
+	}
+
+	public void setSolRealizar(boolean solRealizar) {
+		this.solRealizar = solRealizar;
+	}
+
+	public boolean isSol() {
+		return sol;
+	}
+
+	public void setSol(boolean sol) {
+		this.sol = sol;
+	}
+		
+	public boolean isRecl() {
+		return recl;
+	}
+
+	public void setRecl(boolean recl) {
+		this.recl = recl;
+	}
+
+	public List<AnexosSolicitante> getAnexosSolicitantes() {
+		return anexosSolicitantes;
+	}
+
+	public void setAnexosSolicitantes(List<AnexosSolicitante> anexosSolicitantes) {
+		this.anexosSolicitantes = anexosSolicitantes;
+	}
 }

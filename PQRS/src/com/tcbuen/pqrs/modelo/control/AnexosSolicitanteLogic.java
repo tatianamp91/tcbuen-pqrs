@@ -105,17 +105,6 @@ public class AnexosSolicitanteLogic implements IAnexosSolicitanteLogic {
                     "estadoRegistro");
             }
 
-            if (entity.getIdAnxSolicitante() == null) {
-                throw new ZMessManager().new EmptyFieldException(
-                    "idAnxSolicitante");
-            }
-
-            if ((entity.getIdAnxSolicitante() != null) &&
-                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
-                        entity.getIdAnxSolicitante(), 10, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException(
-                    "idAnxSolicitante");
-            }
 
             if (entity.getNombreAnexo() == null) {
                 throw new ZMessManager().new EmptyFieldException("nombreAnexo");
@@ -183,10 +172,6 @@ public class AnexosSolicitanteLogic implements IAnexosSolicitanteLogic {
                         entity.getSolicitudPqr().getIdSolPqr(), 10, 0) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "idSolPqr_SolicitudPqr");
-            }
-
-            if (getAnexosSolicitante(entity.getIdAnxSolicitante()) != null) {
-                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
             }
 
             anexosSolicitanteDAO.save(entity);
