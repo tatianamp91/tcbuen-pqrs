@@ -21,7 +21,7 @@
 					<p:wizard flowListener="#{solicitudView.onFlowProcess}"
 						backLabel="Atras" nextLabel="Siguiente">
 						<p:tab id="tab1" title="Informacion Solicitante">
-							<p:messages id="msg" showDetail="false" />
+							<p:growl id="msg" />
 							<p:growl id="men" />
 							<p:panel id="panelInfoSolicitante"
 								style="height:300px;width:1068px">
@@ -130,7 +130,7 @@
 						<p:tab id="tab3" title="Información">
 							<div align="center">
 								<p:messages id="msgInstructivo" showDetail="false" />
-								<p:panel id="panelInstructivo" style="height:300px;width:1068px">
+								<p:panel id="panelInstructivo" style="width:1068px">
 									<h:panelGrid columns="1" id="panelGridInstructivo">
 										<h:outputText value="#{solicitudView.descripcionParametro}" />
 										<h:panelGrid columns="2" cellpadding="5">
@@ -148,7 +148,7 @@
 							</div>
 						</p:tab>
 						<p:tab id="tab4" title="Solicitud">
-							<p:messages id="msg2" showDetail="false" />
+							<p:growl id="msg2" showDetail="false" />
 							<p:growl id="men2" />
 							<p:panel id="panelSolicitudPqr" style="height:800px;width:1068px">
 								<div align="center">
