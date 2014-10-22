@@ -80,7 +80,11 @@
 									</f:facet>
 									<f:facet name="input">
 										<p:inputText value="#{usuariosInternos.correoElectronico}"
-											maxlength="50" style="height:20px;width:250px" />
+											maxlength="50" style="height:20px;width:250px"
+											validatorMessage="Ingrese un Email Valido">
+											<f:validateRegex
+												pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+										</p:inputText>
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
@@ -98,7 +102,7 @@
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
-
+							<!-- 
 							<p:column
 								filterBy="#{usuariosInternos.idAreaInvolucrada_AreasInvolucradas}"
 								sortBy="#{usuariosInternos.idAreaInvolucrada_AreasInvolucradas}"
@@ -135,7 +139,7 @@
 									</f:facet>
 								</p:cellEditor>
 							</p:column>
-
+							-->
 							<p:column filterBy="#{usuariosInternos.estadoRegistro}"
 								sortBy="#{usuariosInternos.estadoRegistro}" headerText="Estado"
 								style="height:20px;width:250px">
@@ -266,9 +270,9 @@
 						</p:panel>
 					</h:form>
 				</p:dialog>
-				
-				
-				
+
+
+
 				<p:dialog id="dialogEditarUsuarios" appendToBody="true"
 					draggable="true" closable="false"
 					visible="#{usuariosInternosView.showDialog2}" resizable="false"
@@ -302,8 +306,9 @@
 								<p:inputText id="txtCorreoElectronicoEditar"
 									binding="#{usuariosInternosView.txtCorreoElectronico2}"
 									maxlength="50" style="height:20px;width:250px" />
-								
-								<h:outputText id="msgAreaInvolucradaEditar" value="*Area Involucrada:" />
+
+								<h:outputText id="msgAreaInvolucradaEditar"
+									value="*Area Involucrada:" />
 								<p:selectOneMenu id="UsuariosInternosEditar"
 									value="#{usuariosInternosView.idAreaInvolucrada}"
 									style="height:20px;width:250px">

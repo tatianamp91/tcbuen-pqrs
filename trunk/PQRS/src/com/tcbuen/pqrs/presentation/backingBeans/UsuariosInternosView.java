@@ -186,7 +186,6 @@ public class UsuariosInternosView implements Serializable {
 			txtLogin2.setValue(usuarioPorId.getLogin());
 			idAreaInvolucrada = usuarioPorId.getAreasInvolucradas().getIdAreaInvolucrada();
 			idRol = usuarioPorId.getRoles().getIdRol();
-			
 			setShowDialog2(true);		
 		} catch (Exception e) {
 			FacesUtils.addErrorMessage(e.getMessage());

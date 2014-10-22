@@ -83,6 +83,9 @@ public class SolicitudLogic implements ISolicitudLogic {
 				}
         	}
         	
+        	solicitudPqr.setNumeroRadicacion(solicitudPqr.getIdSolPqr().toString());
+        	logicSolicitudPqr.updateSolicitudPqr(solicitudPqr);
+        	
         } catch (Exception e) {
             throw new Exception (e);
         } 

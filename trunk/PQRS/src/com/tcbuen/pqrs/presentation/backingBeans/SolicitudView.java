@@ -213,8 +213,13 @@ public class SolicitudView implements Serializable {
     }
     
     public void upload(FileUploadEvent event) {
+    	file = null;
+    	int size = 0;
     	file = event.getFile();
-    	if((uploadedFiles.size()) < (anexosPqrs.size())){		
+    	if(uploadedFiles != null){
+    		size = uploadedFiles.size();
+    	}
+    	if(size < (anexosPqrs.size())){		
 	        if(file != null) {
 	        	int index = 0;
 	        	if(uploadedFiles == null){
@@ -249,7 +254,11 @@ public class SolicitudView implements Serializable {
 	        		solicitudAsignadaArea = action_create_areaAsignada();
 	        	}
 	        	if(anexos){
-	        		if((uploadedFiles.size()) == (anexosPqrs.size())){
+	            	int size = 0;
+	            	if(uploadedFiles != null){
+	            		size = uploadedFiles.size();
+	            	}
+	        		if(size == (anexosPqrs.size())){
 	        			anexosSolicitantes = action_create_anexosSolicitante();
 	        		}else{
 	        			throw new Exception ("Los anexos no estan completos");
@@ -258,6 +267,7 @@ public class SolicitudView implements Serializable {
 	        	
 	        	businessDelegatorView.saveSolicitud(infoSol, solicitudPqr, motSolSelect, motReclSelect, solicitudAsignadaArea, anexosSolicitantes);
 	        	FacesUtils.addInfoMessage("La Solicitud fue enviada correctamente");
+	        	uploadedFiles = null;
         	}
         } catch (Exception e) {
             FacesUtils.addErrorMessage(e.getMessage());
