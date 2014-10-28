@@ -150,7 +150,7 @@
 						<p:tab id="tab4" title="Solicitud">
 							<p:growl id="msg2" showDetail="false" />
 							<p:growl id="men2" />
-							<p:panel id="panelSolicitudPqr" style="height:800px;width:1068px">
+							<p:panel id="panelSolicitudPqr" style="width:1068px">
 								<div align="center">
 									<h:panelGrid columns="1" id="panelGrid12">
 										<h:panelGrid columns="3" id="panelGrid2">
@@ -180,11 +180,11 @@
 											<p:tooltip id="toolMotSol" for="motSol"
 												value="Seleccione un Motivo de Solicitud."
 												rendered="#{solicitudView.sol}" />
-												
+
 											<p:separator rendered="#{solicitudView.sol}" />
 											<p:separator rendered="#{solicitudView.sol}" />
 											<p:separator rendered="#{solicitudView.sol}" />
-											
+
 											<h:outputText id="msgMotRecl" value="*Motivo de Reclamación:"
 												rendered="#{solicitudView.recl}" />
 											<p:selectOneRadio id="motRecl" layout="grid" columns="5"
@@ -213,13 +213,13 @@
 											value="#{solicitudView.solicitudARealizar}" rows="10"
 											cols="130" rendered="#{solicitudView.solRealizar}" />
 										<p:tooltip id="toolSolicitud" for="txtSolicitudARealizar"
-											value="Ingrese la solicitud a realizar." 
-											rendered="#{solicitudView.solRealizar}"/>
+											value="Ingrese la solicitud a realizar."
+											rendered="#{solicitudView.solRealizar}" />
 
 										<h:outputText id="msgAnexos" value="*Anexos:"
 											rendered="#{solicitudView.anexos}" />
 										<p:dataTable id="tablaAnexosXTipoSolDoc" paginator="true"
-											rows="2" value="#{solicitudView.anexosPqrs}" var="anexosPqr"
+											rows="10" value="#{solicitudView.anexosPqrs}" var="anexosPqr"
 											rendered="#{solicitudView.anexos}">
 											<p:column>
 												<h:outputText value="#{anexosPqr.descripcionAnexo}" />
@@ -234,7 +234,7 @@
 											</p:column>
 										</p:dataTable>
 										<p:tooltip id="toolAnexos" for="tablaAnexosXTipoSolDoc"
-											value="Adjunte los anexos requeridos." 
+											value="Adjunte los anexos requeridos."
 											rendered="#{solicitudView.anexos}" />
 									</h:panelGrid>
 								</div>

@@ -1,0 +1,101 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template.xhtml">
+		<ui:define name="body">
+			<f:view>
+				<p:ajaxStatus onstart="statusDialog.show();"
+					onsuccess="statusDialog.hide();" />
+				<p:dialog modal="true" widgetVar="statusDialog" header="Cargando"
+					draggable="false" closable="false">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+				<h:form id="frm" enctype="multipart/form-data">
+					<p:wizard flowListener="#{solicitudView.onFlowProcess}"
+						backLabel="Atras" nextLabel="Siguiente">
+						<p:tab id="tab1" title="Solicitud">
+							<p:growl id="msg" />
+							<p:panel id="panelSolicitud" style="height:400px;width:1068px">
+								<h:panelGrid columns="2" id="panelGrid">
+									<h:outputText id="msgTipoDocumento" value="Tipo de Documento:" />
+									<h:outputText id="txtTipoDocumento" value="Cédula" />
+
+									<h:outputText id="msgNumeroIdentificacion"
+										value="Número de Identificación:" />
+									<h:outputText id="txtNumeroIdentificacion" value="123456789" />
+
+									<h:outputText id="msgNombreEmpresa"
+										value="Nombre de la Empresa:" />
+									<h:outputText id="txtNombreEmpresa" value="Prueba LTDA" />
+
+									<h:outputText id="msgNombreContacto"
+										value="Nombre de Contacto:" />
+									<h:outputText id="txtNombreContacto" value="Tatiana Moncada" />
+
+									<h:outputText id="msgCorreoElectronico"
+										value="Correo Electronico:" />
+									<h:outputText id="txtCorreoElectronico"
+										value="tatiana@gmail.com" />
+
+									<h:outputText id="msgNumeroCelular" value="Numero Celular:" />
+									<h:outputText id="txtNumeroCelular" value="320-817-1298" />
+
+									<h:outputText id="msgTelefonoFijo" value="Telefono Fijo:" />
+									<h:outputText id="txtTelefonoFijo" value="856-34-21" />
+								</h:panelGrid>
+								<p:separator />
+								<h:panelGrid columns="1">
+									<h:outputText id="msgDescripcionCaso"
+										value="Descripcion del Caso:" />
+									<h:inputTextarea id="txtDescripcionCaso"
+										value="Se solicita................."
+										style="height:200px;width:1050px" disabled="true" />
+								</h:panelGrid>
+							</p:panel>
+						</p:tab>
+						<p:tab id="tab2" title="Repuestas">
+							<p:growl id="msgRespuestas" />
+							<p:panel id="panelRespuestas" style="height:400px;width:1068px">
+								<h:panelGrid columns="2">
+									<h:panelGrid columns="2" id="panelGridRespuestas">
+										<h:outputText id="msgArea" value="Area:" />
+										<h:outputText id="txtArea" value="Area" />
+
+										<h:outputText id="msgObservaciones" value="Observaciones:" />
+										<h:inputTextarea id="txtObservaciones" value=""
+											style="height:300px;width:500px" />
+
+										<h:outputText id="msgAsignarArea" value="Asignar Area:" />
+										<h:selectOneMenu id="txtAsignarArea">
+											<f:selectItem itemValue="-1" itemLabel="Seleccione" />
+											<f:selectItem itemValue="1" itemLabel="Servicio al Cliente" />
+											<f:selectItem itemValue="2" itemLabel="Contabilidad" />
+										</h:selectOneMenu>
+										<h:commandButton id="btnEnviar" value="Enviar" />
+									</h:panelGrid>
+									<h:panelGrid columns="2">
+										<h:outputText id="msgAnexos" value="Anexos:" />
+										<h:dataTable id="TablaAnexos">
+											<p:column>
+												<h:outputLabel value="Anexo 1" />
+											</p:column>
+										</h:dataTable>
+										<h:commandButton id="btnAdjuntar" value="Adjuntar" />
+									</h:panelGrid>
+								</h:panelGrid>
+							</p:panel>
+						</p:tab>
+					</p:wizard>
+				</h:form>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
