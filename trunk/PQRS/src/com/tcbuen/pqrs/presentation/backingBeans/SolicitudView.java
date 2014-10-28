@@ -213,6 +213,7 @@ public class SolicitudView implements Serializable {
     }
     
     public void upload(FileUploadEvent event) {
+    	try{
     	file = null;
     	int size = 0;
     	file = event.getFile();
@@ -228,8 +229,13 @@ public class SolicitudView implements Serializable {
 	        	index = uploadedFiles.size();
 	        	uploadedFiles.add(index,file);
 	        	file = null;
+	        	FacesUtils.addInfoMessage("El anexo fue adjuntado correctamente");
 	        }
     	}
+    	}catch(Exception e){
+    		FacesUtils.addInfoMessage("El anexo no pudo ser adjuntado");
+    	}
+    	
     }
 
     public String action_save() {

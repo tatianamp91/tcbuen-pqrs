@@ -47,7 +47,9 @@
 							<p:submenu style="width:240px">
 								<p:menuitem value="Solicitud PQR" style="width:240px"
 									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/solicitud.xhtml" />
-								</p:submenu>
+								<p:menuitem value="Gestion Solicitud PQR" style="width:240px"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/gestionSolicitud.xhtml" />
+							</p:submenu>
 						</p:column>
 					</p:submenu>
 					<p:menuitem value="Salir"
