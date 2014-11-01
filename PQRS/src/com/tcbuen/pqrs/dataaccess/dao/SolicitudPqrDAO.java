@@ -51,11 +51,12 @@ public class SolicitudPqrDAO extends HibernateDaoImpl<SolicitudPqr, Long>
 	public List<SolicitudDTO> consultarAsignacion(AreasInvolucradas area) throws Exception {
 		String hql = "select sol.idSolPqr, sol.numeroRadicacion, sol.fechaCreacion, solA.fechaAsignacion, tps "
 				+ "from SolicitudPqr sol, SolicitudAsignadaArea solA, TipoEstadoPqr tpe, TipoSolicitudPqr tps "
-				+ "where sol.idSolPqr = solA.idSolPqr and tpe.idTpEstPqr = sol.idTpEstPqr and tps.idTpSolPqr = sol.idTpSolPqr "
-				+ "and solA.idAreaInvolucrada = "+area.getIdAreaInvolucrada()+" and tpe.descripcionEstado = 'activo' "
+				+ "where sol.idSolPqr = solA.solicitudPqr.idSolPqr and tpe.idTpEstPqr = sol.tipoEstadoPqr.idTpEstPqr "
+				+ "and tps.idTpSolPqr = sol.tipoSolicitudPqr.idTpSolPqr "
+				+ "and solA.areasInvolucradas.idAreaInvolucrada = "+area.getIdAreaInvolucrada()+" and tpe.descripcionEstado = 'activo' "
 				+ "order by solA.fechaAsignacion";
 		
-		return (List<SolicitudDTO>) sessionFactory.getCurrentSession().createQuery(hql);
+		return (List<SolicitudDTO>) sessionFactory.getCurrentSession().createQuery(hql).list();
 	}
     
     
