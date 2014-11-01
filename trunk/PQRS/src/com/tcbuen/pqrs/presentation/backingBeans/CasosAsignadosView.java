@@ -15,7 +15,7 @@ import javax.faces.bean.ViewScoped;
 @ManagedBean
 @ViewScoped
 public class CasosAsignadosView implements Serializable {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;	
 
 	private List<SolicitudDTO> data;
 	private SolicitudDTO selectedSolicitudPqr;
@@ -29,9 +29,11 @@ public class CasosAsignadosView implements Serializable {
 
 	public List<SolicitudDTO> getData() throws Exception {
 		try{
-			AreasInvolucradas area = businessDelegatorView.getAreasInvolucradas(1L);
-			if(area != null){
-				businessDelegatorView.consultarAsignacion(area);
+			if(data == null){
+				AreasInvolucradas area = businessDelegatorView.getAreasInvolucradas(1L);
+				if(area != null){
+					data = businessDelegatorView.consultarAsignacion(area);
+				}
 			}
 		}catch(Exception e){
 			throw new Exception (e);

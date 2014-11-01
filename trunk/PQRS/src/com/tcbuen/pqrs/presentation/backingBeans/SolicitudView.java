@@ -256,9 +256,7 @@ public class SolicitudView implements Serializable {
 	        		motSolSelect = action_create_motSolSelect();
 	        	}
 	        	motReclSelect = action_create_motReclSelect();
-	        	if(solRealizar){
-	        		solicitudAsignadaArea = action_create_areaAsignada();
-	        	}
+	        	solicitudAsignadaArea = action_create_areaAsignada();
 	        	if(anexos){
 	            	int size = 0;
 	            	if(uploadedFiles != null){
@@ -352,7 +350,7 @@ public class SolicitudView implements Serializable {
     public SolicitudAsignadaArea action_create_areaAsignada() {
     	SolicitudAsignadaArea solicitudAsignadaArea = new SolicitudAsignadaArea();
     	try{
-    		ParametrosPqr parametrosPqr = obtenerParametro(("area incial asignada").toLowerCase());
+    		ParametrosPqr parametrosPqr = obtenerParametro(("area inicial asignada").toLowerCase());
     		AreasInvolucradas areaInvolucrada = obtenerArea(parametrosPqr.getValorParam().toLowerCase());
     		
     		solicitudAsignadaArea.setFechaAsignacion(new Date());
