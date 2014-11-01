@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.tcbuen.pqrs.modelo.TipoEstadoPqr;
+import com.tcbuen.pqrs.modelo.TipoSolicitudPqr;
 
 public class SolicitudDTO implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -12,7 +13,7 @@ public class SolicitudDTO implements Serializable {
     private String numeroRadicacion;
     private Date fechaRadicacion;
     private Date fechaAsignacion;
-    private TipoEstadoPqr tipoEstadoPqr;
+    private TipoSolicitudPqr tipoSolicitudPqr;
     
 	public Long getIdSolPqr() {
 		return idSolPqr;
@@ -38,10 +39,10 @@ public class SolicitudDTO implements Serializable {
 	public void setFechaAsignacion(Date fechaAsignacion) {
 		this.fechaAsignacion = fechaAsignacion;
 	}
-	public TipoEstadoPqr getTipoEstadoPqr() {
-		return tipoEstadoPqr;
+	public TipoSolicitudPqr getTipoSolicitudPqr() {
+		return tipoSolicitudPqr;
 	}
-	public void setTipoEstadoPqr(TipoEstadoPqr tipoEstadoPqr) {
-		this.tipoEstadoPqr = tipoEstadoPqr;
+	public void setTipoSolicitudPqr(TipoSolicitudPqr tipoSolicitudPqr) {
+		this.tipoSolicitudPqr = tipoSolicitudPqr;
 	}
 }
