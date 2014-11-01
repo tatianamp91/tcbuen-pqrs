@@ -3,6 +3,7 @@ package com.tcbuen.pqrs.modelo.control;
 import com.tcbuen.pqrs.dataaccess.dao.*;
 import com.tcbuen.pqrs.exceptions.*;
 import com.tcbuen.pqrs.modelo.*;
+import com.tcbuen.pqrs.modelo.dto.SolicitudDTO;
 import com.tcbuen.pqrs.modelo.dto.SolicitudPqrDTO;
 import com.tcbuen.pqrs.utilities.Utilities;
 
@@ -89,5 +90,15 @@ public class SolicitudLogic implements ISolicitudLogic {
         } catch (Exception e) {
             throw new Exception (e);
         } 
+    }
+    
+    public List<SolicitudDTO> consultarAsignacion(AreasInvolucradas area) throws Exception {
+    	List<SolicitudDTO> solicitudes = null;
+    	try{
+    		solicitudes = solicitudPqrDAO.consultarAsignacion(area);
+    	}catch (Exception e) {
+            throw new Exception (e);
+        }
+    	return solicitudes;
     }
 }
