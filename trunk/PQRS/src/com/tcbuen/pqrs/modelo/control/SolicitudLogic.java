@@ -92,6 +92,7 @@ public class SolicitudLogic implements ISolicitudLogic {
         } 
     }
     
+    @Transactional(readOnly = true)
     public List<SolicitudDTO> consultarAsignacion(AreasInvolucradas area) throws Exception {
     	List<SolicitudDTO> solicitudes = null;
     	try{
