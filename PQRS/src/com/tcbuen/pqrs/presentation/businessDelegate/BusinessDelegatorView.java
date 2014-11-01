@@ -84,6 +84,7 @@ import com.tcbuen.pqrs.modelo.dto.ParametrosPqrDTO;
 import com.tcbuen.pqrs.modelo.dto.RespuestaSolDTO;
 import com.tcbuen.pqrs.modelo.dto.RolesDTO;
 import com.tcbuen.pqrs.modelo.dto.SolicitudAsignadaAreaDTO;
+import com.tcbuen.pqrs.modelo.dto.SolicitudDTO;
 import com.tcbuen.pqrs.modelo.dto.SolicitudPqrDTO;
 import com.tcbuen.pqrs.modelo.dto.TipoDocumentoDTO;
 import com.tcbuen.pqrs.modelo.dto.TipoEstadoPqrDTO;
@@ -1262,7 +1263,11 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
     	solicitudLogic.saveSolicitudPqr(infoSol, solicitudPqr, motSolSelect, 
     		motReclSelect, solicitudAsignadaArea, anexosSolicitantes);
     }
-
+    
+    public List<SolicitudDTO> consultarAsignacion(AreasInvolucradas area) throws Exception{
+    	return solicitudLogic.consultarAsignacion(area);
+    }
+    
     public void deleteSolicitudPqr(SolicitudPqr entity)
         throws Exception {
         solicitudPqrLogic.deleteSolicitudPqr(entity);

@@ -83,6 +83,7 @@ import com.tcbuen.pqrs.modelo.dto.ParametrosPqrDTO;
 import com.tcbuen.pqrs.modelo.dto.RespuestaSolDTO;
 import com.tcbuen.pqrs.modelo.dto.RolesDTO;
 import com.tcbuen.pqrs.modelo.dto.SolicitudAsignadaAreaDTO;
+import com.tcbuen.pqrs.modelo.dto.SolicitudDTO;
 import com.tcbuen.pqrs.modelo.dto.SolicitudPqrDTO;
 import com.tcbuen.pqrs.modelo.dto.TipoDocumentoDTO;
 import com.tcbuen.pqrs.modelo.dto.TipoEstadoPqrDTO;
@@ -588,6 +589,8 @@ public interface IBusinessDelegatorView {
     		MotSolSelect motSolSelect, MotReclSelect motReclSelect, 
     		SolicitudAsignadaArea solicitudAsignadaArea,
     		List<AnexosSolicitante> anexosSolicitantes) throws Exception;
+    
+    public List<SolicitudDTO> consultarAsignacion(AreasInvolucradas area) throws Exception;
 
     public void deleteSolicitudPqr(SolicitudPqr entity)
         throws Exception;
