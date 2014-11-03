@@ -27,6 +27,7 @@ public class UsuariosInternosDTO implements Serializable {
     private String numeroIdentificacion;
     private Long idAreaInvolucrada_AreasInvolucradas;
     private Long idRol_Roles;
+    private String nombreArea;
 
     public String getApellidos() {
         return apellidos;
@@ -121,4 +122,15 @@ public class UsuariosInternosDTO implements Serializable {
     public void setIdRol_Roles(Long idRol_Roles) {
         this.idRol_Roles = idRol_Roles;
     }
+
+	public String getNombreArea() {
+		return nombreArea;
+	}
+
+	public void setNombreArea(String nombreArea) {
+		this.nombreArea = nombreArea;
+	}
+    
+    
+    
 }

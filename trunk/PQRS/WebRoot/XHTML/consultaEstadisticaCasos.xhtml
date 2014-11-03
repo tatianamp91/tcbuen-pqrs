@@ -64,6 +64,7 @@
 						<br/>
 						<h3 align="center">Estadisticas de Casos</h3>
 						<br/>
+						
 						<p:messages id="msg" showDetail="false" />
 						<p:dataTable id="tabla" value="#{motivoSolicitudView.data}"
 							var="motivoSolicitud" paginator="true" rows="5" editable="true">
@@ -74,7 +75,7 @@
 							<p:column headerText="# Radicacion" style="height:20px;width:250px">
 								<p:cellEditor>
 									<f:facet name="output">
-										<h:outputText value="# Radicacion" />
+										<h:outputText value="#{solicitudPqr.idSolPqr}" />
 									</f:facet>
 									<f:facet name="input">
 										<p:inputText value="#{motivoSolicitudView.txtNumeroRadicacion}"
@@ -83,13 +84,13 @@
 								</p:cellEditor>
 							</p:column>
 							
-							<p:column headerText="Motivos Solicitudes" style="height:20px;width:250px">
+							<p:column headerText="Motivos" style="height:20px;width:250px">
 								<p:cellEditor>
 									<f:facet name="output">
-										<h:outputText value="#{motivoSolicitud.descripcionMotSol}" />
+										<h:outputText value="#{motivoReclamacion.descripcionMotRecl}" />
 									</f:facet>
 									<f:facet name="input">
-										<p:inputText value="#{motivoSolicitud.descripcionMotSol}"
+										<p:inputText value="#{motivoReclamacion.descripcionMotRecl}"
 											maxlength="50" style="height:20px;width:250px;" />
 									</f:facet>
 								</p:cellEditor>
@@ -146,6 +147,13 @@
 								</p:cellEditor>
 							</p:column>
 						</p:dataTable>
+						<p>
+							<h:commandLink value="Exportar Excel">
+								<p:dataExporter target="tabla" type="xls"
+									fileName="LosUsuariosXLS" />
+							</h:commandLink>
+						</p>
+						
 					</p:panel>
 					
 				</h:form>

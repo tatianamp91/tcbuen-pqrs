@@ -327,7 +327,19 @@ public class MotivoSolicitudView implements Serializable {
 		return entity;
 	}
     
-    private MotSolSelect ObtenerMotivoSolicitudPorId(Long idMotivoSolicitud) throws Exception {
+    private MotivoSolicitud ObtenerMotSolicitudPorId(Long idMotivoSolicitud) throws Exception {
+		MotivoSolicitud entity = null;
+		Object[] variables = { "idMotSol", true, idMotivoSolicitud, "=" };
+		List<MotivoSolicitud> motivoSolicituds = businessDelegatorView.findByCriteriaInMotivoSolicitud(variables, null, null);
+				
+
+		if (Utilities.validationsList(motivoSolicituds)) {
+			entity = motivoSolicituds.get(0);
+		}
+		return entity;
+	}
+    
+    private MotSolSelect ObtenerMotivoSolicitudSeleccionadaPorId(Long idMotivoSolicitud) throws Exception {
 		MotSolSelect entity = null;
 		Object[] variables = { "motivoSolicitud", true, idMotivoSolicitud, "=" };
 		List<MotSolSelect> motivoSolicituds = businessDelegatorView.findByCriteriaInMotSolSelect(variables, null, null);
@@ -338,16 +350,57 @@ public class MotivoSolicitudView implements Serializable {
 		return entity;
 	}
     
+    private MotReclSelect ObtenerMotivoReclamacionSeleccionadaPorId(Long idMotivoReclamacion) throws Exception {
+    	MotReclSelect entity = null;
+		Object[] variables = { "motivoReclamacion", true, idMotivoReclamacion, "=" };
+		List<MotReclSelect> motivoReclamacion = businessDelegatorView.findByCriteriaInMotReclSelect(variables, null, null);
+		
+		if (Utilities.validationsList(motivoReclamacion)) {
+			entity = motivoReclamacion.get(0);
+		}
+		return entity;
+	}
+    
+    private MotivoReclamacion ObtenerMotivoReclamacionPorId(Long idMotivoReclamacion) throws Exception {
+    	MotivoReclamacion entity = null;
+		Object[] variables = { "idMotRecl", true, idMotivoReclamacion, "=" };
+		List<MotivoReclamacion> motivoReclamacion = businessDelegatorView.findByCriteriaInMotivoReclamacion(variables, null, null);
+		
+		if (Utilities.validationsList(motivoReclamacion)) {
+			entity = motivoReclamacion.get(0);
+		}
+		return entity;
+	}
+    
+    private SolicitudPqr obtenerSolicitud(Long idSolicitudPqr) throws Exception{
+    	SolicitudPqr  entity = null;
+    	Object[] variables = { "idSolPqr", true, idSolicitudPqr, "=" };
+    	List<SolicitudPqr> solicitudes = businessDelegatorView.findByCriteriaInSolicitudPqr(variables, null, null);
+    	
+    	if (Utilities.validationsList(solicitudes)) {
+			entity = solicitudes.get(0);
+		}
+    	return entity;
+    }
+    
+    private TipoEstadoPqr obtenerTipoEstadoPorId(Long idEstadoSolicitud) throws Exception{
+    	TipoEstadoPqr entity = null;
+    	Object[] variables = { "idTpEstPqr", true, idEstadoSolicitud, "=" };
+    	List<TipoEstadoPqr> tipoEstados = businessDelegatorView.findByCriteriaInTipoEstadoPqr(variables, null, null);
+    	
+    	if (Utilities.validationsList(tipoEstados)) {
+			entity = tipoEstados.get(0);
+		}
+    	return entity;
+    }
+    
     public boolean revizarCampos(String descripcionMotSol) throws Exception {
 
 		if (descripcionMotSol.equals("") || descripcionMotSol.trim().equals("")) {
 			throw new Exception("Debe de ingresar una Descripcion");
 		}
 
-/*		if (!Utilities.isOnlyLetters2(descripcionMotSol)) {
-			throw new Exception(
-					"La descripcion ingresada solo debe de contener letras");
-		}*/
+
 		return true;
 	}
 
@@ -389,20 +442,108 @@ public class MotivoSolicitudView implements Serializable {
     public String action_consultar(){
     	
     	try {
-    		Long idMotivoSolicitudConsultado = getIdMotivoSolicitud();
+    		Long idMotivoReclamacionConsultado = getIdMotivoSolicitud();
         	Long idEstadoSolicitudSeleccionado = getIdEstado();
         	Date fechaDesde = getFechaRadicacionDesde();
         	Date fechaHasta = getFechaRadicacionHasta();
         	String numeroRadicacion = txtNumeroRadicacion.getValue().toString();
         	
-        	if (idMotivoSolicitudConsultado != null) {
-    			MotSolSelect motivoSolicitudSeleccionado = ObtenerMotivoSolicitudPorId(idMotivoSolicitudConsultado);
+        	if (fechaDesde != null && fechaHasta == null || fechaDesde == null && fechaHasta != null) {
+				FacesUtils.addInfoMessage("Para realizar una busqueda por fecha, es necesario ingresar Fecha Desde y Fecha Hasta");
+			}
+        	
+        	if (idMotivoReclamacionConsultado != null) {
+				MotReclSelect motivoReclamacionSeleccionado = ObtenerMotivoReclamacionSeleccionadaPorId(idMotivoReclamacionConsultado);
+				
+				Long idSolicitudPqrConsultada = motivoReclamacionSeleccionado.getSolicitudPqr().getIdSolPqr();
+				SolicitudPqr solicitudConsultada = obtenerSolicitud(idSolicitudPqrConsultada);
+				MotivoReclamacion motivoReclamacion = ObtenerMotivoReclamacionPorId(idMotivoReclamacionConsultado);
+				Long idTipoEstadoPqr = solicitudConsultada.getTipoEstadoPqr().getIdTpEstPqr();
+				TipoEstadoPqr tipoEstado = obtenerTipoEstadoPorId(idTipoEstadoPqr);
+				
+				/*	
+					String numeroRadicacioin = solicitudConsultada.getNumeroRadicacion();
+					String descripcionMotivoReclamacion = motivoReclamacion.getDescripcionMotRecl();
+					Date fechaRadicacion = solicitudConsultada.getFechaCreacion();
+					String estado = tipoEstado.getDescripcionEstado();*/
+					
+				//solo estado
+				if (idEstadoSolicitudSeleccionado != null && fechaDesde == null && fechaHasta == null && numeroRadicacion.trim().equals("")) { 
+					if (idEstadoSolicitudSeleccionado == idTipoEstadoPqr) {
+						String numeroRadicacionConsultada = solicitudConsultada.getNumeroRadicacion();
+						String descripcionMotivoReclamacion = motivoReclamacion.getDescripcionMotRecl();
+						Date fechaRadicacion = solicitudConsultada.getFechaCreacion();
+						String estado = tipoEstado.getDescripcionEstado();
+					}
+				}
+				
+				//solo fechas
+				if (idEstadoSolicitudSeleccionado == null && fechaDesde != null && fechaHasta != null && numeroRadicacion.trim().equals("")) {
+					//TODO: Mirar manejo de fechas
+				}
+				
+				//Solo numero radicacion
+				if (!numeroRadicacion.trim().equals("") && idEstadoSolicitudSeleccionado == null && fechaDesde == null & fechaHasta == null) {
+					String numeroRadicacionReclamacion = solicitudConsultada.getNumeroRadicacion();
+					
+					String descripcionMotivoReclamacion = motivoReclamacion.getDescripcionMotRecl();
+					Date fechaRadicacion = solicitudConsultada.getFechaCreacion();
+					String estado = tipoEstado.getDescripcionEstado();
+				}
+				
+				//estado y fechas
+				if (idEstadoSolicitudSeleccionado != null && fechaDesde !=  null && fechaHasta!= null && numeroRadicacion.trim().equals("")) {
+					if (idEstadoSolicitudSeleccionado == idTipoEstadoPqr) {
+						DateFormat df = DateFormat.getDateInstance();
+						String fechaInicio = df.format(fechaDesde);
+						String fechaFin = df.format(fechaHasta);
+						Date fechaCreacionBD = solicitudConsultada.getFechaCreacion();
+						String fechaCreacion = df.format(fechaCreacionBD);
+						//TODO: Mirar manejo de fechas
+					}
+				}
+				
+				//estado, fechas y numero radicacion
+				if (idEstadoSolicitudSeleccionado != null && fechaDesde != null && fechaHasta != null && !numeroRadicacion.trim().equals("")) {
+					if (idEstadoSolicitudSeleccionado == idTipoEstadoPqr) {
+						String numeroRadicacionReclamacion = solicitudConsultada.getNumeroRadicacion();
+						if (numeroRadicacion.equals(numeroRadicacionReclamacion)) {
+							
+							//TODO: Fechas
+							
+						}
+						
+						
+					}
+				}
+				
+				
+				
+			}else {
+				FacesUtils.addInfoMessage("Debe seleccionar un Motivo de Reclamacion");
+			}
+        	
+        	/*if (idMotivoSolicitudConsultado != null) {
+    			MotSolSelect motivoSolicitudSeleccionado = ObtenerMotivoSolicitudSeleccionadaPorId(idMotivoSolicitudConsultado);
     			if (motivoSolicitudSeleccionado != null) {
-					Long idMotivoSolicitud = motivoSolicitudSeleccionado.getIdMotSolSelected();
+					Long idSolicitudPqrConsultada = motivoSolicitudSeleccionado.getSolicitudPqr().getIdSolPqr();
+					
+					SolicitudPqr solicitudConsultada = obtenerSolicitud(idSolicitudPqrConsultada);
+					MotivoSolicitud motivoSolicitud = ObtenerMotSolicitudPorId(idMotivoSolicitudConsultado);
+					Long idTipoEstadoPqr = solicitudConsultada.getTipoEstadoPqr().getIdTpEstPqr();
+					
+					String prueba = solicitudConsultada.getTipoEstadoPqr().getDescripcionEstado();
+					
+					String numeroRadicacioin = solicitudConsultada.getNumeroRadicacion();
+					String descripcionMotivoSolicitud = motivoSolicitud.getDescripcionMotSol();
+					Date fechaRadicacion = solicitudConsultada.getFechaCreacion();
+					
+					
+					
 				}
     			
     			
-    		}
+    		}*/
         	
         	
 		} catch (Exception e) {
@@ -713,9 +854,9 @@ public class MotivoSolicitudView implements Serializable {
 		
 		try {
 			motivosSolicitudes = new ArrayList<SelectItem>();
-			List<MotivoSolicitud> motivosSolicitud = businessDelegatorView.getMotivoSolicitud();
-			for (MotivoSolicitud motivo : motivosSolicitud) {
-				motivosSolicitudes.add(new SelectItem(motivo.getIdMotSol(),motivo.getDescripcionMotSol()));
+			List<MotivoReclamacion> motivosSolicitud = businessDelegatorView.getMotivoReclamacion();
+			for (MotivoReclamacion motivo : motivosSolicitud) {
+				motivosSolicitudes.add(new SelectItem(motivo.getIdMotRecl(),motivo.getDescripcionMotRecl()));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -741,9 +882,13 @@ public class MotivoSolicitudView implements Serializable {
 			List<TipoEstadoPqr> tipoEstados = businessDelegatorView.getTipoEstadoPqr();
 			for (TipoEstadoPqr tipoEstadoPqr : tipoEstados) {
 				
-				if (tipoEstadoPqr.getDescripcionEstado().contains("abierto") ||
+				/*if (tipoEstadoPqr.getDescripcionEstado().contains("abierto") ||
 						tipoEstadoPqr.getDescripcionEstado().contains("pendiente") ||
 						tipoEstadoPqr.getDescripcionEstado().contains("respondido")) {
+					estadoSolicitudes.add(new SelectItem(tipoEstadoPqr.getIdTpEstPqr(), tipoEstadoPqr.getDescripcionEstado()));
+				}*/
+				
+				if (tipoEstadoPqr.getDescripcionEstado().contains("activo")) {
 					estadoSolicitudes.add(new SelectItem(tipoEstadoPqr.getIdTpEstPqr(), tipoEstadoPqr.getDescripcionEstado()));
 				}
 			}
