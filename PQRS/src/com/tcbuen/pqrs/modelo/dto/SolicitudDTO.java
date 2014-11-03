@@ -2,8 +2,6 @@ package com.tcbuen.pqrs.modelo.dto;
 
 import java.io.Serializable;
 import java.util.Date;
-
-import com.tcbuen.pqrs.modelo.TipoEstadoPqr;
 import com.tcbuen.pqrs.modelo.TipoSolicitudPqr;
 
 public class SolicitudDTO implements Serializable {

@@ -14,6 +14,7 @@ import com.tcbuen.pqrs.modelo.dto.SolicitudDTO;
 */
 public interface ISolicitudPqrDAO extends Dao<SolicitudPqr, Long> {
 	
+	public List<SolicitudPqr> consultarSolicitudes(Long idAreaInvolucrada) throws Exception;
 	
 	public List<SolicitudDTO> consultarAsignacion(AreasInvolucradas area) throws Exception;
 }

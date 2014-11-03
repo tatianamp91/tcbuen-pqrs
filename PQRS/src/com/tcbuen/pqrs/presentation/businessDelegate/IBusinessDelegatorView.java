@@ -591,6 +591,8 @@ public interface IBusinessDelegatorView {
     		List<AnexosSolicitante> anexosSolicitantes) throws Exception;
     
     public List<SolicitudDTO> consultarAsignacion(AreasInvolucradas area) throws Exception;
+    
+    public List<SolicitudPqr> consultarSolicitudes(Long idAreaInvolucrada) throws Exception;
 
     public void deleteSolicitudPqr(SolicitudPqr entity)
         throws Exception;

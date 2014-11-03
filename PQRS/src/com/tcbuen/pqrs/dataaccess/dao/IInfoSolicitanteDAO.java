@@ -9,4 +9,5 @@ import com.tcbuen.pqrs.modelo.InfoSolicitante;
 *
 */
 public interface IInfoSolicitanteDAO extends Dao<InfoSolicitante, Long> {
+
 }

@@ -19,5 +19,7 @@ public interface ISolicitudLogic {
     		SolicitudAsignadaArea solicitudAsignadaArea, 
     		List<AnexosSolicitante> anexosSolicitantes) throws Exception;
     
+    public List<SolicitudPqr> consultarSolicitudes(Long idAreaInvolucrada) throws Exception;
+    
     public List<SolicitudDTO> consultarAsignacion(AreasInvolucradas area) throws Exception;
 }
