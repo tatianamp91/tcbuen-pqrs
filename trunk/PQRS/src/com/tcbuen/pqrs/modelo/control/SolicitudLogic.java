@@ -93,6 +93,17 @@ public class SolicitudLogic implements ISolicitudLogic {
     }
     
     @Transactional(readOnly = true)
+    public List<SolicitudPqr> consultarSolicitudes(Long idAreaInvolucrada) throws Exception {
+    	List<SolicitudPqr> solicitudes = null;
+    	try{
+    		solicitudes = solicitudPqrDAO.consultarSolicitudes(idAreaInvolucrada);
+    	}catch (Exception e) {
+            throw new Exception (e);
+        }
+    	return solicitudes;
+    }
+    
+    @Transactional(readOnly = true)
     public List<SolicitudDTO> consultarAsignacion(AreasInvolucradas area) throws Exception {
     	List<SolicitudDTO> solicitudes = null;
     	try{

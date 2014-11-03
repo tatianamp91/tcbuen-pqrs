@@ -4,11 +4,7 @@ import com.tcbuen.pqrs.modelo.InfoSolicitante;
 import com.tcbuen.pqrs.modelo.dto.InfoSolicitanteDTO;
 
 import java.math.BigDecimal;
-
 import java.util.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 
 /**

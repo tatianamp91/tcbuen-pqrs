@@ -4,22 +4,14 @@ import com.tcbuen.pqrs.dataaccess.api.HibernateDaoImpl;
 import com.tcbuen.pqrs.modelo.AreasInvolucradas;
 import com.tcbuen.pqrs.modelo.SolicitudPqr;
 import com.tcbuen.pqrs.modelo.dto.SolicitudDTO;
-
-import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Example;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
-
-import java.math.BigDecimal;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -46,6 +38,14 @@ public class SolicitudPqrDAO extends HibernateDaoImpl<SolicitudPqr, Long>
         ApplicationContext ctx) {
         return (ISolicitudPqrDAO) ctx.getBean("SolicitudPqrDAO");
     }
+    
+    @Override
+	public List<SolicitudPqr> consultarSolicitudes(Long idAreaInvolucrada) throws Exception {
+    	String hql = "select sol from SolicitudPqr sol, SolicitudAsignadaArea saa "
+    			+ "where sol.idSolPqr = saa.solicitudPqr.idSolPqr and sol.tipoEstadoPqr.descripcionEstado = 'activo' "
+    			+ "and saa.areasInvolucradas.idAreaInvolucrada = "+idAreaInvolucrada+" order by saa.fechaAsignacion";
+    	return (List<SolicitudPqr>) sessionFactory.getCurrentSession().createQuery(hql).list();
+    }
 
 	@Override
 	public List<SolicitudDTO> consultarAsignacion(AreasInvolucradas area) throws Exception {
@@ -55,8 +55,19 @@ public class SolicitudPqrDAO extends HibernateDaoImpl<SolicitudPqr, Long>
 				+ "and tps.idTpSolPqr = sol.tipoSolicitudPqr.idTpSolPqr "
 				+ "and solA.areasInvolucradas.idAreaInvolucrada = "+area.getIdAreaInvolucrada()+" and tpe.descripcionEstado = 'activo' "
 				+ "order by solA.fechaAsignacion";
+		List<SolicitudDTO> solicitudDTO = sessionFactory.getCurrentSession().createQuery(hql).list();
+		List<SolicitudDTO> sol = new ArrayList<SolicitudDTO>();
 		
-		return (List<SolicitudDTO>) sessionFactory.getCurrentSession().createQuery(hql).list();
+		for(int i = 0; i < solicitudDTO.size(); i++){
+			SolicitudDTO solicitud = new SolicitudDTO();
+			solicitud.setIdSolPqr(solicitudDTO.get(i).getIdSolPqr());
+			solicitud.setNumeroRadicacion(solicitudDTO.get(i).getNumeroRadicacion());
+			solicitud.setFechaRadicacion(solicitudDTO.get(i).getFechaRadicacion());
+			solicitud.setFechaAsignacion(solicitudDTO.get(i).getFechaAsignacion());
+			solicitud.setTipoSolicitudPqr(solicitudDTO.get(i).getTipoSolicitudPqr());
+			sol.add(solicitud);
+		}
+		return sol;
 	}
     
     

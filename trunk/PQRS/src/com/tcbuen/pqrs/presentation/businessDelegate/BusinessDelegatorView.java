@@ -603,7 +603,7 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
         throws Exception {
         infoSolicitanteLogic.updateInfoSolicitante(entity);
     }
-
+    
     public InfoSolicitante getInfoSolicitante(Long idInfoSolicitante)
         throws Exception {
         InfoSolicitante infoSolicitante = null;
@@ -1266,6 +1266,10 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
     
     public List<SolicitudDTO> consultarAsignacion(AreasInvolucradas area) throws Exception{
     	return solicitudLogic.consultarAsignacion(area);
+    }
+    
+    public List<SolicitudPqr> consultarSolicitudes(Long idAreaInvolucrada) throws Exception {
+    	return solicitudLogic.consultarSolicitudes(idAreaInvolucrada);
     }
     
     public void deleteSolicitudPqr(SolicitudPqr entity)

@@ -21,39 +21,163 @@
 						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
 				</p:dialog>
 				<h:form id="frm">
+					<p:panel id="panelDataTableSolicitudes" header="Solicitudes">
+						<p:growl id="msg" />
+						<p:dataTable value="#{casosAsignadosView.solicitudes}" var="sol"
+							paginator="true" rows="10">
+							<p:column headerText="Número Radicación">
+								<h:outputText value="#{sol.numeroRadicacion}" />
+							</p:column>
+							<p:column headerText="Fecha Radicación">
+								<h:outputText value="#{sol.fechaCreacion}" />
+							</p:column>
+							<p:column headerText="Tipo PQR">
+								<h:outputText value="#{sol.tipoSolicitudPqr.idTpSolPqr}" />
+							</p:column>
+							<p:column style="width:32px;text-align: center">
+								<p:commandButton update=":dialogAdministrarCaso"
+									action="#{casosAsignadosView.administrarCaso}"
+									icon="ui-icon-search" title="View">
+									<f:setPropertyActionListener value="#{sol.idSolPqr}"
+										target="#{casosAsignadosView.selectedSol}" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+					</p:panel>
 
-					<p:panel id="panelDataTableCasosAsignados" header="Casos Asignados">
+					<p:panel id="panelDataTableCasosAsignadosArea"
+						header="Casos Asignados" rendered="false">
 						<p:growl id="men" />
 						<p:dataTable value="#{casosAsignadosView.data}"
-							var="casosAsignados" paginator="true" rows="5">       							 
+							var="casosAsignados" paginator="true" rows="5">
+							<p:column headerText="Número Radicación">
+								<h:outputText value="#{casosAsignados.numeroRadicacion}" />
+							</p:column>
+							<p:column headerText="Fecha Radicación">
+								<h:outputText value="#{casosAsignados.fechaRadicacion}" />
+							</p:column>
+							<p:column headerText="Fecha Asignación">
+								<h:outputText value="#{casosAsignados.fechaAsignacion}" />
+							</p:column>
+							<p:column headerText="Tipo PQR">
+								<h:outputText
+									value="#{casosAsignados.tipoSolicitudPqr.descTpSol}" />
+							</p:column>
+							<p:column style="width:32px;text-align: center">
+								<p:commandButton update=":frm:men"
+									oncomplete="PF('showDialog').show()" icon="ui-icon-search"
+									title="View">
+									<f:setPropertyActionListener value="#{tipoSolicitudPqrView}"
+										target="#{tipoSolicitudPqrView.showDialog}" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+				</h:form>
+				<p:dialog id="dialogAdministrarCaso" appendToBody="true"
+					draggable="true" closable="false"
+					visible="#{casosAsignadosView.showDialog}" resizable="false"
+					modal="true" width="1200">
+					<h:form id="formDialog">
+						<p:messages id="msgs" />
+						<p:wizard flowListener="#{casosAsignadosView.onFlowProcess}"
+							backLabel="Atras" nextLabel="Siguiente">
+							<p:tab id="tab1" title="Solicitud">
+								<p:growl id="msg" />
+								<p:panel id="panelSolicitud" style="height:400px;width:1078px">
+									<h:panelGrid columns="2" id="panelGrid">
+										<h:outputText id="msgTipoDocumento" value="Tipo de Documento:" />
+										<h:outputText id="txtTipoDocumento"
+											value="#{casosAsignadosView.infoSolicitante.tipoDocumento.idTpDoc}" />
 
-								<p:column headerText="Fecha Radicación">
-									<h:outputText value="#{casosAsignados.fechaRadicacion}" />
-								</p:column>
-								<p:column headerText="Fecha Asignación">
-									<h:outputText value="#{casosAsignados.fechaAsignacion}" />
-								</p:column>
-								<p:column headerText="Tipo PQR">
-									<h:outputText value="#{casosAsignados.tipoSolicitudPqr.descTpSol}" />
-								</p:column>
-								<p:column style="width:32px;text-align: center">
-									<p:commandButton update=":frm:men"
-										oncomplete="PF('showDialog').show()" icon="ui-icon-search"
-										title="View">
-										<f:setPropertyActionListener value="#{tipoSolicitudPqrView}"
-											target="#{tipoSolicitudPqrView.showDialog}" />
-									</p:commandButton>
-								</p:column>
-							</p:dataTable>
+										<h:outputText id="msgNumeroIdentificacion"
+											value="Número de Identificación:" />
+										<h:outputText id="txtNumeroIdentificacion"
+											value="#{casosAsignadosView.infoSolicitante.numeroIdentificacion}" />
 
-							</p:panel> 
-							</h:form>
-	</f:view>
-			</ui:define>
-			</ui:composition>
-				
+										<h:outputText id="msgNombreEmpresa"
+											value="Nombre de la Empresa:" />
+										<h:outputText id="txtNombreEmpresa"
+											value="#{casosAsignadosView.infoSolicitante.nombreEmpresa}" />
+
+										<h:outputText id="msgNombreContacto"
+											value="Nombre de Contacto:" />
+										<h:outputText id="txtNombreContacto"
+											value="#{casosAsignadosView.infoSolicitante.nombreContacto}" />
+
+										<h:outputText id="msgCorreoElectronico"
+											value="Correo Electronico:" />
+										<h:outputText id="txtCorreoElectronico"
+											value="#{casosAsignadosView.infoSolicitante.correoElectronico}" />
+
+										<h:outputText id="msgNumeroCelular" value="Numero Celular:" />
+										<h:outputText id="txtNumeroCelular"
+											value="#{casosAsignadosView.infoSolicitante.numeroCelular}" />
+
+										<h:outputText id="msgTelefonoFijo" value="Telefono Fijo:" />
+										<h:outputText id="txtTelefonoFijo"
+											value="#{casosAsignadosView.infoSolicitante.telefonoFijo}" />
+									</h:panelGrid>
+									<p:separator />
+									<h:panelGrid columns="1">
+										<h:outputText id="msgDescripcionCaso"
+											value="Descripcion del Caso:" />
+										<h:inputTextarea id="txtDescripcionCaso"
+											value="#{casosAsignadosView.solicitudPqr.descripcionCaso}"
+											style="height:200px;width:1050px" disabled="true" />
+									</h:panelGrid>
+								</p:panel>
+							</p:tab>
+							<p:tab id="tab2" title="Repuestas">
+								<p:growl id="msgRespuestas" />
+								<p:panel id="panelRespuestas" style="height:420px;width:1078px">
+									<h:panelGrid columns="1" id="panelGridRespuestas">
+										<h:panelGrid columns="2" id="observaciones">
+											<h:outputText id="msgObservaciones" value="Observaciones:" />
+											<h:inputTextarea id="txtObservaciones" value=""
+												style="height:150px;width:900px" />
+												
+											<h:outputText id="msgAnexos" value="Anexos:" />
+											<p:dataTable id="tablaAnexosXArea" paginator="true" rows="10"
+												value="#{casosAsignadosView.anexosPqr}" var="anexosPqr"
+												rendered="#{casosAsignadosView.anexos}"
+												style="width:900px">
+												<p:column>
+													<h:outputText value="#{anexosPqr.descripcionAnexo}" />
+												</p:column>
+												<p:column headerText="Archivo">
+													<p:fileUpload
+														fileUploadListener="#{casosAsignadosView.upload}"
+														mode="advanced" dragDropSupport="false" update="messages"
+														fileLimit="1" uploadLabel="Subir" label="Seleccionar"
+														cancelLabel="cancelar"
+														fileLimitMessage="Solo es permitido Seleccionar un archivo" />
+													<p:growl id="messages" />
+												</p:column>
+											</p:dataTable>
+										</h:panelGrid>
+										<h:panelGrid columns="3" id="asignarArea">
+											<h:outputText id="msgAsignarArea" value="Asignar Area:" />
+											<h:selectOneMenu id="txtAsignarArea">
+												<f:selectItem itemValue="-1" itemLabel="Seleccione" />
+												<f:selectItems
+													value="#{casosAsignadosView.areasInvolucradas}" />
+											</h:selectOneMenu>
+											<h:commandButton id="btnEnviar" value="Enviar" />
+										</h:panelGrid>
+									</h:panelGrid>
+								</p:panel>
+							</p:tab>
+						</p:wizard>
+						<div align="center">
+							<p:commandButton id="btnExit" value="Salir"
+								action="#{casosAsignadosView.action_closeDialog()}"
+								update=":dialogAdministrarCaso" />
+						</div>
+					</h:form>
+				</p:dialog>
+			</f:view>
+		</ui:define>
+	</ui:composition>
 </h:body>
 </html>
-				
-		
-

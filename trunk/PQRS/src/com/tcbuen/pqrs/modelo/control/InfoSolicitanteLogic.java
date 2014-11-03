@@ -7,16 +7,12 @@ import com.tcbuen.pqrs.modelo.dto.InfoSolicitanteDTO;
 import com.tcbuen.pqrs.utilities.Utilities;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.context.annotation.Scope;
-
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -299,7 +295,7 @@ public class InfoSolicitanteLogic implements IInfoSolicitanteLogic {
         } finally {
         }
     }
-
+    
     @Transactional(readOnly = true)
     public List<InfoSolicitanteDTO> getDataInfoSolicitante()
         throws Exception {
