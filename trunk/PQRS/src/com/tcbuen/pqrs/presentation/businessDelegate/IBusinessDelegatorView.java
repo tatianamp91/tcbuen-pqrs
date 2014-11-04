@@ -513,7 +513,10 @@ public interface IBusinessDelegatorView {
 
     public void updateRespuestaSol(RespuestaSol entity)
         throws Exception;
-
+    
+    public List<RespuestaSol> consultarRespuestasSolicitud(Long idSolPqr) 
+    	throws Exception;
+    
     public RespuestaSol getRespuestaSol(Long idRespSol)
         throws Exception;
 
@@ -591,6 +594,9 @@ public interface IBusinessDelegatorView {
     		MotSolSelect motSolSelect, MotReclSelect motReclSelect, 
     		SolicitudAsignadaArea solicitudAsignadaArea,
     		List<AnexosSolicitante> anexosSolicitantes) throws Exception;
+    
+    public void saveRespuestaSolicitud(SolicitudAsignadaArea solicitudAsignadaArea, 
+    		RespuestaSol respuestaSol, List<AnexosRespuesta> anexosRespuestas) throws Exception;
     
     public List<SolicitudDTO> consultarAsignacion(AreasInvolucradas area) throws Exception;
     

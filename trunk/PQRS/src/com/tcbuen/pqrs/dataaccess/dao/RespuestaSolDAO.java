@@ -5,23 +5,16 @@ import com.tcbuen.pqrs.modelo.RespuestaSol;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-
 import org.hibernate.criterion.Example;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
-
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -51,4 +44,9 @@ public class RespuestaSolDAO extends HibernateDaoImpl<RespuestaSol, Long>
         ApplicationContext ctx) {
         return (IRespuestaSolDAO) ctx.getBean("RespuestaSolDAO");
     }
+    
+	public List<RespuestaSol> consultarRespuestasSolicitud(Long idSolPqr) throws Exception {
+		String hql = "select res from RespuestaSol res where res.solicitudAsignadaArea.solicitudPqr.idSolPqr = "+idSolPqr;
+		return (List<RespuestaSol>) sessionFactory.getCurrentSession().createQuery(hql).list();
+	}
 }

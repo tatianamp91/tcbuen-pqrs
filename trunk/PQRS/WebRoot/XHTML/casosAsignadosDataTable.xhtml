@@ -21,7 +21,8 @@
 						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
 				</p:dialog>
 				<h:form id="frm">
-					<p:panel id="panelDataTableSolicitudes" header="Solicitudes">
+					<p:panel id="panelDataTableSolicitudes" header="Solicitudes"
+						style="height:400px;width:1070px">
 						<p:growl id="msg" />
 						<p:dataTable value="#{casosAsignadosView.solicitudes}" var="sol"
 							paginator="true" rows="10">
@@ -46,7 +47,8 @@
 					</p:panel>
 
 					<p:panel id="panelDataTableCasosAsignadosArea"
-						header="Casos Asignados" rendered="false">
+						header="Casos Asignados" rendered="false"
+						style="height:400px;width:1070px">
 						<p:growl id="men" />
 						<p:dataTable value="#{casosAsignadosView.data}"
 							var="casosAsignados" paginator="true" rows="5">
@@ -128,51 +130,70 @@
 									</h:panelGrid>
 								</p:panel>
 							</p:tab>
-							<p:tab id="tab2" title="Repuestas">
-								<p:growl id="msgRespuestas" />
-								<p:panel id="panelRespuestas" style="height:420px;width:1078px">
-									<h:panelGrid columns="1" id="panelGridRespuestas">
-										<h:panelGrid columns="2" id="observaciones">
-											<h:outputText id="msgObservaciones" value="Observaciones:" />
-											<h:inputTextarea id="txtObservaciones" value=""
-												style="height:150px;width:900px" />
-												
-											<h:outputText id="msgAnexos" value="Anexos:" />
-											<p:dataTable id="tablaAnexosXArea" paginator="true" rows="10"
-												value="#{casosAsignadosView.anexosPqr}" var="anexosPqr"
-												rendered="#{casosAsignadosView.anexos}"
-												style="width:900px">
-												<p:column>
-													<h:outputText value="#{anexosPqr.descripcionAnexo}" />
-												</p:column>
-												<p:column headerText="Archivo">
-													<p:fileUpload
-														fileUploadListener="#{casosAsignadosView.upload}"
-														mode="advanced" dragDropSupport="false" update="messages"
-														fileLimit="1" uploadLabel="Subir" label="Seleccionar"
-														cancelLabel="cancelar"
-														fileLimitMessage="Solo es permitido Seleccionar un archivo" />
-													<p:growl id="messages" />
-												</p:column>
-											</p:dataTable>
-										</h:panelGrid>
-										<h:panelGrid columns="3" id="asignarArea">
-											<h:outputText id="msgAsignarArea" value="Asignar Area:" />
-											<h:selectOneMenu id="txtAsignarArea">
-												<f:selectItem itemValue="-1" itemLabel="Seleccione" />
-												<f:selectItems
-													value="#{casosAsignadosView.areasInvolucradas}" />
-											</h:selectOneMenu>
-											<h:commandButton id="btnEnviar" value="Enviar" />
-										</h:panelGrid>
+							<p:tab id="tab2" title="Historial de Respuestas">
+								<p:panel id="panelHistorial" style="height:400px;width:1078px">
+									<h:panelGrid columns="2" id="observacionesHistorial">
+										<h:outputText id="msgHistorial"
+											value="No hay historial de respuestas"
+											rendered="#{!casosAsignadosView.obser}" />
+										<p:dataTable id="observacionesRespuesta"
+											value="#{casosAsignadosView.respuestaSol}" var="res"
+											paginator="true" rows="3"
+											rendered="#{casosAsignadosView.obser}" style="width:900px">
+											<p:column headerText="Observación">
+												<h:outputText id="txtObservacion"
+													value="#{res.descObservacion}" />
+											</p:column>
+										</p:dataTable>
 									</h:panelGrid>
+								</p:panel>
+							</p:tab>
+							<p:tab id="tab3" title="Añadir Respuesta">
+								<p:growl id="msgRespuestas" />
+								<p:panel id="panelRespuestas" style="height:435px;width:1138px">
+									<h:panelGrid columns="2" id="panelGridRespuestas">
+										<h:outputText id="msgObservaciones" value="*Observaciones:" />
+										<h:inputTextarea id="txtObservaciones"
+											value="#{casosAsignadosView.observacion}"
+											style="height:150px;width:1000px" />
+
+										<h:outputText id="msgAnexos" value="*Anexos:" />
+										<p:dataTable id="tablaAnexosXArea" paginator="true" rows="10"
+											value="#{casosAsignadosView.anexosPqr}" var="anexosPqr"
+											rendered="#{casosAsignadosView.anexos}" style="width:1000px">
+											<p:column>
+												<h:outputText value="#{anexosPqr.descripcionAnexo}" />
+											</p:column>
+											<p:column headerText="Archivo">
+												<p:fileUpload
+													fileUploadListener="#{casosAsignadosView.upload}"
+													mode="advanced" dragDropSupport="false" update="messages"
+													fileLimit="1" uploadLabel="Subir" label="Seleccionar"
+													cancelLabel="cancelar"
+													fileLimitMessage="Solo es permitido Seleccionar un archivo" />
+												<p:growl id="messages" />
+											</p:column>
+										</p:dataTable>
+										<h:outputText id="msgAsignarArea" value="*Asignar Area:" />
+										<h:selectOneMenu id="txtAsignarArea"
+											value="#{casosAsignadosView.idArea}">
+											<f:selectItem itemValue="-1" itemLabel="Seleccione" />
+											<f:selectItems
+												value="#{casosAsignadosView.areasInvolucradas}" />
+										</h:selectOneMenu>
+									</h:panelGrid>
+									<div align="center">
+										<p:commandButton id="btnSave" value="Guardar"
+											action="#{casosAsignadosView.accionGuardarRespuesta()}"
+											update=":dialogAdministrarCaso" />
+									</div>
 								</p:panel>
 							</p:tab>
 						</p:wizard>
 						<div align="center">
 							<p:commandButton id="btnExit" value="Salir"
 								action="#{casosAsignadosView.action_closeDialog()}"
-								update=":dialogAdministrarCaso" />
+								update=":dialogAdministrarCaso,msgRespuestas" />
 						</div>
 					</h:form>
 				</p:dialog>

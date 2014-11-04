@@ -4,11 +4,7 @@ import com.tcbuen.pqrs.modelo.RespuestaSol;
 import com.tcbuen.pqrs.modelo.dto.RespuestaSolDTO;
 
 import java.math.BigDecimal;
-
 import java.util.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -56,4 +52,6 @@ public interface IRespuestaSolLogic {
 
     public List<RespuestaSolDTO> getDataRespuestaSol()
         throws Exception;
+    
+    public List<RespuestaSol> consultarRespuestasSolicitud(Long idSolPqr) throws Exception;
 }

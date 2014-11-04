@@ -2,11 +2,13 @@ package com.tcbuen.pqrs.modelo.control;
 
 import java.util.List;
 
+import com.tcbuen.pqrs.modelo.AnexosRespuesta;
 import com.tcbuen.pqrs.modelo.AnexosSolicitante;
 import com.tcbuen.pqrs.modelo.AreasInvolucradas;
 import com.tcbuen.pqrs.modelo.InfoSolicitante;
 import com.tcbuen.pqrs.modelo.MotReclSelect;
 import com.tcbuen.pqrs.modelo.MotSolSelect;
+import com.tcbuen.pqrs.modelo.RespuestaSol;
 import com.tcbuen.pqrs.modelo.SolicitudAsignadaArea;
 import com.tcbuen.pqrs.modelo.SolicitudPqr;
 import com.tcbuen.pqrs.modelo.dto.SolicitudDTO;
@@ -22,4 +24,7 @@ public interface ISolicitudLogic {
     public List<SolicitudPqr> consultarSolicitudes(Long idAreaInvolucrada) throws Exception;
     
     public List<SolicitudDTO> consultarAsignacion(AreasInvolucradas area) throws Exception;
+    
+    public void saveRespuestaSolicitud(SolicitudAsignadaArea solicitudAsignadaArea, 
+    		RespuestaSol respuestaSol, List<AnexosRespuesta> anexosRespuestas) throws Exception;
 }

@@ -39,8 +39,6 @@
 									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/usuariosInternosListDataTableEditable.xhtml" />
 								<p:menuitem value="Consulta Estadistica de Casos" style="width:240px"
 									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/consultaEstadisticaCasos.xhtml" />
-								<p:menuitem value="Casos Asignados" style="width:240px"
-									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/casosAsignadosDataTable.xhtml" />	
 							</p:submenu>
 						</p:column>
 					</p:submenu>
@@ -49,8 +47,8 @@
 							<p:submenu style="width:240px">
 								<p:menuitem value="Solicitud PQR" style="width:240px"
 									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/solicitud.xhtml" />
-								<p:menuitem value="Gestion Solicitud PQR" style="width:240px"
-									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/gestionSolicitud.xhtml" />
+								<p:menuitem value="Casos Asignados" style="width:240px"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/casosAsignadosDataTable.xhtml" />	
 							</p:submenu>
 						</p:column>
 					</p:submenu>

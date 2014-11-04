@@ -7,16 +7,12 @@ import com.tcbuen.pqrs.modelo.dto.AnexosRespuestaDTO;
 import com.tcbuen.pqrs.utilities.Utilities;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.context.annotation.Scope;
-
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -97,17 +93,6 @@ public class AnexosRespuestaLogic implements IAnexosRespuestaLogic {
                     "estadoRegistro");
             }
 
-            if (entity.getIdAnxResp() == null) {
-                throw new ZMessManager().new EmptyFieldException("idAnxResp");
-            }
-
-            if ((entity.getIdAnxResp() != null) &&
-                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
-                        entity.getIdAnxResp(), 10, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException(
-                    "idAnxResp");
-            }
-
             if (entity.getNombreAnexo() == null) {
                 throw new ZMessManager().new EmptyFieldException("nombreAnexo");
             }
@@ -161,11 +146,6 @@ public class AnexosRespuestaLogic implements IAnexosRespuestaLogic {
                 throw new ZMessManager().new NotValidFormatException(
                     "idRespSol_RespuestaSol");
             }
-
-            if (getAnexosRespuesta(entity.getIdAnxResp()) != null) {
-                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
-            }
-
             anexosRespuestaDAO.save(entity);
         } catch (Exception e) {
             throw e;
@@ -299,7 +279,15 @@ public class AnexosRespuestaLogic implements IAnexosRespuestaLogic {
         } finally {
         }
     }
-
+    
+    @Transactional(readOnly = true)
+    public List<AnexosRespuesta> consultarAnexosRespuesta(Long idRespSol) throws Exception {
+    	try{
+    		return anexosRespuestaDAO.consultarAnexosRespuesta(idRespSol);
+	    } catch (Exception e) {
+	        throw e;
+	    }
+    }
     @Transactional(readOnly = true)
     public List<AnexosRespuestaDTO> getDataAnexosRespuesta()
         throws Exception {

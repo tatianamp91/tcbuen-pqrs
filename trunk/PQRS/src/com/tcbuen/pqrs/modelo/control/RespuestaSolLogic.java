@@ -7,16 +7,12 @@ import com.tcbuen.pqrs.modelo.dto.RespuestaSolDTO;
 import com.tcbuen.pqrs.utilities.Utilities;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.context.annotation.Scope;
-
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -93,17 +89,6 @@ public class RespuestaSolLogic implements IRespuestaSolLogic {
                     "estadoRegistro");
             }
 
-            if (entity.getIdRespSol() == null) {
-                throw new ZMessManager().new EmptyFieldException("idRespSol");
-            }
-
-            if ((entity.getIdRespSol() != null) &&
-                    (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
-                        entity.getIdRespSol(), 10, 0) == false)) {
-                throw new ZMessManager().new NotValidFormatException(
-                    "idRespSol");
-            }
-
             if ((entity.getUsuarioCreador() != null) &&
                     (Utilities.checkWordAndCheckWithlength(
                         entity.getUsuarioCreador(), 50) == false)) {
@@ -117,13 +102,13 @@ public class RespuestaSolLogic implements IRespuestaSolLogic {
                 throw new ZMessManager().new NotValidFormatException(
                     "usuarioUltimaModificacion");
             }
-
+            /*
             if ((entity.getValorReclamacion() != null) &&
                     (Utilities.checkNumberAndCheckWithPrecisionAndScale("" +
                         entity.getValorReclamacion(), 15, 0) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "valorReclamacion");
-            }
+            }*/
 
             if (entity.getSolicitudAsignadaArea().getIdSolAsigArea() == null) {
                 throw new ZMessManager().new EmptyFieldException(
@@ -136,10 +121,6 @@ public class RespuestaSolLogic implements IRespuestaSolLogic {
                         10, 0) == false)) {
                 throw new ZMessManager().new NotValidFormatException(
                     "idSolAsigArea_SolicitudAsignadaArea");
-            }
-
-            if (getRespuestaSol(entity.getIdRespSol()) != null) {
-                throw new ZMessManager(ZMessManager.ENTITY_WITHSAMEKEY);
             }
 
             respuestaSolDAO.save(entity);
@@ -261,7 +242,12 @@ public class RespuestaSolLogic implements IRespuestaSolLogic {
         } finally {
         }
     }
-
+    
+    @Transactional(readOnly = true)
+    public List<RespuestaSol> consultarRespuestasSolicitud(Long idSolPqr) throws Exception {
+    	return respuestaSolDAO.consultarRespuestasSolicitud(idSolPqr);
+    }
+    
     @Transactional(readOnly = true)
     public List<RespuestaSolDTO> getDataRespuestaSol()
         throws Exception {

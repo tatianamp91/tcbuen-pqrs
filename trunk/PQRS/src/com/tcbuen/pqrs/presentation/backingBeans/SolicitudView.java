@@ -351,13 +351,20 @@ public class SolicitudView implements Serializable {
     	SolicitudAsignadaArea solicitudAsignadaArea = new SolicitudAsignadaArea();
     	try{
     		ParametrosPqr parametrosPqr = obtenerParametro(("area inicial asignada").toLowerCase());
-    		AreasInvolucradas areaInvolucrada = obtenerArea(parametrosPqr.getValorParam().toLowerCase());
-    		
-    		solicitudAsignadaArea.setFechaAsignacion(new Date());
-    		solicitudAsignadaArea.setFechaRespuesta(null);
-    		solicitudAsignadaArea.setAreasInvolucradas(areaInvolucrada != null
-                ? businessDelegatorView.getAreasInvolucradas(areaInvolucrada.getIdAreaInvolucrada()) : null);
-    		solicitudAsignadaArea.setSolicitudPqr(null);	
+    		if(parametrosPqr != null){
+	    		AreasInvolucradas areaInvolucrada = obtenerArea(parametrosPqr.getValorParam().toLowerCase());
+		    		if(areaInvolucrada != null){
+		    		solicitudAsignadaArea.setFechaAsignacion(new Date());
+		    		solicitudAsignadaArea.setFechaRespuesta(null);
+		    		solicitudAsignadaArea.setAreasInvolucradas(areaInvolucrada != null
+		                ? businessDelegatorView.getAreasInvolucradas(areaInvolucrada.getIdAreaInvolucrada()) : null);
+		    		solicitudAsignadaArea.setSolicitudPqr(null);	
+	    		}else{
+	    			throw new Exception("El area "+parametrosPqr+" no existe");
+	    		}
+    		}else{
+    			throw new Exception("El parametro de 'area inicial asignada' no ha sido creado");
+    		}
 	    } catch (Exception e) {
 	        FacesUtils.addErrorMessage(e.getMessage());
 	    }

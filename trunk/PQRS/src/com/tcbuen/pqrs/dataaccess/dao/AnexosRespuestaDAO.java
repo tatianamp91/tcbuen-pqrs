@@ -51,4 +51,9 @@ public class AnexosRespuestaDAO extends HibernateDaoImpl<AnexosRespuesta, Long>
         ApplicationContext ctx) {
         return (IAnexosRespuestaDAO) ctx.getBean("AnexosRespuestaDAO");
     }
+    
+    public List<AnexosRespuesta> consultarAnexosRespuesta(Long idRespSol) throws Exception {
+    	String hql = "select anexRes from AnexosRespuesta anexRes where anexRes.respuestaSol.idRespSol ="+idRespSol;
+    	return (List<AnexosRespuesta>) sessionFactory.getCurrentSession().createQuery(hql).list();
+    }
 }
