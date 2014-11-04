@@ -261,6 +261,11 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
         throws Exception {
         anexosRespuestaLogic.updateAnexosRespuesta(entity);
     }
+    
+    public List<AnexosRespuesta> consultarAnexosRespuesta(Long idRespSol) 
+    	throws Exception {
+    	return anexosRespuestaLogic.consultarAnexosRespuesta(idRespSol);
+    }
 
     public AnexosRespuesta getAnexosRespuesta(Long idAnxResp)
         throws Exception {
@@ -1105,7 +1110,12 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
         throws Exception {
         respuestaSolLogic.updateRespuestaSol(entity);
     }
-
+    
+    public List<RespuestaSol> consultarRespuestasSolicitud(Long idSolPqr) 
+    	throws Exception {
+    	return respuestaSolLogic.consultarRespuestasSolicitud(idSolPqr);
+    }
+    
     public RespuestaSol getRespuestaSol(Long idRespSol)
         throws Exception {
         RespuestaSol respuestaSol = null;
@@ -1256,12 +1266,18 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
     public void saveSolicitudPqr(SolicitudPqr entity) throws Exception {
         solicitudPqrLogic.saveSolicitudPqr(entity);
     }
+    
     public void saveSolicitud(InfoSolicitante infoSol, SolicitudPqr solicitudPqr, 
     		MotSolSelect motSolSelect, MotReclSelect motReclSelect, 
     		SolicitudAsignadaArea solicitudAsignadaArea,
     		List<AnexosSolicitante> anexosSolicitantes) throws Exception{
     	solicitudLogic.saveSolicitudPqr(infoSol, solicitudPqr, motSolSelect, 
     		motReclSelect, solicitudAsignadaArea, anexosSolicitantes);
+    }
+    
+    public void saveRespuestaSolicitud(SolicitudAsignadaArea solicitudAsignadaArea, 
+    		RespuestaSol respuestaSol, List<AnexosRespuesta> anexosRespuestas) throws Exception {
+    	solicitudLogic.saveRespuestaSolicitud(solicitudAsignadaArea, respuestaSol, anexosRespuestas);
     }
     
     public List<SolicitudDTO> consultarAsignacion(AreasInvolucradas area) throws Exception{

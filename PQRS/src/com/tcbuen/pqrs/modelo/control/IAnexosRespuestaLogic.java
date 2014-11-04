@@ -4,11 +4,7 @@ import com.tcbuen.pqrs.modelo.AnexosRespuesta;
 import com.tcbuen.pqrs.modelo.dto.AnexosRespuestaDTO;
 
 import java.math.BigDecimal;
-
 import java.util.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -37,6 +33,9 @@ public interface IAnexosRespuestaLogic {
         */
     public void updateAnexosRespuesta(AnexosRespuesta entity)
         throws Exception;
+    
+    public List<AnexosRespuesta> consultarAnexosRespuesta(Long idRespSol) 
+    	throws Exception;
 
     /**
          * Load an existing AnexosRespuesta entity

@@ -5,14 +5,19 @@ import com.tcbuen.pqrs.modelo.dto.SolicitudDTO;
 import com.tcbuen.pqrs.presentation.businessDelegate.*;
 import com.tcbuen.pqrs.utilities.FacesUtils;
 
+import java.io.File;
 import java.io.Serializable;
+import java.sql.Blob;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
+import javax.imageio.stream.FileImageOutputStream;
+import javax.sql.rowset.serial.SerialBlob;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.FlowEvent;
@@ -29,13 +34,20 @@ public class CasosAsignadosView implements Serializable {
 	private List<SolicitudPqr> solicitudes;
 	private Long selectedSol;
 	private boolean showDialog;
+	private Blob blob;
 	private SolicitudPqr solicitudPqr;
 	private InfoSolicitante infoSolicitante;
+	private Long idArea;
 	private List<SelectItem> areasInvolucradas;
 	private List<AnexosPqr> anexosPqr;
     private UploadedFile file;
     private List<UploadedFile> uploadedFiles;
     private boolean anexos;
+    private List<RespuestaSol> respuestaSol;
+    private List<AnexosRespuesta> anexosRespuestas;
+    private String observacion;
+    private boolean obser;
+    
 	
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
@@ -50,6 +62,12 @@ public class CasosAsignadosView implements Serializable {
 		solicitudPqr = businessDelegatorView.getSolicitudPqr(selectedSol);
 		if(solicitudPqr != null){
 			infoSolicitante = businessDelegatorView.getInfoSolicitante(solicitudPqr.getInfoSolicitante().getIdInfoSolicitante());
+			respuestaSol = businessDelegatorView.consultarRespuestasSolicitud(solicitudPqr.getIdSolPqr());
+			if(respuestaSol.size() > 0){
+				setObser(true);
+			}else{
+				setObser(false);
+			}			
 		}
 		AreasInvolucradas area = businessDelegatorView.getAreasInvolucradas(1L);
 		anexosPqr = businessDelegatorView.consultarAnxsXArea(area);
@@ -105,6 +123,101 @@ public class CasosAsignadosView implements Serializable {
     	}
     	
     }
+	
+	public SolicitudAsignadaArea solicitudArea() throws Exception{
+		try{
+			AreasInvolucradas area = businessDelegatorView.getAreasInvolucradas(idArea);
+			SolicitudPqr sol = businessDelegatorView.getSolicitudPqr(selectedSol);
+			SolicitudAsignadaArea solicitudAsignadaArea = new SolicitudAsignadaArea();
+			solicitudAsignadaArea.setFechaAsignacion(new Date());
+			solicitudAsignadaArea.setFechaRespuesta(new Date());
+			solicitudAsignadaArea.setSolicitudPqr(sol);
+			solicitudAsignadaArea.setAreasInvolucradas(area);
+			
+			return solicitudAsignadaArea;
+			
+		}catch(Exception e){
+			throw new Exception (e);
+		}
+	}
+	
+	public RespuestaSol respuestaSolicitud() throws Exception{
+		try{			
+			RespuestaSol respuestaSol = new RespuestaSol();
+			respuestaSol.setDescObservacion(observacion);
+			respuestaSol.setValorReclamacion(1D);
+			respuestaSol.setEstadoRegistro("A");
+			respuestaSol.setFechaCreacion(new Date());
+			respuestaSol.setUsuarioCreador("Admin");
+			respuestaSol.setFechaUltimaModificacion(null);
+			respuestaSol.setUsuarioUltimaModificacion(null);		
+			respuestaSol.setSolicitudAsignadaArea(null);
+			
+			return respuestaSol;
+		}catch(Exception e){
+			throw new Exception (e);
+		}
+	}
+	
+	 public List<AnexosRespuesta> anexosRespuesta() {
+		 List<AnexosRespuesta> anexosRespuesta = new ArrayList<AnexosRespuesta>();
+	    	try{
+	    		int index = 0;
+	    		for (UploadedFile uploadedF : uploadedFiles) {
+	    			file = uploadedF;
+	    		    if (file != null) {
+	    		    	byte[] imageInByte = file.getContents();
+	    		    	FileImageOutputStream imageOutput;
+	    				imageOutput = new FileImageOutputStream(new File(file.getFileName()));
+	    				imageOutput.write(imageInByte, 0, imageInByte.length);
+	    				imageOutput.close();
+	    		
+	    				blob = new SerialBlob(imageInByte);
+
+	    				AnexosRespuesta anexoRespuesta = new AnexosRespuesta();
+	    				anexoRespuesta.setDocumentoReal(blob);
+	    				anexoRespuesta.setNombreAnexo(file.getFileName());
+	    				anexoRespuesta.setNombreBusqueda(file.getFileName());
+	    				anexoRespuesta.setEstadoRegistro("A");
+	    				anexoRespuesta.setAdjuntoDocumento("S");
+	    				AnexosPqr anexo = businessDelegatorView.getAnexosPqr(anexosPqr.get(index).getIdAnexoPqr());
+	    				anexoRespuesta.setAnexosPqr(anexo);
+	    				anexoRespuesta.setFechaCreacion(new Date());
+	    				anexoRespuesta.setUsuarioCreador("Solicitante");
+	    				anexoRespuesta.setRespuestaSol(null);
+	    				
+	    				anexosRespuesta.add(anexoRespuesta);
+	    				index = index + 1;
+	    		    }
+	    	    }
+		    } catch (Exception e) {
+		        FacesUtils.addErrorMessage(e.getMessage());
+		    }
+			return anexosRespuesta;
+	    }
+	
+	public void accionGuardarRespuesta() throws Exception {
+		try{			
+			SolicitudAsignadaArea solicitudAsignadaArea = solicitudArea();
+			RespuestaSol respuestaSol = respuestaSolicitud();
+			List<AnexosRespuesta> anexosRespuestas = null;
+			if(anexos){
+            	int size = 0;
+            	if(uploadedFiles != null){
+            		size = uploadedFiles.size();
+            	}
+        		if(size == (anexosPqr.size())){
+        			anexosRespuestas = anexosRespuesta();
+        		}else{
+        			throw new Exception ("Los anexos no estan completos");
+        		}
+        	}			
+			businessDelegatorView.saveRespuestaSolicitud(solicitudAsignadaArea, respuestaSol, anexosRespuestas);
+			FacesUtils.addInfoMessage("La Respuesta se guardó correctamente");
+		}catch(Exception e){
+			throw new Exception (e);
+		}
+	}
 	
 	public List<SolicitudDTO> getData() throws Exception {
 		try{
@@ -243,5 +356,52 @@ public class CasosAsignadosView implements Serializable {
 	public void setAnexos(boolean anexos) {
 		this.anexos = anexos;
 	}
-	
+
+	public List<RespuestaSol> getRespuestaSol() {
+		return respuestaSol;
+	}
+
+	public void setRespuestaSol(List<RespuestaSol> respuestaSol) {
+		this.respuestaSol = respuestaSol;
+	}
+
+	public List<AnexosRespuesta> getAnexosRespuestas() {
+		return anexosRespuestas;
+	}
+
+	public void setAnexosRespuestas(List<AnexosRespuesta> anexosRespuestas) {
+		this.anexosRespuestas = anexosRespuestas;
+	}
+
+	public String getObservacion() {
+		return observacion;
+	}
+
+	public void setObservacion(String observacion) {
+		this.observacion = observacion;
+	}
+
+	public Long getIdArea() {
+		return idArea;
+	}
+
+	public void setIdArea(Long idArea) {
+		this.idArea = idArea;
+	}
+
+	public Blob getBlob() {
+		return blob;
+	}
+
+	public void setBlob(Blob blob) {
+		this.blob = blob;
+	}
+
+	public boolean isObser() {
+		return obser;
+	}
+
+	public void setObser(boolean obser) {
+		this.obser = obser;
+	}
 }

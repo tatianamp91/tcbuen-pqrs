@@ -51,6 +51,13 @@ public class SolicitudLogic implements ISolicitudLogic {
     @Autowired
     IAnexosSolicitanteLogic logicAnexosSolicitante;
     
+    @Autowired
+    IRespuestaSolLogic respuestaSolLogic;
+    @Autowired
+    ISolicitudAsignadaAreaLogic solicitudAsignadaAreaLogic;
+    @Autowired
+    IAnexosRespuestaLogic anexosRespuestaLogic;
+    
 
     @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void saveSolicitudPqr(InfoSolicitante infoSol, SolicitudPqr solicitudPqr, 
@@ -90,6 +97,24 @@ public class SolicitudLogic implements ISolicitudLogic {
         } catch (Exception e) {
             throw new Exception (e);
         } 
+    }
+    
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
+    public void saveRespuestaSolicitud(SolicitudAsignadaArea solicitudAsignadaArea, 
+    		RespuestaSol respuestaSol, List<AnexosRespuesta> anexosRespuestas) throws Exception {
+    	try{
+    		solicitudAsignadaAreaLogic.saveSolicitudAsignadaArea(solicitudAsignadaArea);
+    		respuestaSol.setSolicitudAsignadaArea(solicitudAsignadaArea);
+    		
+    		respuestaSolLogic.saveRespuestaSol(respuestaSol);
+    		
+    		for (AnexosRespuesta anexoRespuesta : anexosRespuestas) {
+				anexoRespuesta.setRespuestaSol(respuestaSol);
+				anexosRespuestaLogic.saveAnexosRespuesta(anexoRespuesta);
+			}
+    	}catch (Exception e) {
+            throw new Exception (e);
+        }
     }
     
     @Transactional(readOnly = true)
