@@ -43,30 +43,21 @@ public class SolicitudPqrDAO extends HibernateDaoImpl<SolicitudPqr, Long>
 	public List<SolicitudPqr> consultarSolicitudes(Long idAreaInvolucrada) throws Exception {
     	String hql = "select sol from SolicitudPqr sol, SolicitudAsignadaArea saa "
     			+ "where sol.idSolPqr = saa.solicitudPqr.idSolPqr and sol.tipoEstadoPqr.descripcionEstado = 'activo' "
-    			+ "and saa.areasInvolucradas.idAreaInvolucrada = "+idAreaInvolucrada+" order by saa.fechaAsignacion";
+    			+ "and saa.areasInvolucradas.idAreaInvolucrada = "+idAreaInvolucrada+" "
+    			+ "and saa.idSolAsigArea = (select max(sa.idSolAsigArea) from SolicitudAsignadaArea sa) order by saa.fechaAsignacion";
     	return (List<SolicitudPqr>) sessionFactory.getCurrentSession().createQuery(hql).list();
     }
 
 	@Override
 	public List<SolicitudDTO> consultarAsignacion(AreasInvolucradas area) throws Exception {
-		String hql = "select sol.idSolPqr, sol.numeroRadicacion, sol.fechaCreacion, solA.fechaAsignacion, tps "
+		String hql = "select new com.tcbuen.pqrs.modelo.dto.SolicitudDTO(sol.idSolPqr, sol.numeroRadicacion, sol.fechaCreacion, solA.fechaAsignacion, tps) "
 				+ "from SolicitudPqr sol, SolicitudAsignadaArea solA, TipoEstadoPqr tpe, TipoSolicitudPqr tps "
 				+ "where sol.idSolPqr = solA.solicitudPqr.idSolPqr and tpe.idTpEstPqr = sol.tipoEstadoPqr.idTpEstPqr "
 				+ "and tps.idTpSolPqr = sol.tipoSolicitudPqr.idTpSolPqr "
 				+ "and solA.areasInvolucradas.idAreaInvolucrada = "+area.getIdAreaInvolucrada()+" and tpe.descripcionEstado = 'activo' "
 				+ "order by solA.fechaAsignacion";
-		List<SolicitudDTO> solicitudDTO = sessionFactory.getCurrentSession().createQuery(hql).list();
-		List<SolicitudDTO> sol = new ArrayList<SolicitudDTO>();
-		
-		for(int i = 0; i < solicitudDTO.size(); i++){
-			SolicitudDTO solicitud = new SolicitudDTO();
-			solicitud.setIdSolPqr(solicitudDTO.get(i).getIdSolPqr());
-			solicitud.setNumeroRadicacion(solicitudDTO.get(i).getNumeroRadicacion());
-			solicitud.setFechaRadicacion(solicitudDTO.get(i).getFechaRadicacion());
-			solicitud.setFechaAsignacion(solicitudDTO.get(i).getFechaAsignacion());
-			solicitud.setTipoSolicitudPqr(solicitudDTO.get(i).getTipoSolicitudPqr());
-			sol.add(solicitud);
-		}
+		List<SolicitudDTO> sol = sessionFactory.getCurrentSession().createQuery(hql).list();
+
 		return sol;
 	}
 	

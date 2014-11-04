@@ -78,8 +78,19 @@ public class CasosAsignadosView implements Serializable {
 	}
 
 	
-    public String action_closeDialog() {
-        setShowDialog(false);
+    public String action_closeDialog() throws Exception{
+	    setShowDialog(false);
+	    action_clear();
+        return "";
+    }
+    
+    public String action_clear() throws Exception{
+    	try{
+	        solicitudes = null;
+	        solicitudes = getSolicitudes();
+    	}catch(Exception e){
+    		throw new Exception(e);
+    	}
 
         return "";
     }
@@ -198,35 +209,41 @@ public class CasosAsignadosView implements Serializable {
 	
 	public void accionGuardarRespuesta() throws Exception {
 		try{			
-			SolicitudAsignadaArea solicitudAsignadaArea = solicitudArea();
-			RespuestaSol respuestaSol = respuestaSolicitud();
-			List<AnexosRespuesta> anexosRespuestas = null;
-			if(anexos){
-            	int size = 0;
-            	if(uploadedFiles != null){
-            		size = uploadedFiles.size();
-            	}
-        		if(size == (anexosPqr.size())){
-        			anexosRespuestas = anexosRespuesta();
-        		}else{
-        			throw new Exception ("Los anexos no estan completos");
-        		}
-        	}			
-			businessDelegatorView.saveRespuestaSolicitud(solicitudAsignadaArea, respuestaSol, anexosRespuestas);
-			FacesUtils.addInfoMessage("La Respuesta se guardó correctamente");
+			if (idArea != -1 && idArea != null) {
+				SolicitudAsignadaArea solicitudAsignadaArea = solicitudArea();
+				RespuestaSol respuestaSol = respuestaSolicitud();
+				List<AnexosRespuesta> anexosRespuestas = null;
+				if (anexos) {
+					int size = 0;
+					if (uploadedFiles != null) {
+						size = uploadedFiles.size();
+					}
+					if (size == (anexosPqr.size())) {
+						anexosRespuestas = anexosRespuesta();
+					} else {
+						throw new Exception("Los anexos no estan completos");
+					}
+				}
+				businessDelegatorView.saveRespuestaSolicitud(
+						solicitudAsignadaArea, respuestaSol, anexosRespuestas);
+				FacesUtils
+						.addInfoMessage("La Respuesta se guardó correctamente");
+			} else {
+				throw new Exception("El area no puede ser vacia");
+			}
 		}catch(Exception e){
-			throw new Exception (e);
+			 FacesUtils.addErrorMessage(e.getMessage());
 		}
 	}
 	
 	public List<SolicitudDTO> getData() throws Exception {
 		try{
 			if(data == null){
-				/*
+				
 				AreasInvolucradas area = businessDelegatorView.getAreasInvolucradas(1L);
 				if(area != null){
 					data = businessDelegatorView.consultarAsignacion(area);
-				}*/
+				}
 			}
 		}catch(Exception e){
 			throw new Exception (e);

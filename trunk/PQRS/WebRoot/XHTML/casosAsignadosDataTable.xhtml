@@ -22,9 +22,10 @@
 				</p:dialog>
 				<h:form id="frm">
 					<p:panel id="panelDataTableSolicitudes" header="Solicitudes"
-						style="height:400px;width:1070px">
+						style="height:400px;width:1070px" rendered="true">
 						<p:growl id="msg" />
-						<p:dataTable value="#{casosAsignadosView.solicitudes}" var="sol"
+						<p:dataTable id="tablaSol"
+							value="#{casosAsignadosView.solicitudes}" var="sol"
 							paginator="true" rows="10">
 							<p:column headerText="Número Radicación">
 								<h:outputText value="#{sol.numeroRadicacion}" />
@@ -66,11 +67,11 @@
 									value="#{casosAsignados.tipoSolicitudPqr.descTpSol}" />
 							</p:column>
 							<p:column style="width:32px;text-align: center">
-								<p:commandButton update=":frm:men"
-									oncomplete="PF('showDialog').show()" icon="ui-icon-search"
-									title="View">
-									<f:setPropertyActionListener value="#{tipoSolicitudPqrView}"
-										target="#{tipoSolicitudPqrView.showDialog}" />
+								<p:commandButton update=":dialogAdministrarCaso"
+									action="#{casosAsignadosView.administrarCaso}"
+									icon="ui-icon-search" title="View">
+									<f:setPropertyActionListener value="#{sol.idSolPqr}"
+										target="#{casosAsignadosView.selectedSol}" />
 								</p:commandButton>
 							</p:column>
 						</p:dataTable>
@@ -155,7 +156,8 @@
 										<h:outputText id="msgObservaciones" value="*Observaciones:" />
 										<h:inputTextarea id="txtObservaciones"
 											value="#{casosAsignadosView.observacion}"
-											style="height:150px;width:1000px" />
+											style="height:150px;width:1000px" required="true"
+											requiredMessage="Debe ingresar una observación" />
 
 										<h:outputText id="msgAnexos" value="*Anexos:" />
 										<p:dataTable id="tablaAnexosXArea" paginator="true" rows="10"
@@ -185,7 +187,7 @@
 									<div align="center">
 										<p:commandButton id="btnSave" value="Guardar"
 											action="#{casosAsignadosView.accionGuardarRespuesta()}"
-											update=":dialogAdministrarCaso" />
+											update="msgRespuestas" />
 									</div>
 								</p:panel>
 							</p:tab>
@@ -193,7 +195,7 @@
 						<div align="center">
 							<p:commandButton id="btnExit" value="Salir"
 								action="#{casosAsignadosView.action_closeDialog()}"
-								update=":dialogAdministrarCaso,msgRespuestas" />
+								update=":dialogAdministrarCaso :frm:tablaSol,msgRespuestas" />
 						</div>
 					</h:form>
 				</p:dialog>
