@@ -4,11 +4,7 @@ import com.tcbuen.pqrs.modelo.SolicitudPqr;
 import com.tcbuen.pqrs.modelo.dto.SolicitudPqrDTO;
 
 import java.math.BigDecimal;
-
 import java.util.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -53,6 +49,8 @@ public interface ISolicitudPqrLogic {
         throws Exception;
 
     public Long findTotalNumberSolicitudPqr() throws Exception;
+    
+    public List<SolicitudPqr> consultarSolicitudPorEstado(String estado) throws Exception;
 
     public List<SolicitudPqrDTO> getDataSolicitudPqr()
         throws Exception;

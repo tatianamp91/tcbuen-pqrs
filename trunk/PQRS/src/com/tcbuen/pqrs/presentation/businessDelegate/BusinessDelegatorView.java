@@ -1294,6 +1294,16 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 
         return solicitudPqr;
     }
+    
+    public List<SolicitudPqr> consultarSolicitudPorEstado(String estado) throws Exception{
+    	List<SolicitudPqr> solicitudPqr =  null;
+    	try {
+			solicitudPqr = solicitudPqrLogic.consultarSolicitudPorEstado(estado);
+		} catch (Exception e) {
+			throw e;
+		}
+    	return solicitudPqr;
+    }
 
     public List<SolicitudPqr> findByCriteriaInSolicitudPqr(Object[] variables,
         Object[] variablesBetween, Object[] variablesBetweenDates)
