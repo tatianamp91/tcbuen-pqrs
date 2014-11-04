@@ -2,6 +2,7 @@ package com.tcbuen.pqrs.modelo.dto;
 
 import java.io.Serializable;
 import java.util.Date;
+
 import com.tcbuen.pqrs.modelo.TipoSolicitudPqr;
 
 public class SolicitudDTO implements Serializable {
@@ -13,6 +14,23 @@ public class SolicitudDTO implements Serializable {
     private Date fechaAsignacion;
     private TipoSolicitudPqr tipoSolicitudPqr;
     
+    
+    
+    
+	public SolicitudDTO() {
+		super();
+	}
+	
+	public SolicitudDTO(Long idSolPqr, String numeroRadicacion,
+			Date fechaRadicacion, Date fechaAsignacion,
+			TipoSolicitudPqr tipoSolicitudPqr) {
+		super();
+		this.idSolPqr = idSolPqr;
+		this.numeroRadicacion = numeroRadicacion;
+		this.fechaRadicacion = fechaRadicacion;
+		this.fechaAsignacion = fechaAsignacion;
+		this.tipoSolicitudPqr = tipoSolicitudPqr;
+	}
 	public Long getIdSolPqr() {
 		return idSolPqr;
 	}
