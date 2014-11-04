@@ -582,6 +582,8 @@ public interface IBusinessDelegatorView {
         throws Exception;
 
     public List<SolicitudPqr> getSolicitudPqr() throws Exception;
+    
+    public List<SolicitudPqr> consultarSolicitudPorEstado(String estado) throws Exception;
 
     public void saveSolicitudPqr(SolicitudPqr entity) throws Exception;
     

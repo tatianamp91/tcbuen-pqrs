@@ -69,6 +69,17 @@ public class SolicitudPqrDAO extends HibernateDaoImpl<SolicitudPqr, Long>
 		}
 		return sol;
 	}
+	
+	@Override
+	public List<SolicitudPqr> consultarSolicitudPorEstado(String estado) throws Exception{
+		String hql = "SELECT SPQR.idSolPqr, MOTR.descripcionMotRecl, SPQR.fechaCreacion, TEPQR.descripcionEstado, AI.nombreArea, SAA.fechaRespuesta " +
+					 "FROM SolicitudPqr SPQR, MotivoReclamacion MOTR, TipoEstadoPqr TEPQR, MotReclSelect MRS, SolicitudAsignadaArea SAA, AreasInvolucradas AI " +
+					 "WHERE MOTR.idMotRecl = MRS.motivoReclamacion.idMotRecl and MRS.solicitudPqr.idSolPqr = SPQR.idSolPqr and SPQR.tipoEstadoPqr.idTpEstPqr = TEPQR.idTpEstPqr " +
+					 "and SPQR.idSolPqr = SAA.solicitudPqr.idSolPqr and SAA.areasInvolucradas.idAreaInvolucrada = AI.idAreaInvolucrada " +
+					 "and TEPQR.descripcionEstado = " + "'" + estado + "'" + 
+					 " order by SPQR.fechaCreacion asc";
+		return (List<SolicitudPqr>) sessionFactory.getCurrentSession().createQuery(hql).list();
+	}
     
     
 }

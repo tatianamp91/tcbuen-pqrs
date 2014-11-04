@@ -67,6 +67,7 @@ public class MotivoSolicitudView implements Serializable {
     private List<SelectItem> motivosSolicitudes;
     private Long idEstado;
     private List<SelectItem> estadoSolicitudes;
+    private List<SolicitudPqr> solicitudesPqr;
     
     public MotivoSolicitudView() {
         super();
@@ -452,98 +453,29 @@ public class MotivoSolicitudView implements Serializable {
 				FacesUtils.addInfoMessage("Para realizar una busqueda por fecha, es necesario ingresar Fecha Desde y Fecha Hasta");
 			}
         	
-        	if (idMotivoReclamacionConsultado != null) {
-				MotReclSelect motivoReclamacionSeleccionado = ObtenerMotivoReclamacionSeleccionadaPorId(idMotivoReclamacionConsultado);
-				
-				Long idSolicitudPqrConsultada = motivoReclamacionSeleccionado.getSolicitudPqr().getIdSolPqr();
-				SolicitudPqr solicitudConsultada = obtenerSolicitud(idSolicitudPqrConsultada);
-				MotivoReclamacion motivoReclamacion = ObtenerMotivoReclamacionPorId(idMotivoReclamacionConsultado);
-				Long idTipoEstadoPqr = solicitudConsultada.getTipoEstadoPqr().getIdTpEstPqr();
-				TipoEstadoPqr tipoEstado = obtenerTipoEstadoPorId(idTipoEstadoPqr);
-				
-				/*	
-					String numeroRadicacioin = solicitudConsultada.getNumeroRadicacion();
-					String descripcionMotivoReclamacion = motivoReclamacion.getDescripcionMotRecl();
-					Date fechaRadicacion = solicitudConsultada.getFechaCreacion();
-					String estado = tipoEstado.getDescripcionEstado();*/
-					
-				//solo estado
-				if (idEstadoSolicitudSeleccionado != null && fechaDesde == null && fechaHasta == null && numeroRadicacion.trim().equals("")) { 
-					if (idEstadoSolicitudSeleccionado == idTipoEstadoPqr) {
-						String numeroRadicacionConsultada = solicitudConsultada.getNumeroRadicacion();
-						String descripcionMotivoReclamacion = motivoReclamacion.getDescripcionMotRecl();
-						Date fechaRadicacion = solicitudConsultada.getFechaCreacion();
-						String estado = tipoEstado.getDescripcionEstado();
-					}
+        	if (idEstadoSolicitudSeleccionado != null) {
+        		TipoEstadoPqr tipoEstado = obtenerTipoEstadoPorId(idEstadoSolicitudSeleccionado);
+            	String estadoSolicitud = tipoEstado.getDescripcionEstado();
+            	
+            	List<SolicitudPqr> solicitudConsultada = businessDelegatorView.consultarSolicitudPorEstado(estadoSolicitud);
+            	
+            	
+            	//
+            	solicitudesPqr = new ArrayList<SolicitudPqr>();
+            	
+            	for (int i = 0; i < solicitudConsultada.size(); i++) {
+					SolicitudPqr sol = new SolicitudPqr();
+					MotivoReclamacion motReclamacion = new MotivoReclamacion();
+					sol.setIdSolPqr(solicitudConsultada.get(i).getIdSolPqr());
+					sol.setFechaCreacion(solicitudConsultada.get(i).getFechaCreacion());
+					solicitudesPqr.add(sol);
 				}
-				
-				//solo fechas
-				if (idEstadoSolicitudSeleccionado == null && fechaDesde != null && fechaHasta != null && numeroRadicacion.trim().equals("")) {
-					//TODO: Mirar manejo de fechas
-				}
-				
-				//Solo numero radicacion
-				if (!numeroRadicacion.trim().equals("") && idEstadoSolicitudSeleccionado == null && fechaDesde == null & fechaHasta == null) {
-					String numeroRadicacionReclamacion = solicitudConsultada.getNumeroRadicacion();
-					
-					String descripcionMotivoReclamacion = motivoReclamacion.getDescripcionMotRecl();
-					Date fechaRadicacion = solicitudConsultada.getFechaCreacion();
-					String estado = tipoEstado.getDescripcionEstado();
-				}
-				
-				//estado y fechas
-				if (idEstadoSolicitudSeleccionado != null && fechaDesde !=  null && fechaHasta!= null && numeroRadicacion.trim().equals("")) {
-					if (idEstadoSolicitudSeleccionado == idTipoEstadoPqr) {
-						DateFormat df = DateFormat.getDateInstance();
-						String fechaInicio = df.format(fechaDesde);
-						String fechaFin = df.format(fechaHasta);
-						Date fechaCreacionBD = solicitudConsultada.getFechaCreacion();
-						String fechaCreacion = df.format(fechaCreacionBD);
-						//TODO: Mirar manejo de fechas
-					}
-				}
-				
-				//estado, fechas y numero radicacion
-				if (idEstadoSolicitudSeleccionado != null && fechaDesde != null && fechaHasta != null && !numeroRadicacion.trim().equals("")) {
-					if (idEstadoSolicitudSeleccionado == idTipoEstadoPqr) {
-						String numeroRadicacionReclamacion = solicitudConsultada.getNumeroRadicacion();
-						if (numeroRadicacion.equals(numeroRadicacionReclamacion)) {
-							
-							//TODO: Fechas
-							
-						}
-						
-						
-					}
-				}
-				
-				
-				
-			}else {
-				FacesUtils.addInfoMessage("Debe seleccionar un Motivo de Reclamacion");
 			}
         	
-        	/*if (idMotivoSolicitudConsultado != null) {
-    			MotSolSelect motivoSolicitudSeleccionado = ObtenerMotivoSolicitudSeleccionadaPorId(idMotivoSolicitudConsultado);
-    			if (motivoSolicitudSeleccionado != null) {
-					Long idSolicitudPqrConsultada = motivoSolicitudSeleccionado.getSolicitudPqr().getIdSolPqr();
-					
-					SolicitudPqr solicitudConsultada = obtenerSolicitud(idSolicitudPqrConsultada);
-					MotivoSolicitud motivoSolicitud = ObtenerMotSolicitudPorId(idMotivoSolicitudConsultado);
-					Long idTipoEstadoPqr = solicitudConsultada.getTipoEstadoPqr().getIdTpEstPqr();
-					
-					String prueba = solicitudConsultada.getTipoEstadoPqr().getDescripcionEstado();
-					
-					String numeroRadicacioin = solicitudConsultada.getNumeroRadicacion();
-					String descripcionMotivoSolicitud = motivoSolicitud.getDescripcionMotSol();
-					Date fechaRadicacion = solicitudConsultada.getFechaCreacion();
-					
-					
-					
-				}
-    			
-    			
-    		}*/
+        	
+        	
+        	
+        	
         	
         	
 		} catch (Exception e) {
@@ -900,6 +832,14 @@ public class MotivoSolicitudView implements Serializable {
 
 	public void setEstadoSolicitudes(List<SelectItem> estadoSolicitudes) {
 		this.estadoSolicitudes = estadoSolicitudes;
+	}
+
+	public List<SolicitudPqr> getSolicitudesPqr() {
+		return solicitudesPqr;
+	}
+
+	public void setSolicitudesPqr(List<SolicitudPqr> solicitudesPqr) {
+		this.solicitudesPqr = solicitudesPqr;
 	}
 	
 	
