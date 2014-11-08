@@ -72,6 +72,7 @@ import com.tcbuen.pqrs.modelo.dto.AnexosSolicitanteDTO;
 import com.tcbuen.pqrs.modelo.dto.AnxsXAreaDTO;
 import com.tcbuen.pqrs.modelo.dto.AnxsXTpSolDTO;
 import com.tcbuen.pqrs.modelo.dto.AreasInvolucradasDTO;
+import com.tcbuen.pqrs.modelo.dto.EstadisticasDTO;
 import com.tcbuen.pqrs.modelo.dto.InfoSolicitanteDTO;
 import com.tcbuen.pqrs.modelo.dto.MotReclSelectDTO;
 import com.tcbuen.pqrs.modelo.dto.MotReclXTpSolDTO;
@@ -586,7 +587,7 @@ public interface IBusinessDelegatorView {
 
     public List<SolicitudPqr> getSolicitudPqr() throws Exception;
     
-    public List<SolicitudPqr> consultarSolicitudPorEstado(String estado) throws Exception;
+   
 
     public void saveSolicitudPqr(SolicitudPqr entity) throws Exception;
     
@@ -745,4 +746,8 @@ public interface IBusinessDelegatorView {
 
     public List<UsuariosInternosDTO> getDataUsuariosInternos()
         throws Exception;
+    
+    public List<EstadisticasDTO> consultarSolicitudPorEstado(String estado) throws Exception;
+    
+    public List<EstadisticasDTO> consultarSolicitudMotivoReclamacion(MotivoReclamacion motReclamacion) throws Exception ;
 }

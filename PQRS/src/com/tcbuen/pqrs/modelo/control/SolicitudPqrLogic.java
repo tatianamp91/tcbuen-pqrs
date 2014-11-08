@@ -4,6 +4,7 @@ import com.tcbuen.pqrs.dataaccess.dao.*;
 import com.tcbuen.pqrs.exceptions.*;
 import com.tcbuen.pqrs.exceptions.ZMessManager.GettingException;
 import com.tcbuen.pqrs.modelo.*;
+import com.tcbuen.pqrs.modelo.dto.EstadisticasDTO;
 import com.tcbuen.pqrs.modelo.dto.SolicitudPqrDTO;
 import com.tcbuen.pqrs.utilities.Utilities;
 
@@ -510,8 +511,8 @@ public class SolicitudPqrLogic implements ISolicitudPqrLogic {
     }
     
     @Transactional(readOnly = true)
-    public List<SolicitudPqr> consultarSolicitudPorEstado(String estado) throws Exception{
-    	List<SolicitudPqr> solicitudesConsultadas = new ArrayList<SolicitudPqr>();
+    public List<EstadisticasDTO> consultarSolicitudPorEstado(String estado) throws Exception{
+    	List<EstadisticasDTO> solicitudesConsultadas = new ArrayList<EstadisticasDTO>();
     	try {
 			solicitudesConsultadas = solicitudPqrDAO.consultarSolicitudPorEstado(estado);
 		} catch (Exception e) {
@@ -687,4 +688,19 @@ public class SolicitudPqrLogic implements ISolicitudPqrLogic {
 
         return list;
     }
+
+	@Override
+	public List<EstadisticasDTO> consultarSolicitudMotivoReclamacion(
+			MotivoReclamacion motReclamacion) throws Exception {
+
+		List<EstadisticasDTO> list = new ArrayList<EstadisticasDTO>();
+		try {
+			return solicitudPqrDAO
+					.consultarSolicitudMotivoReclamacion(motReclamacion);
+		} catch (Exception e) {
+
+		}
+		return list;
+	}
+
 }

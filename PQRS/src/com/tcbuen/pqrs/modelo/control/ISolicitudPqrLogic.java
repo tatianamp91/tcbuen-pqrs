@@ -1,6 +1,8 @@
 package com.tcbuen.pqrs.modelo.control;
 
+import com.tcbuen.pqrs.modelo.MotivoReclamacion;
 import com.tcbuen.pqrs.modelo.SolicitudPqr;
+import com.tcbuen.pqrs.modelo.dto.EstadisticasDTO;
 import com.tcbuen.pqrs.modelo.dto.SolicitudPqrDTO;
 
 import java.math.BigDecimal;
@@ -50,8 +52,9 @@ public interface ISolicitudPqrLogic {
 
     public Long findTotalNumberSolicitudPqr() throws Exception;
     
-    public List<SolicitudPqr> consultarSolicitudPorEstado(String estado) throws Exception;
+    public List<EstadisticasDTO> consultarSolicitudPorEstado(String estado) throws Exception;
 
-    public List<SolicitudPqrDTO> getDataSolicitudPqr()
-        throws Exception;
+    public List<SolicitudPqrDTO> getDataSolicitudPqr() throws Exception;
+    
+    public List<EstadisticasDTO> consultarSolicitudMotivoReclamacion(MotivoReclamacion motReclamacion) throws Exception ;
 }
