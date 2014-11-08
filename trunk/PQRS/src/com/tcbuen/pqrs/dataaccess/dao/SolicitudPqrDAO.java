@@ -2,14 +2,18 @@ package com.tcbuen.pqrs.dataaccess.dao;
 
 import com.tcbuen.pqrs.dataaccess.api.HibernateDaoImpl;
 import com.tcbuen.pqrs.modelo.AreasInvolucradas;
+import com.tcbuen.pqrs.modelo.MotivoReclamacion;
 import com.tcbuen.pqrs.modelo.SolicitudPqr;
+import com.tcbuen.pqrs.modelo.dto.EstadisticasDTO;
 import com.tcbuen.pqrs.modelo.dto.SolicitudDTO;
+
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,17 +64,32 @@ public class SolicitudPqrDAO extends HibernateDaoImpl<SolicitudPqr, Long>
 
 		return sol;
 	}
-	
+
 	@Override
-	public List<SolicitudPqr> consultarSolicitudPorEstado(String estado) throws Exception{
+	public List<EstadisticasDTO> consultarSolicitudPorEstado(String estado) throws Exception {
 		String hql = "SELECT SPQR.idSolPqr, MOTR.descripcionMotRecl, SPQR.fechaCreacion, TEPQR.descripcionEstado, AI.nombreArea, SAA.fechaRespuesta " +
-					 "FROM SolicitudPqr SPQR, MotivoReclamacion MOTR, TipoEstadoPqr TEPQR, MotReclSelect MRS, SolicitudAsignadaArea SAA, AreasInvolucradas AI " +
-					 "WHERE MOTR.idMotRecl = MRS.motivoReclamacion.idMotRecl and MRS.solicitudPqr.idSolPqr = SPQR.idSolPqr and SPQR.tipoEstadoPqr.idTpEstPqr = TEPQR.idTpEstPqr " +
-					 "and SPQR.idSolPqr = SAA.solicitudPqr.idSolPqr and SAA.areasInvolucradas.idAreaInvolucrada = AI.idAreaInvolucrada " +
-					 "and TEPQR.descripcionEstado = " + "'" + estado + "'" + 
-					 " order by SPQR.fechaCreacion asc";
-		return (List<SolicitudPqr>) sessionFactory.getCurrentSession().createQuery(hql).list();
+				 "FROM SolicitudPqr SPQR, MotivoReclamacion MOTR, TipoEstadoPqr TEPQR, MotReclSelect MRS, SolicitudAsignadaArea SAA, AreasInvolucradas AI " +
+				 "WHERE MOTR.idMotRecl = MRS.motivoReclamacion.idMotRecl and MRS.solicitudPqr.idSolPqr = SPQR.idSolPqr and SPQR.tipoEstadoPqr.idTpEstPqr = TEPQR.idTpEstPqr " +
+				 "and SPQR.idSolPqr = SAA.solicitudPqr.idSolPqr and SAA.areasInvolucradas.idAreaInvolucrada = AI.idAreaInvolucrada " +
+				 "and TEPQR.descripcionEstado = " + "'" + estado + "'" + 
+				 " order by SPQR.fechaCreacion asc";
+		
+		return (List<EstadisticasDTO>) sessionFactory.getCurrentSession().createQuery(hql).list();
 	}
+
+	@Override
+	public List<EstadisticasDTO> consultarSolicitudMotivoReclamacion(MotivoReclamacion motReclamacion) throws Exception {
+		String hql= "new com.tcbuen.pqrs.modelo.dto.EstadisticasDTO(sol.numeroRadicacion, mr.descripcionMotRecl ,sol.fechaCreacion, tep.descripcionEstado, ai.nombreArea, saa.fechaRespuesta" 
+				+ "from SolicitudPqr sol, MotivoReclamacion mr, TipoEstadoPqr tep, AreasInvolucradas ai, SolicitudAsignadaArea saa, MotReclSelect mrs "
+				+ "where sol.idSolPqr = mrs.idSolPqr and mr.idMotRecl= mrs.idMotRecl"
+				+ "and tep.idTpEstTpq = sol.idTpEstPqr and sol.idSolPqr = saa.idSolPqr"
+				+ "and ai.idAreaInvolucrada = saa.idAreaInvolucrada and mrs.idMotRecl =" +motReclamacion.getIdMotRecl();
+		
+		
+		return (List<EstadisticasDTO>) sessionFactory.getCurrentSession().createQuery(hql).list();
+	}
+
     
+	
     
 }

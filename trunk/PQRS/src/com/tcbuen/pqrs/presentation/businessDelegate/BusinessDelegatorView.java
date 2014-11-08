@@ -73,6 +73,7 @@ import com.tcbuen.pqrs.modelo.dto.AnexosSolicitanteDTO;
 import com.tcbuen.pqrs.modelo.dto.AnxsXAreaDTO;
 import com.tcbuen.pqrs.modelo.dto.AnxsXTpSolDTO;
 import com.tcbuen.pqrs.modelo.dto.AreasInvolucradasDTO;
+import com.tcbuen.pqrs.modelo.dto.EstadisticasDTO;
 import com.tcbuen.pqrs.modelo.dto.InfoSolicitanteDTO;
 import com.tcbuen.pqrs.modelo.dto.MotReclSelectDTO;
 import com.tcbuen.pqrs.modelo.dto.MotReclXTpSolDTO;
@@ -98,6 +99,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -1311,8 +1313,8 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
         return solicitudPqr;
     }
     
-    public List<SolicitudPqr> consultarSolicitudPorEstado(String estado) throws Exception{
-    	List<SolicitudPqr> solicitudPqr =  null;
+    public List<EstadisticasDTO> consultarSolicitudPorEstado(String estado) throws Exception{
+    	List<EstadisticasDTO> solicitudPqr =  null;
     	try {
 			solicitudPqr = solicitudPqrLogic.consultarSolicitudPorEstado(estado);
 		} catch (Exception e) {
@@ -1334,6 +1336,11 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
         return solicitudPqrLogic.findPageSolicitudPqr(sortColumnName,
             sortAscending, startRow, maxResults);
     }
+    
+    public List<EstadisticasDTO> consultarSolicitudMotivoReclamacion(
+			MotivoReclamacion motReclamacion) throws Exception {
+			return consultarSolicitudMotivoReclamacion(motReclamacion);
+	}
 
     public Long findTotalNumberSolicitudPqr() throws Exception {
         return solicitudPqrLogic.findTotalNumberSolicitudPqr();

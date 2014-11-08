@@ -64,96 +64,39 @@
 						<br/>
 						<h3 align="center">Estadisticas de Casos</h3>
 						<br/>
-						
+											
 						<p:messages id="msg" showDetail="false" />
-						<p:dataTable id="tabla" value="#{motivoSolicitudView.data}"
-							var="motivoSolicitud" paginator="true" rows="5" editable="true">
-
-							<p:ajax event="rowEdit" update=":form:msg,:form:tabla"
-								listener="#{motivoSolicitudView.rowEventListener}" />
-							
-							<p:column headerText="# Radicacion" style="height:20px;width:250px">
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="#{solicitudPqr.idSolPqr}" />
-									</f:facet>
-									<f:facet name="input">
-										<p:inputText value="#{motivoSolicitudView.txtNumeroRadicacion}"
-											maxlength="50" style="height:20px;width:250px;" />
-									</f:facet>
-								</p:cellEditor>
-							</p:column>
-							
-							<p:column headerText="Motivos" style="height:20px;width:250px">
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="#{motivoReclamacion.descripcionMotRecl}" />
-									</f:facet>
-									<f:facet name="input">
-										<p:inputText value="#{motivoReclamacion.descripcionMotRecl}"
-											maxlength="50" style="height:20px;width:250px;" />
-									</f:facet>
-								</p:cellEditor>
-							</p:column>
-							
-							<p:column headerText="Fecha Radicacion" style="height:20px;width:250px">
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="Fecha Radicacion" />
-									</f:facet>
-									<f:facet name="input">
-										<p:inputText value="#{motivoSolicitudView.txtFechaRadicacion}"
-											maxlength="50" style="height:20px;width:250px;" />
-									</f:facet>
-								</p:cellEditor>
-							</p:column>
-
-							<p:column headerText="Estado"
-								style="height:20px;width:150px">
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="Estado" />
-									</f:facet>
-									<f:facet name="input">
-										<p:inputText value="#{motivoSolicitudView.txtEstadoSolicitud}"
-											maxlength="50" style="height:20px;width:250px;" />
-									</f:facet>
-								</p:cellEditor>
-							</p:column>
-
-							<p:column headerText="Area con Caso"
-								style="height:20px;width:150px">
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="Area con Caso" />
-									</f:facet>
-									<f:facet name="input">
-										<p:inputText value="#{motivoSolicitudView.txtAreaConCaso}"
-											maxlength="50" style="height:20px;width:250px;" />
-									</f:facet>
-								</p:cellEditor>
-							</p:column>
-							
-							<p:column headerText="Fecha Respuesta al Cliente"
-								style="height:20px;width:150px">
-								<p:cellEditor>
-									<f:facet name="output">
-										<h:outputText value="Fecha Respuesta al Cliente" />
-									</f:facet>
-									<f:facet name="input">
-										<p:inputText value="#{motivoSolicitudView.txtFechaRespuestaCliente}"
-											maxlength="50" style="height:20px;width:250px;" />
-									</f:facet>
-								</p:cellEditor>
-							</p:column>
-						</p:dataTable>
-						<p>
+							<p:dataTable var="estadistica" value="#{estadisticasView.data}" id="tbl"
+											 paginator="true" rows="5">
+					    		<p:column headerText="Numero Radicación">
+					        	<h:outputText value="#{estadistica.NumeroRadicacion}" />
+					    </p:column>
+					 
+					    <p:column headerText="Motivos Reclamación">
+					        <h:outputText value="#{estadistica.descripcionMotRecl}" />
+					    </p:column>
+					 
+					    <p:column headerText="Fecha de Radicacion">
+					        <h:outputText value="#{estadistica.fechaCreacion}" />
+					    </p:column>
+					 
+					    <p:column headerText="Estado">
+					        <h:outputText value="#{estadistica.descripcionEstado}" />
+					    </p:column>
+					    
+					      <p:column headerText="Area con el Caso">
+					        <h:outputText value="#{estadistica.nombreArea}" />
+					    </p:column>
+					    
+					      <p:column headerText="fecha de Respuesta">
+					        <h:outputText value="#{estadistica.fechaRespuesta}" />
+					    </p:column>
+					</p:dataTable>
 							<h:commandLink value="Exportar Excel">
-								<p:dataExporter target="tabla" type="xls"
-									fileName="LosUsuariosXLS" />
+								<p:dataExporter target="tbl" type="xls"
+									fileName="Estadistica_de_casos_XLS" />
 							</h:commandLink>
-						</p>
-						
+												
 					</p:panel>
 					
 				</h:form>
