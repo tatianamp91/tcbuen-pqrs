@@ -521,6 +521,90 @@ public class SolicitudPqrLogic implements ISolicitudPqrLogic {
 		}
     	return solicitudesConsultadas;
     }
+    
+    @Transactional(readOnly = true)
+    public List<EstadisticasDTO> consultarSolicitudNumeroRadicacion(String numeroRadicacion) throws Exception{
+    	List<EstadisticasDTO> solicitudesConsultadas = new ArrayList<EstadisticasDTO>();
+    	try {
+			solicitudesConsultadas = solicitudPqrDAO.consultarSolicitudNumeroRadicacion(numeroRadicacion);
+		} catch (Exception e) {
+			throw new ZMessManager().new GettingException(ZMessManager.ALL + 
+    				"Solicitudes por Numero de Radicacion");
+		}
+    	return solicitudesConsultadas;
+    }
+    
+    @Transactional(readOnly = true)
+	public List<EstadisticasDTO> consultarSolicitudMotivoReclamacion(Long idMotivoReclamacion) throws Exception {
+    	List<EstadisticasDTO> list = new ArrayList<EstadisticasDTO>();
+		try {
+			list = solicitudPqrDAO.consultarSolicitudMotivoReclamacion(idMotivoReclamacion);
+		} catch (Exception e) {
+			throw new ZMessManager().new GettingException(ZMessManager.ALL + 
+    				"Solicitudes por Motivo de Reclamacion");
+		}
+		return list;
+	}
+    
+    @Transactional(readOnly = true)
+    public List<EstadisticasDTO> consultarSolicitudPorFecha(String fechaInicio, String fechaFin) throws Exception{
+    	List<EstadisticasDTO> solicitudesConsultadas = new ArrayList<EstadisticasDTO>();
+    	try {
+			solicitudesConsultadas = solicitudPqrDAO.consultarSolicitudPorFecha(fechaInicio, fechaFin);
+		} catch (Exception e) {
+			throw new ZMessManager().new GettingException(ZMessManager.ALL + 
+    				"Solicitudes por Fecha");
+		}
+    	return solicitudesConsultadas;
+    }
+    
+    @Transactional(readOnly = true)
+    public List<EstadisticasDTO> consultarSolicitudMotivoReclamacionEstado(Long idMotivoReclamacion, String estado) throws Exception{
+    	List<EstadisticasDTO> solicitudesConsultadas = new ArrayList<EstadisticasDTO>();
+    	try {
+			solicitudesConsultadas = solicitudPqrDAO.consultarSolicitudMotivoReclamacionEstado(idMotivoReclamacion, estado);
+		} catch (Exception e) {
+			throw new ZMessManager().new GettingException(ZMessManager.ALL + 
+    				"Solicitudes por Fecha");
+		}
+    	return solicitudesConsultadas;
+    }
+    
+    @Transactional(readOnly = true)
+    public List<EstadisticasDTO> consultarSolicitudPorEstadoYFechas(String estado, String fechaInicio, String fechaFin) throws Exception{
+    	List<EstadisticasDTO> solicitudesConsultadas = new ArrayList<EstadisticasDTO>();
+    	try {
+			solicitudesConsultadas = solicitudPqrDAO.consultarSolicitudPorEstadoYFechas(estado, fechaInicio, fechaFin);
+		} catch (Exception e) {
+			throw new ZMessManager().new GettingException(ZMessManager.ALL + 
+    				"Solicitudes por Fecha");
+		}
+    	return solicitudesConsultadas;
+    }
+    
+    @Transactional(readOnly = true)
+    public List<EstadisticasDTO> consultarSolicitudPorReclamacionYFechas(Long idMotivoReclamacion, String fechaInicio, String fechaFin) throws Exception{
+    	List<EstadisticasDTO> solicitudesConsultadas = new ArrayList<EstadisticasDTO>();
+    	try {
+			solicitudesConsultadas = solicitudPqrDAO.consultarSolicitudPorReclamacionYFechas(idMotivoReclamacion, fechaInicio, fechaFin);
+		} catch (Exception e) {
+			throw new ZMessManager().new GettingException(ZMessManager.ALL + 
+    				"Solicitudes por Fecha");
+		}
+    	return solicitudesConsultadas;
+    }
+    
+    @Transactional(readOnly = true)
+    public List<EstadisticasDTO> consultarSolicitudPorReclamacionEstadoYFechas(Long idMotivoReclamacion, String estado, String fechaInicio, String fechaFin) throws Exception{
+    	List<EstadisticasDTO> solicitudesConsultadas = new ArrayList<EstadisticasDTO>();
+    	try {
+			solicitudesConsultadas = solicitudPqrDAO.consultarSolicitudPorReclamacionEstadoYFechas(idMotivoReclamacion, estado, fechaInicio, fechaFin);
+		} catch (Exception e) {
+			throw new ZMessManager().new GettingException(ZMessManager.ALL + 
+    				"Solicitudes por Fecha");
+		}
+    	return solicitudesConsultadas;
+    }
 
     /**
     *
@@ -688,19 +772,5 @@ public class SolicitudPqrLogic implements ISolicitudPqrLogic {
 
         return list;
     }
-
-	@Override
-	public List<EstadisticasDTO> consultarSolicitudMotivoReclamacion(
-			MotivoReclamacion motReclamacion) throws Exception {
-
-		List<EstadisticasDTO> list = new ArrayList<EstadisticasDTO>();
-		try {
-			return solicitudPqrDAO
-					.consultarSolicitudMotivoReclamacion(motReclamacion);
-		} catch (Exception e) {
-
-		}
-		return list;
-	}
-
+	
 }
