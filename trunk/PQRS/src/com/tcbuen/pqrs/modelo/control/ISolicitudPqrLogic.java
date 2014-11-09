@@ -56,5 +56,17 @@ public interface ISolicitudPqrLogic {
 
     public List<SolicitudPqrDTO> getDataSolicitudPqr() throws Exception;
     
-    public List<EstadisticasDTO> consultarSolicitudMotivoReclamacion(MotivoReclamacion motReclamacion) throws Exception ;
+    public List<EstadisticasDTO> consultarSolicitudMotivoReclamacion(Long idMotivoReclamacion) throws Exception ;
+    
+    public List<EstadisticasDTO> consultarSolicitudNumeroRadicacion(String numeroRadicacion) throws Exception;
+    
+    public List<EstadisticasDTO> consultarSolicitudPorFecha(String fechaInicio, String fechaFin) throws Exception;
+    
+    public List<EstadisticasDTO> consultarSolicitudMotivoReclamacionEstado(Long idMotivoReclamacion, String estado) throws Exception;
+    
+    public List<EstadisticasDTO> consultarSolicitudPorEstadoYFechas(String estado, String fechaInicio, String fechaFin) throws Exception;
+    
+    public List<EstadisticasDTO> consultarSolicitudPorReclamacionYFechas(Long idMotivoReclamacion, String fechaInicio, String fechaFin) throws Exception;
+    
+    public List<EstadisticasDTO> consultarSolicitudPorReclamacionEstadoYFechas(Long idMotivoReclamacion, String estado, String fechaInicio, String fechaFin) throws Exception;
 }

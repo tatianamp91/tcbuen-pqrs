@@ -1322,6 +1322,76 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
 		}
     	return solicitudPqr;
     }
+    
+    public List<EstadisticasDTO> consultarSolicitudNumeroRadicacion(String numeroRadicacion) throws Exception{
+    	List<EstadisticasDTO> solicitudPqr = null;
+    	try {
+			solicitudPqr = solicitudPqrLogic.consultarSolicitudNumeroRadicacion(numeroRadicacion);
+		} catch (Exception e) {
+			throw e;
+		}
+    	return solicitudPqr;
+    }
+    
+    public List<EstadisticasDTO> consultarSolicitudMotivoReclamacion(Long idMotivoReclamacion) throws Exception {
+    	List<EstadisticasDTO> solicitudPqr = null;
+    	try {
+			solicitudPqr = solicitudPqrLogic.consultarSolicitudMotivoReclamacion(idMotivoReclamacion);
+		} catch (Exception e) {
+			throw e;
+		}
+    	return solicitudPqr;
+	}
+    
+    public List<EstadisticasDTO> consultarSolicitudPorFecha(String fechaInicio, String fechaFin) throws Exception {
+    	List<EstadisticasDTO> solicitudPqr = null;
+    	try {
+			solicitudPqr = solicitudPqrLogic.consultarSolicitudPorFecha(fechaInicio, fechaFin);
+		} catch (Exception e) {
+			throw e;
+		}
+    	return solicitudPqr;
+	}
+    
+    public List<EstadisticasDTO> consultarSolicitudMotivoReclamacionEstado(Long idMotivoReclamacion, String estado) throws Exception{
+    	List<EstadisticasDTO> solicitudPqr = null;
+    	try {
+			solicitudPqr = solicitudPqrLogic.consultarSolicitudMotivoReclamacionEstado(idMotivoReclamacion, estado);
+		} catch (Exception e) {
+			throw e;
+		}
+    	return solicitudPqr;
+	}
+    
+    public List<EstadisticasDTO> consultarSolicitudPorEstadoYFechas(String estado, String fechaInicio, String fechaFin) throws Exception{
+    	List<EstadisticasDTO> solicitudPqr = null;
+    	try {
+			solicitudPqr = solicitudPqrLogic.consultarSolicitudPorEstadoYFechas(estado, fechaInicio, fechaFin);
+		} catch (Exception e) {
+			throw e;
+		}
+    	return solicitudPqr;
+	}
+    
+    public List<EstadisticasDTO> consultarSolicitudPorReclamacionYFechas(Long idMotivoReclamacion, String fechaInicio, String fechaFin) throws Exception{
+    	List<EstadisticasDTO> solicitudPqr = null;
+    	try {
+			solicitudPqr = solicitudPqrLogic.consultarSolicitudPorReclamacionYFechas(idMotivoReclamacion, fechaInicio, fechaFin);
+		} catch (Exception e) {
+			throw e;
+		}
+    	return solicitudPqr;
+	}
+    
+    public List<EstadisticasDTO> consultarSolicitudPorReclamacionEstadoYFechas(Long idMotivoReclamacion, String estado, String fechaInicio, String fechaFin) throws Exception{
+    	List<EstadisticasDTO> solicitudPqr = null;
+    	try {
+			solicitudPqr = solicitudPqrLogic.consultarSolicitudPorReclamacionEstadoYFechas(idMotivoReclamacion, estado, fechaInicio, fechaFin);
+		} catch (Exception e) {
+			throw e;
+		}
+    	return solicitudPqr;
+	}
 
     public List<SolicitudPqr> findByCriteriaInSolicitudPqr(Object[] variables,
         Object[] variablesBetween, Object[] variablesBetweenDates)
@@ -1337,10 +1407,7 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
             sortAscending, startRow, maxResults);
     }
     
-    public List<EstadisticasDTO> consultarSolicitudMotivoReclamacion(
-			MotivoReclamacion motReclamacion) throws Exception {
-			return consultarSolicitudMotivoReclamacion(motReclamacion);
-	}
+    
 
     public Long findTotalNumberSolicitudPqr() throws Exception {
         return solicitudPqrLogic.findTotalNumberSolicitudPqr();

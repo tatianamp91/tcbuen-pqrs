@@ -25,31 +25,31 @@
 						
 							<h3 align="center">Criterios de Busqueda</h3>
 							<h:panelGrid columns="4" id="panelDatos">
-								<h:outputText id="motivosSolicitudes" value="Motivos de Reclamación:"></h:outputText>
-								<p:selectOneMenu id="motivosSolicitudesConsultadas"
-									value="#{motivoSolicitudView.idMotivoSolicitud}"
+								<h:outputText id="motivosReclamaciones" value="Motivos de Reclamación:"></h:outputText>
+								<p:selectOneMenu id="motivosReclamacionesConsultadas"
+									value="#{estadisticasView.idMotivoReclamacion}"
 									style="height:20px;width:160px">
 									<f:selectItem itemLabel="Seleccione" itemValue="" />
 									<f:selectItems
-										value="#{motivoSolicitudView.motivosSolicitudes}" />
+										value="#{estadisticasView.motivosReclamacion}" />
 								</p:selectOneMenu>
 								<h:outputText id ="estado" value="Estado"></h:outputText>
 								<p:selectOneMenu id="EstadoSolicitudConsultada"
-									value="#{motivoSolicitudView.idEstado}"
+									value="#{estadisticasView.idEstado}"
 									style="height:20px;width:160px">
 									<f:selectItem itemLabel="Seleccione" itemValue="" />
 									<f:selectItems
-										value="#{motivoSolicitudView.estadoSolicitudes}" />
+										value="#{estadisticasView.estadosPqr}" />
 								</p:selectOneMenu>
 								<p:outputLabel for="button" value="Fecha Radicacion Desde"></p:outputLabel>
-								<p:calendar id="button" value="#{motivoSolicitudView.fechaRadicacionDesde}"
+								<p:calendar id="button" value="#{estadisticasView.fechaInicio}"
 											showOn="button"></p:calendar>
 								<p:outputLabel for="button" value="Fecha Radicacion Hasta"></p:outputLabel>
-								<p:calendar id="button2" value="#{motivoSolicitudView.fechaRadicacionHasta}"
+								<p:calendar id="button2" value="#{estadisticasView.fechaFin}"
 											showOn="button"></p:calendar>
 								<h:outputText id="numeroRadicacion" value="Número de Radicación"></h:outputText>
 								<p:inputText id="txtNumeroRadicacion"
-									binding="#{motivoSolicitudView.txtNumeroRadicacion}"
+									binding="#{estadisticasView.txtNumeroRadicacion}"
 									maxlength="100" style="height:20px;width:250px" />
 							</h:panelGrid>
 						</div>
@@ -57,7 +57,7 @@
 						<div align="center">
 							<h:panelGrid columns="2" id="botones">
 								<p:commandButton id="btnConsultar" value="Consultar"
-												action="#{motivoSolicitudView.action_consultar()}"></p:commandButton>
+												action="#{estadisticasView.action_consultar()}"></p:commandButton>
 								<p:commandButton id="btnClear" value="Limpiar"></p:commandButton>
 							</h:panelGrid>
 						</div>
