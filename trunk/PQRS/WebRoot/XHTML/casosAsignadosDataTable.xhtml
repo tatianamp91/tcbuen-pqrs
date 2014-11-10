@@ -25,7 +25,7 @@
 						style="height:400px;width:1070px" rendered="true">
 						<p:growl id="msg" />
 						<p:dataTable id="tablaSol"
-							value="#{casosAsignadosView.solicitudes}" var="sol"
+							value="#{casosAsignadosView.solicitudesSer}" var="sol"
 							paginator="true" rows="10">
 							<p:column headerText="Número Radicación">
 								<h:outputText value="#{sol.numeroRadicacion}" />
@@ -34,7 +34,7 @@
 								<h:outputText value="#{sol.fechaCreacion}" />
 							</p:column>
 							<p:column headerText="Tipo PQR">
-								<h:outputText value="#{sol.tipoSolicitudPqr.idTpSolPqr}" />
+								<h:outputText value="#{sol.tipoSolicitudPqr.descTpSol}" />
 							</p:column>
 							<p:column style="width:32px;text-align: center">
 								<p:commandButton update=":dialogAdministrarCaso"
@@ -51,7 +51,7 @@
 						header="Casos Asignados" rendered="false"
 						style="height:400px;width:1070px">
 						<p:growl id="men" />
-						<p:dataTable value="#{casosAsignadosView.data}"
+						<p:dataTable value="#{casosAsignadosView.solicitudesArea}"
 							var="casosAsignados" paginator="true" rows="5">
 							<p:column headerText="Número Radicación">
 								<h:outputText value="#{casosAsignados.numeroRadicacion}" />
@@ -64,13 +64,13 @@
 							</p:column>
 							<p:column headerText="Tipo PQR">
 								<h:outputText
-									value="#{casosAsignados.tipoSolicitudPqr.descTpSol}" />
+									value="#{casosAsignados.descTpSol}" />
 							</p:column>
 							<p:column style="width:32px;text-align: center">
 								<p:commandButton update=":dialogAdministrarCaso"
 									action="#{casosAsignadosView.administrarCaso}"
 									icon="ui-icon-search" title="View">
-									<f:setPropertyActionListener value="#{sol.idSolPqr}"
+									<f:setPropertyActionListener value="#{casosAsignados.idSolPqr}"
 										target="#{casosAsignadosView.selectedSol}" />
 								</p:commandButton>
 							</p:column>

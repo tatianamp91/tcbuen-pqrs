@@ -19,7 +19,7 @@
 				</p:dialog>
 				<h:form id="frm" enctype="multipart/form-data">
 					<p:wizard flowListener="#{solicitudView.onFlowProcess}"
-						backLabel="Atras" nextLabel="Siguiente">
+						backLabel="Atras" nextLabel="Siguiente" id="wizard">
 						<p:tab id="tab1" title="Informacion Solicitante">
 							<p:growl id="msg" />
 							<p:growl id="men" />
@@ -163,7 +163,7 @@
 
 											<h:outputText id="msgNombreAgenciaAduana"
 												value="*Nombre de Agencia de Aduana:" />
-											<p:inputText id="txtNombreAgenciaAduana"
+											<p:inputText id="txtNombreAgenciaAduana" maxlength="80"
 												binding="#{solicitudView.txtNombreAgenciaAduana}" size="98" />
 											<p:tooltip id="toolAgencia" for="txtNombreAgenciaAduana"
 												value="Ingrese nombre de Agencia de Aduana." />
@@ -201,7 +201,7 @@
 										</h:panelGrid>
 										<h:outputText id="msgDescripcionCaso"
 											value="*Descripcion del Caso:" />
-										<p:inputTextarea id="txtDescripcionCaso"
+										<p:inputTextarea id="txtDescripcionCaso" maxlength="1500"
 											value="#{solicitudView.descripcionCaso}" rows="10" cols="130" />
 										<p:tooltip id="toolDescripcion" for="txtDescripcionCaso"
 											value="Ingrese un descripción del caso." />
@@ -209,7 +209,7 @@
 										<h:outputText id="msgSolicitudARealizar"
 											value="*Solicitud a Realizar:"
 											rendered="#{solicitudView.solRealizar}" />
-										<p:inputTextarea id="txtSolicitudARealizar"
+										<p:inputTextarea id="txtSolicitudARealizar" maxlength="1500"
 											value="#{solicitudView.solicitudARealizar}" rows="10"
 											cols="130" rendered="#{solicitudView.solRealizar}" />
 										<p:tooltip id="toolSolicitud" for="txtSolicitudARealizar"
@@ -247,12 +247,11 @@
 										action="#{solicitudView.action_clear_formulario()}"
 										update="panelSolicitudPqr,msg2,panelBotones" />
 									<p:commandButton id="btnSave2" value="Enviar Solicitud"
-										action="#{solicitudView.action_save()}" update="msg2"  />
+										action="#{solicitudView.action_save()}" update="msg2,:frm:wizard"  />
 								</div>
 							</p:panel>
 						</p:tab>
 					</p:wizard>
-
 				</h:form>
 			</f:view>
 		</ui:define>

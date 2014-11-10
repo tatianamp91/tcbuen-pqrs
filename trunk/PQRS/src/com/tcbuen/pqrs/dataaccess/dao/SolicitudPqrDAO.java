@@ -5,6 +5,7 @@ import com.tcbuen.pqrs.modelo.AreasInvolucradas;
 import com.tcbuen.pqrs.modelo.MotivoReclamacion;
 import com.tcbuen.pqrs.modelo.SolicitudPqr;
 import com.tcbuen.pqrs.modelo.dto.EstadisticasDTO;
+import com.tcbuen.pqrs.modelo.dto.SolicitudAreaDTO;
 import com.tcbuen.pqrs.modelo.dto.SolicitudDTO;
 
 import org.hibernate.SessionFactory;
@@ -14,11 +15,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
+import java.lang.reflect.Array;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.management.Query;
 
 
 /**
@@ -46,21 +49,31 @@ public class SolicitudPqrDAO extends HibernateDaoImpl<SolicitudPqr, Long>
     
     @Override
 	public List<SolicitudPqr> consultarSolicitudes(Long idAreaInvolucrada) throws Exception {
-    	String hql = "select sol from SolicitudPqr sol, SolicitudAsignadaArea saa "
+    	String hql = "select new com.tcbuen.pqrs.modelo.dto.SolicitudAreaDTO(max(saa.idSolAsigArea), sol) from SolicitudPqr sol, SolicitudAsignadaArea saa "
     			+ "where sol.idSolPqr = saa.solicitudPqr.idSolPqr and sol.tipoEstadoPqr.descripcionEstado = 'activo' "
     			+ "and saa.areasInvolucradas.idAreaInvolucrada = "+idAreaInvolucrada+" "
-    			+ "and saa.idSolAsigArea = (select max(sa.idSolAsigArea) from SolicitudAsignadaArea sa) order by saa.fechaAsignacion";
-    	return (List<SolicitudPqr>) sessionFactory.getCurrentSession().createQuery(hql).list();
+    			+ "group by (sol.idSolPqr, sol.tipoSolicitudPqr.idTpSolPqr, sol.infoSolicitante.idInfoSolicitante, "
+    			+ "sol.tipoEstadoPqr.idTpEstPqr, sol.numeroRadicacion, sol.nombreCliente, sol.nombreAgenciaAduana, "
+    			+ "sol.descripcionCaso, sol.solicitudARealizar, sol.fechaCreacion, sol.usuarioCreador, "
+    			+ "sol.fechaUltimaModificacion, sol.usuarioUltimaModificacion)";
+    	
+    	List<SolicitudAreaDTO> sol = sessionFactory.getCurrentSession().createQuery(hql).list();
+    	List<SolicitudPqr> solicitudes = new ArrayList<SolicitudPqr>();
+    	for (SolicitudAreaDTO solicitud : sol) {
+			solicitudes.add(solicitud.getSolicitudPqr());
+		}    	
+    	return solicitudes;
     }
 
 	@Override
 	public List<SolicitudDTO> consultarAsignacion(AreasInvolucradas area) throws Exception {
-		String hql = "select new com.tcbuen.pqrs.modelo.dto.SolicitudDTO(sol.idSolPqr, sol.numeroRadicacion, sol.fechaCreacion, solA.fechaAsignacion, tps) "
+		String hql = "select new com.tcbuen.pqrs.modelo.dto.SolicitudDTO(sol.idSolPqr, "
+				+ "sol.numeroRadicacion, sol.fechaCreacion, solA.fechaAsignacion, tps.descTpSol) "
 				+ "from SolicitudPqr sol, SolicitudAsignadaArea solA, TipoEstadoPqr tpe, TipoSolicitudPqr tps "
 				+ "where sol.idSolPqr = solA.solicitudPqr.idSolPqr and tpe.idTpEstPqr = sol.tipoEstadoPqr.idTpEstPqr "
 				+ "and tps.idTpSolPqr = sol.tipoSolicitudPqr.idTpSolPqr "
-				+ "and solA.areasInvolucradas.idAreaInvolucrada = "+area.getIdAreaInvolucrada()+" and tpe.descripcionEstado = 'activo' "
-				+ "order by solA.fechaAsignacion";
+				+ "and solA.areasInvolucradas.idAreaInvolucrada = "+area.getIdAreaInvolucrada()+" "
+				+ "and tpe.descripcionEstado = 'activo' order by sol.fechaCreacion)";
 		List<SolicitudDTO> sol = sessionFactory.getCurrentSession().createQuery(hql).list();
 
 		return sol;
