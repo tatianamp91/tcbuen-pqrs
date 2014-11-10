@@ -129,23 +129,24 @@ public class SolicitudView implements Serializable {
 					if(campo != null){
 						if(descTpSol.equals(campo.getValorParam())){
 							solRealizar = true;
+							sol = false;
 						}else{
 							solRealizar = false;
 						}
+						txtNombreCliente.setValue(txtNombreContacto.getValue());
+			    		motivoSolicitud = consultarMotivoSolicitud(tipoSolicitudPqr);
+			    		if(motivoSolicitud.size()>0 && !descTpSol.equals(campo.getValorParam())){
+			    			sol = true;
+			    		}else{
+			    			sol = false;
+			    		}
+			    		motivoReclamacion = consultarMotivoReclamacion(tipoSolicitudPqr);
+			    		if(motivoReclamacion.size()>0){
+			    			recl = true;
+			    		}else{
+			    			recl = false;
+			    		}
 					}
-					txtNombreCliente.setValue(txtNombreContacto.getValue());
-		    		motivoSolicitud = consultarMotivoSolicitud(tipoSolicitudPqr);
-		    		if(motivoSolicitud.size()>0){
-		    			sol = true;
-		    		}else{
-		    			sol = false;
-		    		}
-		    		motivoReclamacion = consultarMotivoReclamacion(tipoSolicitudPqr);
-		    		if(motivoReclamacion.size()>0){
-		    			recl = true;
-		    		}else{
-		    			recl = false;
-		    		}
 		    		ParametrosPqr parametro = obtenerParametro(("tipo estado inicial pqr").toLowerCase());
 		    		if(parametro != null){
 			    		TipoEstadoPqr tipoEstadoPqr = obtenerEstado(parametro.getValorParam().toLowerCase());
@@ -272,6 +273,7 @@ public class SolicitudView implements Serializable {
 	        	businessDelegatorView.saveSolicitud(infoSol, solicitudPqr, motSolSelect, motReclSelect, solicitudAsignadaArea, anexosSolicitantes);
 	        	FacesUtils.addInfoMessage("La Solicitud fue enviada correctamente");
 	        	uploadedFiles = null;
+	        	//action_clear_infoSol();
         	}
         } catch (Exception e) {
             FacesUtils.addErrorMessage(e.getMessage());

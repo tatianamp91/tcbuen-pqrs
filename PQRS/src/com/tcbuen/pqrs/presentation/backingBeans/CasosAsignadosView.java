@@ -1,5 +1,6 @@
 package com.tcbuen.pqrs.presentation.backingBeans;
 
+import com.tcbuen.pqrs.mail.Mail;
 import com.tcbuen.pqrs.modelo.*;
 import com.tcbuen.pqrs.modelo.dto.SolicitudDTO;
 import com.tcbuen.pqrs.presentation.businessDelegate.*;
@@ -11,12 +12,19 @@ import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
 import javax.imageio.stream.FileImageOutputStream;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.sql.rowset.serial.SerialBlob;
 
 import org.primefaces.event.FileUploadEvent;
@@ -29,9 +37,9 @@ import org.primefaces.model.UploadedFile;
 public class CasosAsignadosView implements Serializable {
 	private static final long serialVersionUID = 1L;	
 
-	private List<SolicitudDTO> data;
 	private SolicitudDTO selectedSolicitudPqr;
-	private List<SolicitudPqr> solicitudes;
+	private List<SolicitudPqr> solicitudesSer;
+	private List<SolicitudDTO> solicitudesArea;
 	private Long selectedSol;
 	private boolean showDialog;
 	private Blob blob;
@@ -47,6 +55,9 @@ public class CasosAsignadosView implements Serializable {
     private List<AnexosRespuesta> anexosRespuestas;
     private String observacion;
     private boolean obser;
+    
+    private final Properties properties = new Properties();
+    private Session session;
     
 	
 
@@ -86,8 +97,10 @@ public class CasosAsignadosView implements Serializable {
     
     public String action_clear() throws Exception{
     	try{
-	        solicitudes = null;
-	        solicitudes = getSolicitudes();
+	        solicitudesSer = null;
+	        solicitudesSer = getSolicitudesSer();
+	        solicitudesArea = null;
+	        solicitudesArea = getSolicitudesArea();
     	}catch(Exception e){
     		throw new Exception(e);
     	}
@@ -231,29 +244,40 @@ public class CasosAsignadosView implements Serializable {
 			} else {
 				throw new Exception("El area no puede ser vacia");
 			}
+			
+			//send("tatianamp91@gmail.com","Esto es una prueba","Este correo fue enviado usando JavaMail");
 		}catch(Exception e){
 			 FacesUtils.addErrorMessage(e.getMessage());
 		}
 	}
-	
-	public List<SolicitudDTO> getData() throws Exception {
-		try{
-			if(data == null){
-				
-				AreasInvolucradas area = businessDelegatorView.getAreasInvolucradas(1L);
-				if(area != null){
-					data = businessDelegatorView.consultarAsignacion(area);
-				}
-			}
-		}catch(Exception e){
-			throw new Exception (e);
-		}
-		return data;
-	}
-
-	public void setData(List<SolicitudDTO> data) {
-		this.data = data;
-	}
+	/*
+	private void init() {
+        properties.put("mail.smtp.host", "smtp.gmail.com");
+        properties.put("mail.smtp.starttls.enable", "true");
+        properties.put("mail.smtp.port", 587);
+        properties.put("mail.smtp.mail.sender", "tatianamp91@gmail.com");
+        properties.put("mail.smtp.password", "waltertatiana21");
+        properties.put("mail.smtp.user", "tatianamp91@gmail.com");
+        properties.put("mail.smtp.auth", "true");
+        session = Session.getDefaultInstance(properties);
+    }
+    
+    public void send(String destino,String asunto, String mensaje) {
+        init();
+        try {
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress((String) properties.get("mail.smtp.mail.sender")));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(destino));
+            message.setSubject(asunto);
+            message.setText(mensaje);
+            Transport t = session.getTransport("smtp");
+            t.connect((String) properties.get("mail.smtp.user"), (String) properties.get("mail.smtp.password"));
+            t.sendMessage(message, message.getAllRecipients());
+            t.close();
+        } catch (MessagingException e) {
+            return;
+        }
+    }*/
 
 	public SolicitudDTO getSelectedSolicitudPqr() {
 		return selectedSolicitudPqr;
@@ -272,19 +296,36 @@ public class CasosAsignadosView implements Serializable {
 		this.businessDelegatorView = businessDelegatorView;
 	}
 
-	public List<SolicitudPqr> getSolicitudes() throws Exception {
+	public List<SolicitudPqr> getSolicitudesSer() throws Exception {
 		try{
-			if(solicitudes == null){
-				solicitudes = businessDelegatorView.consultarSolicitudes(1L);
+			if(solicitudesSer == null){
+				solicitudesSer = businessDelegatorView.consultarSolicitudes(1L);
 			}
 		}catch(Exception e){
 			throw new Exception (e);
 		}
-		return solicitudes;
+		return solicitudesSer;
 	}
 
-	public void setSolicitudes(List<SolicitudPqr> solicitudes) {
-		this.solicitudes = solicitudes;
+	public void setSolicitudesSer(List<SolicitudPqr> solicitudesSer) {
+		this.solicitudesSer = solicitudesSer;
+	}
+	
+
+	public List<SolicitudDTO> getSolicitudesArea() throws Exception {
+		try{
+			if(solicitudesArea == null){
+				AreasInvolucradas areasInvolucradas = businessDelegatorView.getAreasInvolucradas(1L);
+				solicitudesArea = businessDelegatorView.consultarAsignacion(areasInvolucradas);
+			}
+		}catch(Exception e){
+			throw new Exception (e);
+		}
+		return solicitudesArea;
+	}
+
+	public void setSolicitudesArea(List<SolicitudDTO> solicitudesArea) {
+		this.solicitudesArea = solicitudesArea;
 	}
 
 	public Long getSelectedSol() {

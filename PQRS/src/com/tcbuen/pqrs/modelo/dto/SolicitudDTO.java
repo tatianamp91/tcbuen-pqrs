@@ -3,8 +3,6 @@ package com.tcbuen.pqrs.modelo.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.tcbuen.pqrs.modelo.TipoSolicitudPqr;
-
 public class SolicitudDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     
@@ -12,10 +10,7 @@ public class SolicitudDTO implements Serializable {
     private String numeroRadicacion;
     private Date fechaRadicacion;
     private Date fechaAsignacion;
-    private TipoSolicitudPqr tipoSolicitudPqr;
-    
-    
-    
+    private String descTpSol; 
     
 	public SolicitudDTO() {
 		super();
@@ -23,14 +18,15 @@ public class SolicitudDTO implements Serializable {
 	
 	public SolicitudDTO(Long idSolPqr, String numeroRadicacion,
 			Date fechaRadicacion, Date fechaAsignacion,
-			TipoSolicitudPqr tipoSolicitudPqr) {
+			String descTpSol) {
 		super();
 		this.idSolPqr = idSolPqr;
 		this.numeroRadicacion = numeroRadicacion;
 		this.fechaRadicacion = fechaRadicacion;
 		this.fechaAsignacion = fechaAsignacion;
-		this.tipoSolicitudPqr = tipoSolicitudPqr;
+		this.descTpSol = descTpSol;
 	}
+	
 	public Long getIdSolPqr() {
 		return idSolPqr;
 	}
@@ -55,10 +51,10 @@ public class SolicitudDTO implements Serializable {
 	public void setFechaAsignacion(Date fechaAsignacion) {
 		this.fechaAsignacion = fechaAsignacion;
 	}
-	public TipoSolicitudPqr getTipoSolicitudPqr() {
-		return tipoSolicitudPqr;
+	public String getDescTpSol() {
+		return descTpSol;
 	}
-	public void setTipoSolicitudPqr(TipoSolicitudPqr tipoSolicitudPqr) {
-		this.tipoSolicitudPqr = tipoSolicitudPqr;
+	public void setDescTpSol(String descTpSol) {
+		this.descTpSol = descTpSol;
 	}
 }
