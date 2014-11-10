@@ -1,6 +1,5 @@
 package com.tcbuen.pqrs.presentation.backingBeans;
 
-import com.tcbuen.pqrs.mail.Mail;
 import com.tcbuen.pqrs.modelo.*;
 import com.tcbuen.pqrs.modelo.dto.SolicitudDTO;
 import com.tcbuen.pqrs.presentation.businessDelegate.*;
@@ -12,19 +11,11 @@ import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.model.SelectItem;
 import javax.imageio.stream.FileImageOutputStream;
-import javax.mail.Message;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.sql.rowset.serial.SerialBlob;
 
 import org.primefaces.event.FileUploadEvent;
@@ -56,8 +47,8 @@ public class CasosAsignadosView implements Serializable {
     private String observacion;
     private boolean obser;
     
-    private final Properties properties = new Properties();
-    private Session session;
+    //private final Properties properties = new Properties();
+    //private Session session;
     
 	
 
@@ -250,6 +241,7 @@ public class CasosAsignadosView implements Serializable {
 			 FacesUtils.addErrorMessage(e.getMessage());
 		}
 	}
+	
 	/*
 	private void init() {
         properties.put("mail.smtp.host", "smtp.gmail.com");
