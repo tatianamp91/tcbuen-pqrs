@@ -18,87 +18,87 @@
 						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
 				</p:dialog>
 				<h:form id="form">
-					<p:panel id="msgProjectClientesTitle" header="Consulta de Estadistica de Casos"
+					<p:panel id="msgProjectClientesTitle"
+						header="Consulta de Estadistica de Casos"
 						style="height:600px;width:1070px">
-						
+
 						<div align="center">
-						
 							<h3 align="center">Criterios de Busqueda</h3>
 							<h:panelGrid columns="4" id="panelDatos">
-								<h:outputText id="motivosReclamaciones" value="Motivos de Reclamación:"></h:outputText>
+								<h:outputText id="motivosReclamaciones"
+									value="Motivos de Reclamación:"/>
 								<p:selectOneMenu id="motivosReclamacionesConsultadas"
 									value="#{estadisticasView.idMotivoReclamacion}"
 									style="height:20px;width:160px">
 									<f:selectItem itemLabel="Seleccione" itemValue="" />
-									<f:selectItems
-										value="#{estadisticasView.motivosReclamacion}" />
+									<f:selectItems value="#{estadisticasView.motivosReclamacion}" />
 								</p:selectOneMenu>
-								<h:outputText id ="estado" value="Estado"></h:outputText>
+								<h:outputText id="estado" value="Estado"/>
 								<p:selectOneMenu id="EstadoSolicitudConsultada"
 									value="#{estadisticasView.idEstado}"
 									style="height:20px;width:160px">
 									<f:selectItem itemLabel="Seleccione" itemValue="" />
-									<f:selectItems
-										value="#{estadisticasView.estadosPqr}" />
+									<f:selectItems value="#{estadisticasView.estadosPqr}" />
 								</p:selectOneMenu>
-								<p:outputLabel for="button" value="Fecha Radicacion Desde"></p:outputLabel>
+								<p:outputLabel for="button" value="Fecha Radicacion Desde"/>
 								<p:calendar id="button" value="#{estadisticasView.fechaInicio}"
-											showOn="button"></p:calendar>
-								<p:outputLabel for="button" value="Fecha Radicacion Hasta"></p:outputLabel>
+									showOn="button"></p:calendar>
+								<p:outputLabel for="button" value="Fecha Radicacion Hasta"/>
 								<p:calendar id="button2" value="#{estadisticasView.fechaFin}"
-											showOn="button"></p:calendar>
-								<h:outputText id="numeroRadicacion" value="Número de Radicación"></h:outputText>
+									showOn="button"></p:calendar>
+								<h:outputText id="numeroRadicacion" value="Número de Radicación"/>
 								<p:inputText id="txtNumeroRadicacion"
 									binding="#{estadisticasView.txtNumeroRadicacion}"
 									maxlength="100" style="height:20px;width:250px" />
 							</h:panelGrid>
 						</div>
-						<br/>
+						<br />
 						<div align="center">
 							<h:panelGrid columns="2" id="botones">
 								<p:commandButton id="btnConsultar" value="Consultar"
-												action="#{estadisticasView.action_consultar()}"></p:commandButton>
-								<p:commandButton id="btnClear" value="Limpiar"></p:commandButton>
+									action="#{estadisticasView.action_consultar()}" 
+									update="tbl"/>
+								<p:commandButton id="btnClear" value="Limpiar" />
 							</h:panelGrid>
 						</div>
-						<br/>
+						<br />
 						<h3 align="center">Estadisticas de Casos</h3>
-						<br/>
-											
+						<br />
+
 						<p:messages id="msg" showDetail="false" />
-							<p:dataTable var="estadistica" value="#{estadisticasView.data}" id="tbl"
-											 paginator="true" rows="5">
-					    		<p:column headerText="Numero Radicación">
-					        	<h:outputText value="#{estadistica.NumeroRadicacion}" />
-					    </p:column>
-					 
-					    <p:column headerText="Motivos Reclamación">
-					        <h:outputText value="#{estadistica.descripcionMotRecl}" />
-					    </p:column>
-					 
-					    <p:column headerText="Fecha de Radicacion">
-					        <h:outputText value="#{estadistica.fechaCreacion}" />
-					    </p:column>
-					 
-					    <p:column headerText="Estado">
-					        <h:outputText value="#{estadistica.descripcionEstado}" />
-					    </p:column>
-					    
-					      <p:column headerText="Area con el Caso">
-					        <h:outputText value="#{estadistica.nombreArea}" />
-					    </p:column>
-					    
-					      <p:column headerText="fecha de Respuesta">
-					        <h:outputText value="#{estadistica.fechaRespuesta}" />
-					    </p:column>
-					</p:dataTable>
-							<h:commandLink value="Exportar Excel">
-								<p:dataExporter target="tbl" type="xls"
-									fileName="Estadistica_de_casos_XLS" />
-							</h:commandLink>
-												
+						<p:dataTable var="estadistica" value="#{estadisticasView.data}"
+							id="tbl" paginator="true" rows="5">
+							<p:column headerText="Numero Radicación">
+								<h:outputText value="#{estadistica.numeroRadicacion}" />
+							</p:column>
+
+							<p:column headerText="Motivos Reclamación">
+								<h:outputText value="#{estadistica.descripcionMotRecl}" />
+							</p:column>
+
+							<p:column headerText="Fecha de Radicacion">
+								<h:outputText value="#{estadistica.fechaCreacion}" />
+							</p:column>
+
+							<p:column headerText="Estado">
+								<h:outputText value="#{estadistica.descripcionEstado}" />
+							</p:column>
+
+							<p:column headerText="Area con el Caso">
+								<h:outputText value="#{estadistica.nombreArea}" />
+							</p:column>
+
+							<p:column headerText="fecha de Respuesta">
+								<h:outputText value="#{estadistica.fechaRespuesta}" />
+							</p:column>
+						</p:dataTable>
+						<h:commandLink value="Exportar Excel">
+							<p:dataExporter target="tbl" type="xls"
+								fileName="Estadistica_de_casos_XLS" />
+						</h:commandLink>
+
 					</p:panel>
-					
+
 				</h:form>
 			</f:view>
 		</ui:define>
