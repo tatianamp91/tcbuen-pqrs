@@ -12,7 +12,8 @@
 			<!-- Beging Menu -->
 			<h:form>
 				<p:megaMenu style="height:30px;width:1045px">
-					<p:submenu label="Menu de Gestion" icon="ui-icon-contact" style="width:250px">
+					<p:submenu label="Gestion" icon="ui-icon-contact"
+						style="width:250px">
 						<p:column style="width:250px">
 							<p:submenu style="width:240px">
 								<p:menuitem value="Anexos" style="width:240px"
@@ -37,21 +38,30 @@
 									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/tipoSolicitudPqrListDataTableEditable.xhtml" />
 								<p:menuitem value="Usuarios" style="width:240px"
 									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/usuariosInternosListDataTableEditable.xhtml" />
-								<p:menuitem value="Consulta Estadistica de Casos" style="width:240px"
-									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/consultaEstadistica.xhtml" />
-								<p:menuitem value="Consulta Informacion Solicitante" style="width:240px"
-									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/infoSolicitanteListDataTableEditable.xhtml" />
-									
 							</p:submenu>
 						</p:column>
 					</p:submenu>
-					<p:submenu label="Menu de Solicitud" icon="ui-icon-contact" style="width:250px">
+					<p:submenu label="Solicitud" icon="ui-icon-contact"
+						style="width:250px">
 						<p:column style="width:250px">
 							<p:submenu style="width:240px">
 								<p:menuitem value="Solicitud PQR" style="width:240px"
 									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/solicitud.xhtml" />
+							</p:submenu>
+						</p:column>
+					</p:submenu>
+					<p:submenu label="Gestion de Solicitudes" icon="ui-icon-contact"
+						style="width:250px">
+						<p:column style="width:250px">
+							<p:submenu style="width:240px">
 								<p:menuitem value="Casos Asignados" style="width:240px"
-									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/casosAsignadosDataTable.xhtml" />	
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/casosAsignadosDataTable.xhtml" />
+								<p:menuitem value="Consulta Estadistica de Casos"
+									style="width:240px"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/consultaEstadistica.xhtml" />
+								<p:menuitem value="Consulta Informacion Solicitante"
+									style="width:240px"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/XHTML/infoSolicitanteListDataTable.xhtml" />
 							</p:submenu>
 						</p:column>
 					</p:submenu>

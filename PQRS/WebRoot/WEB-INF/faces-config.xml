@@ -307,7 +307,7 @@
   </navigation-case>
  </navigation-rule>
  <navigation-rule>
-  <from-view-id>/XHTML/infoSolicitanteListDataTableEditable.xhtml</from-view-id>
+  <from-view-id>/XHTML/infoSolicitanteListDataTable.xhtml</from-view-id>
   <navigation-case>
    <from-outcome>goInitialMenu</from-outcome>
    <to-view-id>/XHTML/initialMenu.xhtml</to-view-id>
@@ -334,7 +334,7 @@
   <from-view-id>/XHTML/initialMenu.xhtml</from-view-id>
   <navigation-case>
    <from-outcome>goInfoSolicitanteListDataTableEditable</from-outcome>
-   <to-view-id>/XHTML/infoSolicitanteListDataTableEditable.xhtml</to-view-id>
+   <to-view-id>/XHTML/infoSolicitanteListDataTable.xhtml</to-view-id>
    <redirect/>
   </navigation-case>
  </navigation-rule>
