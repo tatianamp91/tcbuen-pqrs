@@ -30,5 +30,5 @@
 	
 	<import resource="classpath:dataSourceContext.xml" />
 	
-	<import resource="classpath:securityContext.xml" />
+	<!-- <import resource="classpath:securityContext.xml" />-->
 </beans>

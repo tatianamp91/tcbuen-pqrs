@@ -7,16 +7,12 @@ import com.tcbuen.pqrs.modelo.dto.UsuariosInternosDTO;
 import com.tcbuen.pqrs.utilities.Utilities;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.context.annotation.Scope;
-
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -610,5 +606,17 @@ public class UsuariosInternosLogic implements IUsuariosInternosLogic {
         }
 
         return list;
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public UsuariosInternos consultarLoginContrasena(String login, String contrasena) throws Exception {
+        UsuariosInternos entity = null;
+        try {
+            entity = usuariosInternosDAO.consultarLoginContrasena(login, contrasena);
+        } catch (Exception e) {
+        	throw new Exception(e.getMessage());
+        } 
+        return entity;
     }
 }

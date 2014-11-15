@@ -9,12 +9,9 @@
 	<http security="none" pattern="/login.xhtml" />
 	
 	
-	<http auto-config="true" access-denied-page="/login.xhtml" access-decision-manager-ref="accessDecisionManager">
-		
-		<intercept-url pattern="/XHTML/*" access="ROLE_USER,Admin" />		
-
+	<http auto-config="true" access-denied-page="/login.xhtml" access-decision-manager-ref="accessDecisionManager">		
+		<intercept-url pattern="/XHTML/*" access="ROLE_USER,Admin" />
 		<form-login login-page="/login.xhtml" default-target-url="/XHTML/initialMenu.xhtml" always-use-default-target="false" authentication-failure-url="/login.xhtml?authfailed=true" />
-			
 		<logout invalidate-session="true" logout-success-url="/login.xhtml?loggedout=true" />
 	</http>
 	
@@ -30,10 +27,6 @@
 	</beans:bean>
 
 	<authentication-manager>
-		<authentication-provider>
-			<user-service>
-				<user name="admin" password="admin" authorities="ROLE_USER, Admin" />
-			</user-service>
-		</authentication-provider> 
+		<authentication-provider ref="PqrsAuthenticationProvider"/>
 	</authentication-manager>
 </beans:beans>

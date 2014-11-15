@@ -747,6 +747,8 @@ public interface IBusinessDelegatorView {
     public List<UsuariosInternosDTO> getDataUsuariosInternos()
         throws Exception;
     
+    public UsuariosInternos consultarLoginContrasena(String login, String contrasena) throws Exception;
+    
     public List<EstadisticasDTO> consultarSolicitudPorEstado(String estado) throws Exception;
     
     public List<EstadisticasDTO> consultarSolicitudMotivoReclamacion(Long idMotivoReclamacion) throws Exception ;
