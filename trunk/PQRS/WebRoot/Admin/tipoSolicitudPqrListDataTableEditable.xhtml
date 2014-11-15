@@ -1,0 +1,132 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template.xhtml">
+		<ui:define name="body">
+			<f:view>
+				<p:ajaxStatus onstart="statusDialog.show();"
+					onsuccess="statusDialog.hide();" />
+				<p:dialog modal="true" widgetVar="statusDialog" header="Cargando"
+					draggable="false" closable="false">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+				<h:form id="form">
+					<p:panel id="msgProjectClientesTitle" header="Tipo de Solicitud"
+						style="height:350px;width:1070px">
+						<p:messages id="msg" showDetail="false" />
+						<p:dataTable id="tabla" value="#{tipoSolicitudPqrView.data}"
+							var="tipoSolicitudPqr" paginator="true" rows="5" editable="true">
+
+							<p:ajax event="rowEdit" update=":form:msg,:form:tabla"
+								listener="#{tipoSolicitudPqrView.rowEventListener}" />
+
+							<p:column filterBy="#{tipoSolicitudPqr.descTpSol}"
+								sortBy="#{tipoSolicitudPqr.descTpSol}" headerText="Descripción"
+								style="height:20px;width:250px">
+								<h:outputText value="#{tipoSolicitudPqr.descTpSol}" />
+							</p:column>
+
+							<p:column filterBy="#{tipoSolicitudPqr.estadoRegistro}"
+								sortBy="#{tipoSolicitudPqr.estadoRegistro}" headerText="Estado"
+								style="height:20px;width:150px">
+								<h:outputText value="#{tipoSolicitudPqr.estadoRegistro}" />
+							</p:column>
+							<p:column headerText="Editar" style="height:20px;width:100px">
+								<p:commandLink update=":dialogTipoSolicitudPqr"
+									action="#{tipoSolicitudPqrView.action_edit()}"
+									title="View Modify">
+									<p:rowEditor id="editar" />
+									<f:setPropertyActionListener
+										value="#{tipoSolicitudPqr.idTpSolPqr}"
+										target="#{tipoSolicitudPqrView.idTpSolPqr}" />
+								</p:commandLink>
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+					<p:panel id="panelBoton" style="height:40px;width:1070px">
+						<div align="center">
+							<p:commandButton id="btnNew" value="Nuevo"
+								action="#{tipoSolicitudPqrView.action_new()}"
+								update=":dialogTipoSolicitudPqr" />
+						</div>
+					</p:panel>
+				</h:form>
+				<p:dialog id="dialogTipoSolicitudPqr" appendToBody="true"
+					draggable="true" closable="false"
+					visible="#{tipoSolicitudPqrView.showDialog}" resizable="false"
+					modal="true" width="1200">
+					<h:form id="formDialog">
+						<p:messages id="msg" showDetail="false" />
+						<p:panel id="panelTipoSolicitudPqr" header="Tipo de Solicitud">
+							<h:panelGrid columns="4" id="panelGrid">
+								<h:outputText id="msgDescTpSol" value="*Descripción:" />
+								<p:inputText id="txtDescTpSol" disabled="false"
+									binding="#{tipoSolicitudPqrView.txtDescTpSol}" size="68"
+									maxlength="100" />
+
+								<h:outputText id="msgEstadoRegistro" value="*Estado:" />
+								<p:selectOneMenu id="estadoRegistro"
+									value="#{tipoSolicitudPqrView.estadoRegistroSeleccionado}"
+									style="height:20px;width:80px">
+									<f:selectItem itemValue="A" itemLabel="Activo" />
+									<f:selectItem itemValue="I" itemLabel="Inactivo" />
+								</p:selectOneMenu>
+
+								<h:outputText id="msgMotRecl" value="*Motivos de Reclamación:" />
+								<p:pickList id="MotReclPickList"
+									value="#{tipoSolicitudPqrView.motivosReclamacion}"
+									var="motivoReclamacion"
+									itemValue="#{motivoReclamacion.idMotRecl}"
+									itemLabel="#{motivoReclamacion.descripcionMotRecl}">
+								</p:pickList>
+
+								<h:outputText id="msgMotSol" value="*Motivos de Solicitud:" />
+								<p:pickList id="MotSolPickList"
+									value="#{tipoSolicitudPqrView.motivosSolicitud}"
+									var="motivoSolicitud" itemValue="#{motivoSolicitud.idMotSol}"
+									itemLabel="#{motivoSolicitud.descripcionMotSol}">
+								</p:pickList>
+
+								<h:outputText id="msgAnexosPqr" value="*Anexos:" />
+								<p:pickList id="AnexosPqrPickList"
+									value="#{tipoSolicitudPqrView.anexosPqr}" var="anexoPqr"
+									itemValue="#{anexoPqr.idAnexoPqr}"
+									itemLabel="#{anexoPqr.descripcionAnexo}">
+								</p:pickList>
+							</h:panelGrid>
+						</p:panel>
+						<p:panel id="panelBotones">
+							<div align="center">
+								<p:commandButton id="btnSave"
+									binding="#{tipoSolicitudPqrView.btnSave}" value="Guardar"
+									disabled="#{tipoSolicitudPqrView.boton}"
+									action="#{tipoSolicitudPqrView.action_save()}"
+									update=":dialogTipoSolicitudPqr :form:msgProjectClientesTitle" />
+								<p:commandButton id="btnModify"
+									binding="#{tipoSolicitudPqrView.btnModify}" value="Modificar"
+									disabled="#{!tipoSolicitudPqrView.boton}"
+									action="#{tipoSolicitudPqrView.action_modify()}"
+									update=":dialogTipoSolicitudPqr :form:msgProjectClientesTitle" />
+								<p:commandButton id="btnClear" value="Limpiar"
+									disabled="#{tipoSolicitudPqrView.boton}"
+									action="#{tipoSolicitudPqrView.action_clear()}"
+									update=":dialogTipoSolicitudPqr" />
+								<p:commandButton id="btnExit" value="Salir"
+									action="#{tipoSolicitudPqrView.action_closeDialog()}"
+									update=":dialogTipoSolicitudPqr" />
+							</div>
+						</p:panel>
+					</h:form>
+				</p:dialog>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
