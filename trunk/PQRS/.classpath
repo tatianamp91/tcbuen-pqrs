@@ -15,6 +15,5 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="com.genuitec.runtime.library/com.genuitec.generic_6.0"/>
-	<classpathentry kind="lib" path="D:/Universidad/USB/IV Semestre/Proyecto Integrador II/javax.mail.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
