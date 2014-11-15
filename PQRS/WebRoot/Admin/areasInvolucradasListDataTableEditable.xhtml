@@ -1,0 +1,119 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/template.xhtml">
+		<ui:define name="body">
+			<f:view>
+				<p:ajaxStatus onstart="statusDialog.show();"
+					onsuccess="statusDialog.hide();" />
+				<p:dialog modal="true" widgetVar="statusDialog" header="Cargando"
+					draggable="false" closable="false">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+				<h:form id="form">
+					<p:panel id="msgProjectClientesTitle" header="Areas"
+						style="height:350px;width:1070px">
+						<p:messages id="msg" showDetail="false" />
+						<p:dataTable id="tabla" value="#{areasInvolucradasView.data}"
+							var="areasInvolucradas" paginator="true" rows="5" editable="true">
+
+							<p:ajax event="rowEdit" update=":form:msg,:form:tabla"
+								listener="#{areasInvolucradasView.rowEventListener}" />
+
+							<p:column filterBy="#{areasInvolucradas.nombreArea}"
+								sortBy="#{areasInvolucradas.nombreArea}" headerText="Nombre"
+								style="height:20px;width:250px">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{areasInvolucradas.nombreArea}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:inputText value="#{areasInvolucradas.nombreArea}"
+											maxlength="50" style="height:20px;width:250px;" />
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+
+							<p:column filterBy="#{areasInvolucradas.estadoRegistro}"
+								sortBy="#{areasInvolucradas.estadoRegistro}" headerText="Estado"
+								style="height:20px;width:150px;">
+								<p:cellEditor>
+									<f:facet name="output">
+										<h:outputText value="#{areasInvolucradas.estadoRegistro}" />
+									</f:facet>
+									<f:facet name="input">
+										<p:selectOneMenu id="estadoRegistro"
+											value="#{areasInvolucradasView.estadoRegistroSeleccionado}"
+											style="height:20px;width:80px">
+											<f:selectItem itemValue="A" itemLabel="Activo" />
+											<f:selectItem itemValue="I" itemLabel="Inactivo" />
+										</p:selectOneMenu>
+									</f:facet>
+								</p:cellEditor>
+							</p:column>
+							<p:column headerText="Editar" style="height:20px;width:100px">
+								<p:rowEditor id="row" />
+								<p:tooltip for="row" value="Edit" showEffect="fade"
+									hideEffect="fade" />
+							</p:column>
+						</p:dataTable>
+					</p:panel>
+					<p:panel id="panelBoton" style="height:40px;width:1070px">
+						<div align="center">
+							<p:commandButton id="btnNew" value="Nuevo"
+								action="#{areasInvolucradasView.action_new()}"
+								update=":dialogAreasInvolucradas" />
+						</div>
+					</p:panel>
+				</h:form>
+				<p:dialog id="dialogAreasInvolucradas" appendToBody="true"
+					draggable="true" closable="false"
+					visible="#{areasInvolucradasView.showDialog}" resizable="false"
+					modal="true" width="500">
+					<h:form id="formDialog">
+						<p:messages id="msg" showDetail="false" />
+						<p:panel id="panelAreasInvolucradas" header="Nueva Area">
+							<h:panelGrid columns="2" id="panelGrid">
+
+								<h:outputText id="msgNombreArea" value="*Nombre:" />
+								<p:inputText id="txtNombreArea" disabled="false"
+									binding="#{areasInvolucradasView.txtNombreArea}" maxlength="50"
+									style="height:20px;width:250px;" />
+
+								<h:outputText id="msgEstadoRegistro" value="*Estado:" />
+								<p:selectOneMenu id="estadoRegistro"
+									value="#{areasInvolucradasView.estadoRegistroSeleccionado}"
+									style="height:20px;width:80px">
+									<f:selectItem itemValue="A" itemLabel="Activo" />
+									<f:selectItem itemValue="I" itemLabel="Inactivo" />
+								</p:selectOneMenu>
+							</h:panelGrid>
+						</p:panel>
+						<p:panel id="panelBotones">
+							<div align="center">
+								<p:commandButton id="btnSave"
+									binding="#{areasInvolucradasView.btnSave}" value="Guardar"
+									action="#{areasInvolucradasView.action_save()}"
+									update=":dialogAreasInvolucradas :form:msgProjectClientesTitle" />
+								<p:commandButton id="btnClear" value="Limpiar"
+									action="#{areasInvolucradasView.action_clear()}"
+									update=":dialogAreasInvolucradas" />
+								<p:commandButton id="btnExit" value="Salir"
+									action="#{areasInvolucradasView.action_closeDialog()}"
+									update=":dialogAreasInvolucradas" />
+							</div>
+						</p:panel>
+					</h:form>
+				</p:dialog>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

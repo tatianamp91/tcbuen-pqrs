@@ -12,6 +12,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <title>PQRS</title>
 </head>
 <body>
-	<jsp:forward page="login.xhtml"/>
+	<jsp:forward page="loginAplicacion.xhtml"/>
 </body>
 </html>
