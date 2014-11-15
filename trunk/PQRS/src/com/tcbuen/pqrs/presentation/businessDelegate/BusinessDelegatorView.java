@@ -1659,4 +1659,8 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
         throws Exception {
         return usuariosInternosLogic.getDataUsuariosInternos();
     }
+    
+    public UsuariosInternos consultarLoginContrasena(String login, String contrasena) throws Exception {
+    	return usuariosInternosLogic.consultarLoginContrasena(login, contrasena);
+    }
 }

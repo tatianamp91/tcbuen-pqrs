@@ -4,11 +4,7 @@ import com.tcbuen.pqrs.modelo.UsuariosInternos;
 import com.tcbuen.pqrs.modelo.dto.UsuariosInternosDTO;
 
 import java.math.BigDecimal;
-
 import java.util.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -58,4 +54,7 @@ public interface IUsuariosInternosLogic {
 
     public List<UsuariosInternosDTO> getDataUsuariosInternos()
         throws Exception;
+    
+    public UsuariosInternos consultarLoginContrasena(String login, String contrasena) 
+    	throws Exception;
 }

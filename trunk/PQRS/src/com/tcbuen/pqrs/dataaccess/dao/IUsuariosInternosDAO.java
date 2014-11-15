@@ -9,4 +9,6 @@ import com.tcbuen.pqrs.modelo.UsuariosInternos;
 *
 */
 public interface IUsuariosInternosDAO extends Dao<UsuariosInternos, Long> {
+	
+	public UsuariosInternos consultarLoginContrasena(String login, String contrasena) throws Exception;
 }

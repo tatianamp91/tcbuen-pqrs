@@ -10,10 +10,10 @@
             	<param name="sequence">SEQ_ID_USU_INTERNO</param>
             </generator>
         </id>
-        <many-to-one name="roles" class="com.tcbuen.pqrs.modelo.Roles" fetch="select">
+        <many-to-one name="roles" class="com.tcbuen.pqrs.modelo.Roles" fetch="select" lazy="false">
             <column name="ID_ROL" precision="10" scale="0" />
         </many-to-one>
-        <many-to-one name="areasInvolucradas" class="com.tcbuen.pqrs.modelo.AreasInvolucradas" fetch="select">
+        <many-to-one name="areasInvolucradas" class="com.tcbuen.pqrs.modelo.AreasInvolucradas" fetch="select" lazy="false">
             <column name="ID_AREA_INVOLUCRADA" precision="10" scale="0" not-null="true" />
         </many-to-one>
         <property name="numeroIdentificacion" type="java.lang.String">
