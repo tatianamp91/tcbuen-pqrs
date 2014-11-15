@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14160811353450" configfile="/PQRS/WebRoot/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="Area/anexosPqr.xhtml" x="554" y="12082" id="pf14160894479191" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf1416089511667205" inlinks="pf14160894479192" path="/Area/anexosPqr.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/initialMenu.xhtml" x="338" y="12082" id="pf14160894479193" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" outlinks="pf14160894479192 pf14160894479194 pf14160894479195 pf14160894479196 pf14160894479197 pf14160894479198 pf14160894479199 pf141608944791910 pf141608944791911 pf141608944791912 pf141608944791913 pf141608944791914 pf141608944791915 pf141608944791916 pf141608944791917 pf141608944791918 pf141608944791919 pf141608944791920 pf141608944791921 pf141608944791922 pf141608944791923 pf141608944791924 pf141608944791925 pf141608944791926 pf141608944791927 pf141608944791928 pf141608944791929 pf141608944791930 pf141608944791931 pf141608944791932 pf141608944791933 pf141608944791934 pf141608944791935 pf141608944791936 pf141608944791937 pf141608944791938 pf141608944791939 pf141608944791940 pf141608944791941 pf141608944791942 pf141608944791943 pf141608944791944 pf141608944791945 pf141608944791946 pf141608944791947 pf141608944791948 pf141608944791949 pf141608944791950 pf141608944791951 pf141608944791952 pf141608944791953 pf141608944791954 pf141608944791955 pf141608944791956 pf141608944791957 pf141608944791958 pf141608944791959 pf141608944791960 pf141608944791961 pf141608944791962 pf141608944791963 pf141608944791964 pf141608944791965 pf141608944791966 pf141608944791967 pf141608944791968" inlinks="pf141608944791970 pf141608944791971 pf141608944791972 pf141608944791973 pf141608944791974 pf141608944791975 pf141608944791976 pf141608944791977 pf141608944791978 pf141608944791979 pf141608944791980 pf141608944791981 pf141608944791982 pf141608944791983 pf141608944791984 pf141608944791985 pf141608944791986 pf141608944791987 pf141608944791988 pf141608944791989 pf141608944791990 pf141608944791991 pf141608944791992 pf141608944791993 pf141608944791994 pf141608944791995 pf141608944791996 pf141608944791997 pf141608944791998 pf141608944791999 pf1416089447919100 pf1416089447919101 pf1416089447919102 pf1416089447919103 pf1416089447919104 pf1416089447919105 pf1416089447919106 pf1416089447919107 pf1416089447919108 pf1416089447919109 pf1416089447919110 pf1416089447919111 pf1416089447919112 pf1416089447919113 pf1416089447919114 pf1416089447919115 pf1416089447919116 pf1416089447919117 pf1416089447919118 pf1416089447919119 pf1416089447919120 pf1416089447919121 pf1416089447919122 pf1416089447919123 pf1416089447919124 pf1416089447919125 pf1416089447919126 pf1416089447919127 pf1416089447919128 pf1416089447919129 pf1416089447919130 pf1416089447919131 pf1416089447919132 pf1416089447919133 pf1416089511668206 pf1416089511667205" path="/Area/initialMenu.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/anexosPqrListDataTable.xhtml" x="122" y="178" id="pf1416089447919135" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf1416089511668206" inlinks="pf14160894479194" path="/Area/anexosPqrListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/anexosPqrListDataTableEditable.xhtml" x="122" y="562" id="pf1416089447919136" referenceLink="//@navigationRule.5/@navigationCase.0/@toViewId|" outlinks="pf141608944791970" inlinks="pf14160894479195" path="/Area/anexosPqrListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/anexosRespuesta.xhtml" x="122" y="946" id="pf1416089447919137" referenceLink="//@navigationRule.9/@navigationCase.0/@toViewId|" outlinks="pf141608944791971" inlinks="pf14160894479196" path="/Area/anexosRespuesta.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/anexosRespuestaListDataTable.xhtml" x="122" y="1330" id="pf1416089447919138" referenceLink="//@navigationRule.10/@navigationCase.0/@toViewId|" outlinks="pf141608944791972" inlinks="pf14160894479197" path="/Area/anexosRespuestaListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/anexosRespuestaListDataTableEditable.xhtml" x="122" y="1714" id="pf1416089447919139" referenceLink="//@navigationRule.11/@navigationCase.0/@toViewId|" outlinks="pf141608944791973" inlinks="pf14160894479198" path="/Area/anexosRespuestaListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/anexosSolicitante.xhtml" x="122" y="2098" id="pf1416089447919140" referenceLink="//@navigationRule.15/@navigationCase.0/@toViewId|" outlinks="pf141608944791974" inlinks="pf14160894479199" path="/Area/anexosSolicitante.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/anexosSolicitanteListDataTable.xhtml" x="122" y="2482" id="pf1416089447919141" referenceLink="//@navigationRule.16/@navigationCase.0/@toViewId|" outlinks="pf141608944791975" inlinks="pf141608944791910" path="/Area/anexosSolicitanteListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/anexosSolicitanteListDataTableEditable.xhtml" x="122" y="2866" id="pf1416089447919142" referenceLink="//@navigationRule.17/@navigationCase.0/@toViewId|" outlinks="pf141608944791976" inlinks="pf141608944791911" path="/Area/anexosSolicitanteListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/anxsXArea.xhtml" x="122" y="3250" id="pf1416089447919143" referenceLink="//@navigationRule.21/@navigationCase.0/@toViewId|" outlinks="pf141608944791977" inlinks="pf141608944791912" path="/Area/anxsXArea.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/anxsXAreaListDataTable.xhtml" x="122" y="3634" id="pf1416089447919144" referenceLink="//@navigationRule.22/@navigationCase.0/@toViewId|" outlinks="pf141608944791978" inlinks="pf141608944791913" path="/Area/anxsXAreaListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/anxsXAreaListDataTableEditable.xhtml" x="122" y="4018" id="pf1416089447920145" referenceLink="//@navigationRule.23/@navigationCase.0/@toViewId|" outlinks="pf141608944791979" inlinks="pf141608944791914" path="/Area/anxsXAreaListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/anxsXTpSol.xhtml" x="122" y="4402" id="pf1416089447920146" referenceLink="//@navigationRule.27/@navigationCase.0/@toViewId|" outlinks="pf141608944791980" inlinks="pf141608944791915" path="/Area/anxsXTpSol.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/anxsXTpSolListDataTable.xhtml" x="122" y="4786" id="pf1416089447920147" referenceLink="//@navigationRule.28/@navigationCase.0/@toViewId|" outlinks="pf141608944791981" inlinks="pf141608944791916" path="/Area/anxsXTpSolListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/anxsXTpSolListDataTableEditable.xhtml" x="122" y="5170" id="pf1416089447920148" referenceLink="//@navigationRule.29/@navigationCase.0/@toViewId|" outlinks="pf141608944791982" inlinks="pf141608944791917" path="/Area/anxsXTpSolListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/areasInvolucradas.xhtml" x="122" y="5554" id="pf1416089447920149" referenceLink="//@navigationRule.33/@navigationCase.0/@toViewId|" outlinks="pf141608944791983" inlinks="pf141608944791918" path="/Area/areasInvolucradas.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/areasInvolucradasListDataTable.xhtml" x="122" y="5938" id="pf1416089447920150" referenceLink="//@navigationRule.34/@navigationCase.0/@toViewId|" outlinks="pf141608944791984" inlinks="pf141608944791919" path="/Area/areasInvolucradasListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/areasInvolucradasListDataTableEditable.xhtml" x="122" y="6322" id="pf1416089447920151" referenceLink="//@navigationRule.35/@navigationCase.0/@toViewId|" outlinks="pf141608944791985" inlinks="pf141608944791920" path="/Area/areasInvolucradasListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/infoSolicitante.xhtml" x="122" y="6706" id="pf1416089447920152" referenceLink="//@navigationRule.39/@navigationCase.0/@toViewId|" outlinks="pf141608944791986" inlinks="pf141608944791921" path="/Area/infoSolicitante.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/infoSolicitanteListDataTable.xhtml" x="122" y="7090" id="pf1416089447920153" referenceLink="//@navigationRule.41/@navigationCase.0/@toViewId|" outlinks="pf141608944791987 pf141608944791988" inlinks="pf141608944791922 pf141608944791923" path="/Area/infoSolicitanteListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/motivoReclamacion.xhtml" x="122" y="7474" id="pf1416089447920154" referenceLink="//@navigationRule.45/@navigationCase.0/@toViewId|" outlinks="pf141608944791989" inlinks="pf141608944791924" path="/Area/motivoReclamacion.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/motivoReclamacionListDataTable.xhtml" x="122" y="7858" id="pf1416089447920155" referenceLink="//@navigationRule.46/@navigationCase.0/@toViewId|" outlinks="pf141608944791990" inlinks="pf141608944791925" path="/Area/motivoReclamacionListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/motivoReclamacionListDataTableEditable.xhtml" x="122" y="8242" id="pf1416089447920156" referenceLink="//@navigationRule.47/@navigationCase.0/@toViewId|" outlinks="pf141608944791991" inlinks="pf141608944791926" path="/Area/motivoReclamacionListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/motivoSolicitud.xhtml" x="122" y="8626" id="pf1416089447920157" referenceLink="//@navigationRule.51/@navigationCase.0/@toViewId|" outlinks="pf141608944791992" inlinks="pf141608944791927" path="/Area/motivoSolicitud.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/consultaEstadisticaCasos.xhtml" x="122" y="9010" id="pf1416089447920158" referenceLink="//@navigationRule.52/@navigationCase.0/@toViewId|" outlinks="pf141608944791993" inlinks="pf141608944791928" path="/Area/consultaEstadisticaCasos.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/motivoSolicitudListDataTableEditable.xhtml" x="122" y="9394" id="pf1416089447920159" referenceLink="//@navigationRule.53/@navigationCase.0/@toViewId|" outlinks="pf141608944791994" inlinks="pf141608944791929" path="/Area/motivoSolicitudListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/motReclSelect.xhtml" x="122" y="9778" id="pf1416089447920160" referenceLink="//@navigationRule.57/@navigationCase.0/@toViewId|" outlinks="pf141608944791995" inlinks="pf141608944791930" path="/Area/motReclSelect.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/motReclSelectListDataTable.xhtml" x="122" y="10162" id="pf1416089447920161" referenceLink="//@navigationRule.58/@navigationCase.0/@toViewId|" outlinks="pf141608944791996" inlinks="pf141608944791931" path="/Area/motReclSelectListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/motReclSelectListDataTableEditable.xhtml" x="122" y="10546" id="pf1416089447920162" referenceLink="//@navigationRule.59/@navigationCase.0/@toViewId|" outlinks="pf141608944791997" inlinks="pf141608944791932" path="/Area/motReclSelectListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/motReclXTpSol.xhtml" x="122" y="10930" id="pf1416089447920163" referenceLink="//@navigationRule.63/@navigationCase.0/@toViewId|" outlinks="pf141608944791998" inlinks="pf141608944791933" path="/Area/motReclXTpSol.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/motReclXTpSolListDataTable.xhtml" x="122" y="11314" id="pf1416089447920164" referenceLink="//@navigationRule.64/@navigationCase.0/@toViewId|" outlinks="pf141608944791999" inlinks="pf141608944791934" path="/Area/motReclXTpSolListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/motReclXTpSolListDataTableEditable.xhtml" x="122" y="11698" id="pf1416089447920165" referenceLink="//@navigationRule.65/@navigationCase.0/@toViewId|" outlinks="pf1416089447919100" inlinks="pf141608944791935" path="/Area/motReclXTpSolListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/motSolSelect.xhtml" x="122" y="12082" id="pf1416089447920166" referenceLink="//@navigationRule.69/@navigationCase.0/@toViewId|" outlinks="pf1416089447919101" inlinks="pf141608944791936" path="/Area/motSolSelect.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/motSolSelectListDataTable.xhtml" x="122" y="12466" id="pf1416089447920167" referenceLink="//@navigationRule.70/@navigationCase.0/@toViewId|" outlinks="pf1416089447919102" inlinks="pf141608944791937" path="/Area/motSolSelectListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/motSolSelectListDataTableEditable.xhtml" x="122" y="12850" id="pf1416089447920168" referenceLink="//@navigationRule.71/@navigationCase.0/@toViewId|" outlinks="pf1416089447919103" inlinks="pf141608944791938" path="/Area/motSolSelectListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/motSolXTpSol.xhtml" x="122" y="13234" id="pf1416089447920169" referenceLink="//@navigationRule.75/@navigationCase.0/@toViewId|" outlinks="pf1416089447919104" inlinks="pf141608944791939" path="/Area/motSolXTpSol.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/motSolXTpSolListDataTable.xhtml" x="122" y="13618" id="pf1416089447920170" referenceLink="//@navigationRule.76/@navigationCase.0/@toViewId|" outlinks="pf1416089447919105" inlinks="pf141608944791940" path="/Area/motSolXTpSolListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/motSolXTpSolListDataTableEditable.xhtml" x="122" y="14002" id="pf1416089447920171" referenceLink="//@navigationRule.77/@navigationCase.0/@toViewId|" outlinks="pf1416089447919106" inlinks="pf141608944791941" path="/Area/motSolXTpSolListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/parametrosPqr.xhtml" x="122" y="14386" id="pf1416089447920172" referenceLink="//@navigationRule.81/@navigationCase.0/@toViewId|" outlinks="pf1416089447919107" inlinks="pf141608944791942" path="/Area/parametrosPqr.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/parametrosPqrListDataTable.xhtml" x="122" y="14770" id="pf1416089447920173" referenceLink="//@navigationRule.82/@navigationCase.0/@toViewId|" outlinks="pf1416089447919108" inlinks="pf141608944791943" path="/Area/parametrosPqrListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/parametrosPqrListDataTableEditable.xhtml" x="122" y="15154" id="pf1416089447920174" referenceLink="//@navigationRule.83/@navigationCase.0/@toViewId|" outlinks="pf1416089447919109" inlinks="pf141608944791944" path="/Area/parametrosPqrListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/respuestaSol.xhtml" x="122" y="15538" id="pf1416089447920175" referenceLink="//@navigationRule.87/@navigationCase.0/@toViewId|" outlinks="pf1416089447919110" inlinks="pf141608944791945" path="/Area/respuestaSol.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/respuestaSolListDataTable.xhtml" x="122" y="15922" id="pf1416089447920176" referenceLink="//@navigationRule.88/@navigationCase.0/@toViewId|" outlinks="pf1416089447919111" inlinks="pf141608944791946" path="/Area/respuestaSolListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/respuestaSolListDataTableEditable.xhtml" x="122" y="16306" id="pf1416089447920177" referenceLink="//@navigationRule.89/@navigationCase.0/@toViewId|" outlinks="pf1416089447919112" inlinks="pf141608944791947" path="/Area/respuestaSolListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/roles.xhtml" x="122" y="16690" id="pf1416089447920178" referenceLink="//@navigationRule.93/@navigationCase.0/@toViewId|" outlinks="pf1416089447919113" inlinks="pf141608944791948" path="/Area/roles.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/rolesListDataTable.xhtml" x="122" y="17074" id="pf1416089447920179" referenceLink="//@navigationRule.94/@navigationCase.0/@toViewId|" outlinks="pf1416089447919114" inlinks="pf141608944791949" path="/Area/rolesListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/rolesListDataTableEditable.xhtml" x="122" y="17458" id="pf1416089447920180" referenceLink="//@navigationRule.95/@navigationCase.0/@toViewId|" outlinks="pf1416089447919115" inlinks="pf141608944791950" path="/Area/rolesListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/solicitudAsignadaArea.xhtml" x="122" y="17842" id="pf1416089447920181" referenceLink="//@navigationRule.99/@navigationCase.0/@toViewId|" outlinks="pf1416089447919116" inlinks="pf141608944791951" path="/Area/solicitudAsignadaArea.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/solicitudAsignadaAreaListDataTable.xhtml" x="122" y="18226" id="pf1416089447920182" referenceLink="//@navigationRule.100/@navigationCase.0/@toViewId|" outlinks="pf1416089447919117" inlinks="pf141608944791952" path="/Area/solicitudAsignadaAreaListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/solicitudAsignadaAreaListDataTableEditable.xhtml" x="122" y="18610" id="pf1416089447920183" referenceLink="//@navigationRule.101/@navigationCase.0/@toViewId|" outlinks="pf1416089447919118" inlinks="pf141608944791953" path="/Area/solicitudAsignadaAreaListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/solicitudPqr.xhtml" x="122" y="18994" id="pf1416089447920184" referenceLink="//@navigationRule.105/@navigationCase.0/@toViewId|" outlinks="pf1416089447919119" inlinks="pf141608944791954" path="/Area/solicitudPqr.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/solicitudPqrListDataTable.xhtml" x="122" y="19378" id="pf1416089447920185" referenceLink="//@navigationRule.106/@navigationCase.0/@toViewId|" outlinks="pf1416089447919120" inlinks="pf141608944791955" path="/Area/solicitudPqrListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/solicitudPqrListDataTableEditable.xhtml" x="122" y="19762" id="pf1416089447920186" referenceLink="//@navigationRule.107/@navigationCase.0/@toViewId|" outlinks="pf1416089447919121" inlinks="pf141608944791956" path="/Area/solicitudPqrListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/tipoDocumento.xhtml" x="122" y="20146" id="pf1416089447920187" referenceLink="//@navigationRule.111/@navigationCase.0/@toViewId|" outlinks="pf1416089447919122" inlinks="pf141608944791957" path="/Area/tipoDocumento.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/tipoDocumentoListDataTable.xhtml" x="122" y="20530" id="pf1416089447920188" referenceLink="//@navigationRule.112/@navigationCase.0/@toViewId|" outlinks="pf1416089447919123" inlinks="pf141608944791958" path="/Area/tipoDocumentoListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/tipoDocumentoListDataTableEditable.xhtml" x="122" y="20914" id="pf1416089447920189" referenceLink="//@navigationRule.113/@navigationCase.0/@toViewId|" outlinks="pf1416089447919124" inlinks="pf141608944791959" path="/Area/tipoDocumentoListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/tipoEstadoPqr.xhtml" x="122" y="21298" id="pf1416089447920190" referenceLink="//@navigationRule.117/@navigationCase.0/@toViewId|" outlinks="pf1416089447919125" inlinks="pf141608944791960" path="/Area/tipoEstadoPqr.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/tipoEstadoPqrListDataTable.xhtml" x="122" y="21682" id="pf1416089447920191" referenceLink="//@navigationRule.118/@navigationCase.0/@toViewId|" outlinks="pf1416089447919126" inlinks="pf141608944791961" path="/Area/tipoEstadoPqrListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/tipoEstadoPqrListDataTableEditable.xhtml" x="122" y="22066" id="pf1416089447920192" referenceLink="//@navigationRule.119/@navigationCase.0/@toViewId|" outlinks="pf1416089447919127" inlinks="pf141608944791962" path="/Area/tipoEstadoPqrListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/tipoSolicitudPqr.xhtml" x="122" y="22450" id="pf1416089447920193" referenceLink="//@navigationRule.123/@navigationCase.0/@toViewId|" outlinks="pf1416089447919128" inlinks="pf141608944791963" path="/Area/tipoSolicitudPqr.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/tipoSolicitudPqrListDataTable.xhtml" x="122" y="22834" id="pf1416089447921194" referenceLink="//@navigationRule.124/@navigationCase.0/@toViewId|" outlinks="pf1416089447919129" inlinks="pf141608944791964" path="/Area/tipoSolicitudPqrListDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/tipoSolicitudPqrListDataTableEditable.xhtml" x="122" y="23218" id="pf1416089447921195" referenceLink="//@navigationRule.125/@navigationCase.0/@toViewId|" outlinks="pf1416089447919130" inlinks="pf141608944791965" path="/Area/tipoSolicitudPqrListDataTableEditable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/usuariosInternos.xhtml" x="122" y="23602" id="pf1416089447921196" referenceLink="//@navigationRule.129/@navigationCase.0/@toViewId|" outlinks="pf1416089447919131" inlinks="pf141608944791966" path="/Area/usuariosInternos.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/casosAsignadosDataTable.xhtml" x="122" y="23986" id="pf1416089447921197" referenceLink="//@navigationRule.130/@navigationCase.0/@toViewId|" outlinks="pf1416089447919132" inlinks="pf141608944791967" path="/Area/casosAsignadosDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/usuariosInternosListDataTableEditable.xhtml" x="122" y="24370" id="pf1416089447921198" referenceLink="//@navigationRule.131/@navigationCase.0/@toViewId|" outlinks="pf1416089447919133" inlinks="pf141608944791968" path="/Area/usuariosInternosListDataTableEditable.xhtml"/>
+  <links id="pf141608944791970" target="pf14160894479193" source="pf1416089447919136" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf14160894479192" target="pf14160894479191" source="pf14160894479193" outcome="goAnexosPqr" redirect="true"/>
+  <links id="pf14160894479194" target="pf1416089447919135" source="pf14160894479193" outcome="goAnexosPqrListDataTable" redirect="true"/>
+  <links id="pf14160894479195" target="pf1416089447919136" source="pf14160894479193" outcome="goAnexosPqrListDataTableEditable" redirect="true"/>
+  <links id="pf141608944791971" target="pf14160894479193" source="pf1416089447919137" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791972" target="pf14160894479193" source="pf1416089447919138" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791973" target="pf14160894479193" source="pf1416089447919139" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf14160894479196" target="pf1416089447919137" source="pf14160894479193" outcome="goAnexosRespuesta" redirect="true"/>
+  <links id="pf14160894479197" target="pf1416089447919138" source="pf14160894479193" outcome="goAnexosRespuestaListDataTable" redirect="true"/>
+  <links id="pf14160894479198" target="pf1416089447919139" source="pf14160894479193" outcome="goAnexosRespuestaListDataTableEditable" redirect="true"/>
+  <links id="pf141608944791974" target="pf14160894479193" source="pf1416089447919140" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791975" target="pf14160894479193" source="pf1416089447919141" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791976" target="pf14160894479193" source="pf1416089447919142" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf14160894479199" target="pf1416089447919140" source="pf14160894479193" outcome="goAnexosSolicitante" redirect="true"/>
+  <links id="pf141608944791910" target="pf1416089447919141" source="pf14160894479193" outcome="goAnexosSolicitanteListDataTable" redirect="true"/>
+  <links id="pf141608944791911" target="pf1416089447919142" source="pf14160894479193" outcome="goAnexosSolicitanteListDataTableEditable" redirect="true"/>
+  <links id="pf141608944791977" target="pf14160894479193" source="pf1416089447919143" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791978" target="pf14160894479193" source="pf1416089447919144" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791979" target="pf14160894479193" source="pf1416089447920145" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791912" target="pf1416089447919143" source="pf14160894479193" outcome="goAnxsXArea" redirect="true"/>
+  <links id="pf141608944791913" target="pf1416089447919144" source="pf14160894479193" outcome="goAnxsXAreaListDataTable" redirect="true"/>
+  <links id="pf141608944791914" target="pf1416089447920145" source="pf14160894479193" outcome="goAnxsXAreaListDataTableEditable" redirect="true"/>
+  <links id="pf141608944791980" target="pf14160894479193" source="pf1416089447920146" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791981" target="pf14160894479193" source="pf1416089447920147" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791982" target="pf14160894479193" source="pf1416089447920148" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791915" target="pf1416089447920146" source="pf14160894479193" outcome="goAnxsXTpSol" redirect="true"/>
+  <links id="pf141608944791916" target="pf1416089447920147" source="pf14160894479193" outcome="goAnxsXTpSolListDataTable" redirect="true"/>
+  <links id="pf141608944791917" target="pf1416089447920148" source="pf14160894479193" outcome="goAnxsXTpSolListDataTableEditable" redirect="true"/>
+  <links id="pf141608944791983" target="pf14160894479193" source="pf1416089447920149" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791984" target="pf14160894479193" source="pf1416089447920150" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791985" target="pf14160894479193" source="pf1416089447920151" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791918" target="pf1416089447920149" source="pf14160894479193" outcome="goAreasInvolucradas" redirect="true"/>
+  <links id="pf141608944791919" target="pf1416089447920150" source="pf14160894479193" outcome="goAreasInvolucradasListDataTable" redirect="true"/>
+  <links id="pf141608944791920" target="pf1416089447920151" source="pf14160894479193" outcome="goAreasInvolucradasListDataTableEditable" redirect="true"/>
+  <links id="pf141608944791986" target="pf14160894479193" source="pf1416089447920152" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791987" target="pf14160894479193" source="pf1416089447920153" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791988" target="pf14160894479193" source="pf1416089447920153" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791921" target="pf1416089447920152" source="pf14160894479193" outcome="goInfoSolicitante" redirect="true"/>
+  <links id="pf141608944791922" target="pf1416089447920153" source="pf14160894479193" outcome="goInfoSolicitanteListDataTable" redirect="true"/>
+  <links id="pf141608944791923" target="pf1416089447920153" source="pf14160894479193" outcome="goInfoSolicitanteListDataTableEditable" redirect="true"/>
+  <links id="pf141608944791989" target="pf14160894479193" source="pf1416089447920154" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791990" target="pf14160894479193" source="pf1416089447920155" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791991" target="pf14160894479193" source="pf1416089447920156" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791924" target="pf1416089447920154" source="pf14160894479193" outcome="goMotivoReclamacion" redirect="true"/>
+  <links id="pf141608944791925" target="pf1416089447920155" source="pf14160894479193" outcome="goMotivoReclamacionListDataTable" redirect="true"/>
+  <links id="pf141608944791926" target="pf1416089447920156" source="pf14160894479193" outcome="goMotivoReclamacionListDataTableEditable" redirect="true"/>
+  <links id="pf141608944791992" target="pf14160894479193" source="pf1416089447920157" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791993" target="pf14160894479193" source="pf1416089447920158" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791994" target="pf14160894479193" source="pf1416089447920159" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791927" target="pf1416089447920157" source="pf14160894479193" outcome="goMotivoSolicitud" redirect="true"/>
+  <links id="pf141608944791928" target="pf1416089447920158" source="pf14160894479193" outcome="goMotivoSolicitudListDataTable" redirect="true"/>
+  <links id="pf141608944791929" target="pf1416089447920159" source="pf14160894479193" outcome="goMotivoSolicitudListDataTableEditable" redirect="true"/>
+  <links id="pf141608944791995" target="pf14160894479193" source="pf1416089447920160" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791996" target="pf14160894479193" source="pf1416089447920161" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791997" target="pf14160894479193" source="pf1416089447920162" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791930" target="pf1416089447920160" source="pf14160894479193" outcome="goMotReclSelect" redirect="true"/>
+  <links id="pf141608944791931" target="pf1416089447920161" source="pf14160894479193" outcome="goMotReclSelectListDataTable" redirect="true"/>
+  <links id="pf141608944791932" target="pf1416089447920162" source="pf14160894479193" outcome="goMotReclSelectListDataTableEditable" redirect="true"/>
+  <links id="pf141608944791998" target="pf14160894479193" source="pf1416089447920163" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791999" target="pf14160894479193" source="pf1416089447920164" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf1416089447919100" target="pf14160894479193" source="pf1416089447920165" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791933" target="pf1416089447920163" source="pf14160894479193" outcome="goMotReclXTpSol" redirect="true"/>
+  <links id="pf141608944791934" target="pf1416089447920164" source="pf14160894479193" outcome="goMotReclXTpSolListDataTable" redirect="true"/>
+  <links id="pf141608944791935" target="pf1416089447920165" source="pf14160894479193" outcome="goMotReclXTpSolListDataTableEditable" redirect="true"/>
+  <links id="pf1416089447919101" target="pf14160894479193" source="pf1416089447920166" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf1416089447919102" target="pf14160894479193" source="pf1416089447920167" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf1416089447919103" target="pf14160894479193" source="pf1416089447920168" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791936" target="pf1416089447920166" source="pf14160894479193" outcome="goMotSolSelect" redirect="true"/>
+  <links id="pf141608944791937" target="pf1416089447920167" source="pf14160894479193" outcome="goMotSolSelectListDataTable" redirect="true"/>
+  <links id="pf141608944791938" target="pf1416089447920168" source="pf14160894479193" outcome="goMotSolSelectListDataTableEditable" redirect="true"/>
+  <links id="pf1416089447919104" target="pf14160894479193" source="pf1416089447920169" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf1416089447919105" target="pf14160894479193" source="pf1416089447920170" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf1416089447919106" target="pf14160894479193" source="pf1416089447920171" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791939" target="pf1416089447920169" source="pf14160894479193" outcome="goMotSolXTpSol" redirect="true"/>
+  <links id="pf141608944791940" target="pf1416089447920170" source="pf14160894479193" outcome="goMotSolXTpSolListDataTable" redirect="true"/>
+  <links id="pf141608944791941" target="pf1416089447920171" source="pf14160894479193" outcome="goMotSolXTpSolListDataTableEditable" redirect="true"/>
+  <links id="pf1416089447919107" target="pf14160894479193" source="pf1416089447920172" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf1416089447919108" target="pf14160894479193" source="pf1416089447920173" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf1416089447919109" target="pf14160894479193" source="pf1416089447920174" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791942" target="pf1416089447920172" source="pf14160894479193" outcome="goParametrosPqr" redirect="true"/>
+  <links id="pf141608944791943" target="pf1416089447920173" source="pf14160894479193" outcome="goParametrosPqrListDataTable" redirect="true"/>
+  <links id="pf141608944791944" target="pf1416089447920174" source="pf14160894479193" outcome="goParametrosPqrListDataTableEditable" redirect="true"/>
+  <links id="pf1416089447919110" target="pf14160894479193" source="pf1416089447920175" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf1416089447919111" target="pf14160894479193" source="pf1416089447920176" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf1416089447919112" target="pf14160894479193" source="pf1416089447920177" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791945" target="pf1416089447920175" source="pf14160894479193" outcome="goRespuestaSol" redirect="true"/>
+  <links id="pf141608944791946" target="pf1416089447920176" source="pf14160894479193" outcome="goRespuestaSolListDataTable" redirect="true"/>
+  <links id="pf141608944791947" target="pf1416089447920177" source="pf14160894479193" outcome="goRespuestaSolListDataTableEditable" redirect="true"/>
+  <links id="pf1416089447919113" target="pf14160894479193" source="pf1416089447920178" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf1416089447919114" target="pf14160894479193" source="pf1416089447920179" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf1416089447919115" target="pf14160894479193" source="pf1416089447920180" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791948" target="pf1416089447920178" source="pf14160894479193" outcome="goRoles" redirect="true"/>
+  <links id="pf141608944791949" target="pf1416089447920179" source="pf14160894479193" outcome="goRolesListDataTable" redirect="true"/>
+  <links id="pf141608944791950" target="pf1416089447920180" source="pf14160894479193" outcome="goRolesListDataTableEditable" redirect="true"/>
+  <links id="pf1416089447919116" target="pf14160894479193" source="pf1416089447920181" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf1416089447919117" target="pf14160894479193" source="pf1416089447920182" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf1416089447919118" target="pf14160894479193" source="pf1416089447920183" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791951" target="pf1416089447920181" source="pf14160894479193" outcome="goSolicitudAsignadaArea" redirect="true"/>
+  <links id="pf141608944791952" target="pf1416089447920182" source="pf14160894479193" outcome="goSolicitudAsignadaAreaListDataTable" redirect="true"/>
+  <links id="pf141608944791953" target="pf1416089447920183" source="pf14160894479193" outcome="goSolicitudAsignadaAreaListDataTableEditable" redirect="true"/>
+  <links id="pf1416089447919119" target="pf14160894479193" source="pf1416089447920184" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf1416089447919120" target="pf14160894479193" source="pf1416089447920185" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf1416089447919121" target="pf14160894479193" source="pf1416089447920186" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791954" target="pf1416089447920184" source="pf14160894479193" outcome="goSolicitudPqr" redirect="true"/>
+  <links id="pf141608944791955" target="pf1416089447920185" source="pf14160894479193" outcome="goSolicitudPqrListDataTable" redirect="true"/>
+  <links id="pf141608944791956" target="pf1416089447920186" source="pf14160894479193" outcome="goSolicitudPqrListDataTableEditable" redirect="true"/>
+  <links id="pf1416089447919122" target="pf14160894479193" source="pf1416089447920187" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf1416089447919123" target="pf14160894479193" source="pf1416089447920188" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf1416089447919124" target="pf14160894479193" source="pf1416089447920189" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791957" target="pf1416089447920187" source="pf14160894479193" outcome="goTipoDocumento" redirect="true"/>
+  <links id="pf141608944791958" target="pf1416089447920188" source="pf14160894479193" outcome="goTipoDocumentoListDataTable" redirect="true"/>
+  <links id="pf141608944791959" target="pf1416089447920189" source="pf14160894479193" outcome="goTipoDocumentoListDataTableEditable" redirect="true"/>
+  <links id="pf1416089447919125" target="pf14160894479193" source="pf1416089447920190" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf1416089447919126" target="pf14160894479193" source="pf1416089447920191" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf1416089447919127" target="pf14160894479193" source="pf1416089447920192" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791960" target="pf1416089447920190" source="pf14160894479193" outcome="goTipoEstadoPqr" redirect="true"/>
+  <links id="pf141608944791961" target="pf1416089447920191" source="pf14160894479193" outcome="goTipoEstadoPqrListDataTable" redirect="true"/>
+  <links id="pf141608944791962" target="pf1416089447920192" source="pf14160894479193" outcome="goTipoEstadoPqrListDataTableEditable" redirect="true"/>
+  <links id="pf1416089447919128" target="pf14160894479193" source="pf1416089447920193" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf1416089447919129" target="pf14160894479193" source="pf1416089447921194" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf1416089447919130" target="pf14160894479193" source="pf1416089447921195" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791963" target="pf1416089447920193" source="pf14160894479193" outcome="goTipoSolicitudPqr" redirect="true"/>
+  <links id="pf141608944791964" target="pf1416089447921194" source="pf14160894479193" outcome="goTipoSolicitudPqrListDataTable" redirect="true"/>
+  <links id="pf141608944791965" target="pf1416089447921195" source="pf14160894479193" outcome="goTipoSolicitudPqrListDataTableEditable" redirect="true"/>
+  <links id="pf1416089447919131" target="pf14160894479193" source="pf1416089447921196" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf1416089447919132" target="pf14160894479193" source="pf1416089447921197" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf1416089447919133" target="pf14160894479193" source="pf1416089447921198" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf141608944791966" target="pf1416089447921196" source="pf14160894479193" outcome="goUsuariosInternos" redirect="true"/>
+  <links id="pf141608944791967" target="pf1416089447921197" source="pf14160894479193" outcome="goUsuariosInternosListDataTable" redirect="true"/>
+  <links id="pf141608944791968" target="pf1416089447921198" source="pf14160894479193" outcome="goUsuariosInternosListDataTableEditable" redirect="true"/>
+  <links id="pf1416089511668206" target="pf14160894479193" source="pf1416089447919135" outcome="goInitialMenu" redirect="true"/>
+  <links id="pf1416089511667205" target="pf14160894479193" source="pf14160894479191" outcome="goInitialMenu" redirect="true"/>
+</pageflow:Pageflow>
