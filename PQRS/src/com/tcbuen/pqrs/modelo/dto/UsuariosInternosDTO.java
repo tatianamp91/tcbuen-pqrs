@@ -54,7 +54,7 @@ public class UsuariosInternosDTO implements Serializable {
     }
 
     public String getEstadoRegistro() {
-        if(estadoRegistro.equals("A")){
+        if(estadoRegistro.equals("A") || estadoRegistro.equals("a")){
         	estadoRegistro = "Activo";
         }else{
         	estadoRegistro ="Inactivo";
@@ -129,8 +129,5 @@ public class UsuariosInternosDTO implements Serializable {
 
 	public void setNombreArea(String nombreArea) {
 		this.nombreArea = nombreArea;
-	}
-    
-    
-    
+	}  
 }

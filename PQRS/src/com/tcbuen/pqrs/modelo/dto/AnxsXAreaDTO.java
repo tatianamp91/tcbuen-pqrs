@@ -22,7 +22,7 @@ public class AnxsXAreaDTO implements Serializable {
     private Long idAreaInvolucrada_AreasInvolucradas;
 
     public String getEsObligatorio() {
-        if(esObligatorio.equals("S")){
+        if(esObligatorio.equals("S") || esObligatorio.equals("s")){
         	esObligatorio = "Si";
         }else{
         	esObligatorio ="No";

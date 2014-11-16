@@ -1,0 +1,54 @@
+<jsp:root jsfc="f:view" xmlns:jsp="http://java.sun.com/JSP/Page"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+	<html>
+<body>
+	<f:view>
+		<ui:composition>
+			<!-- Beging Menu -->
+			<h:form>
+				<p:megaMenu style="height:30px;width:1045px">
+					<p:submenu label="Gestion" icon="ui-icon-contact"
+						style="width:250px">
+						<p:column style="width:250px">
+							<p:submenu style="width:240px">
+								<p:menuitem value="Anexos" style="width:240px"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/Admin/anexosPqrListDataTableEditable.xhtml" />
+								<p:menuitem value="Areas" style="width:240px"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/Admin/areasInvolucradasListDataTableEditable.xhtml" />
+								<p:menuitem value="Anexos por Area" style="width:240px"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/Admin/anxsXAreaListDataTableEditable.xhtml" />
+								<p:menuitem value="Motivo Reclamacion" style="width:240px"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/Admin/motivoReclamacionListDataTableEditable.xhtml" />
+								<p:menuitem value="Motivo Solicitud" style="width:240px"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/Admin/motivoSolicitudListDataTableEditable.xhtml" />
+								<p:menuitem value="Parametros" style="width:240px"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/Admin/parametrosPqrListDataTableEditable.xhtml" />
+								<p:menuitem value="Roles" style="width:240px"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/Admin/rolesListDataTableEditable.xhtml" />
+								<p:menuitem value="Tipo Documento" style="width:240px"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/Admin/tipoDocumentoListDataTableEditable.xhtml" />
+								<p:menuitem value="Tipo Estado" style="width:240px"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/Admin/tipoEstadoPqrListDataTableEditable.xhtml" />
+								<p:menuitem value="Tipo Solicitud" style="width:240px"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/Admin/tipoSolicitudPqrListDataTableEditable.xhtml" />
+								<p:menuitem value="Usuarios" style="width:240px"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/Admin/usuariosInternosListDataTableEditable.xhtml" />
+							</p:submenu>
+						</p:column>
+					</p:submenu>
+					<p:menuitem value="Salir"
+						url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/index.jsp"
+						icon="ui-icon-close" />
+				</p:megaMenu>
+			</h:form>
+			<!-- end menu -->
+		</ui:composition>
+	</f:view>
+</body>
+	</html>
+</jsp:root>
