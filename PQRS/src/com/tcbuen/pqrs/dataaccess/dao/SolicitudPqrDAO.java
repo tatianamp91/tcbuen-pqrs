@@ -111,7 +111,8 @@ public class SolicitudPqrDAO extends HibernateDaoImpl<SolicitudPqr, Long>
     			+ "WHERE MOTR.idMotRecl = MRS.motivoReclamacion.idMotRecl and MRS.solicitudPqr.idSolPqr = SPQR.idSolPqr and SPQR.tipoEstadoPqr.idTpEstPqr = TEPQR.idTpEstPqr "
     			+ "and SPQR.idSolPqr = SAA.solicitudPqr.idSolPqr and SAA.areasInvolucradas.idAreaInvolucrada = AI.idAreaInvolucrada " 
     			+ "and SPQR.numeroRadicacion = " + "'" + numeroRadicacion + "'" 
-    			+ " order by SPQR.fechaCreacion asc";
+    			+ " group by (MOTR.descripcionMotRecl, SPQR.fechaCreacion, TEPQR.descripcionEstado, AI.nombreArea, SAA.fechaRespuesta) " 
+    			+ "order by SPQR.fechaCreacion asc ";
     	return (List<EstadisticasDTO>) sessionFactory.getCurrentSession().createQuery(hql).list();
     }
 	
