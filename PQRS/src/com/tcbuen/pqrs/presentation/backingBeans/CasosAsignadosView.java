@@ -11,11 +11,14 @@ import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.imageio.stream.FileImageOutputStream;
+import javax.servlet.http.HttpSession;
 import javax.sql.rowset.serial.SerialBlob;
 
 import org.primefaces.event.FileUploadEvent;
@@ -157,13 +160,17 @@ public class CasosAsignadosView implements Serializable {
 	}
 	
 	public RespuestaSol respuestaSolicitud() throws Exception{
-		try{			
+		try{	
+			HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+	        long usuario =  Long.parseLong(httpSession.getAttribute("usuario").toString());
+	        UsuariosInternos usu = businessDelegatorView.getUsuariosInternos(usuario);
+	        
 			RespuestaSol respuestaSol = new RespuestaSol();
 			respuestaSol.setDescObservacion(observacion);
 			respuestaSol.setValorReclamacion(1D);
 			respuestaSol.setEstadoRegistro("A");
 			respuestaSol.setFechaCreacion(new Date());
-			respuestaSol.setUsuarioCreador("Admin");
+			respuestaSol.setUsuarioCreador(usu.getLogin());
 			respuestaSol.setFechaUltimaModificacion(null);
 			respuestaSol.setUsuarioUltimaModificacion(null);		
 			respuestaSol.setSolicitudAsignadaArea(null);
@@ -177,6 +184,10 @@ public class CasosAsignadosView implements Serializable {
 	 public List<AnexosRespuesta> anexosRespuesta() {
 		 List<AnexosRespuesta> anexosRespuesta = new ArrayList<AnexosRespuesta>();
 	    	try{
+				HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+		        long usuario =  Long.parseLong(httpSession.getAttribute("usuario").toString());
+		        UsuariosInternos usu = businessDelegatorView.getUsuariosInternos(usuario);
+	    		
 	    		int index = 0;
 	    		for (UploadedFile uploadedF : uploadedFiles) {
 	    			file = uploadedF;
@@ -198,7 +209,7 @@ public class CasosAsignadosView implements Serializable {
 	    				AnexosPqr anexo = businessDelegatorView.getAnexosPqr(anexosPqr.get(index).getIdAnexoPqr());
 	    				anexoRespuesta.setAnexosPqr(anexo);
 	    				anexoRespuesta.setFechaCreacion(new Date());
-	    				anexoRespuesta.setUsuarioCreador("Solicitante");
+	    				anexoRespuesta.setUsuarioCreador(usu.getLogin());
 	    				anexoRespuesta.setRespuestaSol(null);
 	    				
 	    				anexosRespuesta.add(anexoRespuesta);
