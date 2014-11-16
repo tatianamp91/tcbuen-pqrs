@@ -29,6 +29,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -234,6 +235,9 @@ public class RolesView implements Serializable {
 
 	public String action_create() {
 		try {
+			HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+	        long usuario =  Long.parseLong(httpSession.getAttribute("usuario").toString());
+	        UsuariosInternos usu = businessDelegatorView.getUsuariosInternos(usuario);
 
 			String nombreRol = txtNombreRol.getValue().toString().toLowerCase();
 			Roles nombre = ObtenerRoles(nombreRol);
@@ -245,13 +249,9 @@ public class RolesView implements Serializable {
 
 				}
 				entity = new Roles();
-
-				// Long idRol = FacesUtils.checkLong(txtIdRol);
-				// entity.setIdRol(idRol);
 				entity.setNombreRol(FacesUtils.checkString(txtNombreRol).toLowerCase());
 				entity.setEstadoRegistro(estadoRegistroSeleccionado);
-				// Falta agregar usuario de sesion
-				entity.setUsuarioCreador("Admin");
+				entity.setUsuarioCreador(usu.getLogin());
 				entity.setFechaCreacion(new Date());
 				entity.setFechaUltimaModificacion(null);
 				entity.setUsuarioUltimaModificacion(null);
@@ -260,7 +260,6 @@ public class RolesView implements Serializable {
 				FacesUtils.addInfoMessage("El rol se guardó exitosamente");
 
 				action_clear();
-
 			} else {
 				throw new Exception("Ya existe Rol");
 			}
@@ -268,7 +267,6 @@ public class RolesView implements Serializable {
 			entity = null;
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
-
 		return "";
 	}
 
@@ -297,28 +295,26 @@ public class RolesView implements Serializable {
 
 	}
 	
-	public void actualizar(){
-		
+	public void actualizar(){		
 		try {
+			HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+	        long usuario =  Long.parseLong(httpSession.getAttribute("usuario").toString());
+	        UsuariosInternos usu = businessDelegatorView.getUsuariosInternos(usuario);
+	        
 			entity.setNombreRol(FacesUtils.checkString(txtNombreRol).toLowerCase());
 			entity.setEstadoRegistro(estadoRegistroSeleccionado);
-			entity.setUsuarioCreador(FacesUtils
-					.checkString(txtUsuarioCreador));
+			entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
 			entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-			// Falta agregar usuario de sesion
-			entity.setUsuarioUltimaModificacion("Facturación");
+			entity.setUsuarioUltimaModificacion(usu.getLogin());
 			entity.setFechaUltimaModificacion(new Date());
 
 			businessDelegatorView.updateRoles(entity);
-			FacesUtils
-					.addInfoMessage("El rol se modifico exitosamente");
-
+			FacesUtils.addInfoMessage("El rol se modifico exitosamente");
 		} catch (Exception e) {
 			data = null;
 			FacesUtils.addErrorMessage(e.getMessage());
-		}
-		
-			}
+		}		
+	}
 
 	public String action_modify() {
 		try {

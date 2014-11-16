@@ -27,6 +27,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -242,6 +243,9 @@ public class TipoDocumentoView implements Serializable {
 
     public String action_create() {
         try {
+			HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+	        long usuario =  Long.parseLong(httpSession.getAttribute("usuario").toString());
+	        UsuariosInternos usu = businessDelegatorView.getUsuariosInternos(usuario);
         	
         	String descripcionTpDoc =txtDescripcionTpDoc.getValue().toString().toLowerCase();
         	TipoDocumento tipoDocumento= ObtenerDocDescripcion(descripcionTpDoc);
@@ -252,15 +256,11 @@ public class TipoDocumentoView implements Serializable {
             	}
             	
             	entity = new TipoDocumento();
-
-                //Long idTpDoc = FacesUtils.checkLong(txtIdTpDoc);
-                //entity.setIdTpDoc(idTpDoc);
-                
                 entity.setDescripcionTpDoc(FacesUtils.checkString(txtDescripcionTpDoc).toLowerCase());
                 entity.setEstadoRegistro(estadoRegistroSeleccionado);
                 entity.setFechaCreacion(new Date());
                 entity.setFechaUltimaModificacion(null);
-                entity.setUsuarioCreador("Admin");
+                entity.setUsuarioCreador(usu.getLogin());
                 entity.setUsuarioUltimaModificacion(null);
                 businessDelegatorView.saveTipoDocumento(entity);
                 FacesUtils.addInfoMessage("El tipo de documento se guardó exitosamente");
@@ -305,16 +305,18 @@ public class TipoDocumentoView implements Serializable {
 
 	}
     
-    private void actualizar(){
-    	
+    private void actualizar(){    	
     	try {
+			HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+	        long usuario =  Long.parseLong(httpSession.getAttribute("usuario").toString());
+	        UsuariosInternos usu = businessDelegatorView.getUsuariosInternos(usuario);
     		
     		entity.setDescripcionTpDoc(FacesUtils.checkString(txtDescripcionTpDoc).toLowerCase());
     		entity.setEstadoRegistro(estadoRegistroSeleccionado);
             entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
             entity.setFechaUltimaModificacion(new Date());
             entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
-            entity.setUsuarioUltimaModificacion("Admin-1");
+            entity.setUsuarioUltimaModificacion(usu.getLogin());
             
             businessDelegatorView.updateTipoDocumento(entity);
             FacesUtils.addInfoMessage("El tipo de documento se modifico exitosamente");

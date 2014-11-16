@@ -27,6 +27,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpSession;
 
 /**
  * @author Zathura Code Generator http://code.google.com/p/zathura
@@ -337,6 +338,10 @@ public class TipoSolicitudPqrView implements Serializable {
 
 	public String action_create() {
 		try {
+			HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+	        long usuario =  Long.parseLong(httpSession.getAttribute("usuario").toString());
+	        UsuariosInternos usu = businessDelegatorView.getUsuariosInternos(usuario);
+	        
 			String descTpSol = txtDescTpSol.getValue().toString();
 			TipoSolicitudPqr tipoSolicitudPqr = ObtenerTipoSolicitudPqr(descTpSol);
 			if (tipoSolicitudPqr == null) {
@@ -347,8 +352,7 @@ public class TipoSolicitudPqrView implements Serializable {
 
 				entity.setDescTpSol(FacesUtils.checkString(txtDescTpSol));
 				entity.setEstadoRegistro(estadoRegistroSeleccionado);
-				// Falta agregar usuario de sesion
-				entity.setUsuarioCreador("Admin");
+				entity.setUsuarioCreador(usu.getLogin());
 				entity.setFechaCreacion(new Date());
 				entity.setUsuarioUltimaModificacion(null);
 				entity.setFechaUltimaModificacion(null);
@@ -432,6 +436,10 @@ public class TipoSolicitudPqrView implements Serializable {
 	
 	public String actulizar() {
 		try {
+			HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+	        long usuario =  Long.parseLong(httpSession.getAttribute("usuario").toString());
+	        UsuariosInternos usu = businessDelegatorView.getUsuariosInternos(usuario);
+	        
 			if (entity == null) {
 				entity = businessDelegatorView.getTipoSolicitudPqr(idTpSolPqr);
 			}
@@ -439,8 +447,7 @@ public class TipoSolicitudPqrView implements Serializable {
 			entity.setEstadoRegistro(estadoRegistroSeleccionado);
 			entity.setUsuarioCreador(entity.getUsuarioCreador());
 			entity.setFechaCreacion(entity.getFechaCreacion());
-			// Falta agregar usuario de sesion
-			entity.setUsuarioUltimaModificacion("Facturación");
+			entity.setUsuarioUltimaModificacion(usu.getLogin());
 			entity.setFechaUltimaModificacion(new Date());
 
 			businessDelegatorView.updateTipoSolicitudPqr(entity);
