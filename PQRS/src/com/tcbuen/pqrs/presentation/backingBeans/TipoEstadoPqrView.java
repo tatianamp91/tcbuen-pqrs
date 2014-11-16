@@ -27,6 +27,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -249,6 +250,9 @@ public class TipoEstadoPqrView implements Serializable {
 
     public String action_create() {
         try {
+			HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+	        long usuario =  Long.parseLong(httpSession.getAttribute("usuario").toString());
+	        UsuariosInternos usu = businessDelegatorView.getUsuariosInternos(usuario);
         	
         	String descripcionEstado=txtDescripcionEstado.getValue().toString().toLowerCase();
         	TipoEstadoPqr tipoEstadoPqr= ObtenerDesTipoEstado(descripcionEstado);
@@ -261,14 +265,9 @@ public class TipoEstadoPqrView implements Serializable {
         		}
         	
             entity = new TipoEstadoPqr();
-
-            //Long idTpEstPqr = FacesUtils.checkLong(txtIdTpEstPqr);
-
-            //entity.setIdTpEstPqr(idTpEstPqr);
             entity.setDescripcionEstado(FacesUtils.checkString(txtDescripcionEstado).toLowerCase());
             entity.setEstadoRegistro(estadoRegistroSeleccionado);
-            //Falta agregar usuarios sesion
-            entity.setUsuarioCreador("Admin");
+            entity.setUsuarioCreador(usu.getLogin());
 			entity.setFechaCreacion(new Date());
 			entity.setUsuarioUltimaModificacion(null);
 			entity.setFechaUltimaModificacion(null);
@@ -279,13 +278,11 @@ public class TipoEstadoPqrView implements Serializable {
             
         	} else {
         		throw new Exception("Ya existe estado");
-        	}
-				
+        	}				
         } catch (Exception e) {
             entity = null;
             FacesUtils.addErrorMessage(e.getMessage());
         }
-
         return "";
     }
     
@@ -318,13 +315,16 @@ public class TipoEstadoPqrView implements Serializable {
 
     private void actualizar(){
     	try {
+			HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+	        long usuario =  Long.parseLong(httpSession.getAttribute("usuario").toString());
+	        UsuariosInternos usu = businessDelegatorView.getUsuariosInternos(usuario);
     		
     		 entity.setDescripcionEstado(FacesUtils.checkString(txtDescripcionEstado).toLowerCase());
     		 entity.setEstadoRegistro(estadoRegistroSeleccionado);
              entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
              entity.setFechaUltimaModificacion(new Date());
              entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
-             entity.setUsuarioUltimaModificacion("Admin-1");
+             entity.setUsuarioUltimaModificacion(usu.getLogin());
              businessDelegatorView.updateTipoEstadoPqr(entity);
              FacesUtils.addInfoMessage("El tipo de estado se modifico exitosamente");
 			

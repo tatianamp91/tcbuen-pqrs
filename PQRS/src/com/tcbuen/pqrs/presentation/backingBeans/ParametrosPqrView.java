@@ -26,6 +26,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpSession;
 
 /**
  * @author Zathura Code Generator http://code.google.com/p/zathura
@@ -283,26 +284,22 @@ public class ParametrosPqrView implements Serializable {
 
 	public String action_create() {
 		try {
+			HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+	        long usuario =  Long.parseLong(httpSession.getAttribute("usuario").toString());
+	        UsuariosInternos usu = businessDelegatorView.getUsuariosInternos(usuario);
 			
 			String descripcionParam = txtDescripcionParam.getValue().toString().toLowerCase();
 			ParametrosPqr descrpcion = ObtenerParamDescripcion(descripcionParam);
 			String valorParam = txtValorParam.getValue().toString().toLowerCase();
 			
 			if (descrpcion == null) {
-
 				if (!revizarCampos(descripcionParam)) {
 					return "";
 				}
-
 				entity = new ParametrosPqr();
-
-				// Long idParam = FacesUtils.checkLong(txtIdParam);
-				// entity.setIdParam(idParam);
-				entity.setDescripcionParam(FacesUtils
-						.checkString(txtDescripcionParam).toLowerCase());
-				// Falta agregar usuarios sesion
+				entity.setDescripcionParam(FacesUtils.checkString(txtDescripcionParam).toLowerCase());
 				entity.setEstadoRegistro(estadoRegistroSeleccionado);
-				entity.setUsuarioCreador("Admin");
+				entity.setUsuarioCreador(usu.getLogin());
 				entity.setFechaCreacion(new Date());
 				entity.setUsuarioUltimaModificacion(null);
 				entity.setFechaUltimaModificacion(null);
@@ -312,7 +309,6 @@ public class ParametrosPqrView implements Serializable {
 				FacesUtils.addInfoMessage("El parametro se guardó exitosamente");
 
 				action_clear();
-
 			} else {
 				throw new Exception("Ya existe parametro o descripcion");
 			}
@@ -320,7 +316,6 @@ public class ParametrosPqrView implements Serializable {
 			entity = null;
 			FacesUtils.addErrorMessage(e.getMessage());
 		}
-
 		return "";
 	}
 
@@ -381,6 +376,9 @@ public class ParametrosPqrView implements Serializable {
 	
 	private void actualizar(){
 		try {
+			HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+	        long usuario =  Long.parseLong(httpSession.getAttribute("usuario").toString());
+	        UsuariosInternos usu = businessDelegatorView.getUsuariosInternos(usuario);
 
 			entity.setDescripcionParam(FacesUtils
 					.checkString(txtDescripcionParam).toLowerCase());
@@ -392,7 +390,7 @@ public class ParametrosPqrView implements Serializable {
 			entity.setFechaUltimaModificacion(new Date());
 			entity.setUsuarioCreador(FacesUtils
 					.checkString(txtUsuarioCreador));
-			entity.setUsuarioUltimaModificacion("Admin-1");
+			entity.setUsuarioUltimaModificacion(usu.getLogin());
 			entity.setValorParam(FacesUtils.checkString(txtValorParam));
 			businessDelegatorView.updateParametrosPqr(entity);
 			setShowDialog(false);

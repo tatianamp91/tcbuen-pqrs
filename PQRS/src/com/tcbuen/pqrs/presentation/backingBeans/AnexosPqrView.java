@@ -5,28 +5,23 @@ import com.tcbuen.pqrs.modelo.*;
 import com.tcbuen.pqrs.modelo.dto.AnexosPqrDTO;
 import com.tcbuen.pqrs.presentation.businessDelegate.*;
 import com.tcbuen.pqrs.utilities.*;
-
 import org.primefaces.component.calendar.*;
 import org.primefaces.component.commandbutton.CommandButton;
 import org.primefaces.component.inputtext.InputText;
 import org.primefaces.event.RowEditEvent;
-
 import java.io.Serializable;
-import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.TimeZone;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -241,21 +236,20 @@ public class AnexosPqrView implements Serializable {
 	public String action_create() {
 		try {
 			String descripcionAnexo = txtDescripcionAnexo.getValue().toString().toLowerCase();
-			AnexosPqr anexos = ObtenerAnexo(descripcionAnexo);
+			AnexosPqr anexos = ObtenerAnexo(descripcionAnexo);			
+			
+			HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+	        long usuario =  Long.parseLong(httpSession.getAttribute("usuario").toString());
+	        UsuariosInternos usu = businessDelegatorView.getUsuariosInternos(usuario);
 
 			if (anexos == null) {
 				if (!revizarCampos(descripcionAnexo)) {
 					return "";
 				}
 				entity = new AnexosPqr();
-
-				// Long idAnexoPqr = FacesUtils.checkLong(txtIdAnexoPqr);
-				// entity.setIdAnexoPqr(idAnexoPqr);
-				entity.setDescripcionAnexo(FacesUtils
-						.checkString(txtDescripcionAnexo).toLowerCase());
+				entity.setDescripcionAnexo(FacesUtils.checkString(txtDescripcionAnexo).toLowerCase());
 				entity.setEstadoRegistro(estadoRegistroSeleccionado);
-				// Falta agregar usuario de sesion
-				entity.setUsuarioCreador("Admin");
+				entity.setUsuarioCreador(usu.getLogin());
 				entity.setFechaCreacion(new Date());
 				entity.setUsuarioUltimaModificacion(null);
 				entity.setFechaUltimaModificacion(null);
@@ -298,15 +292,17 @@ public class AnexosPqrView implements Serializable {
 
 	private void actulizar() {
 		try {
-
+			HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+	        long usuario =  Long.parseLong(httpSession.getAttribute("usuario").toString());
+	        UsuariosInternos usu = businessDelegatorView.getUsuariosInternos(usuario);
+	        
 			entity.setDescripcionAnexo(FacesUtils
 					.checkString(txtDescripcionAnexo).toLowerCase());
 			entity.setEstadoRegistro(estadoRegistroSeleccionado);
 			entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
 			entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
 			entity.setFechaUltimaModificacion(new Date());
-			// Falta agregar usuario de sesion
-			entity.setUsuarioUltimaModificacion("Facturación");
+			entity.setUsuarioUltimaModificacion(usu.getLogin());
 			businessDelegatorView.updateAnexosPqr(entity);
 
 			FacesUtils.addInfoMessage("El anexo se modifico exitosamente");

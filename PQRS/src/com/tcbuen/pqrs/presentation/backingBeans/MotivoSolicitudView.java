@@ -28,6 +28,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.model.SelectItem;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -255,6 +256,9 @@ public class MotivoSolicitudView implements Serializable {
 
     public String action_create() {
         try {
+			HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+	        long usuario =  Long.parseLong(httpSession.getAttribute("usuario").toString());
+	        UsuariosInternos usu = businessDelegatorView.getUsuariosInternos(usuario);
         	
         	String descripcionMotSol=txtDescripcionMotSol.getValue().toString();
         	MotivoSolicitud motivoSolicitud=ObtenerMotSolicitud(descripcionMotSol);
@@ -262,29 +266,21 @@ public class MotivoSolicitudView implements Serializable {
         	if(motivoSolicitud == null){
         		
         		if(!revizarCampos(descripcionMotSol)){
-        			return "";
-        			
-        		}
-        		
+        			return "";        			
+        		}        		
         		entity = new MotivoSolicitud();
-
-                //Long idMotSol = FacesUtils.checkLong(txtIdMotSol);
-                //entity.setIdMotSol(idMotSol);
                 entity.setDescripcionMotSol(FacesUtils.checkString(txtDescripcionMotSol));
                 entity.setEstadoRegistro(estadoRegistroSeleccionado);
-                //Falta agregar usuario de sesion
-                entity.setUsuarioCreador("Admin");
+                entity.setUsuarioCreador(usu.getLogin());
                 entity.setFechaCreacion(new Date());
                 entity.setUsuarioUltimaModificacion(null);
                 entity.setFechaUltimaModificacion(null);
 
                 businessDelegatorView.saveMotivoSolicitud(entity);
                 FacesUtils.addInfoMessage("El motivo de solicitud se modifico exitosamente");
-                action_clear();
-                
+                action_clear();                
         	} else {
-				throw new Exception("Ya existe motivo");
-        		
+				throw new Exception("Ya existe motivo");        		
         	}            
            
         } catch (Exception e) {
@@ -297,13 +293,15 @@ public class MotivoSolicitudView implements Serializable {
     
     private void actualizar(){
     	try {
+			HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+	        long usuario =  Long.parseLong(httpSession.getAttribute("usuario").toString());
+	        UsuariosInternos usu = businessDelegatorView.getUsuariosInternos(usuario);
     		
             entity.setDescripcionMotSol(FacesUtils.checkString(txtDescripcionMotSol));
             entity.setEstadoRegistro(estadoRegistroSeleccionado);
             entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
             entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-            //Falta agregar usuario de sesion
-            entity.setUsuarioUltimaModificacion("facturación");
+            entity.setUsuarioUltimaModificacion(usu.getLogin());
             entity.setFechaUltimaModificacion(new Date());
             
             businessDelegatorView.updateMotivoSolicitud(entity);

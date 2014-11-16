@@ -29,6 +29,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.imageio.stream.FileImageOutputStream;
+import javax.servlet.http.HttpSession;
 import javax.sql.rowset.serial.SerialBlob;
 import javax.sql.rowset.serial.SerialException;
 
@@ -300,13 +301,13 @@ public class SolicitudView implements Serializable {
     
     public SolicitudPqr action_create_solicitudPqr() {
     	SolicitudPqr solicitudPqr = new SolicitudPqr();
-    	try{          	    	
-	    	solicitudPqr.setNumeroRadicacion("1");//Pendiente
+    	try{          	   	        
+	    	solicitudPqr.setNumeroRadicacion("1");
 	    	solicitudPqr.setNombreCliente(FacesUtils.checkString(txtNombreCliente));
 	    	solicitudPqr.setNombreAgenciaAduana(FacesUtils.checkString(txtNombreAgenciaAduana));
 	    	solicitudPqr.setDescripcionCaso(descripcionCaso);
 	    	solicitudPqr.setSolicitudARealizar(solicitudARealizar);
-	    	solicitudPqr.setUsuarioCreador("Admin"); //pendiente
+	    	solicitudPqr.setUsuarioCreador("Solicitante");
 	    	solicitudPqr.setFechaCreacion(new Date());
 	    	solicitudPqr.setUsuarioUltimaModificacion(null);
 	    	solicitudPqr.setFechaUltimaModificacion(null);

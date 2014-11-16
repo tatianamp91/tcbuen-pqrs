@@ -27,6 +27,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -246,9 +247,11 @@ public class AreasInvolucradasView implements Serializable {
 
 	public String action_create() {
 		try {
-		
-			String nombreArea = txtNombreArea.getValue().toString().toLowerCase();
-			
+			HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+	        long usuario =  Long.parseLong(httpSession.getAttribute("usuario").toString());
+	        UsuariosInternos usu = businessDelegatorView.getUsuariosInternos(usuario);
+	        
+			String nombreArea = txtNombreArea.getValue().toString().toLowerCase();			
 			AreasInvolucradas area= ObtenerArea(nombreArea);
 			
 			if (area == null) {								
@@ -259,7 +262,7 @@ public class AreasInvolucradasView implements Serializable {
 				entity = new AreasInvolucradas();
 				entity.setNombreArea(FacesUtils.checkString(txtNombreArea).toLowerCase());
 				entity.setEstadoRegistro(estadoRegistroSeleccionado);
-				entity.setUsuarioCreador("Admin");
+				entity.setUsuarioCreador(usu.getLogin());
 				entity.setFechaCreacion(new Date());
 				entity.setUsuarioUltimaModificacion(null);
 				entity.setFechaUltimaModificacion(null);
@@ -309,18 +312,19 @@ public class AreasInvolucradasView implements Serializable {
 	
 	public void actualizar(){
 		try {
+			HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+	        long usuario =  Long.parseLong(httpSession.getAttribute("usuario").toString());
+	        UsuariosInternos usu = businessDelegatorView.getUsuariosInternos(usuario);
 			
-			  entity.setNombreArea(FacesUtils.checkString(txtNombreArea).toLowerCase());
-		         entity.setEstadoRegistro(estadoRegistroSeleccionado);
-		         entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador).toLowerCase());
-		         entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-		         //Falta agregar usuario de sesion
-		         entity.setUsuarioUltimaModificacion("Facturación");
-		         entity.setFechaUltimaModificacion(new Date());           		       
+			entity.setNombreArea(FacesUtils.checkString(txtNombreArea).toLowerCase());
+		    entity.setEstadoRegistro(estadoRegistroSeleccionado);
+		    entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador).toLowerCase());
+		    entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
+		    entity.setUsuarioUltimaModificacion(usu.getLogin());
+		    entity.setFechaUltimaModificacion(new Date());           		       
 		         
-		         businessDelegatorView.updateAreasInvolucradas(entity);
-		         FacesUtils.addInfoMessage("El área se guardó exitosamente");
-		         
+		    businessDelegatorView.updateAreasInvolucradas(entity);
+		    FacesUtils.addInfoMessage("El área se guardó exitosamente");		         
 		} catch (Exception e) {
 			
 			data = null;

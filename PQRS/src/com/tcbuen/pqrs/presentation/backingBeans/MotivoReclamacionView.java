@@ -28,6 +28,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -243,27 +244,24 @@ public class MotivoReclamacionView implements Serializable {
     }
 
     public String action_create() {
-        try {     	
+        try {
+			HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+	        long usuario =  Long.parseLong(httpSession.getAttribute("usuario").toString());
+	        UsuariosInternos usu = businessDelegatorView.getUsuariosInternos(usuario);
         	       	
-			String descripcionMotRecl = txtDescripcionMotRecl.getValue()
-					.toString().toLowerCase();
+			String descripcionMotRecl = txtDescripcionMotRecl.getValue().toString().toLowerCase();
 			MotivoReclamacion motReclamacion = ObtenerMotReclamacion(descripcionMotRecl);
 
 			if (motReclamacion == null) {
 
 				if (!revizarCampos(descripcionMotRecl)) {
 					return "";
-
 				}
 
 				entity = new MotivoReclamacion();
-				// Long idMotRecl = FacesUtils.checkLong(txtIdMotRecl);
-				// entity.setIdMotRecl(idMotRecl);
-				entity.setDescripcionMotRecl(FacesUtils
-						.checkString(txtDescripcionMotRecl).toLowerCase());
+				entity.setDescripcionMotRecl(FacesUtils.checkString(txtDescripcionMotRecl).toLowerCase());
 				entity.setEstadoRegistro(estadoRegistroSeleccionado);
-				// Falta agregar usuario de sesion
-				entity.setUsuarioCreador("Admin");
+				entity.setUsuarioCreador(usu.getLogin());
 				entity.setFechaCreacion(new Date());
 				entity.setUsuarioUltimaModificacion(null);
 				entity.setFechaUltimaModificacion(null);
@@ -310,16 +308,17 @@ public class MotivoReclamacionView implements Serializable {
 
 	}
     
-    private void actualizar(){
-    
+    private void actualizar(){    
     	try {
+			HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+	        long usuario =  Long.parseLong(httpSession.getAttribute("usuario").toString());
+	        UsuariosInternos usu = businessDelegatorView.getUsuariosInternos(usuario);
 			
     		entity.setDescripcionMotRecl(FacesUtils.checkString(txtDescripcionMotRecl).toLowerCase());
             entity.setEstadoRegistro(estadoRegistroSeleccionado);
             entity.setUsuarioCreador(FacesUtils.checkString(txtUsuarioCreador));
             entity.setFechaCreacion(FacesUtils.checkDate(txtFechaCreacion));
-            //Falta agregar usuario de sesion
-            entity.setUsuarioUltimaModificacion("Facturación");
+            entity.setUsuarioUltimaModificacion(usu.getLogin());
             entity.setFechaUltimaModificacion(new Date());
            
             businessDelegatorView.updateMotivoReclamacion(entity);
