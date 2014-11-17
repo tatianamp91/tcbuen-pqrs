@@ -68,29 +68,49 @@
 						<p:messages id="msg" showDetail="false" />
 						<p:dataTable var="estadistica" value="#{estadisticasView.data}"
 							id="tbl" paginator="true" rows="5">
-							<p:column headerText="Numero Radicación">
+				
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Numero de Radicación" />
+								</f:facet>
 								<h:outputText value="#{estadistica.numeroRadicacion}" />
 							</p:column>
 
-							<p:column headerText="Motivos Reclamación">
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Motivos de Reclamación" />
+								</f:facet>
 								<h:outputText value="#{estadistica.descripcionMotRecl}" />
 							</p:column>
 
-							<p:column headerText="Fecha de Radicacion">
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Fecha de Radicación" />
+								</f:facet>
 								<h:outputText value="#{estadistica.fechaCreacion}" />
 							</p:column>
 
-							<p:column headerText="Estado">
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Estado" />
+								</f:facet>
 								<h:outputText value="#{estadistica.descripcionEstado}" />
-							</p:column>
-
-							<p:column headerText="Area con el Caso">
+							</p:column>							
+							
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Area con Caso" />
+								</f:facet>
 								<h:outputText value="#{estadistica.nombreArea}" />
 							</p:column>
 
-							<p:column headerText="fecha de Respuesta">
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Fecha Respuesta" />
+								</f:facet>
 								<h:outputText value="#{estadistica.fechaRespuesta}" />
 							</p:column>
+							
 						</p:dataTable>
 						<h:commandLink value="Exportar Excel">
 							<p:dataExporter target="tbl" type="xls"
