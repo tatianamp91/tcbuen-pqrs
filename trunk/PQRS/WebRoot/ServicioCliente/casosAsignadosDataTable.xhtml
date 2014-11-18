@@ -146,9 +146,10 @@
 											<p:column headerText="Archivo">
 												<p:fileUpload
 													fileUploadListener="#{casosAsignadosView.upload}"
-													mode="advanced" dragDropSupport="false" update="messages,check,tablaAnexosXArea"
-													fileLimit="1" uploadLabel="Subir" label="Seleccionar"
-													cancelLabel="cancelar" 
+													mode="advanced" dragDropSupport="false"
+													update="messages,check" fileLimit="1"
+													uploadLabel="Subir" label="Seleccionar"
+													cancelLabel="cancelar"
 													allowTypes="/(\.|\/)(jpg|jpe?g|png|pdf|xps)$/"
 													fileLimitMessage="Solo es permitido Seleccionar un archivo" />
 												<p:growl id="messages" />
@@ -171,7 +172,7 @@
 											<p:commandButton id="btnResSol"
 												value="Enviar respuesta al Solicitante"
 												action="#{casosAsignadosView.respuestaCliente()}"
-												style="width:200px" 
+												style="width:200px"
 												update=":frm:men,:dialogAdministrarCaso,:frm:tablaSol,msgRespuestas" />
 										</p:panelGrid>
 
@@ -201,14 +202,15 @@
 						<p:dataTable id="tablaAnexos"
 							value="#{casosAsignadosView.anexosRespuestas}" var="anexo"
 							paginator="true" rows="3" style="width:400px">
-							<p:column headerText="nomAnexo">
+							<p:column headerText="Anexo">
 								<h:outputText id="txtAnexo" value="#{anexo.nombreAnexo}" />
 							</p:column>
-							<p:column headerText="nomAnexo">
+							<p:column headerText="DescargarAnexo">
 								<p:commandButton value="Descargar" ajax="false"
-									action="#{casosAsignadosView.download(anexo)}"
+									onclick="PrimeFaces.monitorDownload(start, stop);"
 									icon="ui-icon-arrowthick-1-s">
-									<p:fileDownload value="#{casosAsignadosView.download}" />
+									<p:fileDownload
+										value="#{casosAsignadosView.fileDownload(anexo)}" />
 								</p:commandButton>
 							</p:column>
 						</p:dataTable>

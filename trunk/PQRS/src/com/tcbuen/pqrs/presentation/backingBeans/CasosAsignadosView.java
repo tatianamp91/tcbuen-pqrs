@@ -1,13 +1,14 @@
 package com.tcbuen.pqrs.presentation.backingBeans;
 
-import com.lowagie.text.pdf.codec.Base64.InputStream;
 import com.tcbuen.pqrs.modelo.*;
 import com.tcbuen.pqrs.modelo.dto.SolicitudDTO;
 import com.tcbuen.pqrs.presentation.businessDelegate.*;
 import com.tcbuen.pqrs.utilities.FacesUtils;
 
+import java.io.InputStream;
+
+import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.Serializable;
 import java.sql.Blob;
 import java.util.ArrayList;
@@ -17,13 +18,17 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.imageio.stream.FileImageOutputStream;
 import javax.servlet.http.HttpSession;
 import javax.sql.rowset.serial.SerialBlob;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 import org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.FlowEvent;
@@ -62,6 +67,9 @@ public class CasosAsignadosView implements Serializable {
     private List<Boolean> adjuntos;
     private Long estado;
     private SelectBooleanCheckbox check;
+    
+    private static Session session;
+	private static ServiceRegistry serviceRegistry;
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
@@ -341,6 +349,48 @@ public class CasosAsignadosView implements Serializable {
 	public void download(AnexosRespuesta anexos) throws Exception {		
 		InputStream stream = (InputStream) anexos.getDocumentoReal();
         download = new DefaultStreamedContent(stream, "", anexos.getNombreAnexo());
+	}
+	
+	public StreamedContent fileDownload(AnexosRespuesta respuestaAnexos) {
+		StreamedContent file = null;
+		try {
+			initSession();
+			AnexosRespuesta imagen = (AnexosRespuesta) session.get(
+					AnexosRespuesta.class, respuestaAnexos.getIdAnxResp());
+
+			Blob blob = new SerialBlob(imagen.getDocumentoReal());
+			byte[] blobBytes = blob.getBytes(1, (int) blob.length());
+
+			InputStream stream = new ByteArrayInputStream(blobBytes);
+
+			file = new DefaultStreamedContent(stream,
+					respuestaAnexos.getNombreBusqueda(), respuestaAnexos.getNombreAnexo());
+			endSession();
+
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			endSession();
+		}
+
+		return file;
+	}
+	
+	private static void initSession() {
+		Configuration configuration = new Configuration().configure();
+		serviceRegistry = new StandardServiceRegistryBuilder().applySettings(
+				configuration.getProperties()).build();
+
+		SessionFactory sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+
+		session = sessionFactory.openSession();
+		session.beginTransaction();
+	}
+
+	private static void endSession() {
+		session.getTransaction().commit();
+		session.close();
+
+		StandardServiceRegistryBuilder.destroy(serviceRegistry);
 	}
 
 	public SolicitudDTO getSelectedSolicitudPqr() {
