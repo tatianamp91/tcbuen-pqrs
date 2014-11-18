@@ -1,0 +1,25 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<f:view contentType="text/html">
+	<h:head>
+		<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+		<title>Solicitud Enviada</title>
+	</h:head>
+	<h:body>
+		<h:form>
+			<p:growl id="msg" />
+			<p:panel id="panel" header="Solicitud" style="height:180px;width:1320px">
+				<div align="center">
+					<p:panelGrid columns="1">
+						<p:outputLabel value="Su Soliciud a sido envida, pronto daremos respuesta." />						
+					</p:panelGrid>
+				</div>
+			</p:panel>
+		</h:form>
+	</h:body>
+</f:view>
+</html>

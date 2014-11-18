@@ -46,6 +46,7 @@ import com.tcbuen.pqrs.modelo.dto.TipoDocumentoDTO;
 import com.tcbuen.pqrs.modelo.dto.TipoEstadoPqrDTO;
 import com.tcbuen.pqrs.modelo.dto.TipoSolicitudPqrDTO;
 import com.tcbuen.pqrs.modelo.dto.UsuariosInternosDTO;
+
 import java.util.List;
 
 
@@ -89,6 +90,9 @@ public interface IBusinessDelegatorView {
 
     public void updateAnexosRespuesta(AnexosRespuesta entity)
         throws Exception;
+    
+    public List<AnexosRespuesta> consultarAnexosRespuesta(Long idRespSol) 
+        	throws Exception;
 
     public AnexosRespuesta getAnexosRespuesta(Long idAnxResp)
         throws Exception;

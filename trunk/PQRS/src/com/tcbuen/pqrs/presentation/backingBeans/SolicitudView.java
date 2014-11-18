@@ -11,27 +11,18 @@ import org.primefaces.event.FlowEvent;
 import org.primefaces.model.UploadedFile;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
 import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
-import javax.annotation.PostConstruct;
-import javax.crypto.AEADBadTagException;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.imageio.stream.FileImageOutputStream;
-import javax.servlet.http.HttpSession;
 import javax.sql.rowset.serial.SerialBlob;
-import javax.sql.rowset.serial.SerialException;
 
 @ManagedBean
 @ViewScoped
@@ -86,7 +77,8 @@ public class SolicitudView implements Serializable {
     private List<AnexosSolicitante> anexosSolicitantes;
     private CommandButton atrasSolicitud;
     private CommandButton limpiarSolicitud;
-    private CommandButton guardarSolicitud;   
+    private CommandButton guardarSolicitud;
+    private List<Boolean> adjuntos;
     
     @ManagedProperty(value = "#{BusinessDelegatorView}")
     private IBusinessDelegatorView businessDelegatorView;
@@ -123,6 +115,10 @@ public class SolicitudView implements Serializable {
 					anexosPqrs = consultarAnexosPqrs(tipoSolicitudPqr);
 					if(anexosPqrs.size()>0){
 						anexos = true;
+						adjuntos = new ArrayList<Boolean>();
+						for (int i= 0; i<anexosPqrs.size(); i++){
+							adjuntos.add(false);
+						}
 					}else{
 						anexos = false;
 					}
@@ -230,6 +226,7 @@ public class SolicitudView implements Serializable {
 	        	}
 	        	index = uploadedFiles.size();
 	        	uploadedFiles.add(index,file);
+	        	adjuntos.set(index, true);
 	        	file = null;
 	        	FacesUtils.addInfoMessage("El anexo fue adjuntado correctamente");
 	        }
@@ -274,7 +271,8 @@ public class SolicitudView implements Serializable {
 	        	businessDelegatorView.saveSolicitud(infoSol, solicitudPqr, motSolSelect, motReclSelect, solicitudAsignadaArea, anexosSolicitantes);
 	        	FacesUtils.addInfoMessage("La Solicitud fue enviada correctamente");
 	        	uploadedFiles = null;
-	        	//action_clear_infoSol();
+	        	action_clear_infoSol();
+	        	return "Enviada";
         	}
         } catch (Exception e) {
             FacesUtils.addErrorMessage(e.getMessage());
@@ -933,4 +931,13 @@ public class SolicitudView implements Serializable {
 	public void setAnexosSolicitantes(List<AnexosSolicitante> anexosSolicitantes) {
 		this.anexosSolicitantes = anexosSolicitantes;
 	}
+
+	public List<Boolean> getAdjuntos() {
+		return adjuntos;
+	}
+
+	public void setAdjuntos(List<Boolean> adjuntos) {
+		this.adjuntos = adjuntos;
+	}
+	
 }

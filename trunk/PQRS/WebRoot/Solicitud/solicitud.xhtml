@@ -228,9 +228,12 @@
 												<p:fileUpload fileUploadListener="#{solicitudView.upload}"
 													mode="advanced" dragDropSupport="false" update="messages"
 													fileLimit="1" uploadLabel="Subir" label="Seleccionar"
-													cancelLabel="cancelar"
-													fileLimitMessage="Solo es permitido Seleccionar un archivo" />
+													cancelLabel="cancelar" allowTypes="/(\.|\/)(jpg|jpe?g|png|pdf|xps)$/"
+													fileLimitMessage="Solo es permitido Seleccionar un archivo" />		
 												<p:growl id="messages" />
+											</p:column>
+											<p:column>
+												<p:selectBooleanCheckbox value="#{solicitudView.adjuntos.get(anexospqr)}" disabled="true"/>
 											</p:column>
 										</p:dataTable>
 										<p:tooltip id="toolAnexos" for="tablaAnexosXTipoSolDoc"

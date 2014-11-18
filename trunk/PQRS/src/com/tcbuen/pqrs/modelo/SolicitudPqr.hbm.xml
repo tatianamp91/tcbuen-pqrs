@@ -13,7 +13,7 @@
         <many-to-one name="tipoSolicitudPqr" class="com.tcbuen.pqrs.modelo.TipoSolicitudPqr" fetch="select" lazy="false">
             <column name="ID_TP_SOL_PQR" precision="10" scale="0" not-null="true" />
         </many-to-one>
-        <many-to-one name="infoSolicitante" class="com.tcbuen.pqrs.modelo.InfoSolicitante" fetch="select">
+        <many-to-one name="infoSolicitante" class="com.tcbuen.pqrs.modelo.InfoSolicitante" fetch="select" lazy="false">
             <column name="ID_INFO_SOLICITANTE" precision="10" scale="0" not-null="true" />
         </many-to-one>
         <many-to-one name="tipoEstadoPqr" class="com.tcbuen.pqrs.modelo.TipoEstadoPqr" fetch="select">

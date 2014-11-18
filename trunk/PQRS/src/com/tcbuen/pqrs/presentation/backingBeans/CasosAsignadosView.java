@@ -1,18 +1,23 @@
 package com.tcbuen.pqrs.presentation.backingBeans;
 
+import com.lowagie.text.pdf.codec.Base64.InputStream;
 import com.tcbuen.pqrs.modelo.*;
 import com.tcbuen.pqrs.modelo.dto.SolicitudDTO;
 import com.tcbuen.pqrs.presentation.businessDelegate.*;
 import com.tcbuen.pqrs.utilities.FacesUtils;
+
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.Serializable;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.imageio.stream.FileImageOutputStream;
@@ -21,6 +26,8 @@ import javax.sql.rowset.serial.SerialBlob;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.FlowEvent;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 
@@ -44,16 +51,32 @@ public class CasosAsignadosView implements Serializable {
     private List<UploadedFile> uploadedFiles;
     private boolean anexos;
     private List<RespuestaSol> respuestaSol;
+    private Long idRespuesta;
     private List<AnexosRespuesta> anexosRespuestas;
     private String observacion;
     private boolean obser;
     private AreasInvolucradas area;
+    private boolean showDialogAnexos;
+    private StreamedContent download;
+    private List<Boolean> adjuntos;
+    private Long estado;
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
 
 	public CasosAsignadosView() throws Exception {
 		super();
+	}
+	
+	public void limpiar(){
+		observacion = null;
+		file = null;
+		uploadedFiles = null;
+		idArea = null;
+		adjuntos = new ArrayList<Boolean>();
+		for (int i= 0; i<anexosPqr.size(); i++){
+			adjuntos.add(false);
+		}
 	}
 
 		
@@ -70,7 +93,22 @@ public class CasosAsignadosView implements Serializable {
 			}			
 		}
 		anexosPqr = businessDelegatorView.consultarAnxsXArea(area);
+		adjuntos = new ArrayList<Boolean>();
+		for (int i= 0; i<anexosPqr.size(); i++){
+			adjuntos.add(false);
+		}
 		setShowDialog(true);
+		}catch(Exception e){
+			throw new Exception(e);
+		}
+	}
+	
+	public void anexos() throws Exception {
+		try{
+			if(idRespuesta != null){
+				anexosRespuestas = businessDelegatorView.consultarAnexosRespuesta(idRespuesta);
+				setShowDialogAnexos(true);
+			}
 		}catch(Exception e){
 			throw new Exception(e);
 		}
@@ -126,6 +164,7 @@ public class CasosAsignadosView implements Serializable {
 	        	}
 	        	index = uploadedFiles.size();
 	        	uploadedFiles.add(index,file);
+	        	adjuntos.set(index, true);
 	        	file = null;
 	        	FacesUtils.addInfoMessage("El anexo fue adjuntado correctamente");
 	        }
@@ -216,11 +255,24 @@ public class CasosAsignadosView implements Serializable {
 			return anexosRespuesta;
 	}
 	 
-	public void respuestaCliente (){
-		businessDelegatorView.send("tatianamp91@gmail.com","Respuesta Solicitud", observacion);
+	public String respuestaCliente () throws Exception{
+		try{
+			idArea = area.getIdAreaInvolucrada();
+			boolean valida = accionGuardarRespuesta();
+			if(valida){
+				businessDelegatorView.send(solicitudPqr.getInfoSolicitante().getCorreoElectronico(),"Respuesta Solicitud", observacion);
+				setShowDialog(false);
+				estado = 3L;
+				cambiarEstadoSol();
+				FacesUtils.addInfoMessage("Se envio respuesta correctamente");
+			}
+		} catch (Exception e) {
+	        FacesUtils.addErrorMessage(e.getMessage());
+		}
+		return null;
 	}
 	
-	public void accionGuardarRespuesta() throws Exception {
+	public boolean accionGuardarRespuesta() throws Exception {
 		try{			
 			if (idArea != -1 && idArea != null) {
 				SolicitudAsignadaArea solicitudAsignadaArea = solicitudArea();
@@ -229,19 +281,36 @@ public class CasosAsignadosView implements Serializable {
 				if (anexos) {
 					int size = 0;
 					if (uploadedFiles != null) {
-						size = uploadedFiles.size();
+						if(uploadedFiles.size() > 0){
+							size = uploadedFiles.size();
+						}
 					}
-					if (size == (anexosPqr.size())) {
+					if (size == (anexosPqr.size()) && size != 0) {
 						anexosRespuestas = anexosRespuesta();
-					} else {
+					}else{
 						throw new Exception("Los anexos no estan completos");
 					}
 				}
 				businessDelegatorView.saveRespuestaSolicitud(solicitudAsignadaArea, respuestaSol, anexosRespuestas);
 				FacesUtils.addInfoMessage("La Respuesta se guardó correctamente");
+				estado = 2L;
+				cambiarEstadoSol();
+				setShowDialog(false);
+				return true;
 			} else {
 				throw new Exception("El area no puede ser vacia");
 			}
+		}catch(Exception e){
+			 FacesUtils.addErrorMessage(e.getMessage());
+		}
+		return false;
+	}
+	
+	public void cambiarEstadoSol () throws Exception{
+		try{
+			TipoEstadoPqr tipoEstadoPqr = businessDelegatorView.getTipoEstadoPqr(estado);
+			solicitudPqr.setTipoEstadoPqr(tipoEstadoPqr);
+			businessDelegatorView.updateSolicitudPqr(solicitudPqr);
 		}catch(Exception e){
 			 FacesUtils.addErrorMessage(e.getMessage());
 		}
@@ -256,6 +325,11 @@ public class CasosAsignadosView implements Serializable {
 		}catch(Exception e){
 			throw new Exception (e);
 		}
+	}
+	
+	public void download(AnexosRespuesta anexos) throws Exception {		
+		InputStream stream = (InputStream) anexos.getDocumentoReal();
+        download = new DefaultStreamedContent(stream, "", anexos.getNombreAnexo());
 	}
 
 	public SolicitudDTO getSelectedSolicitudPqr() {
@@ -345,9 +419,11 @@ public class CasosAsignadosView implements Serializable {
 				areasInvolucradas = new ArrayList<SelectItem>();
 				List<AreasInvolucradas> areas = businessDelegatorView.getAreasInvolucradas();
 				if(areas != null){
-					for (AreasInvolucradas area : areas) {
-						if(area.getIdAreaInvolucrada() != area.getIdAreaInvolucrada()){
-							areasInvolucradas.add(new SelectItem(area.getIdAreaInvolucrada(), area.getNombreArea()));
+					for (AreasInvolucradas a: areas) {
+						if(a.getIdAreaInvolucrada() != area.getIdAreaInvolucrada()){
+							if(!a.getNombreArea().trim().equals("admin")){
+								areasInvolucradas.add(new SelectItem(a.getIdAreaInvolucrada(), a.getNombreArea()));
+							}
 						}
 					}
 				}
@@ -426,5 +502,35 @@ public class CasosAsignadosView implements Serializable {
 	}
 	public void setArea(AreasInvolucradas area) {
 		this.area = area;
+	}
+	public boolean isShowDialogAnexos() {
+		return showDialogAnexos;
+	}
+	public void setShowDialogAnexos(boolean showDialogAnexos) {
+		this.showDialogAnexos = showDialogAnexos;
+	}
+	public Long getIdRespuesta() {
+		return idRespuesta;
+	}
+	public void setIdRespuesta(Long idRespuesta) {
+		this.idRespuesta = idRespuesta;
+	}
+	public StreamedContent getDownload() {
+		return download;
+	}
+	public void setDownload(StreamedContent download) {
+		this.download = download;
+	}
+	public List<Boolean> getAdjuntos() {
+		return adjuntos;
+	}
+	public void setAdjuntos(List<Boolean> adjuntos) {
+		this.adjuntos = adjuntos;
+	}
+	public Long getEstado() {
+		return estado;
+	}
+	public void setEstado(Long estado) {
+		this.estado = estado;
 	}
 }

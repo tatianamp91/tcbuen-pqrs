@@ -62,7 +62,7 @@
 									<h:panelGrid columns="2" id="panelGrid">
 										<h:outputText id="msgTipoDocumento" value="Tipo de Documento:" />
 										<h:outputText id="txtTipoDocumento"
-											value="#{casosAsignadosView.infoSolicitante.tipoDocumento.idTpDoc}" />
+											value="#{casosAsignadosView.infoSolicitante.tipoDocumento.descripcionTpDoc}" />
 
 										<h:outputText id="msgNumeroIdentificacion"
 											value="Número de Identificación:" />
@@ -116,6 +116,14 @@
 												<h:outputText id="txtObservacion"
 													value="#{res.descObservacion}" />
 											</p:column>
+											<p:column headerText="Anexos">
+												<p:commandButton id="btnAnexos" value="Ver Anexos"
+													action="#{casosAsignadosView.anexos()}"
+													update=":dialogAnexos">
+													<f:setPropertyActionListener value="#{res.idRespSol}"
+														target="#{casosAsignadosView.idRespuesta}" />
+												</p:commandButton>
+											</p:column>
 										</p:dataTable>
 									</h:panelGrid>
 								</p:panel>
@@ -143,8 +151,14 @@
 													mode="advanced" dragDropSupport="false" update="messages"
 													fileLimit="1" uploadLabel="Subir" label="Seleccionar"
 													cancelLabel="cancelar"
+													allowTypes="/(\.|\/)(jpg|jpe?g|png|pdf|xps)$/"
 													fileLimitMessage="Solo es permitido Seleccionar un archivo" />
 												<p:growl id="messages" />
+											</p:column>
+											<p:column>
+												<p:selectBooleanCheckbox
+													value="#{casosAsignadosView.adjuntos.get(anexospqr)}"
+													disabled="true" />
 											</p:column>
 										</p:dataTable>
 										<h:outputText id="msgAsignarArea" value="*Asignar Area:" />
@@ -159,6 +173,9 @@
 										<p:commandButton id="btnSave" value="Guardar"
 											action="#{casosAsignadosView.accionGuardarRespuesta()}"
 											update="msgRespuestas" />
+										<p:commandButton id="btnlimpiar" value="Limpiar"
+											action="#{casosAsignadosView.limpiar()}"
+											update="panelRespuestas" />
 									</div>
 								</p:panel>
 							</p:tab>
@@ -168,6 +185,26 @@
 								action="#{casosAsignadosView.action_closeDialog()}"
 								update=":dialogAdministrarCaso :frm:tablaSol,msgRespuestas" />
 						</div>
+					</h:form>
+				</p:dialog>
+				<p:dialog id="dialogAnexos" appendToBody="true" draggable="true"
+					closable="true" visible="#{casosAsignadosView.showDialogAnexos}"
+					resizable="false" modal="true" width="500">
+					<h:form id="formDialogAnexos">
+						<p:dataTable id="tablaAnexos"
+							value="#{casosAsignadosView.anexosRespuestas}" var="anexo"
+							paginator="true" rows="3" style="width:400px">
+							<p:column headerText="nomAnexo">
+								<h:outputText id="txtAnexo" value="#{anexo.nombreAnexo}" />
+							</p:column>
+							<p:column headerText="nomAnexo">
+								<p:commandButton value="Descargar" ajax="false"
+									action="#{casosAsignadosView.download(anexo)}"
+									icon="ui-icon-arrowthick-1-s">
+									<p:fileDownload value="#{casosAsignadosView.download}" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
 					</h:form>
 				</p:dialog>
 			</f:view>
