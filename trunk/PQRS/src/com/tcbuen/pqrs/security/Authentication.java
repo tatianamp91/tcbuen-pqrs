@@ -37,13 +37,17 @@ public class Authentication implements Serializable{
     	try{
     		String usuario = txtUsuario.getValue().toString();
     		String contrasena = txtContraseña.getValue().toString();
+    		rol = null;
     		
     		UsuariosInternos usuarioBD = businessDelegatorView.consultarLoginContrasena(usuario, contrasena);	
 	        if(usuarioBD != null){
 				if(usuarioBD.getRoles().getNombreRol().trim().equals("admin") 
 						&& usuarioBD.getAreasInvolucradas().getNombreArea().trim().equals("admin")){
 					rol = "Admin";
-				}else {
+				}else if(usuarioBD.getRoles().getNombreRol().trim().equals("servicio al cliente") 
+						&& usuarioBD.getAreasInvolucradas().getNombreArea().trim().equals("servicio al cliente")){
+					rol = "Servicio";
+				}else{
 					rol = "Area";
 				}
 	        }else{

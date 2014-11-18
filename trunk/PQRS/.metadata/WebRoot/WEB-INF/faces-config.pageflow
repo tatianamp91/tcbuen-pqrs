@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14160811353450" configfile="/PQRS/WebRoot/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="loginAplicacion.xhtml" id="pf141616869974520" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf141616878486325 pf141616882927527" path="loginAplicacion.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="Menu/initialMenuAdmin.xhtml" id="pf141616878486326" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf141616878486325" path="Menu/initialMenuAdmin.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="Menu/initialMenuArea.xhtml" id="pf141616882927528" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf141616882927527" path="Menu/initialMenuArea.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="loginAplicacion.xhtml" id="pf141616869974520" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf141616878486325 pf14162677092170 pf14162677092171" path="loginAplicacion.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Menu/initialMenuAdmin.xhtml" id="pf141616878486326" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf141616878486325" path="Menu/initialMenuAdmin.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/casosAsignadosArea.xhtml" id="pf14162677092172" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf14162677092170" path="/Area/casosAsignadosArea.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="ServicioCliente/casosAsignadosDataTable.xhtml" id="pf14162677092173" referenceLink="//@navigationRule.0/@navigationCase.2/@toViewId|" inlinks="pf14162677092171" path="/ServicioCliente/casosAsignadosDataTable.xhtml"/>
   <links id="pf141616878486325" target="pf141616878486326" source="pf141616869974520" outcome="Admin" fromaction="#{authentication.autenticacionAplicacion}"/>
-  <links id="pf141616882927527" target="pf141616882927528" source="pf141616869974520" outcome="Area" fromaction="#{authentication.autenticacionAplicacion}"/>
+  <links id="pf14162677092170" target="pf14162677092172" source="pf141616869974520" outcome="Area" fromaction="#{authentication.autenticacionAplicacion}"/>
+  <links id="pf14162677092171" target="pf14162677092173" source="pf141616869974520" outcome="Servicio" fromaction="#{authentication.autenticacionAplicacion}"/>
 </pageflow:Pageflow>

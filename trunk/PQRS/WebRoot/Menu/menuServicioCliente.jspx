@@ -17,7 +17,13 @@
 						<p:column style="width:250px">
 							<p:submenu style="width:240px">
 								<p:menuitem value="Casos Asignados" style="width:240px"
-									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/Area/casosAsignadosArea.xhtml" />
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/ServicioCliente/casosAsignadosDataTable.xhtml" />
+								<p:menuitem value="Consulta Estadistica de Casos"
+									style="width:240px"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/ServicioCliente/consultaEstadistica.xhtml" />
+								<p:menuitem value="Consulta Informacion Solicitante"
+									style="width:240px"
+									url="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/ServicioCliente/infoSolicitanteListDataTable.xhtml" />
 							</p:submenu>
 						</p:column>
 					</p:submenu>

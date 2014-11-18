@@ -10,7 +10,7 @@
             	<param name="sequence">SEQ_ID_INFO_SOLICITANTE</param>
             </generator>
         </id>
-        <many-to-one name="tipoDocumento" class="com.tcbuen.pqrs.modelo.TipoDocumento" fetch="select">
+        <many-to-one name="tipoDocumento" class="com.tcbuen.pqrs.modelo.TipoDocumento" fetch="select" lazy="false">
             <column name="ID_TP_DOC" precision="10" scale="0" not-null="true" />
         </many-to-one>
         <property name="numeroIdentificacion" type="java.lang.String">

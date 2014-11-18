@@ -4,14 +4,12 @@ import com.tcbuen.pqrs.modelo.*;
 import com.tcbuen.pqrs.modelo.dto.SolicitudDTO;
 import com.tcbuen.pqrs.presentation.businessDelegate.*;
 import com.tcbuen.pqrs.utilities.FacesUtils;
-
 import java.io.File;
 import java.io.Serializable;
 import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
@@ -49,19 +47,16 @@ public class CasosAsignadosView implements Serializable {
     private List<AnexosRespuesta> anexosRespuestas;
     private String observacion;
     private boolean obser;
-    
-    //private final Properties properties = new Properties();
-    //private Session session;
-    
-	
+    private AreasInvolucradas area;
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
 
-	public CasosAsignadosView() {
+	public CasosAsignadosView() throws Exception {
 		super();
 	}
-	
+
+		
 	public void administrarCaso() throws Exception {
 		try{
 		solicitudPqr = businessDelegatorView.getSolicitudPqr(selectedSol);
@@ -74,7 +69,6 @@ public class CasosAsignadosView implements Serializable {
 				setObser(false);
 			}			
 		}
-		AreasInvolucradas area = businessDelegatorView.getAreasInvolucradas(1L);
 		anexosPqr = businessDelegatorView.consultarAnxsXArea(area);
 		setShowDialog(true);
 		}catch(Exception e){
@@ -144,13 +138,13 @@ public class CasosAsignadosView implements Serializable {
 	
 	public SolicitudAsignadaArea solicitudArea() throws Exception{
 		try{
-			AreasInvolucradas area = businessDelegatorView.getAreasInvolucradas(idArea);
+			AreasInvolucradas a = businessDelegatorView.getAreasInvolucradas(idArea);
 			SolicitudPqr sol = businessDelegatorView.getSolicitudPqr(selectedSol);
 			SolicitudAsignadaArea solicitudAsignadaArea = new SolicitudAsignadaArea();
 			solicitudAsignadaArea.setFechaAsignacion(new Date());
 			solicitudAsignadaArea.setFechaRespuesta(new Date());
 			solicitudAsignadaArea.setSolicitudPqr(sol);
-			solicitudAsignadaArea.setAreasInvolucradas(area);
+			solicitudAsignadaArea.setAreasInvolucradas(a);
 			
 			return solicitudAsignadaArea;
 			
@@ -220,7 +214,11 @@ public class CasosAsignadosView implements Serializable {
 		        FacesUtils.addErrorMessage(e.getMessage());
 		    }
 			return anexosRespuesta;
-	    }
+	}
+	 
+	public void respuestaCliente (){
+		businessDelegatorView.send("tatianamp91@gmail.com","Respuesta Solicitud", observacion);
+	}
 	
 	public void accionGuardarRespuesta() throws Exception {
 		try{			
@@ -239,48 +237,26 @@ public class CasosAsignadosView implements Serializable {
 						throw new Exception("Los anexos no estan completos");
 					}
 				}
-				businessDelegatorView.saveRespuestaSolicitud(
-						solicitudAsignadaArea, respuestaSol, anexosRespuestas);
-				FacesUtils
-						.addInfoMessage("La Respuesta se guardó correctamente");
+				businessDelegatorView.saveRespuestaSolicitud(solicitudAsignadaArea, respuestaSol, anexosRespuestas);
+				FacesUtils.addInfoMessage("La Respuesta se guardó correctamente");
 			} else {
 				throw new Exception("El area no puede ser vacia");
 			}
-			
-			//send("tatianamp91@gmail.com","Esto es una prueba","Este correo fue enviado usando JavaMail");
 		}catch(Exception e){
 			 FacesUtils.addErrorMessage(e.getMessage());
 		}
 	}
 	
-	/*
-	private void init() {
-        properties.put("mail.smtp.host", "smtp.gmail.com");
-        properties.put("mail.smtp.starttls.enable", "true");
-        properties.put("mail.smtp.port", 587);
-        properties.put("mail.smtp.mail.sender", "tatianamp91@gmail.com");
-        properties.put("mail.smtp.password", "waltertatiana21");
-        properties.put("mail.smtp.user", "tatianamp91@gmail.com");
-        properties.put("mail.smtp.auth", "true");
-        session = Session.getDefaultInstance(properties);
-    }
-    
-    public void send(String destino,String asunto, String mensaje) {
-        init();
-        try {
-            MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress((String) properties.get("mail.smtp.mail.sender")));
-            message.addRecipient(Message.RecipientType.TO, new InternetAddress(destino));
-            message.setSubject(asunto);
-            message.setText(mensaje);
-            Transport t = session.getTransport("smtp");
-            t.connect((String) properties.get("mail.smtp.user"), (String) properties.get("mail.smtp.password"));
-            t.sendMessage(message, message.getAllRecipients());
-            t.close();
-        } catch (MessagingException e) {
-            return;
-        }
-    }*/
+	public void cargarArea() throws Exception{
+		try{
+			HttpSession httpSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(true);
+		    long usuario =  Long.parseLong(httpSession.getAttribute("usuario").toString());
+		    UsuariosInternos usu = businessDelegatorView.getUsuariosInternos(usuario);
+		    area = usu.getAreasInvolucradas();        
+		}catch(Exception e){
+			throw new Exception (e);
+		}
+	}
 
 	public SolicitudDTO getSelectedSolicitudPqr() {
 		return selectedSolicitudPqr;
@@ -302,7 +278,8 @@ public class CasosAsignadosView implements Serializable {
 	public List<SolicitudPqr> getSolicitudesSer() throws Exception {
 		try{
 			if(solicitudesSer == null){
-				solicitudesSer = businessDelegatorView.consultarSolicitudes(1L);
+				cargarArea();
+				solicitudesSer = businessDelegatorView.consultarSolicitudes(area.getIdAreaInvolucrada());
 			}
 		}catch(Exception e){
 			throw new Exception (e);
@@ -312,14 +289,13 @@ public class CasosAsignadosView implements Serializable {
 
 	public void setSolicitudesSer(List<SolicitudPqr> solicitudesSer) {
 		this.solicitudesSer = solicitudesSer;
-	}
-	
+	}	
 
 	public List<SolicitudDTO> getSolicitudesArea() throws Exception {
-		try{
+		try{       
 			if(solicitudesArea == null){
-				AreasInvolucradas areasInvolucradas = businessDelegatorView.getAreasInvolucradas(1L);
-				solicitudesArea = businessDelegatorView.consultarAsignacion(areasInvolucradas);
+				cargarArea(); 
+				solicitudesArea = businessDelegatorView.consultarAsignacion(area);
 			}
 		}catch(Exception e){
 			throw new Exception (e);
@@ -370,7 +346,7 @@ public class CasosAsignadosView implements Serializable {
 				List<AreasInvolucradas> areas = businessDelegatorView.getAreasInvolucradas();
 				if(areas != null){
 					for (AreasInvolucradas area : areas) {
-						if(area.getIdAreaInvolucrada() != 1L){
+						if(area.getIdAreaInvolucrada() != area.getIdAreaInvolucrada()){
 							areasInvolucradas.add(new SelectItem(area.getIdAreaInvolucrada(), area.getNombreArea()));
 						}
 					}
@@ -385,84 +361,70 @@ public class CasosAsignadosView implements Serializable {
 	public void setAreasInvolucradas(List<SelectItem> areasInvolucradas) {
 		this.areasInvolucradas = areasInvolucradas;
 	}
-
 	public List<AnexosPqr> getAnexosPqr() {
 		return anexosPqr;
 	}
-
 	public void setAnexosPqr(List<AnexosPqr> anexosPqr) {
 		this.anexosPqr = anexosPqr;
 	}
-
 	public UploadedFile getFile() {
 		return file;
 	}
-
 	public void setFile(UploadedFile file) {
 		this.file = file;
 	}
-
 	public List<UploadedFile> getUploadedFiles() {
 		return uploadedFiles;
 	}
-
 	public void setUploadedFiles(List<UploadedFile> uploadedFiles) {
 		this.uploadedFiles = uploadedFiles;
 	}
-
 	public boolean isAnexos() {
 		return anexos;
 	}
-
 	public void setAnexos(boolean anexos) {
 		this.anexos = anexos;
 	}
-
 	public List<RespuestaSol> getRespuestaSol() {
 		return respuestaSol;
 	}
-
 	public void setRespuestaSol(List<RespuestaSol> respuestaSol) {
 		this.respuestaSol = respuestaSol;
 	}
-
 	public List<AnexosRespuesta> getAnexosRespuestas() {
 		return anexosRespuestas;
 	}
-
 	public void setAnexosRespuestas(List<AnexosRespuesta> anexosRespuestas) {
 		this.anexosRespuestas = anexosRespuestas;
 	}
-
 	public String getObservacion() {
 		return observacion;
 	}
-
 	public void setObservacion(String observacion) {
 		this.observacion = observacion;
 	}
-
 	public Long getIdArea() {
 		return idArea;
 	}
-
 	public void setIdArea(Long idArea) {
 		this.idArea = idArea;
 	}
-
 	public Blob getBlob() {
 		return blob;
 	}
-
 	public void setBlob(Blob blob) {
 		this.blob = blob;
 	}
-
 	public boolean isObser() {
 		return obser;
 	}
-
 	public void setObser(boolean obser) {
 		this.obser = obser;
+	}
+	public AreasInvolucradas getArea() {
+		return area;
+	}
+	public void setArea(AreasInvolucradas area) {
+		this.area = area;
 	}
 }
