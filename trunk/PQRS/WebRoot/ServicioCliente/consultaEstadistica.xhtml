@@ -1,0 +1,127 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</h:head>
+<h:body>
+	<ui:composition template="/WEB-INF/facelets/templateServicio.xhtml">
+		<ui:define name="body">
+			<f:view>
+				<p:ajaxStatus onstart="statusDialog.show();"
+					onsuccess="statusDialog.hide();" />
+				<p:dialog modal="true" widgetVar="statusDialog" header="Cargando"
+					draggable="false" closable="false">
+					<p:graphicImage
+						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
+				</p:dialog>
+				<h:form id="form">
+					<p:panel id="msgProjectClientesTitle"
+						header="Consulta de Estadistica de Casos"
+						style="height:600px;width:1070px">
+
+						<div align="center">
+							<h3 align="center">Criterios de Busqueda</h3>
+							<h:panelGrid columns="4" id="panelDatos">
+								<h:outputText id="motivosReclamaciones"
+									value="Motivos de Reclamación:"/>
+								<p:selectOneMenu id="motivosReclamacionesConsultadas"
+									value="#{estadisticasView.idMotivoReclamacion}"
+									style="height:20px;width:160px">
+									<f:selectItem itemLabel="Seleccione" itemValue="" />
+									<f:selectItems value="#{estadisticasView.motivosReclamacion}" />
+								</p:selectOneMenu>
+								<h:outputText id="estado" value="Estado"/>
+								<p:selectOneMenu id="EstadoSolicitudConsultada"
+									value="#{estadisticasView.idEstado}"
+									style="height:20px;width:160px">
+									<f:selectItem itemLabel="Seleccione" itemValue="" />
+									<f:selectItems value="#{estadisticasView.estadosPqr}" />
+								</p:selectOneMenu>
+								<p:outputLabel for="button" value="Fecha Radicacion Desde"/>
+								<p:calendar id="button" value="#{estadisticasView.fechaInicio}"
+									showOn="button"></p:calendar>
+								<p:outputLabel for="button" value="Fecha Radicacion Hasta"/>
+								<p:calendar id="button2" value="#{estadisticasView.fechaFin}"
+									showOn="button"></p:calendar>
+								<h:outputText id="numeroRadicacion" value="Número de Radicación"/>
+								<p:inputText id="txtNumeroRadicacion"
+									binding="#{estadisticasView.txtNumeroRadicacion}"
+									maxlength="100" style="height:20px;width:250px" />
+							</h:panelGrid>
+						</div>
+						<br />
+						<div align="center">
+							<h:panelGrid columns="2" id="botones">
+								<p:commandButton id="btnConsultar" value="Consultar"
+									action="#{estadisticasView.action_consultar()}" 
+									update="tbl"/>
+								<p:commandButton id="btnClear" value="Limpiar" />
+							</h:panelGrid>
+						</div>
+						<br />
+						<h3 align="center">Estadisticas de Casos</h3>
+						<br />
+
+						<p:messages id="msg" showDetail="false" />
+						<p:dataTable var="estadistica" value="#{estadisticasView.data}"
+							id="tbl" paginator="true" rows="5">
+				
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Numero de Radicación" />
+								</f:facet>
+								<h:outputText value="#{estadistica.numeroRadicacion}" />
+							</p:column>
+
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Motivos de Reclamación" />
+								</f:facet>
+								<h:outputText value="#{estadistica.descripcionMotRecl}" />
+							</p:column>
+
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Fecha de Radicación" />
+								</f:facet>
+								<h:outputText value="#{estadistica.fechaCreacion}" />
+							</p:column>
+
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Estado" />
+								</f:facet>
+								<h:outputText value="#{estadistica.descripcionEstado}" />
+							</p:column>							
+							
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Area con Caso" />
+								</f:facet>
+								<h:outputText value="#{estadistica.nombreArea}" />
+							</p:column>
+
+							<p:column>
+								<f:facet name="header">
+									<h:outputText value="Fecha Respuesta" />
+								</f:facet>
+								<h:outputText value="#{estadistica.fechaRespuesta}" />
+							</p:column>
+							
+						</p:dataTable>
+						<h:commandLink value="Exportar Excel">
+							<p:dataExporter target="tbl" type="xls"
+								fileName="Estadistica_de_casos_XLS"/>
+						</h:commandLink>
+
+					</p:panel>
+
+				</h:form>
+			</f:view>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
