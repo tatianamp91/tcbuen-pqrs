@@ -83,12 +83,12 @@ public class SolicitudPqrDAO extends HibernateDaoImpl<SolicitudPqr, Long>
 
 	@Override
 	public List<EstadisticasDTO> consultarSolicitudPorEstado(String estado) throws Exception {
-		String hql = "SELECT new com.tcbuen.pqrs.modelo.dto.EstadisticasDTO(max(SPQR.numeroRadicacion), MOTR.descripcionMotRecl, SPQR.fechaCreacion, TEPQR.descripcionEstado, AI.nombreArea, SAA.fechaRespuesta) " +
+		String hql = "SELECT new com.tcbuen.pqrs.modelo.dto.EstadisticasDTO(max(SPQR.numeroRadicacion), MOTR.descripcionMotRecl, max(SPQR.fechaCreacion), TEPQR.descripcionEstado, AI.nombreArea, max(SAA.fechaRespuesta)) " +
 				 "FROM SolicitudPqr SPQR, MotivoReclamacion MOTR, TipoEstadoPqr TEPQR, MotReclSelect MRS, SolicitudAsignadaArea SAA, AreasInvolucradas AI " +
 				 "WHERE MOTR.idMotRecl = MRS.motivoReclamacion.idMotRecl and MRS.solicitudPqr.idSolPqr = SPQR.idSolPqr and SPQR.tipoEstadoPqr.idTpEstPqr = TEPQR.idTpEstPqr " +
 				 "and SPQR.idSolPqr = SAA.solicitudPqr.idSolPqr and SAA.areasInvolucradas.idAreaInvolucrada = AI.idAreaInvolucrada " +
 				 "and TEPQR.descripcionEstado = " + "'" + estado + "'" + 
-				 "group by (MOTR.descripcionMotRecl, SPQR.fechaCreacion, TEPQR.descripcionEstado, AI.nombreArea, SAA.fechaRespuesta) "+
+				 "group by (MOTR.descripcionMotRecl, TEPQR.descripcionEstado, AI.nombreArea) "+
 				 " order by SPQR.fechaCreacion asc";
 		
 		return (List<EstadisticasDTO>) sessionFactory.getCurrentSession().createQuery(hql).list();
@@ -96,12 +96,12 @@ public class SolicitudPqrDAO extends HibernateDaoImpl<SolicitudPqr, Long>
 
 	@Override
 	public List<EstadisticasDTO> consultarSolicitudMotivoReclamacion(Long idMotivoReclamacion) throws Exception {
-		String hql= "SELECT new com.tcbuen.pqrs.modelo.dto.EstadisticasDTO(max(SPQR.numeroRadicacion), MOTR.descripcionMotRecl, SPQR.fechaCreacion, TEPQR.descripcionEstado, AI.nombreArea, SAA.fechaRespuesta) " +
+		String hql= "SELECT new com.tcbuen.pqrs.modelo.dto.EstadisticasDTO(max(SPQR.numeroRadicacion), MOTR.descripcionMotRecl, max(SPQR.fechaCreacion), TEPQR.descripcionEstado, AI.nombreArea, max(SAA.fechaRespuesta)) " +
 				 "FROM SolicitudPqr SPQR, MotivoReclamacion MOTR, TipoEstadoPqr TEPQR, MotReclSelect MRS, SolicitudAsignadaArea SAA, AreasInvolucradas AI " +
 				 "WHERE MOTR.idMotRecl = MRS.motivoReclamacion.idMotRecl and MRS.solicitudPqr.idSolPqr = SPQR.idSolPqr and SPQR.tipoEstadoPqr.idTpEstPqr = TEPQR.idTpEstPqr " +
 				 "and SPQR.idSolPqr = SAA.solicitudPqr.idSolPqr and SAA.areasInvolucradas.idAreaInvolucrada = AI.idAreaInvolucrada " +
 				 "and MOTR.idMotRecl = " + idMotivoReclamacion + 
-				 "group by (MOTR.descripcionMotRecl, SPQR.fechaCreacion, TEPQR.descripcionEstado, AI.nombreArea, SAA.fechaRespuesta) "+
+				 "group by (MOTR.descripcionMotRecl, TEPQR.descripcionEstado, AI.nombreArea) "+
 				 " order by SPQR.fechaCreacion asc";
 		
 		
@@ -110,75 +110,75 @@ public class SolicitudPqrDAO extends HibernateDaoImpl<SolicitudPqr, Long>
 
     @Override
     public List<EstadisticasDTO> consultarSolicitudNumeroRadicacion(String numeroRadicacion) throws Exception{
-    	String hql = "SELECT new com.tcbuen.pqrs.modelo.dto.EstadisticasDTO(max(SPQR.numeroRadicacion), MOTR.descripcionMotRecl, SPQR.fechaCreacion, TEPQR.descripcionEstado, AI.nombreArea, SAA.fechaRespuesta) "
+    	String hql = "SELECT new com.tcbuen.pqrs.modelo.dto.EstadisticasDTO(max(SPQR.numeroRadicacion), MOTR.descripcionMotRecl, max(SPQR.fechaCreacion), TEPQR.descripcionEstado, AI.nombreArea, max(SAA.fechaRespuesta)) "
     			+ "FROM SolicitudPqr SPQR, MotivoReclamacion MOTR, TipoEstadoPqr TEPQR, MotReclSelect MRS, SolicitudAsignadaArea SAA, AreasInvolucradas AI " 
     			+ "WHERE MOTR.idMotRecl = MRS.motivoReclamacion.idMotRecl and MRS.solicitudPqr.idSolPqr = SPQR.idSolPqr and SPQR.tipoEstadoPqr.idTpEstPqr = TEPQR.idTpEstPqr "
     			+ "and SPQR.idSolPqr = SAA.solicitudPqr.idSolPqr and SAA.areasInvolucradas.idAreaInvolucrada = AI.idAreaInvolucrada " 
     			+ "and SPQR.numeroRadicacion = " + "'" + numeroRadicacion + "'" 
-    			+ " group by (MOTR.descripcionMotRecl, SPQR.fechaCreacion, TEPQR.descripcionEstado, AI.nombreArea, SAA.fechaRespuesta) " 
+    			+ " group by (MOTR.descripcionMotRecl, TEPQR.descripcionEstado, AI.nombreArea) " 
     			+ "order by SPQR.fechaCreacion asc ";
     	return (List<EstadisticasDTO>) sessionFactory.getCurrentSession().createQuery(hql).list();
     }
 	
     @Override
     public List<EstadisticasDTO> consultarSolicitudPorFecha(String fechaInicio, String fechaFin) throws Exception{
-    	String hql = "SELECT new com.tcbuen.pqrs.modelo.dto.EstadisticasDTO(max(SPQR.numeroRadicacion), MOTR.descripcionMotRecl, SPQR.fechaCreacion, TEPQR.descripcionEstado, AI.nombreArea, SAA.fechaRespuesta) "
+    	String hql = "SELECT new com.tcbuen.pqrs.modelo.dto.EstadisticasDTO(max(SPQR.numeroRadicacion), MOTR.descripcionMotRecl, max(SPQR.fechaCreacion), TEPQR.descripcionEstado, AI.nombreArea, max(SAA.fechaRespuesta)) "
     			+ "FROM SolicitudPqr SPQR, MotivoReclamacion MOTR, TipoEstadoPqr TEPQR, MotReclSelect MRS, SolicitudAsignadaArea SAA, AreasInvolucradas AI " 
     			+ "WHERE MOTR.idMotRecl = MRS.motivoReclamacion.idMotRecl and MRS.solicitudPqr.idSolPqr = SPQR.idSolPqr and SPQR.tipoEstadoPqr.idTpEstPqr = TEPQR.idTpEstPqr "
     			+ "and SPQR.idSolPqr = SAA.solicitudPqr.idSolPqr and SAA.areasInvolucradas.idAreaInvolucrada = AI.idAreaInvolucrada " 
     			+ "and SPQR.fechaCreacion BETWEEN " + "to_date(" + "'" + fechaInicio + "'" +", 'dd/MM/yyyy') " + " AND " + "to_date(" + "'" + fechaFin + "'" +", 'dd/MM/yyyy') "
-    			+ "group by (MOTR.descripcionMotRecl, SPQR.fechaCreacion, TEPQR.descripcionEstado, AI.nombreArea, SAA.fechaRespuesta) "
+    			+ "group by (MOTR.descripcionMotRecl, TEPQR.descripcionEstado, AI.nombreArea) "
     			+ " order by SPQR.fechaCreacion asc";
     	return (List<EstadisticasDTO>) sessionFactory.getCurrentSession().createQuery(hql).list();
     }
     
     @Override
     public List<EstadisticasDTO> consultarSolicitudMotivoReclamacionEstado(Long idMotivoReclamacion, String estado) throws Exception{
-    	String hql = "SELECT new com.tcbuen.pqrs.modelo.dto.EstadisticasDTO(max(SPQR.numeroRadicacion), MOTR.descripcionMotRecl, SPQR.fechaCreacion, TEPQR.descripcionEstado, AI.nombreArea, SAA.fechaRespuesta) "
+    	String hql = "SELECT new com.tcbuen.pqrs.modelo.dto.EstadisticasDTO(max(SPQR.numeroRadicacion), MOTR.descripcionMotRecl, max(SPQR.fechaCreacion), TEPQR.descripcionEstado, AI.nombreArea, max(SAA.fechaRespuesta)) "
     			+ "FROM SolicitudPqr SPQR, MotivoReclamacion MOTR, TipoEstadoPqr TEPQR, MotReclSelect MRS, SolicitudAsignadaArea SAA, AreasInvolucradas AI " 
     			+ "WHERE MOTR.idMotRecl = MRS.motivoReclamacion.idMotRecl and MRS.solicitudPqr.idSolPqr = SPQR.idSolPqr and SPQR.tipoEstadoPqr.idTpEstPqr = TEPQR.idTpEstPqr "
     			+ "and SPQR.idSolPqr = SAA.solicitudPqr.idSolPqr and SAA.areasInvolucradas.idAreaInvolucrada = AI.idAreaInvolucrada " 
     			+ "and MOTR.idMotRecl = " + idMotivoReclamacion + " and TEPQR.descripcionEstado = " + "'" + estado + "'"    
-    			+ "group by (MOTR.descripcionMotRecl, SPQR.fechaCreacion, TEPQR.descripcionEstado, AI.nombreArea, SAA.fechaRespuesta) "
+    			+ "group by (MOTR.descripcionMotRecl, TEPQR.descripcionEstado, AI.nombreArea) "
     			+ " order by SPQR.fechaCreacion asc";
     	return (List<EstadisticasDTO>) sessionFactory.getCurrentSession().createQuery(hql).list();
     }
     
     @Override
     public List<EstadisticasDTO> consultarSolicitudPorEstadoYFechas(String estado, String fechaInicio, String fechaFin) throws Exception{
-    	String hql = "SELECT new com.tcbuen.pqrs.modelo.dto.EstadisticasDTO(max(SPQR.numeroRadicacion), MOTR.descripcionMotRecl, SPQR.fechaCreacion, TEPQR.descripcionEstado, AI.nombreArea, SAA.fechaRespuesta) "
+    	String hql = "SELECT new com.tcbuen.pqrs.modelo.dto.EstadisticasDTO(max(SPQR.numeroRadicacion), MOTR.descripcionMotRecl, max(SPQR.fechaCreacion), TEPQR.descripcionEstado, AI.nombreArea, max(SAA.fechaRespuesta)) "
     			+ "FROM SolicitudPqr SPQR, MotivoReclamacion MOTR, TipoEstadoPqr TEPQR, MotReclSelect MRS, SolicitudAsignadaArea SAA, AreasInvolucradas AI " 
     			+ "WHERE MOTR.idMotRecl = MRS.motivoReclamacion.idMotRecl and MRS.solicitudPqr.idSolPqr = SPQR.idSolPqr and SPQR.tipoEstadoPqr.idTpEstPqr = TEPQR.idTpEstPqr "
     			+ "and SPQR.idSolPqr = SAA.solicitudPqr.idSolPqr and SAA.areasInvolucradas.idAreaInvolucrada = AI.idAreaInvolucrada " 
     			+ "and TEPQR.descripcionEstado = " + "'" + estado + "'" 
     			+ " and SPQR.fechaCreacion BETWEEN " + "to_date(" + "'" + fechaInicio + "'" +", 'dd/MM/yyyy') " + " AND " + "to_date(" + "'" + fechaFin + "'" +", 'dd/MM/yyyy') "   
-    			+ "group by (MOTR.descripcionMotRecl, SPQR.fechaCreacion, TEPQR.descripcionEstado, AI.nombreArea, SAA.fechaRespuesta) "
+    			+ "group by (MOTR.descripcionMotRecl, TEPQR.descripcionEstado, AI.nombreArea) "
     			+ " order by SPQR.fechaCreacion asc";
     	return (List<EstadisticasDTO>) sessionFactory.getCurrentSession().createQuery(hql).list();
     }
     
     @Override
     public List<EstadisticasDTO> consultarSolicitudPorReclamacionYFechas(Long idMotivoReclamacion, String fechaInicio, String fechaFin) throws Exception{
-    	String hql = "SELECT new com.tcbuen.pqrs.modelo.dto.EstadisticasDTO(max(SPQR.numeroRadicacion), MOTR.descripcionMotRecl, SPQR.fechaCreacion, TEPQR.descripcionEstado, AI.nombreArea, SAA.fechaRespuesta) "
+    	String hql = "SELECT new com.tcbuen.pqrs.modelo.dto.EstadisticasDTO(max(SPQR.numeroRadicacion), MOTR.descripcionMotRecl, max(SPQR.fechaCreacion), TEPQR.descripcionEstado, AI.nombreArea, max(SAA.fechaRespuesta)) "
     			+ "FROM SolicitudPqr SPQR, MotivoReclamacion MOTR, TipoEstadoPqr TEPQR, MotReclSelect MRS, SolicitudAsignadaArea SAA, AreasInvolucradas AI " 
     			+ "WHERE MOTR.idMotRecl = MRS.motivoReclamacion.idMotRecl and MRS.solicitudPqr.idSolPqr = SPQR.idSolPqr and SPQR.tipoEstadoPqr.idTpEstPqr = TEPQR.idTpEstPqr "
     			+ "and SPQR.idSolPqr = SAA.solicitudPqr.idSolPqr and SAA.areasInvolucradas.idAreaInvolucrada = AI.idAreaInvolucrada " 
     			+ "and MOTR.idMotRecl = " + idMotivoReclamacion 
     			+ " and SPQR.fechaCreacion BETWEEN " + "to_date(" + "'" + fechaInicio + "'" +", 'dd/MM/yyyy') " + " AND " + "to_date(" + "'" + fechaFin + "'" +", 'dd/MM/yyyy') "    
-    			+ " group by (MOTR.descripcionMotRecl, SPQR.fechaCreacion, TEPQR.descripcionEstado, AI.nombreArea, SAA.fechaRespuesta) "
+    			+ " group by (MOTR.descripcionMotRecl, TEPQR.descripcionEstado, AI.nombreArea) "
     			+ " order by SPQR.fechaCreacion asc";
     	return (List<EstadisticasDTO>) sessionFactory.getCurrentSession().createQuery(hql).list();
     }
     
     @Override
     public List<EstadisticasDTO> consultarSolicitudPorReclamacionEstadoYFechas(Long idMotivoReclamacion, String estado, String fechaInicio, String fechaFin) throws Exception{
-    	String hql = "SELECT new com.tcbuen.pqrs.modelo.dto.EstadisticasDTO(max(SPQR.numeroRadicacion), MOTR.descripcionMotRecl, SPQR.fechaCreacion, TEPQR.descripcionEstado, AI.nombreArea, SAA.fechaRespuesta) "
+    	String hql = "SELECT new com.tcbuen.pqrs.modelo.dto.EstadisticasDTO(max(SPQR.numeroRadicacion), MOTR.descripcionMotRecl, max(SPQR.fechaCreacion), TEPQR.descripcionEstado, AI.nombreArea, max(SAA.fechaRespuesta)) "
     			+ "FROM SolicitudPqr SPQR, MotivoReclamacion MOTR, TipoEstadoPqr TEPQR, MotReclSelect MRS, SolicitudAsignadaArea SAA, AreasInvolucradas AI " 
     			+ "WHERE MOTR.idMotRecl = MRS.motivoReclamacion.idMotRecl and MRS.solicitudPqr.idSolPqr = SPQR.idSolPqr and SPQR.tipoEstadoPqr.idTpEstPqr = TEPQR.idTpEstPqr "
     			+ "and SPQR.idSolPqr = SAA.solicitudPqr.idSolPqr and SAA.areasInvolucradas.idAreaInvolucrada = AI.idAreaInvolucrada " 
     			+ "and MOTR.idMotRecl = " + idMotivoReclamacion + " and TEPQR.descripcionEstado = " + "'" + estado + "'" 
     			+ " and SPQR.fechaCreacion BETWEEN " + "to_date(" + "'" + fechaInicio + "'" +", 'dd/MM/yyyy') " + " AND " + "to_date(" + "'" + fechaFin + "'" +", 'dd/MM/yyyy') "    
-    			+ "group by (MOTR.descripcionMotRecl, SPQR.fechaCreacion, TEPQR.descripcionEstado, AI.nombreArea, SAA.fechaRespuesta) "
+    			+ "group by (MOTR.descripcionMotRecl, TEPQR.descripcionEstado, AI.nombreArea) "
     			+ " order by SPQR.fechaCreacion asc";
     	return (List<EstadisticasDTO>) sessionFactory.getCurrentSession().createQuery(hql).list();
     }
