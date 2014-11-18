@@ -58,7 +58,9 @@
 								<p:commandButton id="btnConsultar" value="Consultar"
 									action="#{estadisticasView.action_consultar()}" 
 									update="tbl"/>
-								<p:commandButton id="btnClear" value="Limpiar" />
+								<p:commandButton id="btnClear" value="Limpiar"
+									action="#{estadisticasView.action_clear()}"
+									update="tbl,panelDatos" />
 							</h:panelGrid>
 						</div>
 						<br />
@@ -113,7 +115,7 @@
 							
 						</p:dataTable>
 						<h:commandLink value="Exportar Excel">
-							<p:dataExporter target="tbl" type="xls"
+							<p:dataExporter target="tbl" type="xls" pageOnly="true"
 								fileName="Estadistica_de_casos_XLS"/>
 						</h:commandLink>
 

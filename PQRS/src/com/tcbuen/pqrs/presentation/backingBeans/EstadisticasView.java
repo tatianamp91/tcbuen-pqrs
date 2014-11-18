@@ -52,6 +52,14 @@ public class EstadisticasView implements Serializable {
 	
     public String action_clear() throws Exception{
     	try{
+    		data = null;
+    		descripcionMotivoReclamacion = null;
+    		numeroRadicacion = null;
+    		fechaInicio = null;
+    		fechaFin = null;
+    		idMotivoReclamacion = null;
+    		idEstado = null;
+    		txtNumeroRadicacion.setValue("");
 	  
     	}catch(Exception e){
     		throw new Exception(e);
@@ -156,9 +164,7 @@ public class EstadisticasView implements Serializable {
 			estadosPqr = new ArrayList<SelectItem>();
 			List<TipoEstadoPqr> tipoEstados = businessDelegatorView.getTipoEstadoPqr();
 			for (TipoEstadoPqr tipoEstado : tipoEstados) {
-				if (tipoEstado.getDescripcionEstado().contains("activo")) {
 					estadosPqr.add(new SelectItem(tipoEstado.getIdTpEstPqr(),tipoEstado.getDescripcionEstado()));
-				}
 			}
 		}catch(Exception e){
 			e.printStackTrace();
