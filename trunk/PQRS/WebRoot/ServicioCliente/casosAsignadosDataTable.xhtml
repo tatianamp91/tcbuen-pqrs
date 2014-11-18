@@ -24,7 +24,7 @@
 						<p:growl id="msg" />
 						<p:dataTable id="tablaSol"
 							value="#{casosAsignadosView.solicitudesSer}" var="sol"
-							paginator="true" rows="10">
+							paginator="true" rows="8">
 							<p:column headerText="Número Radicación">
 								<h:outputText value="#{sol.numeroRadicacion}" />
 							</p:column>
@@ -146,17 +146,16 @@
 											<p:column headerText="Archivo">
 												<p:fileUpload
 													fileUploadListener="#{casosAsignadosView.upload}"
-													mode="advanced" dragDropSupport="false" update="messages"
+													mode="advanced" dragDropSupport="false" update="messages,check,tablaAnexosXArea"
 													fileLimit="1" uploadLabel="Subir" label="Seleccionar"
-													cancelLabel="cancelar"
+													cancelLabel="cancelar" 
 													allowTypes="/(\.|\/)(jpg|jpe?g|png|pdf|xps)$/"
 													fileLimitMessage="Solo es permitido Seleccionar un archivo" />
 												<p:growl id="messages" />
 											</p:column>
 											<p:column>
-												<p:selectBooleanCheckbox
-													value="#{casosAsignadosView.adjuntos.get(anexospqr)}"
-													disabled="true" />
+												<p:selectBooleanCheckbox id="check"
+													binding="#{casosAsignadosView.check}" disabled="true" />
 											</p:column>
 										</p:dataTable>
 										<h:outputText id="msgAsignar"
@@ -172,14 +171,15 @@
 											<p:commandButton id="btnResSol"
 												value="Enviar respuesta al Solicitante"
 												action="#{casosAsignadosView.respuestaCliente()}"
-												style="width:200px" update=":frm:men" />
+												style="width:200px" 
+												update=":frm:men,:dialogAdministrarCaso,:frm:tablaSol,msgRespuestas" />
 										</p:panelGrid>
 
 									</h:panelGrid>
 									<div align="center">
 										<p:commandButton id="btnSave" value="Guardar"
 											action="#{casosAsignadosView.accionGuardarRespuesta()}"
-											update="msgRespuestas" />
+											update=":frm:men,:dialogAdministrarCaso,:frm:tablaSol,msgRespuestas" />
 										<p:commandButton id="btnlimpiar" value="Limpiar"
 											action="#{casosAsignadosView.limpiar()}"
 											update="panelRespuestas" />

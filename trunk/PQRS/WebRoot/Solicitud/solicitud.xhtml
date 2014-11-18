@@ -81,7 +81,7 @@
 												pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
 										</p:inputText>
 										<p:tooltip id="tooltiptxtCorreo" for="txtCorreoElectronico"
-											value="Ingrese un Correo electronico. xxxx@xxx.xxx.xx ó xxxx@xxx.xxx" />
+											value="A este correo se le enviará la respuesta a su solicitud" />
 
 										<h:outputText id="msgNumeroCelular" value="*Numero Celular:" />
 										<p:inputMask id="txtNumeroCelular"
@@ -98,6 +98,8 @@
 											requiredMessage="Debe ingresar un número fijo" />
 										<p:tooltip id="tooltiptxtFijo" for="txtTelefonoFijo"
 											value="Ingrese un Teléfono fijo." />
+										<p:watermark for="txtCorreoElectronico"
+											value="ejemplo@usbcali.edu.co" />
 									</h:panelGrid>
 								</div>
 							</p:panel>
@@ -148,8 +150,7 @@
 							</div>
 						</p:tab>
 						<p:tab id="tab4" title="Solicitud">
-							<p:growl id="msg2" showDetail="false" />
-							<p:growl id="men2" />
+							<p:growl id="msg2"/>
 							<p:panel id="panelSolicitudPqr" style="width:1068px">
 								<div align="center">
 									<h:panelGrid columns="1" id="panelGrid12">
@@ -228,12 +229,16 @@
 												<p:fileUpload fileUploadListener="#{solicitudView.upload}"
 													mode="advanced" dragDropSupport="false" update="messages"
 													fileLimit="1" uploadLabel="Subir" label="Seleccionar"
-													cancelLabel="cancelar" allowTypes="/(\.|\/)(jpg|jpe?g|png|pdf|xps)$/"
-													fileLimitMessage="Solo es permitido Seleccionar un archivo" />		
+													cancelLabel="cancelar"
+													allowTypes="/(\.|\/)(jpg|jpe?g|png|pdf|xps)$/"
+													fileLimitMessage="Solo es permitido Seleccionar un archivo">
+												</p:fileUpload>
 												<p:growl id="messages" />
 											</p:column>
 											<p:column>
-												<p:selectBooleanCheckbox value="#{solicitudView.adjuntos.get(anexospqr)}" disabled="true"/>
+												<p:selectBooleanCheckbox id="boolean"
+													value="#{solicitudView.adjuntos.get(anexospqr)}"
+													disabled="true" />
 											</p:column>
 										</p:dataTable>
 										<p:tooltip id="toolAnexos" for="tablaAnexosXTipoSolDoc"
@@ -250,7 +255,8 @@
 										action="#{solicitudView.action_clear_formulario()}"
 										update="panelSolicitudPqr,msg2,panelBotones" />
 									<p:commandButton id="btnSave2" value="Enviar Solicitud"
-										action="#{solicitudView.action_save()}" update="msg2,:frm:wizard"  />
+										action="#{solicitudView.action_save()}"
+										update="msg2,:frm:wizard" />
 								</div>
 							</p:panel>
 						</p:tab>

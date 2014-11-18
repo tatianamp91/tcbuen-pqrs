@@ -21,7 +21,7 @@
 		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
-		<from-view-id>solicitud.xhtml</from-view-id>
+		<from-view-id>/Solicitud/solicitud.xhtml</from-view-id>
 		<navigation-case>
 			<from-action>#{solicitudView.action_save}</from-action>
 			<from-outcome>Enviada</from-outcome>
