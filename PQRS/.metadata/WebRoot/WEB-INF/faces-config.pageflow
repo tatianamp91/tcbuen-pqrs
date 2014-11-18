@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf14160811353450" configfile="/PQRS/WebRoot/WEB-INF/faces-config.xml">
-  <nodes xsi:type="pageflow:PFPage" name="loginAplicacion.xhtml" id="pf141616869974520" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf141616878486325 pf14162677092170 pf14162677092171" path="loginAplicacion.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="Menu/initialMenuAdmin.xhtml" id="pf141616878486326" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf141616878486325" path="Menu/initialMenuAdmin.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="Area/casosAsignadosArea.xhtml" id="pf14162677092172" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf14162677092170" path="/Area/casosAsignadosArea.xhtml"/>
-  <nodes xsi:type="pageflow:PFPage" name="ServicioCliente/casosAsignadosDataTable.xhtml" id="pf14162677092173" referenceLink="//@navigationRule.0/@navigationCase.2/@toViewId|" inlinks="pf14162677092171" path="/ServicioCliente/casosAsignadosDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="loginAplicacion.xhtml" x="122" y="562" id="pf141616869974520" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf141616878486325 pf14162677092170 pf14162677092171" path="loginAplicacion.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Menu/initialMenuAdmin.xhtml" x="338" y="178" id="pf141616878486326" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf141616878486325" path="Menu/initialMenuAdmin.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Area/casosAsignadosArea.xhtml" x="338" y="562" id="pf14162677092172" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf14162677092170" path="/Area/casosAsignadosArea.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="ServicioCliente/casosAsignadosDataTable.xhtml" x="338" y="946" id="pf14162677092173" referenceLink="//@navigationRule.0/@navigationCase.2/@toViewId|" inlinks="pf14162677092171" path="/ServicioCliente/casosAsignadosDataTable.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Solicitud/solicitud.xhtml" id="pf141632808001515" referenceLink="//@navigationRule.1/@fromViewId|" outlinks="pf141632808001516" path="/Solicitud/solicitud.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="Solicitud/solEnviada.xhtml" id="pf141632808001517" referenceLink="//@navigationRule.1/@navigationCase.0/@toViewId|" inlinks="pf141632808001516" path="/Solicitud/solEnviada.xhtml"/>
   <links id="pf141616878486325" target="pf141616878486326" source="pf141616869974520" outcome="Admin" fromaction="#{authentication.autenticacionAplicacion}"/>
   <links id="pf14162677092170" target="pf14162677092172" source="pf141616869974520" outcome="Area" fromaction="#{authentication.autenticacionAplicacion}"/>
   <links id="pf14162677092171" target="pf14162677092173" source="pf141616869974520" outcome="Servicio" fromaction="#{authentication.autenticacionAplicacion}"/>
+  <links id="pf141632808001516" target="pf141632808001517" source="pf141632808001515" outcome="Enviada" fromaction="#{solicitudView.action_save}"/>
 </pageflow:Pageflow>

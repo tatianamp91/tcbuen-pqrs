@@ -24,6 +24,7 @@ import javax.imageio.stream.FileImageOutputStream;
 import javax.servlet.http.HttpSession;
 import javax.sql.rowset.serial.SerialBlob;
 
+import org.primefaces.component.selectbooleancheckbox.SelectBooleanCheckbox;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.FlowEvent;
 import org.primefaces.model.DefaultStreamedContent;
@@ -60,6 +61,7 @@ public class CasosAsignadosView implements Serializable {
     private StreamedContent download;
     private List<Boolean> adjuntos;
     private Long estado;
+    private SelectBooleanCheckbox check;
 
 	@ManagedProperty(value = "#{BusinessDelegatorView}")
 	private IBusinessDelegatorView businessDelegatorView;
@@ -68,15 +70,20 @@ public class CasosAsignadosView implements Serializable {
 		super();
 	}
 	
-	public void limpiar(){
+	public void limpiar() throws Exception{
 		observacion = null;
 		file = null;
 		uploadedFiles = null;
 		idArea = null;
-		adjuntos = new ArrayList<Boolean>();
-		for (int i= 0; i<anexosPqr.size(); i++){
-			adjuntos.add(false);
-		}
+		adjuntos = null;
+		action_clear();
+		solicitudPqr = null;
+		selectedSol = null;
+		infoSolicitante = null;
+		anexosPqr = null;
+		respuestaSol = null;
+		idRespuesta = null;
+		anexosRespuestas = null;
 	}
 
 		
@@ -164,6 +171,9 @@ public class CasosAsignadosView implements Serializable {
 	        	}
 	        	index = uploadedFiles.size();
 	        	uploadedFiles.add(index,file);
+	        	check = new SelectBooleanCheckbox();
+	        	check.setValue(true);
+	        	getCheck();
 	        	adjuntos.set(index, true);
 	        	file = null;
 	        	FacesUtils.addInfoMessage("El anexo fue adjuntado correctamente");
@@ -295,7 +305,8 @@ public class CasosAsignadosView implements Serializable {
 				FacesUtils.addInfoMessage("La Respuesta se guardó correctamente");
 				estado = 2L;
 				cambiarEstadoSol();
-				setShowDialog(false);
+				action_closeDialog();
+				limpiar();
 				return true;
 			} else {
 				throw new Exception("El area no puede ser vacia");
@@ -533,4 +544,10 @@ public class CasosAsignadosView implements Serializable {
 	public void setEstado(Long estado) {
 		this.estado = estado;
 	}
+	public SelectBooleanCheckbox getCheck() {
+		return check;
+	}
+	public void setCheck(SelectBooleanCheckbox check) {
+		this.check = check;
+	}	
 }

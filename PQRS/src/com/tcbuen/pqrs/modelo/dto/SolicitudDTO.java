@@ -6,6 +6,7 @@ import java.util.Date;
 public class SolicitudDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     
+    private Long idSolAsigArea;
     private Long idSolPqr;
     private String numeroRadicacion;
     private Date fechaRadicacion;
@@ -16,10 +17,11 @@ public class SolicitudDTO implements Serializable {
 		super();
 	}
 	
-	public SolicitudDTO(Long idSolPqr, String numeroRadicacion,
+	public SolicitudDTO(Long idSolAsigArea, Long idSolPqr, String numeroRadicacion,
 			Date fechaRadicacion, Date fechaAsignacion,
 			String descTpSol) {
 		super();
+		this.idSolAsigArea = idSolAsigArea;
 		this.idSolPqr = idSolPqr;
 		this.numeroRadicacion = numeroRadicacion;
 		this.fechaRadicacion = fechaRadicacion;
@@ -56,5 +58,13 @@ public class SolicitudDTO implements Serializable {
 	}
 	public void setDescTpSol(String descTpSol) {
 		this.descTpSol = descTpSol;
+	}
+
+	public Long getIdSolAsigArea() {
+		return idSolAsigArea;
+	}
+
+	public void setIdSolAsigArea(Long idSolAsigArea) {
+		this.idSolAsigArea = idSolAsigArea;
 	}
 }

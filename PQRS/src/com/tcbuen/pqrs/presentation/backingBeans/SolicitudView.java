@@ -190,6 +190,8 @@ public class SolicitudView implements Serializable {
         motivoSolicitud = null;
         motReclamacion = null;
         motivoReclamacion = null;
+        adjuntos = null;
+        
         
         return "";
     }
@@ -206,6 +208,7 @@ public class SolicitudView implements Serializable {
         motReclamacion = null;
         motivoReclamacion = null;
         motivoReclamacion = consultarMotivoReclamacion(tipoSolicitudPqr);
+        adjuntos = null;
 
         return "";
     }
@@ -238,6 +241,7 @@ public class SolicitudView implements Serializable {
     }
 
     public String action_save() {
+    	String solEnviada = "Prueba";
         try {
         	String nombreAgenciaAduana = (txtNombreAgenciaAduana.getValue()) != null ? txtNombreAgenciaAduana.getValue().toString() : null;
         	
@@ -269,15 +273,16 @@ public class SolicitudView implements Serializable {
 	        	}
 	        	
 	        	businessDelegatorView.saveSolicitud(infoSol, solicitudPqr, motSolSelect, motReclSelect, solicitudAsignadaArea, anexosSolicitantes);
+	        	solEnviada = "Enviada";
 	        	FacesUtils.addInfoMessage("La Solicitud fue enviada correctamente");
 	        	uploadedFiles = null;
-	        	action_clear_infoSol();
-	        	return "Enviada";
+	        	action_clear_infoSol();	        	
+	        	return solEnviada;
         	}
         } catch (Exception e) {
             FacesUtils.addErrorMessage(e.getMessage());
         }
-        return "";
+        return solEnviada;
     }
 
     public InfoSolicitante action_create_infoSol() {
