@@ -18,50 +18,24 @@
 						value="#{facesContext.externalContext.request.scheme}://#{facesContext.externalContext.request.serverName}:#{facesContext.externalContext.request.serverPort}#{facesContext.externalContext.request.contextPath}/images/ajaxloadingbar.gif" />
 				</p:dialog>
 				<h:form id="frm">
-					<p:panel id="panelDataTableSolicitudes" header="Solicitudes"
-						style="height:400px;width:1070px" rendered="false">
-						<p:growl id="msg" />
-						<p:dataTable id="tablaSol"
-							value="#{casosAsignadosView.solicitudesSer}" var="sol"
-							paginator="true" rows="10">
-							<p:column headerText="Número Radicación">
-								<h:outputText value="#{sol.numeroRadicacion}" />
-							</p:column>
-							<p:column headerText="Fecha Radicación">
-								<h:outputText value="#{sol.fechaCreacion}" />
-							</p:column>
-							<p:column headerText="Tipo PQR">
-								<h:outputText value="#{sol.tipoSolicitudPqr.descTpSol}" />
-							</p:column>
-							<p:column style="width:32px;text-align: center">
-								<p:commandButton update=":dialogAdministrarCaso"
-									action="#{casosAsignadosView.administrarCaso}"
-									icon="ui-icon-search" title="View">
-									<f:setPropertyActionListener value="#{sol.idSolPqr}"
-										target="#{casosAsignadosView.selectedSol}" />
-								</p:commandButton>
-							</p:column>
-						</p:dataTable>
-					</p:panel>
-
 					<p:panel id="panelDataTableCasosAsignadosArea"
-						header="Casos Asignados" rendered="true"
-						style="height:400px;width:1070px">
-						<p:growl id="men" />
-						<p:dataTable value="#{casosAsignadosView.solicitudesArea}"
+						header="Casos Asignados" style="height:400px;width:1070px">
+						<p:dataTable id="tablaSol"
+							value="#{casosAsignadosView.solicitudesArea}"
 							var="casosAsignados" paginator="true" rows="5">
 							<p:column headerText="Número Radicación">
 								<h:outputText value="#{casosAsignados.numeroRadicacion}" />
 							</p:column>
 							<p:column headerText="Fecha Radicación">
-								<h:outputText value="#{casosAsignados.fechaRadicacion}" />
+								<p:calendar value="#{casosAsignados.fechaRadicacion}"
+									pattern="yyyy-MMM-dd" disabled="true" />
 							</p:column>
 							<p:column headerText="Fecha Asignación">
-								<h:outputText value="#{casosAsignados.fechaAsignacion}" />
+								<p:calendar value="#{casosAsignados.fechaAsignacion}"
+									pattern="yyyy-MMM-dd" disabled="true" />
 							</p:column>
 							<p:column headerText="Tipo PQR">
-								<h:outputText
-									value="#{casosAsignados.descTpSol}" />
+								<h:outputText value="#{casosAsignados.descTpSol}" />
 							</p:column>
 							<p:column style="width:32px;text-align: center">
 								<p:commandButton update=":dialogAdministrarCaso"

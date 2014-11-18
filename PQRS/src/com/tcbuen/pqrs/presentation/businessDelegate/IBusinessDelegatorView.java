@@ -22,50 +22,6 @@ import com.tcbuen.pqrs.modelo.TipoDocumento;
 import com.tcbuen.pqrs.modelo.TipoEstadoPqr;
 import com.tcbuen.pqrs.modelo.TipoSolicitudPqr;
 import com.tcbuen.pqrs.modelo.UsuariosInternos;
-import com.tcbuen.pqrs.modelo.control.AnexosPqrLogic;
-import com.tcbuen.pqrs.modelo.control.AnexosRespuestaLogic;
-import com.tcbuen.pqrs.modelo.control.AnexosSolicitanteLogic;
-import com.tcbuen.pqrs.modelo.control.AnxsXAreaLogic;
-import com.tcbuen.pqrs.modelo.control.AnxsXTpSolLogic;
-import com.tcbuen.pqrs.modelo.control.AreasInvolucradasLogic;
-import com.tcbuen.pqrs.modelo.control.IAnexosPqrLogic;
-import com.tcbuen.pqrs.modelo.control.IAnexosRespuestaLogic;
-import com.tcbuen.pqrs.modelo.control.IAnexosSolicitanteLogic;
-import com.tcbuen.pqrs.modelo.control.IAnxsXAreaLogic;
-import com.tcbuen.pqrs.modelo.control.IAnxsXTpSolLogic;
-import com.tcbuen.pqrs.modelo.control.IAreasInvolucradasLogic;
-import com.tcbuen.pqrs.modelo.control.IInfoSolicitanteLogic;
-import com.tcbuen.pqrs.modelo.control.IMotReclSelectLogic;
-import com.tcbuen.pqrs.modelo.control.IMotReclXTpSolLogic;
-import com.tcbuen.pqrs.modelo.control.IMotSolSelectLogic;
-import com.tcbuen.pqrs.modelo.control.IMotSolXTpSolLogic;
-import com.tcbuen.pqrs.modelo.control.IMotivoReclamacionLogic;
-import com.tcbuen.pqrs.modelo.control.IMotivoSolicitudLogic;
-import com.tcbuen.pqrs.modelo.control.IParametrosPqrLogic;
-import com.tcbuen.pqrs.modelo.control.IRespuestaSolLogic;
-import com.tcbuen.pqrs.modelo.control.IRolesLogic;
-import com.tcbuen.pqrs.modelo.control.ISolicitudAsignadaAreaLogic;
-import com.tcbuen.pqrs.modelo.control.ISolicitudPqrLogic;
-import com.tcbuen.pqrs.modelo.control.ITipoDocumentoLogic;
-import com.tcbuen.pqrs.modelo.control.ITipoEstadoPqrLogic;
-import com.tcbuen.pqrs.modelo.control.ITipoSolicitudPqrLogic;
-import com.tcbuen.pqrs.modelo.control.IUsuariosInternosLogic;
-import com.tcbuen.pqrs.modelo.control.InfoSolicitanteLogic;
-import com.tcbuen.pqrs.modelo.control.MotReclSelectLogic;
-import com.tcbuen.pqrs.modelo.control.MotReclXTpSolLogic;
-import com.tcbuen.pqrs.modelo.control.MotSolSelectLogic;
-import com.tcbuen.pqrs.modelo.control.MotSolXTpSolLogic;
-import com.tcbuen.pqrs.modelo.control.MotivoReclamacionLogic;
-import com.tcbuen.pqrs.modelo.control.MotivoSolicitudLogic;
-import com.tcbuen.pqrs.modelo.control.ParametrosPqrLogic;
-import com.tcbuen.pqrs.modelo.control.RespuestaSolLogic;
-import com.tcbuen.pqrs.modelo.control.RolesLogic;
-import com.tcbuen.pqrs.modelo.control.SolicitudAsignadaAreaLogic;
-import com.tcbuen.pqrs.modelo.control.SolicitudPqrLogic;
-import com.tcbuen.pqrs.modelo.control.TipoDocumentoLogic;
-import com.tcbuen.pqrs.modelo.control.TipoEstadoPqrLogic;
-import com.tcbuen.pqrs.modelo.control.TipoSolicitudPqrLogic;
-import com.tcbuen.pqrs.modelo.control.UsuariosInternosLogic;
 import com.tcbuen.pqrs.modelo.dto.AnexosPqrDTO;
 import com.tcbuen.pqrs.modelo.dto.AnexosRespuestaDTO;
 import com.tcbuen.pqrs.modelo.dto.AnexosSolicitanteDTO;
@@ -90,15 +46,7 @@ import com.tcbuen.pqrs.modelo.dto.TipoDocumentoDTO;
 import com.tcbuen.pqrs.modelo.dto.TipoEstadoPqrDTO;
 import com.tcbuen.pqrs.modelo.dto.TipoSolicitudPqrDTO;
 import com.tcbuen.pqrs.modelo.dto.UsuariosInternosDTO;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -106,6 +54,9 @@ import java.util.Set;
 *
 */
 public interface IBusinessDelegatorView {
+	
+	public void send(String destino,String asunto, String mensaje);
+	
     public List<AnexosPqr> getAnexosPqr() throws Exception;
 
     public void saveAnexosPqr(AnexosPqr entity) throws Exception;
