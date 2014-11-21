@@ -6,7 +6,6 @@ import com.tcbuen.pqrs.presentation.businessDelegate.*;
 import com.tcbuen.pqrs.utilities.FacesUtils;
 
 import java.io.InputStream;
-
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.Serializable;
@@ -84,14 +83,7 @@ public class CasosAsignadosView implements Serializable {
 		uploadedFiles = null;
 		idArea = null;
 		adjuntos = null;
-		action_clear();
-		solicitudPqr = null;
-		selectedSol = null;
-		infoSolicitante = null;
-		anexosPqr = null;
-		respuestaSol = null;
 		idRespuesta = null;
-		anexosRespuestas = null;
 	}
 
 		
@@ -132,7 +124,6 @@ public class CasosAsignadosView implements Serializable {
 	
     public String action_closeDialog() throws Exception{
 	    setShowDialog(false);
-	    action_clear();
         return "";
     }
     
@@ -181,7 +172,6 @@ public class CasosAsignadosView implements Serializable {
 	        	uploadedFiles.add(index,file);
 	        	check = new SelectBooleanCheckbox();
 	        	check.setValue(true);
-	        	getCheck();
 	        	adjuntos.set(index, true);
 	        	file = null;
 	        	FacesUtils.addInfoMessage("El anexo fue adjuntado correctamente");
@@ -217,16 +207,20 @@ public class CasosAsignadosView implements Serializable {
 	        UsuariosInternos usu = businessDelegatorView.getUsuariosInternos(usuario);
 	        
 			RespuestaSol respuestaSol = new RespuestaSol();
-			respuestaSol.setDescObservacion(observacion);
-			respuestaSol.setValorReclamacion(1D);
-			respuestaSol.setEstadoRegistro("A");
-			respuestaSol.setFechaCreacion(new Date());
-			respuestaSol.setUsuarioCreador(usu.getLogin());
-			respuestaSol.setFechaUltimaModificacion(null);
-			respuestaSol.setUsuarioUltimaModificacion(null);		
-			respuestaSol.setSolicitudAsignadaArea(null);
-			
-			return respuestaSol;
+			if(!observacion.trim().equals("")){
+				respuestaSol.setDescObservacion(observacion);
+				respuestaSol.setValorReclamacion(1D);
+				respuestaSol.setEstadoRegistro("A");
+				respuestaSol.setFechaCreacion(new Date());
+				respuestaSol.setUsuarioCreador(usu.getLogin());
+				respuestaSol.setFechaUltimaModificacion(null);
+				respuestaSol.setUsuarioUltimaModificacion(null);		
+				respuestaSol.setSolicitudAsignadaArea(null);
+				
+				return respuestaSol;
+			}else{
+				throw new Exception("La observación no puede ser nula");
+			}
 		}catch(Exception e){
 			throw new Exception (e);
 		}
@@ -314,7 +308,6 @@ public class CasosAsignadosView implements Serializable {
 				estado = 2L;
 				cambiarEstadoSol();
 				action_closeDialog();
-				limpiar();
 				return true;
 			} else {
 				throw new Exception("El area no puede ser vacia");
