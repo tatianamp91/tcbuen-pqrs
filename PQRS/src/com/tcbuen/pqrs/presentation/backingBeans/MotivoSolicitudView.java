@@ -857,9 +857,9 @@ public class MotivoSolicitudView implements Serializable {
 		try {
 			if(motivosSolicitudes == null){
 				motivosSolicitudes = new ArrayList<SelectItem>();
-				List<MotivoReclamacion> motivosSolicitud = businessDelegatorView.getMotivoReclamacion();
-				for (MotivoReclamacion motivo : motivosSolicitud) {
-					motivosSolicitudes.add(new SelectItem(motivo.getIdMotRecl(),motivo.getDescripcionMotRecl()));
+				List<MotivoSolicitud> motivosSolicitud = businessDelegatorView.getMotivoSolicitud();
+				for (MotivoSolicitud motivo : motivosSolicitud) {
+					motivosSolicitudes.add(new SelectItem(motivo.getIdMotSol(),motivo.getDescripcionMotSol()));
 				}
 			}
 		} catch (Exception e) {
