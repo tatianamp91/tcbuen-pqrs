@@ -530,15 +530,17 @@ public class AnxsXAreaView implements Serializable {
 
 	public List<SelectItem> getAreasInvolucradas() {
 		try {
-	       	areasInvolucradas = new ArrayList<SelectItem>();
-	       	List<AreasInvolucradas> areas = new ArrayList<AreasInvolucradas>();
-	       	if(!boton){
-				areas = businessDelegatorView.consultarNoAreaXAnxs();
-	       	}else{
-	       		areas = businessDelegatorView.getAreasInvolucradas();
-	       	}
-	       	for (AreasInvolucradas area : areas) {
-				areasInvolucradas.add(new SelectItem(area.getIdAreaInvolucrada(), area.getNombreArea()));
+			if(areasInvolucradas == null){
+		       	areasInvolucradas = new ArrayList<SelectItem>();
+		       	List<AreasInvolucradas> areas = new ArrayList<AreasInvolucradas>();
+		       	if(!boton){
+					areas = businessDelegatorView.consultarNoAreaXAnxs();
+		       	}else{
+		       		areas = businessDelegatorView.getAreasInvolucradas();
+		       	}
+		       	for (AreasInvolucradas area : areas) {
+					areasInvolucradas.add(new SelectItem(area.getIdAreaInvolucrada(), area.getNombreArea()));
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -599,7 +601,9 @@ public class AnxsXAreaView implements Serializable {
 
 	public List<AreasInvolucradas> getAreas() {
 		try{
-		areas = businessDelegatorView.consultarTodasAreaXAnxs();
+			if(areas == null){
+				areas = businessDelegatorView.consultarTodasAreaXAnxs();
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 		}
