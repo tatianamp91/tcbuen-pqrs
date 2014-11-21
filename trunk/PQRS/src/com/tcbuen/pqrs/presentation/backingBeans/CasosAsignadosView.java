@@ -125,19 +125,6 @@ public class CasosAsignadosView implements Serializable {
 	    setShowDialog(false);
         return "";
     }
-    
-    public String action_clear() throws Exception{
-    	try{
-	        solicitudesSer = null;
-	        solicitudesSer = getSolicitudesSer();
-	        solicitudesArea = null;
-	        solicitudesArea = getSolicitudesArea();
-    	}catch(Exception e){
-    		throw new Exception(e);
-    	}
-
-        return "";
-    }
 	
 	public String onFlowProcess(FlowEvent event) throws Exception {
     	try{
