@@ -45,7 +45,6 @@ public class UsuariosInternosView implements Serializable {
     private InputText txtApellidos;
     private InputText txtContrasena;
 	private Password passContrasena;
- //   private Password passContrasena2;
     private InputText txtCorreoElectronico;
     private String estadoRegistro;
     private InputText txtEstadoRegistro;
@@ -78,9 +77,7 @@ public class UsuariosInternosView implements Serializable {
     private String area;
     private UsuariosInternos usuInternos;
     private Long idUsuInterno;
-    private String password;
-    //private String passContrasena;
-   
+    private String password;   
     private InputText txtNombres2;
     private InputText txtApellidos2;
     private InputText txtCorreoElectronico2;
@@ -100,16 +97,6 @@ public class UsuariosInternosView implements Serializable {
                 txtApellidos = new InputText();
             }
             txtApellidos.setValue(usuariosInternosDTO.getApellidos());
-
-          /*  if (txtContrasena == null) {
-                txtContrasena = new InputText();
-            }
-            txtContrasena.setValue(usuariosInternosDTO.getContrasena());
-            
-            if (passContrasena == null) {
-                passContrasena = new Password();
-            }*/
-//            passContrasena.setValue(usuariosInternosDTO.getContrasena());
 
             if (txtCorreoElectronico == null) {
                 txtCorreoElectronico = new InputText();
@@ -347,6 +334,11 @@ public class UsuariosInternosView implements Serializable {
         areasInvolucradas = getAreasInvolucradas();
         idRoles = null;
         idRoles = getIdRoles();
+        rol = null;
+        area = null;
+        idRol = null;
+        idAreaInvolucrada = null;
+        estadoRegistroSeleccionado = "A";
         
         return "";
     }
@@ -1000,8 +992,7 @@ public class UsuariosInternosView implements Serializable {
         return businessDelegatorView;
     }
 
-    public void setBusinessDelegatorView(
-        IBusinessDelegatorView businessDelegatorView) {
+    public void setBusinessDelegatorView(IBusinessDelegatorView businessDelegatorView) {
         this.businessDelegatorView = businessDelegatorView;
     }
 
@@ -1011,8 +1002,7 @@ public class UsuariosInternosView implements Serializable {
     
     public void setShowDialog(boolean showDialog) {
         this.showDialog = showDialog;
-    }
-       
+    }       
 
 	public boolean isShowDialog2() {
 		return showDialog2;
@@ -1038,7 +1028,6 @@ public class UsuariosInternosView implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return roles;
 	}
 
@@ -1062,7 +1051,6 @@ public class UsuariosInternosView implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return areas;
 	}
 
@@ -1096,12 +1084,13 @@ public class UsuariosInternosView implements Serializable {
 	
 	public List<SelectItem> getAreasInvolucradas() {
 		try {
-	       	areasInvolucradas = new ArrayList<SelectItem>();
-			List<AreasInvolucradas> areas = businessDelegatorView.getAreasInvolucradas();
-	       	for (AreasInvolucradas area : areas) {
-				areasInvolucradas.add(new SelectItem(area.getIdAreaInvolucrada(), area.getNombreArea()));
+			if(areasInvolucradas == null){
+		       	areasInvolucradas = new ArrayList<SelectItem>();
+				List<AreasInvolucradas> areas = businessDelegatorView.getAreasInvolucradas();
+		       	for (AreasInvolucradas area : areas) {
+					areasInvolucradas.add(new SelectItem(area.getIdAreaInvolucrada(), area.getNombreArea()));
+				}
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1111,8 +1100,6 @@ public class UsuariosInternosView implements Serializable {
 	public void setAreasInvolucradas(List<SelectItem> areasInvolucradas) {
 		this.areasInvolucradas = areasInvolucradas;
 	}
-	
-	
 	
 	public Long getIdRol() {
 		return idRol;
@@ -1124,12 +1111,13 @@ public class UsuariosInternosView implements Serializable {
 
 	public List<SelectItem> getIdRoles() {
 		try {
-	       	idRoles = new ArrayList<SelectItem>();
-			List<Roles> roles = businessDelegatorView.getRoles();
-	       	for (Roles rol : roles) {
-				idRoles.add(new SelectItem(rol.getIdRol(), rol.getNombreRol()));
+			if(idRoles == null){
+		       	idRoles = new ArrayList<SelectItem>();
+				List<Roles> roles = businessDelegatorView.getRoles();
+		       	for (Roles rol : roles) {
+					idRoles.add(new SelectItem(rol.getIdRol(), rol.getNombreRol()));
+				}
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1163,14 +1151,6 @@ public class UsuariosInternosView implements Serializable {
 	public void setPassContrasena(Password passContrasena) {
 		this.passContrasena = passContrasena;
 	}
-
-//	public Password getPassContrasena2() {
-//		return passContrasena2;
-//	}
-//
-//	public void setPassContrasena2(Password passContrasena2) {
-//		this.passContrasena2 = passContrasena2;
-//	}
 
 	public String getPassword() {
 		return password;
