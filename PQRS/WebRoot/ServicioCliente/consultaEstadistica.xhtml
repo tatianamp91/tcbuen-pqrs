@@ -89,7 +89,8 @@
 								<f:facet name="header">
 									<h:outputText value="Fecha de Radicación" />
 								</f:facet>
-								<h:outputText value="#{estadistica.fechaCreacion}" />
+								<p:calendar value="#{estadistica.fechaCreacion}" pattern="yyyy-MMM-dd"
+									disabled="true"/>
 							</p:column>
 
 							<p:column>
@@ -110,7 +111,8 @@
 								<f:facet name="header">
 									<h:outputText value="Fecha Respuesta" />
 								</f:facet>
-								<h:outputText value="#{estadistica.fechaRespuesta}" />
+								<p:calendar value="#{estadistica.fechaRespuesta}" pattern="yyyy-MMM-dd"
+									disabled="true" />
 							</p:column>
 							
 						</p:dataTable>
