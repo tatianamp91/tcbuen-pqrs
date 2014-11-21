@@ -853,13 +853,14 @@ public class MotivoSolicitudView implements Serializable {
 		this.idMotivoSolicitud = idMotivoSolicitud;
 	}
 
-	public List<SelectItem> getMotivosSolicitudes() {
-		
+	public List<SelectItem> getMotivosSolicitudes() {		
 		try {
-			motivosSolicitudes = new ArrayList<SelectItem>();
-			List<MotivoReclamacion> motivosSolicitud = businessDelegatorView.getMotivoReclamacion();
-			for (MotivoReclamacion motivo : motivosSolicitud) {
-				motivosSolicitudes.add(new SelectItem(motivo.getIdMotRecl(),motivo.getDescripcionMotRecl()));
+			if(motivosSolicitudes == null){
+				motivosSolicitudes = new ArrayList<SelectItem>();
+				List<MotivoReclamacion> motivosSolicitud = businessDelegatorView.getMotivoReclamacion();
+				for (MotivoReclamacion motivo : motivosSolicitud) {
+					motivosSolicitudes.add(new SelectItem(motivo.getIdMotRecl(),motivo.getDescripcionMotRecl()));
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -881,18 +882,13 @@ public class MotivoSolicitudView implements Serializable {
 
 	public List<SelectItem> getEstadoSolicitudes() {
 		try {
-			estadoSolicitudes = new ArrayList<SelectItem>();
-			List<TipoEstadoPqr> tipoEstados = businessDelegatorView.getTipoEstadoPqr();
-			for (TipoEstadoPqr tipoEstadoPqr : tipoEstados) {
-				
-				/*if (tipoEstadoPqr.getDescripcionEstado().contains("abierto") ||
-						tipoEstadoPqr.getDescripcionEstado().contains("pendiente") ||
-						tipoEstadoPqr.getDescripcionEstado().contains("respondido")) {
-					estadoSolicitudes.add(new SelectItem(tipoEstadoPqr.getIdTpEstPqr(), tipoEstadoPqr.getDescripcionEstado()));
-				}*/
-				
-				if (tipoEstadoPqr.getDescripcionEstado().contains("activo")) {
-					estadoSolicitudes.add(new SelectItem(tipoEstadoPqr.getIdTpEstPqr(), tipoEstadoPqr.getDescripcionEstado()));
+			if(estadoSolicitudes == null){
+				estadoSolicitudes = new ArrayList<SelectItem>();
+				List<TipoEstadoPqr> tipoEstados = businessDelegatorView.getTipoEstadoPqr();
+				for (TipoEstadoPqr tipoEstadoPqr : tipoEstados) {			
+					if (tipoEstadoPqr.getDescripcionEstado().contains("activo")) {
+						estadoSolicitudes.add(new SelectItem(tipoEstadoPqr.getIdTpEstPqr(), tipoEstadoPqr.getDescripcionEstado()));
+					}
 				}
 			}
 		} catch (Exception e) {
