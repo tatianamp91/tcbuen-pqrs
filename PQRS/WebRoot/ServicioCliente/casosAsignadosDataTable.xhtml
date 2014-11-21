@@ -135,7 +135,7 @@
 											value="#{casosAsignadosView.observacion}"
 											style="height:150px;width:1000px"/>
 
-										<h:outputText id="msgAnexos" value="*Anexos:" />
+										<h:outputText id="msgAnexos" value="*Anexos (Los tipos de docuemntos que puede ajuntar son jpg-jpeg-png-pdf-xps):" rendered="#{casosAsignadosView.anexos}"/>
 										<p:dataTable id="tablaAnexosXArea" paginator="true" rows="10"
 											value="#{casosAsignadosView.anexosPqr}" var="anexosPqr"
 											rendered="#{casosAsignadosView.anexos}" style="width:1000px">
@@ -179,7 +179,7 @@
 									<div align="center">
 										<p:commandButton id="btnSave" value="Guardar"
 											action="#{casosAsignadosView.accionGuardarRespuesta()}"
-											update=":frm:men,:dialogAdministrarCaso,:frm:tablaSol,msgRespuestas" />
+											update=":frm:men,:dialogAdministrarCaso,:frm:tablaSol,msgRespuestas,:frm:panelDataTableSolicitudes" />
 										<p:commandButton id="btnlimpiar" value="Limpiar"
 											action="#{casosAsignadosView.limpiar()}"
 											update="panelRespuestas" />

@@ -2,26 +2,20 @@ package com.tcbuen.pqrs.dataaccess.dao;
 
 import com.tcbuen.pqrs.dataaccess.api.HibernateDaoImpl;
 import com.tcbuen.pqrs.modelo.SolicitudAsignadaArea;
+import com.tcbuen.pqrs.modelo.SolicitudPqr;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
-
 import org.hibernate.criterion.Example;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Scope;
-
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -51,5 +45,14 @@ public class SolicitudAsignadaAreaDAO extends HibernateDaoImpl<SolicitudAsignada
         ApplicationContext ctx) {
         return (ISolicitudAsignadaAreaDAO) ctx.getBean(
             "SolicitudAsignadaAreaDAO");
+    }
+    
+    @Override
+    public SolicitudAsignadaArea consultarSolicitudAsiganada(SolicitudPqr solicitud) throws Exception {
+    	String hql = "select solA from SolicitudAsignadaArea solA "
+    			+ "where solA.solicitudPqr.idSolPqr = "+solicitud.getIdSolPqr();
+    	List<SolicitudAsignadaArea> solA = (List<SolicitudAsignadaArea>) sessionFactory.getCurrentSession().createQuery(hql).list();
+    	SolicitudAsignadaArea sol = solA.get(0);
+    	return sol;
     }
 }

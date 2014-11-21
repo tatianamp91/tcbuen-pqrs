@@ -103,15 +103,19 @@ public class SolicitudLogic implements ISolicitudLogic {
     public void saveRespuestaSolicitud(SolicitudAsignadaArea solicitudAsignadaArea, 
     		RespuestaSol respuestaSol, List<AnexosRespuesta> anexosRespuestas) throws Exception {
     	try{
-    		solicitudAsignadaAreaLogic.saveSolicitudAsignadaArea(solicitudAsignadaArea);
+    		solicitudAsignadaAreaLogic.updateSolicitudAsignadaArea(solicitudAsignadaArea);
     		respuestaSol.setSolicitudAsignadaArea(solicitudAsignadaArea);
     		
     		respuestaSolLogic.saveRespuestaSol(respuestaSol);
     		
-    		for (AnexosRespuesta anexoRespuesta : anexosRespuestas) {
-				anexoRespuesta.setRespuestaSol(respuestaSol);
-				anexosRespuestaLogic.saveAnexosRespuesta(anexoRespuesta);
-			}
+    		if(anexosRespuestas != null){
+    			if(anexosRespuestas.size()>0){
+		    		for (AnexosRespuesta anexoRespuesta : anexosRespuestas) {
+						anexoRespuesta.setRespuestaSol(respuestaSol);
+						anexosRespuestaLogic.saveAnexosRespuesta(anexoRespuesta);
+					}
+    			}
+    		}
     	}catch (Exception e) {
             throw new Exception (e);
         }
