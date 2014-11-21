@@ -7,16 +7,12 @@ import com.tcbuen.pqrs.modelo.dto.SolicitudAsignadaAreaDTO;
 import com.tcbuen.pqrs.utilities.Utilities;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.context.annotation.Scope;
-
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -466,5 +462,15 @@ public class SolicitudAsignadaAreaLogic implements ISolicitudAsignadaAreaLogic {
         }
 
         return list;
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public SolicitudAsignadaArea consultarSolicitudAsiganada(SolicitudPqr solicitud) throws Exception {
+    	try{
+    		return solicitudAsignadaAreaDAO.consultarSolicitudAsiganada(solicitud);
+    	}catch (Exception e) {
+            throw new Exception(e.getMessage());
+    	}
     }
 }

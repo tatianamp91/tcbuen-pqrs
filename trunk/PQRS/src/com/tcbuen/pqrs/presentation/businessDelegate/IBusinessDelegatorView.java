@@ -539,10 +539,10 @@ public interface IBusinessDelegatorView {
 
     public List<SolicitudAsignadaAreaDTO> getDataSolicitudAsignadaArea()
         throws Exception;
-
-    public List<SolicitudPqr> getSolicitudPqr() throws Exception;
     
-   
+    public SolicitudAsignadaArea consultarSolicitudAsiganada(SolicitudPqr solicitud) throws Exception;
+
+    public List<SolicitudPqr> getSolicitudPqr() throws Exception;   
 
     public void saveSolicitudPqr(SolicitudPqr entity) throws Exception;
     

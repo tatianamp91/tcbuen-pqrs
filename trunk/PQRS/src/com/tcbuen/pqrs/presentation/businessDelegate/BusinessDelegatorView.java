@@ -1239,6 +1239,10 @@ public class BusinessDelegatorView implements IBusinessDelegatorView {
         throws Exception {
         return solicitudAsignadaAreaLogic.getDataSolicitudAsignadaArea();
     }
+    
+    public SolicitudAsignadaArea consultarSolicitudAsiganada(SolicitudPqr solicitud) throws Exception {
+    	return solicitudAsignadaAreaLogic.consultarSolicitudAsiganada(solicitud);
+    }
 
     public List<SolicitudPqr> getSolicitudPqr() throws Exception {
         return solicitudPqrLogic.getSolicitudPqr();

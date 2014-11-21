@@ -1,14 +1,11 @@
 package com.tcbuen.pqrs.modelo.control;
 
 import com.tcbuen.pqrs.modelo.SolicitudAsignadaArea;
+import com.tcbuen.pqrs.modelo.SolicitudPqr;
 import com.tcbuen.pqrs.modelo.dto.SolicitudAsignadaAreaDTO;
 
 import java.math.BigDecimal;
-
 import java.util.*;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -59,4 +56,6 @@ public interface ISolicitudAsignadaAreaLogic {
 
     public List<SolicitudAsignadaAreaDTO> getDataSolicitudAsignadaArea()
         throws Exception;
+    
+    public SolicitudAsignadaArea consultarSolicitudAsiganada(SolicitudPqr solicitud) throws Exception;
 }

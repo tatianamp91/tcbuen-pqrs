@@ -49,14 +49,12 @@ public class SolicitudPqrDAO extends HibernateDaoImpl<SolicitudPqr, Long>
     
     @Override
 	public List<SolicitudPqr> consultarSolicitudes(Long idAreaInvolucrada) throws Exception {
-    	String hql = "select new com.tcbuen.pqrs.modelo.dto.SolicitudAreaDTO(max(saa.idSolAsigArea), sol) from SolicitudPqr sol, SolicitudAsignadaArea saa "
-    			+ "where sol.idSolPqr = saa.solicitudPqr.idSolPqr and sol.tipoEstadoPqr.descripcionEstado = 'activo' "
-    			+ "or sol.tipoEstadoPqr.descripcionEstado = 'en proceso' "
+    	String hql = "select new com.tcbuen.pqrs.modelo.dto.SolicitudAreaDTO(saa.idSolAsigArea, sol) "
+    			+ "from SolicitudPqr sol, SolicitudAsignadaArea saa "
+    			+ "where sol.idSolPqr = saa.solicitudPqr.idSolPqr "
+    			+ "and (sol.tipoEstadoPqr.descripcionEstado = 'activo' "
+    			+ "or sol.tipoEstadoPqr.descripcionEstado = 'en proceso') "
     			+ "and saa.areasInvolucradas.idAreaInvolucrada = "+idAreaInvolucrada+" "
-    			+ "group by (sol.idSolPqr, sol.tipoSolicitudPqr.idTpSolPqr, sol.infoSolicitante.idInfoSolicitante, "
-    			+ "sol.tipoEstadoPqr.idTpEstPqr, sol.numeroRadicacion, sol.nombreCliente, sol.nombreAgenciaAduana, "
-    			+ "sol.descripcionCaso, sol.solicitudARealizar, sol.fechaCreacion, sol.usuarioCreador, "
-    			+ "sol.fechaUltimaModificacion, sol.usuarioUltimaModificacion) "
     			+ "order by sol.fechaCreacion desc";
     	
     	List<SolicitudAreaDTO> sol = sessionFactory.getCurrentSession().createQuery(hql).list();
@@ -69,14 +67,14 @@ public class SolicitudPqrDAO extends HibernateDaoImpl<SolicitudPqr, Long>
 
 	@Override
 	public List<SolicitudDTO> consultarAsignacion(AreasInvolucradas area) throws Exception {
-		String hql = "select new com.tcbuen.pqrs.modelo.dto.SolicitudDTO(max(solA.idSolAsigArea), sol.idSolPqr, "
-				+ "sol.numeroRadicacion, max(sol.fechaCreacion), max(solA.fechaAsignacion), tps.descTpSol) "
+		String hql = "select new com.tcbuen.pqrs.modelo.dto.SolicitudDTO(solA.idSolAsigArea, sol.idSolPqr, "
+				+ "sol.numeroRadicacion, sol.fechaCreacion, solA.fechaAsignacion, tps.descTpSol) "
 				+ "from SolicitudPqr sol, SolicitudAsignadaArea solA, TipoEstadoPqr tpe, TipoSolicitudPqr tps "
 				+ "where sol.idSolPqr = solA.solicitudPqr.idSolPqr and tpe.idTpEstPqr = sol.tipoEstadoPqr.idTpEstPqr "
 				+ "and tps.idTpSolPqr = sol.tipoSolicitudPqr.idTpSolPqr "
 				+ "and solA.areasInvolucradas.idAreaInvolucrada = "+area.getIdAreaInvolucrada()+" "
-				+ "and tpe.descripcionEstado = 'en proceso'"
-				+ "group by (sol.idSolPqr, sol.numeroRadicacion, tps.descTpSol)";
+				+ "and tpe.descripcionEstado = 'en proceso' "
+				+ "order by sol.fechaCreacion desc";
 		List<SolicitudDTO> sol = sessionFactory.getCurrentSession().createQuery(hql).list();
 
 		return sol;

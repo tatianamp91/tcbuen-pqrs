@@ -120,7 +120,6 @@ public class CasosAsignadosView implements Serializable {
 			throw new Exception(e);
 		}
 	}
-
 	
     public String action_closeDialog() throws Exception{
 	    setShowDialog(false);
@@ -187,14 +186,10 @@ public class CasosAsignadosView implements Serializable {
 		try{
 			AreasInvolucradas a = businessDelegatorView.getAreasInvolucradas(idArea);
 			SolicitudPqr sol = businessDelegatorView.getSolicitudPqr(selectedSol);
-			SolicitudAsignadaArea solicitudAsignadaArea = new SolicitudAsignadaArea();
-			solicitudAsignadaArea.setFechaAsignacion(new Date());
-			solicitudAsignadaArea.setFechaRespuesta(new Date());
-			solicitudAsignadaArea.setSolicitudPqr(sol);
+			SolicitudAsignadaArea solicitudAsignadaArea = businessDelegatorView.consultarSolicitudAsiganada(sol);
 			solicitudAsignadaArea.setAreasInvolucradas(a);
 			
-			return solicitudAsignadaArea;
-			
+			return solicitudAsignadaArea;			
 		}catch(Exception e){
 			throw new Exception (e);
 		}
@@ -276,6 +271,12 @@ public class CasosAsignadosView implements Serializable {
 				setShowDialog(false);
 				estado = 3L;
 				cambiarEstadoSol();
+				
+				SolicitudPqr sol = businessDelegatorView.getSolicitudPqr(selectedSol);
+				SolicitudAsignadaArea solicitudAsignadaArea = businessDelegatorView.consultarSolicitudAsiganada(sol);
+				solicitudAsignadaArea.setFechaRespuesta(new Date());
+				businessDelegatorView.updateSolicitudAsignadaArea(solicitudAsignadaArea);
+				
 				FacesUtils.addInfoMessage("Se envio respuesta correctamente");
 			}
 		} catch (Exception e) {
@@ -304,10 +305,12 @@ public class CasosAsignadosView implements Serializable {
 					}
 				}
 				businessDelegatorView.saveRespuestaSolicitud(solicitudAsignadaArea, respuestaSol, anexosRespuestas);
-				FacesUtils.addInfoMessage("La Respuesta se guardó correctamente");
 				estado = 2L;
 				cambiarEstadoSol();
-				action_closeDialog();
+				setShowDialog(false);
+				FacesUtils.addInfoMessage("La Respuesta se guardó correctamente");
+				solicitudesSer = null;
+				solicitudesArea = null;
 				return true;
 			} else {
 				throw new Exception("El area no puede ser vacia");
@@ -337,11 +340,6 @@ public class CasosAsignadosView implements Serializable {
 		}catch(Exception e){
 			throw new Exception (e);
 		}
-	}
-	
-	public void download(AnexosRespuesta anexos) throws Exception {		
-		InputStream stream = (InputStream) anexos.getDocumentoReal();
-        download = new DefaultStreamedContent(stream, "", anexos.getNombreAnexo());
 	}
 	
 	public StreamedContent fileDownload(AnexosRespuesta respuestaAnexos) {
